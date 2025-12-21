@@ -63,7 +63,7 @@ export default function Projects() {
               Featured <span className="text-primary">Projects</span>
             </h1>
           </div>
-          <div className="text-left md:text-right font-mono text-[10px] text-muted-foreground bg-primary/5 p-3 rounded-lg border border-primary/10">
+          <div className="text-left md:text-right font-mono text-[10px] text-muted-foreground bg-primary/5 p-3 rounded border border-primary/10">
             <p>// TOTAL_REPOS: 03</p>
             <p>// STATUS: PRODUCTION_READY</p>
           </div>
@@ -74,10 +74,10 @@ export default function Projects() {
           {projects.map((project, index) => (
             <Card
               key={index}
-              className="group relative flex flex-col h-full bg-card/20 backdrop-blur-xl border-border/40 transition-all duration-300 hover:border-primary/50 hover:bg-primary/3 overflow-hidden">
+              className="group rounded relative flex flex-col h-full bg-card/20 backdrop-blur-xl border-border/40 transition-all duration-300 hover:border-primary/50 hover:bg-primary/3 overflow-hidden">
               <CardHeader className="space-y-1">
                 <div className="flex justify-between items-start">
-                  <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/20 group-hover:scale-110 transition-transform duration-300">
+                  <div className="p-2.5 rounded-full bg-primary/10 border border-primary/20 group-hover:scale-110 transition-transform duration-300">
                     {project.icon}
                   </div>
                   <Badge
@@ -113,9 +113,13 @@ export default function Projects() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="flex-1 gap-2 rounded-lg hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                  className="flex-1 gap-2 rounded hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                   asChild>
-                  <a href={project.links.live} target="_blank" rel="noreferrer">
+                  <a
+                    href={project.links.live}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded">
                     <ExternalLink className="h-3.5 w-3.5" /> Live Demo
                   </a>
                 </Button>

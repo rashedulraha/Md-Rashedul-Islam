@@ -86,7 +86,7 @@ export default function TechStack() {
                   {group.skills.map((skill) => (
                     <div
                       key={skill.name}
-                      className="group flex flex-col items-center justify-center p-5 rounded-2xl border border-border/40 bg-card/10 backdrop-blur-md transition-all duration-300 hover:border-primary/40 hover:bg-primary/3 hover:-translate-y-1 shadow-sm">
+                      className="group flex flex-col items-center justify-center p-5 rounded border border-border/40 bg-card/10 backdrop-blur-md transition-all duration-300 hover:border-primary/40 hover:bg-primary/3 hover:-translate-y-1 shadow-sm">
                       <div className="mb-3 transition-transform duration-300 group-hover:scale-110">
                         {skill.icon}
                       </div>

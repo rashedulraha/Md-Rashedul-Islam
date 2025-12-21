@@ -22,70 +22,95 @@ import {
 
 import { FaFacebook, FaGithub, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-const skillGroups = [
-  {
-    name: "React",
-    icon: <Layers className="h-5 w-5 text-sky-500" />,
-    level: "Expert",
-  },
-  {
-    name: "JS",
-    icon: <Code2 className="h-5 w-5 text-amber-500" />,
-    level: "Advanced",
-  },
-  {
-    name: "TS",
-    icon: <Terminal className="h-5 w-5 text-blue-600" />,
-    level: "Advanced",
-  },
-  {
-    name: "Next.js",
-    icon: <Globe className="h-5 w-5 text-foreground" />,
-    level: "Intermediate",
-  },
-  {
-    name: "Query",
-    icon: <Zap className="h-5 w-5 text-orange-500" />,
-    level: "Tanstack Query",
-  },
-  {
-    name: "Node.js",
-    icon: <Cpu className="h-5 w-5 text-emerald-600" />,
-    level: "Backend",
-  },
-  {
-    name: "MongoDB",
-    icon: <Database className="h-5 w-5 text-green-600" />,
-    level: "NoSQL",
-  },
-  {
-    name: "Tailwind",
-    icon: <Smartphone className="h-5 w-5 text-cyan-500" />,
-    level: "Styling",
-  },
-  {
-    name: "Git",
-    icon: <GitBranch className="h-5 w-5 text-orange-700" />,
-    level: "VCS",
-  },
-  {
-    name: "GitHub",
-    icon: <FaGithub className="h-5 w-5 text-muted-foreground" />,
-    level: "Collab",
-  },
-  {
-    name: "Docker",
-    icon: <Boxes className="h-5 w-5 text-blue-700" />,
-    level: "DevOps",
-  },
-  {
-    name: "SEO",
-    icon: <Search className="h-5 w-5 text-pink-600" />,
-    level: "Optimization",
-  },
-];
 
 export default function HeroBanner() {
+  // Social Links Configuration
+  const socialLinks = [
+    {
+      name: "GitHub",
+      icon: FaGithub,
+      url: "https://github.com/rashedulraha",
+    },
+    {
+      name: "LinkedIn",
+      icon: FaLinkedin,
+      url: "https://www.linkedin.com/in/rashedulraha",
+    },
+    {
+      name: "Twitter",
+      icon: FaXTwitter,
+      url: "https://x.com/rashedulraha",
+    },
+    {
+      name: "Facebook",
+      icon: FaFacebook,
+      url: "https://www.facebook.com/rashedulraha",
+    },
+  ];
+
+  const skillGroups = [
+    {
+      name: "React",
+      icon: <Layers className="h-5 w-5 text-sky-500" />,
+      level: "Expert",
+    },
+    {
+      name: "JS",
+      icon: <Code2 className="h-5 w-5 text-amber-500" />,
+      level: "Advanced",
+    },
+    {
+      name: "TS",
+      icon: <Terminal className="h-5 w-5 text-blue-600" />,
+      level: "Advanced",
+    },
+    {
+      name: "Next.js",
+      icon: <Globe className="h-5 w-5 text-foreground" />,
+      level: "Intermediate",
+    },
+    {
+      name: "Query",
+      icon: <Zap className="h-5 w-5 text-orange-500" />,
+      level: "Tanstack Query",
+    },
+    {
+      name: "Node.js",
+      icon: <Cpu className="h-5 w-5 text-emerald-600" />,
+      level: "Backend",
+    },
+    {
+      name: "MongoDB",
+      icon: <Database className="h-5 w-5 text-green-600" />,
+      level: "NoSQL",
+    },
+    {
+      name: "Tailwind",
+      icon: <Smartphone className="h-5 w-5 text-cyan-500" />,
+      level: "Styling",
+    },
+    {
+      name: "Git",
+      icon: <GitBranch className="h-5 w-5 text-orange-700" />,
+      level: "VCS",
+    },
+    {
+      name: "GitHub",
+      icon: <FaGithub className="h-5 w-5 text-muted-foreground" />,
+      level: "Collab",
+    },
+    {
+      name: "Docker",
+      icon: <Boxes className="h-5 w-5 text-blue-700" />,
+      level: "DevOps",
+    },
+    {
+      name: "SEO",
+      icon: <Search className="h-5 w-5 text-pink-600" />,
+      level: "Optimization",
+    },
+  ];
+
   return (
     <section className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 pt-32 pb-16 lg:py-20">
       <div className="grid grid-cols-12 items-center gap-y-12 lg:gap-8">
@@ -119,7 +144,7 @@ export default function HeroBanner() {
               {skillGroups.map((skill) => (
                 <Tooltip key={skill.name}>
                   <TooltipTrigger asChild>
-                    <div className="group flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl border border-border/50 bg-card/40 backdrop-blur-md transition-all hover:bg-primary/5 hover:border-primary/40 hover:-translate-y-1 cursor-help shadow-sm">
+                    <div className="group flex flex-col items-center justify-center p-3 sm:p-4 rounded border border-border/50 bg-card/40 backdrop-blur-md transition-all hover:bg-primary/5 hover:border-primary/40 hover:-translate-y-1 cursor-help shadow-sm">
                       <div className="p-2 rounded-lg bg-background/80 group-hover:scale-110 transition-transform">
                         {skill.icon}
                       </div>
@@ -141,12 +166,15 @@ export default function HeroBanner() {
         <div className="hidden lg:col-span-1 lg:flex flex-col items-center justify-center gap-8">
           <div className="h-20 w-px bg-linear-to-b from-transparent via-border to-primary" />
           <div className="flex flex-col gap-5">
-            {[FaGithub, FaLinkedin, FaXTwitter, FaFacebook].map((Icon, i) => (
+            {socialLinks.map((social, i) => (
               <a
                 key={i}
-                href="#"
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.name}
                 className="text-muted-foreground hover:text-primary transition-all hover:scale-125 active:scale-90">
-                <Icon size={20} strokeWidth={1.5} />
+                <social.icon size={20} />
               </a>
             ))}
           </div>
@@ -157,12 +185,15 @@ export default function HeroBanner() {
         <div className="col-span-12 lg:hidden flex justify-center items-center gap-8 pt-4">
           <div className="h-px w-12 bg-linear-to-r from-transparent to-primary" />
           <div className="flex gap-6">
-            {[FaGithub, FaLinkedin, FaXTwitter, FaFacebook].map((Icon, i) => (
+            {socialLinks.map((social, i) => (
               <a
                 key={i}
-                href="#"
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.name}
                 className="text-muted-foreground hover:text-primary transition-transform active:scale-90">
-                <Icon size={22} strokeWidth={1.5} />
+                <social.icon size={22} />
               </a>
             ))}
           </div>

@@ -61,9 +61,9 @@ export default function About() {
               </div>
 
               {/* Floating Badge - Adjusted for mobile */}
-              <div className="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 bg-card/90 backdrop-blur-xl border border-border p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-xl">
+              <div className="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 bg-card/90 backdrop-blur-xl border border-border p-3 sm:p-4 rounded sm:rounded shadow-xl">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="bg-primary/20 p-1.5 sm:p-2 rounded-lg">
+                  <div className="bg-primary/20 p-1.5 sm:p-2 rounded">
                     <User className="text-primary w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div>
@@ -80,16 +80,16 @@ export default function About() {
 
             {/* Quick Contact Info */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-6 sm:pt-8 max-w-md mx-auto lg:max-w-none">
-              <div className="flex items-center gap-2 sm:gap-3 p-3 rounded-xl bg-card/40 border border-border/40 backdrop-blur-sm">
+              <div className="flex items-center gap-2 sm:gap-3 p-3 rounded bg-card/40 border border-border/40 backdrop-blur-sm">
                 <MapPin className="text-primary w-4 h-4 shrink-0" />
                 <span className="text-xs font-mono truncate">
-                  Dhaka, Bangladesh
+                  Naogaon, Dhaka, Bangladesh
                 </span>
               </div>
-              <div className="flex items-center gap-2 sm:gap-3 p-3 rounded-xl bg-card/40 border border-border/40 backdrop-blur-sm">
+              <div className="flex items-center gap-2 sm:gap-3 p-3 rounded bg-card/40 border border-border/40 backdrop-blur-sm">
                 <Mail className="text-primary w-4 h-4 shrink-0" />
                 <span className="text-xs font-mono truncate">
-                  contact@rashed.dev
+                  rashedulraha.bd@gmail.com
                 </span>
               </div>
             </div>
@@ -108,7 +108,7 @@ export default function About() {
                 Digital Products.
               </h1>
               <p className="text-muted-foreground text-sm sm:text-base lg:text-lg leading-relaxed">
-                Hi, I'm{" "}
+                Hi, I'm
                 <span className="text-foreground font-bold">
                   Rashedul Islam
                 </span>
@@ -124,7 +124,7 @@ export default function About() {
               {stats.map((stat, i) => (
                 <div
                   key={i}
-                  className="p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm group hover:border-primary/40 transition-colors">
+                  className="p-2 sm:p-4 rounded sm:rounded border border-border/40 bg-card/30 backdrop-blur-sm group hover:border-primary/40 transition-colors">
                   <div className="flex items-center gap-2 sm:gap-3 mb-1.5 sm:mb-2 text-primary">
                     {stat.icon}
                     <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
