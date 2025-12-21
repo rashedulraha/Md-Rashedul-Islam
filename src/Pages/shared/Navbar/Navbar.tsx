@@ -24,19 +24,21 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+    <header className="fixed top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-xl transition-all">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Logo Section */}
         <Link
           to="/"
-          className="flex items-center gap-2 group transition-transform active:scale-95">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 shadow-sm transition-all group-hover:bg-primary group-hover:border-primary">
-            <Cpu className="h-6 w-6 text-primary group-hover:text-primary-foreground" />
+          className="flex items-center gap-2 group shrink-0 active:scale-95 transition-transform">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 shadow-sm group-hover:bg-primary group-hover:border-primary transition-all">
+            <Cpu className="h-5 w-5 text-primary group-hover:text-primary-foreground transition-colors" />
           </div>
-          <span className="text-xl font-bold tracking-tighter text-foreground">
+          <span className="text-lg sm:text-xl font-bold tracking-tighter text-foreground">
             Rashed<span className="text-primary">.</span>Dev
           </span>
         </Link>
 
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-1">
           {links.map((link) => (
             <Link
@@ -50,14 +52,17 @@ export default function Navbar() {
               )}>
               {link.title}
               {location.pathname === link.to && (
-                <span className="absolute inset-x-0 -bottom-[1.5px] h-0.5 bg-primary rounded-full shadow-sm shadow-primary/40" />
+                <span className="absolute inset-x-2 -bottom-4.25 h-0.5 bg-primary rounded-full shadow-[0_0_10px_rgba(var(--primary),0.5)]" />
               )}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2 sm:gap-3">
           <ModeToggle />
+
+          {/* Desktop Contact Button */}
           <Button
             asChild
             className="hidden md:flex rounded-full px-6 bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/25 transition-all gap-2">
@@ -66,39 +71,60 @@ export default function Navbar() {
             </Link>
           </Button>
 
+          {/* Mobile Menu Trigger */}
           <div className="md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="border border-border/40">
-                  <Menu />
+                  className="h-9 w-9 border border-border/40 hover:bg-primary/5">
+                  <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="bg-background/95 backdrop-blur-2xl">
-                <SheetHeader className="mb-8">
-                  <SheetTitle className="flex items-center gap-2">
-                    <Cpu className="text-primary" /> Rashed.Dev
-                  </SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-4">
-                  {links.map((link) => (
-                    <Link
-                      key={link.title}
-                      to={link.to}
-                      onClick={() => setIsOpen(false)}
-                      className={cn(
-                        "px-4 py-3 rounded-xl text-lg font-medium",
-                        location.pathname === link.to
-                          ? "bg-primary/10 text-primary border-l-4 border-primary"
-                          : "text-muted-foreground"
-                      )}>
-                      {link.title}
-                    </Link>
-                  ))}
+                className="w-70 sm:w-87.5 bg-background/95 backdrop-blur-2xl border-l border-border/40 p-0">
+                <div className="flex flex-col h-full p-6">
+                  <SheetHeader className="text-left mb-8">
+                    <SheetTitle className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-primary/10">
+                        <Cpu className="h-5 w-5 text-primary" />
+                      </div>
+                      <span className="font-bold tracking-tight">
+                        Rashed.Dev
+                      </span>
+                    </SheetTitle>
+                  </SheetHeader>
+
+                  <nav className="flex flex-col gap-2">
+                    {links.map((link) => (
+                      <Link
+                        key={link.title}
+                        to={link.to}
+                        onClick={() => setIsOpen(false)}
+                        className={cn(
+                          "flex items-center px-4 py-4 rounded-xl text-base font-medium transition-all active:scale-95",
+                          location.pathname === link.to
+                            ? "bg-primary/10 text-primary border-l-4 border-primary"
+                            : "text-muted-foreground hover:bg-muted/50"
+                        )}>
+                        {link.title}
+                      </Link>
+                    ))}
+                  </nav>
+
+                  {/* Mobile Contact Button (Bottom of drawer) */}
+                  <div className="mt-auto pt-6">
+                    <Button
+                      asChild
+                      className="w-full h-12 rounded-xl bg-primary text-primary-foreground gap-2"
+                      onClick={() => setIsOpen(false)}>
+                      <Link to="/contact">
+                        Contact Me <Send className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
