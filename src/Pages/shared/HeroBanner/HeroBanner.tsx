@@ -17,7 +17,7 @@ const skills = [
 
 export default function HeroBanner() {
   return (
-    <div className="relative z-10 grid h-full w-full grid-cols-12 items-center px-10">
+    <div className="relative z-10 max-w-7xl mx-auto grid h-full w-full grid-cols-12 items-center px-10">
       {/* LEFT: Introduction Text */}
       <div className="col-span-5 space-y-6">
         <h2 className="text-primary font-mono tracking-widest">
