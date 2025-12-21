@@ -1,7 +1,9 @@
+import Navbar from "@/Pages/shared/Navbar/Navbar";
+
 const Layout = () => {
   return (
-    <div>
-      <h1>home</h1>
+    <div className="w-screen h-screen bg-background">
+      <Navbar />
     </div>
   );
 };
