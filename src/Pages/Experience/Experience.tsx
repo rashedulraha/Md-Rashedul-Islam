@@ -1,103 +1,133 @@
-import { Briefcase, Calendar, GraduationCap } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CircleDot, Workflow, Trophy } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import Navbar from "../shared/Navbar/Navbar";
+import Animation from "@/components/Animation/Animation";
 
-const experiences = [
+const evolution = [
   {
-    title: "Senior Full Stack Developer",
-    company: "Tech Solutions Ltd.",
-    period: "2023 - Present",
+    phase: "01. Phase: Build & Deploy",
+    role: "Independent Full Stack Developer",
+    org: "Open Source / Portfolio",
+    duration: "2024 — PRESENT",
     description:
-      "Leading the development of scalable MERN stack applications and mentoring junior developers.",
-    skills: ["React", "Node.js", "AWS"],
-    type: "work",
+      "Architecting high-performance web applications focusing on the MERN stack. Successfully deployed 5+ full-scale projects with integrated authentication and real-time databases.",
+    stack: ["Next.js", "Zustand", "PostgreSQL", "Prisma"],
+    impact: "99.9% Lighthouse SEO Score",
   },
   {
-    title: "Frontend Developer",
-    company: "Creative Digital Agency",
-    period: "2021 - 2023",
+    phase: "02. Phase: Logic & DSA",
+    role: "Advanced Problem Solver",
+    org: "LeetCode / HackerRank",
+    duration: "2023 — 2024",
     description:
-      "Built pixel-perfect, responsive UIs using Tailwind CSS and Next.js for international clients.",
-    skills: ["Next.js", "Tailwind", "TypeScript"],
-    type: "work",
+      "Mastered core Data Structures and Algorithms. Solved 300+ challenges, focusing on Big O optimization and efficient memory management in JavaScript/TypeScript.",
+    stack: ["Data Structures", "Big O", "ES6+", "TS Logic"],
+    impact: "Top 15% Ranking",
   },
   {
-    title: "B.Sc in Computer Science",
-    company: "University of Technology",
-    period: "2017 - 2021",
+    phase: "03. Phase: Foundation",
+    role: "Computer Science Graduate",
+    org: "University of Technology",
+    duration: "2020 — 2024",
     description:
-      "Completed graduation with a focus on Software Engineering and Data Structures.",
-    skills: ["Algorithms", "Java", "Database"],
-    type: "education",
+      "Deep-dived into Software Engineering principles, Database Management Systems, and Object-Oriented Programming (OOP) architectures.",
+    stack: ["C++", "SQL", "Software Architecture", "Networking"],
+    impact: "3.8+ GPA",
   },
 ];
 
 export default function Experience() {
   return (
-    <div className="relative z-10 max-w-5xl mx-auto h-full w-full py-10 px-6 overflow-y-auto no-scrollbar">
-      {/* Heading */}
-      <div className="text-center mb-12">
-        <h2 className="text-primary font-mono tracking-widest text-sm mb-2 uppercase">
-          History
-        </h2>
-        <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-foreground uppercase">
-          Experience <span className="text-primary">&</span> Education
-        </h1>
-      </div>
+    <div className="relative h-screen w-screen overflow-hidden bg-background text-foreground">
+      {/* Navbar Integration */}
+      <Navbar />
 
-      {/* Timeline Container */}
-      <div className="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-linear-to-b before:from-transparent before:via-border before:to-transparent">
-        {experiences.map((item, index) => (
-          <div
-            key={index}
-            className={`relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group animate-in fade-in slide-in-from-bottom duration-500 delay-${
-              index * 100
-            }`}>
-            {/* Icon/Dot */}
-            <div className="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-background shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 transition-colors group-hover:border-primary group-hover:bg-primary/10">
-              {item.type === "work" ? (
-                <Briefcase className="h-5 w-5 text-primary" />
-              ) : (
-                <GraduationCap className="h-5 w-5 text-chart-2" />
-              )}
+      {/* Tech Background Animation */}
+      <Animation />
+
+      <main className="relative z-10 flex h-full items-center justify-center pt-20 px-6">
+        <div className="max-w-6xl w-full grid grid-cols-12 gap-10">
+          {/* LEFT SIDE: Heading & Status */}
+          <div className="col-span-12 lg:col-span-4 flex flex-col justify-center space-y-6">
+            <div className="space-y-2">
+              <h2 className="text-primary font-mono text-xs tracking-[0.5em] uppercase">
+                Log_History
+              </h2>
+              <h1 className="text-5xl font-black tracking-tighter uppercase leading-none">
+                Technical <br />{" "}
+                <span className="text-primary italic">Evolution</span>
+              </h1>
             </div>
-
-            {/* Content Card */}
-            <Card className="w-[calc(100%-4rem)] md:w-[45%] bg-card/20 backdrop-blur-md border-border/40 transition-all hover:border-primary/40 hover:shadow-[0_0_20px_rgba(var(--primary),0.1)]">
-              <CardHeader className="p-4 pb-0">
-                <div className="flex items-center justify-between mb-1">
-                  <Badge
-                    variant="outline"
-                    className="text-[10px] font-mono border-primary/20 text-primary uppercase">
-                    {item.period}
-                  </Badge>
-                  <Calendar className="h-3 w-3 text-muted-foreground" />
+            <p className="text-muted-foreground text-sm leading-relaxed max-w-xs border-l border-primary/30 pl-4">
+              A timeline of my journey from theoretical foundations to building
+              scalable digital solutions. Focusing on efficiency and modern
+              architectures.
+            </p>
+            <div className="flex items-center gap-4 pt-4">
+              <div className="flex -space-x-2">
+                <div className="h-8 w-8 rounded-full border border-background bg-primary/20 flex items-center justify-center backdrop-blur-md">
+                  <Trophy className="h-4 w-4 text-primary" />
                 </div>
-                <CardTitle className="text-xl font-bold tracking-tight text-foreground">
-                  {item.title}
-                </CardTitle>
-                <p className="text-sm font-medium text-primary/80">
-                  {item.company}
-                </p>
-              </CardHeader>
-              <CardContent className="p-4 pt-2 space-y-4">
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <div className="h-8 w-8 rounded-full border border-background bg-chart-1/20 flex items-center justify-center backdrop-blur-md">
+                  <Workflow className="h-4 w-4 text-chart-1" />
+                </div>
+              </div>
+              <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
+                Ready for Onboarding
+              </span>
+            </div>
+          </div>
+
+          {/* RIGHT SIDE: Vertical Timeline Cards */}
+          <div className="col-span-12 lg:col-span-8 overflow-y-auto no-scrollbar max-h-[70vh] pr-4 space-y-4">
+            {evolution.map((item, index) => (
+              <Card
+                key={index}
+                className="group relative bg-card/10 backdrop-blur-xl border-border/40 p-6 transition-all hover:bg-primary/3 hover:border-primary/50 overflow-hidden">
+                {/* Background Decor */}
+                <span className="absolute -right-4 -top-4 text-6xl font-black text-primary/5 italic select-none">
+                  0{index + 1}
+                </span>
+
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-mono text-primary/80 uppercase tracking-tighter">
+                      {item.phase}
+                    </span>
+                    <h3 className="text-xl font-bold tracking-tight group-hover:text-primary transition-colors">
+                      {item.role}
+                    </h3>
+                    <p className="text-xs text-muted-foreground/80 font-medium">
+                      {item.org} | {item.duration}
+                    </p>
+                  </div>
+                  <Badge
+                    variant="secondary"
+                    className="w-fit h-fit bg-primary/10 text-primary border-none text-[10px] px-3 py-1">
+                    {item.impact}
+                  </Badge>
+                </div>
+
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6">
                   {item.description}
                 </p>
+
                 <div className="flex flex-wrap gap-2">
-                  {item.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="text-[10px] font-mono bg-secondary/50 px-2 py-1 rounded border border-border/50 text-muted-foreground uppercase">
-                      #{skill}
-                    </span>
+                  {item.stack.map((s) => (
+                    <div
+                      key={s}
+                      className="flex items-center gap-1 bg-background/50 border border-border/50 px-2 py-1 rounded text-[9px] font-mono text-muted-foreground uppercase tracking-wider group-hover:border-primary/30 transition-colors">
+                      <CircleDot className="h-2 w-2 text-primary/50" />
+                      {s}
+                    </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </Card>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      </main>
     </div>
   );
 }
