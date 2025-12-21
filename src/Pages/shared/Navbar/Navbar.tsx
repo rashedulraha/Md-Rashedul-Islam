@@ -17,6 +17,7 @@ const links = [
   { title: "Projects", to: "/projects" },
   { title: "Tech Stack", to: "/stack" },
   { title: "Experience", to: "/experience" },
+  { title: "About", to: "/about" },
 ];
 
 export default function Navbar() {
