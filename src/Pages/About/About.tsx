@@ -12,11 +12,13 @@ import { Button } from "@/components/ui/button";
 import Navbar from "../shared/Navbar/Navbar";
 import Animation from "@/components/Animation/Animation";
 
+import image from "../../assets/rashedul.jpeg";
+
 export default function About() {
   const stats = [
     {
       label: "Experience",
-      value: "2+ Years",
+      value: "1+ Years",
       icon: <Briefcase className="w-4 h-4" />,
     },
     {
@@ -26,7 +28,7 @@ export default function About() {
     },
     {
       label: "Contributions",
-      value: "500+ Git",
+      value: "800+ Git",
       icon: <Award className="w-4 h-4" />,
     },
   ];
@@ -40,65 +42,72 @@ export default function About() {
         <Animation />
       </div>
 
-      <main className="relative z-10 pt-28 pb-16 px-6 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <main className="relative z-10 pt-20 sm:pt-24 md:pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-start">
           {/* LEFT: Image Section */}
-          <div className="col-span-12 lg:col-span-5 space-y-6">
-            <div className="relative group">
-              {/* Image Frame Decor */}
-              <div className="absolute -inset-4 border border-primary/20 rounded-3xl rotate-3 group-hover:rotate-0 transition-transform duration-500" />
-              <div className="absolute -inset-4 border border-primary/10 rounded-3xl -rotate-3 group-hover:rotate-0 transition-transform duration-500 delay-75" />
+          <div className="col-span-12 lg:col-span-5 space-y-4 sm:space-y-6">
+            <div className="relative group max-w-md mx-auto lg:max-w-none">
+              {/* Image Frame Decor - Hidden on mobile for cleaner look */}
+              <div className="hidden sm:block absolute -inset-4 border border-primary/20 rounded-3xl rotate-3 group-hover:rotate-0 transition-transform duration-500" />
+              <div className="hidden sm:block absolute -inset-4 border border-primary/10 rounded-3xl -rotate-3 group-hover:rotate-0 transition-transform duration-500 delay-75" />
 
               {/* Profile Image Container */}
-              <div className="relative aspect-square rounded-2xl overflow-hidden border-2 border-primary/20 bg-card">
+              <div className="relative aspect-square rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-primary/20 bg-card shadow-xl">
                 <img
-                  src="https://via.placeholder.com/500" // ekhane amar pic link hobe
+                  src={image}
                   alt="Rashedul Islam"
                   className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-105 hover:scale-100"
                 />
               </div>
 
-              {/* Floating Badge */}
-              <div className="absolute -bottom-6 -right-6 bg-card/80 backdrop-blur-xl border border-border p-4 rounded-2xl shadow-xl animate-bounce-slow">
-                <div className="flex items-center gap-3">
-                  <div className="bg-primary/20 p-2 rounded-lg">
-                    <User className="text-primary w-5 h-5" />
+              {/* Floating Badge - Adjusted for mobile */}
+              <div className="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 bg-card/90 backdrop-blur-xl border border-border p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-xl">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="bg-primary/20 p-1.5 sm:p-2 rounded-lg">
+                    <User className="text-primary w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
+                    <p className="text-[9px] sm:text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
                       Available for
                     </p>
-                    <p className="text-sm font-bold">Freelance / Full-time</p>
+                    <p className="text-xs sm:text-sm font-bold whitespace-nowrap">
+                      Freelance / Full-time
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Quick Contact Info */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-8">
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-card/30 border border-border/40">
-                <MapPin className="text-primary w-4 h-4" />
-                <span className="text-xs font-mono">Dhaka, Bangladesh</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-6 sm:pt-8 max-w-md mx-auto lg:max-w-none">
+              <div className="flex items-center gap-2 sm:gap-3 p-3 rounded-xl bg-card/40 border border-border/40 backdrop-blur-sm">
+                <MapPin className="text-primary w-4 h-4 shrink-0" />
+                <span className="text-xs font-mono truncate">
+                  Dhaka, Bangladesh
+                </span>
               </div>
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-card/30 border border-border/40">
-                <Mail className="text-primary w-4 h-4" />
-                <span className="text-xs font-mono">contact@rashed.dev</span>
+              <div className="flex items-center gap-2 sm:gap-3 p-3 rounded-xl bg-card/40 border border-border/40 backdrop-blur-sm">
+                <Mail className="text-primary w-4 h-4 shrink-0" />
+                <span className="text-xs font-mono truncate">
+                  contact@rashed.dev
+                </span>
               </div>
             </div>
           </div>
 
           {/* RIGHT: Biography & Details */}
-          <div className="col-span-12 lg:col-span-7 space-y-8">
-            <div className="space-y-4">
-              <h2 className="text-primary font-mono tracking-[0.3em] text-xs uppercase italic">
+          <div className="col-span-12 lg:col-span-7 space-y-6 sm:space-y-8">
+            <div className="space-y-3 sm:space-y-4">
+              <h2 className="text-primary font-mono tracking-[0.2em] sm:tracking-[0.3em] text-[10px] sm:text-xs uppercase italic">
                 // System.Profile_Overview
               </h2>
-              <h1 className="text-4xl sm:text-6xl font-black tracking-tighter uppercase leading-none">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-tight sm:leading-none">
                 I Build <span className="text-primary italic">Scalable</span>{" "}
-                <br />
+                <br className="hidden sm:block" />
+                <span className="sm:hidden"> </span>
                 Digital Products.
               </h1>
-              <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-2xl">
+              <p className="text-muted-foreground text-sm sm:text-base lg:text-lg leading-relaxed">
                 Hi, I'm{" "}
                 <span className="text-foreground font-bold">
                   Rashedul Islam
@@ -110,19 +119,19 @@ export default function About() {
               </p>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Stats Grid - Responsive columns */}
+            <div className="grid grid-cols-1 xs:grid-cols-3 gap-3 sm:gap-4">
               {stats.map((stat, i) => (
                 <div
                   key={i}
-                  className="p-4 rounded-2xl border border-border/40 bg-card/20 backdrop-blur-sm group hover:border-primary/40 transition-colors">
-                  <div className="flex items-center gap-3 mb-2 text-primary">
+                  className="p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm group hover:border-primary/40 transition-colors">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-1.5 sm:mb-2 text-primary">
                     {stat.icon}
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+                    <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
                       {stat.label}
                     </span>
                   </div>
-                  <p className="text-2xl font-black tracking-tight">
+                  <p className="text-xl sm:text-2xl font-black tracking-tight">
                     {stat.value}
                   </p>
                 </div>
@@ -130,14 +139,16 @@ export default function About() {
             </div>
 
             {/* Education & Passion */}
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="mt-1 bg-primary/10 p-2 rounded-lg">
-                  <GraduationCap className="text-primary w-5 h-5" />
+            <div className="space-y-4 sm:space-y-6">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="mt-0.5 sm:mt-1 bg-primary/10 p-1.5 sm:p-2 rounded-lg shrink-0">
+                  <GraduationCap className="text-primary w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg">Lifelong Learner</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <h4 className="font-bold text-base sm:text-lg mb-1">
+                    Lifelong Learner
+                  </h4>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                     Continuously exploring new technologies like Docker and
                     Microservices to optimize performance and deployment
                     workflows.
@@ -145,13 +156,15 @@ export default function About() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="mt-1 bg-primary/10 p-2 rounded-lg">
-                  <Code className="text-primary w-5 h-5" />
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="mt-0.5 sm:mt-1 bg-primary/10 p-1.5 sm:p-2 rounded-lg shrink-0">
+                  <Code className="text-primary w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg">Clean Code Advocate</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <h4 className="font-bold text-base sm:text-lg mb-1">
+                    Clean Code Advocate
+                  </h4>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                     I believe in writing maintainable, reusable, and
                     well-documented code that provides value to both users and
                     fellow developers.
@@ -160,15 +173,17 @@ export default function About() {
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap gap-4 pt-4">
-              <Button size="lg" className="rounded-xl px-8 font-bold gap-2">
+            {/* Action Buttons - Full width on mobile */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4">
+              <Button
+                size="lg"
+                className="rounded px-6 sm:px-8 font-bold gap-2 w-full sm:w-auto">
                 Download Resume <ExternalLink className="w-4 h-4" />
               </Button>
               <Button
                 variant="outline"
                 size="lg"
-                className="rounded-xl px-8 font-bold border-primary/20 hover:bg-primary/5">
+                className="rounded px-6 sm:px-8 font-bold border-primary/20 hover:bg-primary/5 w-full sm:w-auto">
                 Read Blog
               </Button>
             </div>

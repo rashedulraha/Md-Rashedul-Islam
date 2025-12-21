@@ -104,8 +104,9 @@ export default function HeroBanner() {
           </p>
           <div className="pt-2 w-full sm:w-auto">
             <Button
+              variant={"outline"}
               size="lg"
-              className="w-full sm:w-auto rounded-xl px-10 font-bold hover:shadow-lg hover:shadow-primary/30 transition-all active:scale-95">
+              className="w-full sm:w-auto px-10 font-bold hover:shadow-md hover:shadow-primary/10 rounded transition-all active:scale-95">
               Explore My Work
             </Button>
           </div>
