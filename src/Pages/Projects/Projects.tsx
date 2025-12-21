@@ -19,7 +19,10 @@ const projects = [
       "A comprehensive role-based system for donors and volunteers. Integrated Stripe for funding and complex filtering for donor locations.",
     icon: <Heart className="text-red-500 h-6 w-6" />,
     tech: ["React", "Node.js", "MongoDB", "Stripe", "TanStack Query"],
-    links: { live: "#", github: "https://github.com/rashedulraha" },
+    links: {
+      live: "https://bloodbond-red.vercel.app/",
+      github: "https://github.com/rashedulraha/BloodBond-Client",
+    },
     metric: "Role-Based RBAC",
   },
   {
@@ -29,7 +32,10 @@ const projects = [
       "Community-driven marketplace for surplus food. Features real-time request tracking and Firebase secure authentication.",
     icon: <Zap className="text-yellow-500 h-6 w-6" />,
     tech: ["React", "Firebase", "Axios", "AOS", "Tailwind"],
-    links: { live: "#", github: "https://github.com/rashedulraha" },
+    links: {
+      live: "https://share-bite-client-jet.vercel.app",
+      github: "https://github.com/rashedulraha/Share-bite-client",
+    },
     metric: "Real-time CRUD",
   },
   {
@@ -39,7 +45,10 @@ const projects = [
       "Full-stack logistics platform with automated routing and real-time delivery lifecycle management for Riders and Admins.",
     icon: <Truck className="text-blue-500 h-6 w-6" />,
     tech: ["Node.js", "Express", "Firebase", "RBAC", "DaisyUI"],
-    links: { live: "#", github: "https://github.com/rashedulraha" },
+    links: {
+      live: "https://go-deliver-client.vercel.app",
+      github: "https://github.com/rashedulraha/GoDeliver-Client",
+    },
     metric: "Lifecycle Tracking",
   },
 ];
