@@ -2,6 +2,7 @@ import Layout from "@/Layout/Layout";
 import Experience from "@/Pages/Experience/Experience";
 import Home from "@/Pages/Home/Home";
 import Projects from "@/Pages/Projects/Projects";
+import TechStack from "@/Pages/TechStack/TechStack";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
       },
       {
         path: "stack",
-        Component: Projects,
+        Component: TechStack,
       },
       {
         path: "experience",
