@@ -1,11 +1,8 @@
 import { Menu, Cpu } from "lucide-react";
-import { cn } from "@/lib/utils";
+
 import {
   NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import {
   Sheet,
@@ -16,12 +13,12 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/modeToggle";
-
-const navLinks = [
-  { title: "Home", href: "/" },
-  { title: "Projects", href: "projects" },
-  { title: "Tech Stack", href: "stack" },
-  { title: "Experience", href: "experience" },
+import { Link } from "react-router-dom";
+const NavLinks = [
+  { title: "Home", to: "/" },
+  { title: "Projects", to: "/projects" },
+  { title: "Tech Stack", to: "/stack" },
+  { title: "Experience", to: "/experience" },
 ];
 
 export default function Navbar() {
@@ -41,18 +38,9 @@ export default function Navbar() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex">
           <NavigationMenu>
-            <NavigationMenuList className="gap-2">
-              {navLinks.map((link) => (
-                <NavigationMenuItem key={link.title}>
-                  <NavigationMenuLink
-                    href={link.href}
-                    className={cn(
-                      navigationMenuTriggerStyle(),
-                      "bg-transparent text-muted-foreground hover:text-primary transition-colors duration-300"
-                    )}>
-                    {link.title}
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
+            <NavigationMenuList className="gap-3 ">
+              {NavLinks.map((link) => (
+                <Link to={link.to}>{link.title}</Link>
               ))}
             </NavigationMenuList>
           </NavigationMenu>
@@ -83,14 +71,14 @@ export default function Navbar() {
                     MENU
                   </SheetTitle>
                 </SheetHeader>
-                <div className="mt-8 flex flex-col gap-6">
-                  {navLinks.map((link) => (
-                    <a
+                <div className="mt-8 flex flex-col gap-6  p-5">
+                  {NavLinks.map((link) => (
+                    <Link
+                      to={link.to}
                       key={link.title}
-                      href={link.href}
                       className="text-lg font-medium text-muted-foreground hover:text-primary transition-colors">
                       {link.title}
-                    </a>
+                    </Link>
                   ))}
                   <Button className="w-full mt-4">Contact Me</Button>
                 </div>
