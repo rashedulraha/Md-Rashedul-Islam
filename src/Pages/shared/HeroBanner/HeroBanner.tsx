@@ -3,83 +3,155 @@ import {
   Linkedin,
   Twitter,
   Facebook,
-  ExternalLink,
+  Code2,
+  Database,
+  Globe,
+  Layers,
+  Cpu,
+  Smartphone,
+  GitBranch,
+  Terminal,
+  Zap,
+  Search,
+  Boxes,
+  // eslint-disable-next-line no-shadow-restricted-names
+  Infinity,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-const skills = [
-  { name: "React.js", color: "text-blue-400" },
-  { name: "Node.js", color: "text-green-500" },
-  { name: "Next.js", color: "text-white" },
-  { name: "MongoDB", color: "text-emerald-500" },
-  { name: "Tailwind", color: "text-cyan-400" },
-  { name: "Firebase", color: "text-orange-500" },
+const skillGroups = [
+  {
+    name: "React",
+    icon: <Layers className="h-5 w-5 text-blue-400" />,
+    level: "Expert",
+  },
+  {
+    name: "JS",
+    icon: <Code2 className="h-5 w-5 text-yellow-400" />,
+    level: "Advanced",
+  },
+  {
+    name: "TS",
+    icon: <Terminal className="h-5 w-5 text-blue-500" />,
+    level: "Advanced",
+  },
+  {
+    name: "Next.js",
+    icon: <Globe className="h-5 w-5 text-white" />,
+    level: "Intermediate",
+  },
+  {
+    name: "Query",
+    icon: <Zap className="h-5 w-5 text-red-500" />,
+    level: "Tanstack Query",
+  },
+  {
+    name: "Node.js",
+    icon: <Cpu className="h-5 w-5 text-green-500" />,
+    level: "Backend",
+  },
+  {
+    name: "MongoDB",
+    icon: <Database className="h-5 w-5 text-emerald-500" />,
+    level: "NoSQL",
+  },
+  {
+    name: "Tailwind",
+    icon: <Smartphone className="h-5 w-5 text-cyan-400" />,
+    level: "Styling",
+  },
+  {
+    name: "Git",
+    icon: <GitBranch className="h-5 w-5 text-orange-600" />,
+    level: "VCS",
+  },
+  {
+    name: "GitHub",
+    icon: <Github className="h-5 w-5 text-slate-300" />,
+    level: "Collab",
+  },
+  {
+    name: "Docker",
+    icon: <Boxes className="h-5 w-5 text-blue-600" />,
+    level: "DevOps",
+  },
+  {
+    name: "SEO",
+    icon: <Search className="h-5 w-5 text-pink-500" />,
+    level: "Optimization",
+  },
 ];
 
 export default function HeroBanner() {
   return (
-    <div className="relative z-10 max-w-7xl mx-auto grid h-full w-full grid-cols-12 items-center px-10">
-      {/* LEFT: Introduction Text */}
-      <div className="col-span-5 space-y-6">
-        <h2 className="text-primary font-mono tracking-widest">
-          WELCOME TO MY WORLD
-        </h2>
-        <h1 className="text-6xl font-black leading-tight tracking-tighter text-white">
-          I Build <span className="text-primary">Scalable</span> <br /> Web
-          Solutions
+    <div className="relative z-10 max-w-7xl mx-auto grid h-full w-full grid-cols-12 items-center px-6 md:px-10">
+      {/* LEFT: Intro Section */}
+      <div className="col-span-12 lg:col-span-5 space-y-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-[10px] font-mono tracking-widest text-primary animate-pulse">
+          <Infinity className="h-3 w-3" /> FULL-STACK DEVELOPER
+        </div>
+        <h1 className="text-5xl md:text-7xl font-black leading-tight tracking-tighter text-foreground">
+          Precision <br />
+          In Every <span className="text-primary italic">Pixel</span>
         </h1>
-        <p className="max-w-md text-muted-foreground text-lg">
-          Expert in MERN Stack and Modern UI/UX. Turning complex problems into
-          simple, beautiful digital experiences.
+        <p className="max-w-md text-muted-foreground text-base leading-relaxed">
+          Turning complex backend logic and pixel-perfect designs into seamless
+          user experiences using the latest web technologies.
         </p>
-        <div className="flex gap-4">
-          <button className="bg-primary text-primary-foreground px-8 py-3 rounded-md font-bold hover:opacity-90 transition-all">
-            Download CV
-          </button>
+        <div className="pt-4">
+          <Button
+            size="lg"
+            className="rounded-xl px-10 font-bold hover:shadow-[0_0_20px_rgba(var(--primary),0.3)] transition-all">
+            Explore My Work
+          </Button>
         </div>
       </div>
 
-      {/* MIDDLE: Skills Visualizer (Matching your image) */}
-      <div className="col-span-6 flex flex-wrap justify-center gap-4">
-        {skills.map((skill) => (
-          <div
-            key={skill.name}
-            className="group relative flex items-center gap-3 bg-secondary/30 border border-border/50 p-4 rounded-xl backdrop-blur-sm hover:border-primary/50 transition-all">
-            <div className={`h-3 w-3 rounded-full bg-current ${skill.color}`} />
-            <span className="font-bold text-foreground tracking-wide uppercase text-sm">
-              {skill.name}
-            </span>
-            <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-          </div>
-        ))}
+      {/* MIDDLE: Technical Skills Grid (Small Icons like the image) */}
+      <div className="col-span-12 lg:col-span-6 mt-12 lg:mt-0">
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+          <TooltipProvider>
+            {skillGroups.map((skill) => (
+              <Tooltip key={skill.name}>
+                <TooltipTrigger asChild>
+                  <div className="group flex flex-col items-center justify-center p-4 rounded-xl border border-border/40 bg-card/20 backdrop-blur-sm transition-all hover:bg-primary/5 hover:border-primary/40 hover:-translate-y-1 cursor-crosshair">
+                    <div className="p-2 rounded-lg bg-background/50 group-hover:scale-110 transition-transform">
+                      {skill.icon}
+                    </div>
+                    <span className="mt-2 text-[10px] font-bold text-muted-foreground uppercase tracking-tighter group-hover:text-foreground">
+                      {skill.name}
+                    </span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="bg-primary text-primary-foreground font-mono text-[10px]">
+                  {skill.level}
+                </TooltipContent>
+              </Tooltip>
+            ))}
+          </TooltipProvider>
+        </div>
       </div>
 
-      {/* RIGHT: Vertical Social Media Bar */}
-      <div className="col-span-1 flex flex-col items-center gap-8 border-l border-border/30 py-10">
-        <p className="rotate-90 text-xs font-mono tracking-[0.3em] text-muted-foreground mb-10">
-          FOLLOW ME
-        </p>
-        <div className="flex flex-col gap-6">
-          <a
-            href="#"
-            className="text-muted-foreground hover:text-primary transition-colors">
-            <Github size={24} />
-          </a>
-          <a
-            href="#"
-            className="text-muted-foreground hover:text-primary transition-colors">
-            <Linkedin size={24} />
-          </a>
-          <a
-            href="#"
-            className="text-muted-foreground hover:text-primary transition-colors">
-            <Twitter size={24} />
-          </a>
-          <a
-            href="#"
-            className="text-muted-foreground hover:text-primary transition-colors">
-            <Facebook size={24} />
-          </a>
+      {/* RIGHT: Social Sidebar */}
+      <div className="hidden lg:col-span-1 lg:flex flex-col items-center justify-center gap-10">
+        <div className="h-24 w-px bg-linear-to-b from-transparent via-border to-primary" />
+        <div className="flex flex-col gap-5">
+          {[Github, Linkedin, Twitter, Facebook].map((Icon, i) => (
+            <a
+              key={i}
+              href="#"
+              className="text-muted-foreground hover:text-primary transition-all hover:scale-125">
+              <Icon size={20} strokeWidth={1.5} />
+            </a>
+          ))}
         </div>
+        <div className="h-24 w-px bg-linear-to-t from-transparent via-border to-primary" />
       </div>
     </div>
   );
