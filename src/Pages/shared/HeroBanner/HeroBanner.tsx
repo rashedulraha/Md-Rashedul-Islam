@@ -1,8 +1,4 @@
 import {
-  Github,
-  Linkedin,
-  Twitter,
-  Facebook,
   Code2,
   Database,
   Globe,
@@ -24,6 +20,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+import { FaFacebook, FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 const skillGroups = [
   {
     name: "React",
@@ -72,7 +70,7 @@ const skillGroups = [
   },
   {
     name: "GitHub",
-    icon: <Github className="h-5 w-5 text-muted-foreground" />,
+    icon: <FaGithub className="h-5 w-5 text-muted-foreground" />,
     level: "Collab",
   },
   {
@@ -142,7 +140,7 @@ export default function HeroBanner() {
         <div className="hidden lg:col-span-1 lg:flex flex-col items-center justify-center gap-8">
           <div className="h-20 w-px bg-linear-to-b from-transparent via-border to-primary" />
           <div className="flex flex-col gap-5">
-            {[Github, Linkedin, Twitter, Facebook].map((Icon, i) => (
+            {[FaGithub, FaLinkedin, FaXTwitter, FaFacebook].map((Icon, i) => (
               <a
                 key={i}
                 href="#"
@@ -158,7 +156,7 @@ export default function HeroBanner() {
         <div className="col-span-12 lg:hidden flex justify-center items-center gap-8 pt-4">
           <div className="h-px w-12 bg-linear-to-r from-transparent to-primary" />
           <div className="flex gap-6">
-            {[Github, Linkedin, Twitter, Facebook].map((Icon, i) => (
+            {[FaGithub, FaLinkedin, FaXTwitter, FaFacebook].map((Icon, i) => (
               <a
                 key={i}
                 href="#"

@@ -104,12 +104,15 @@ export default function Navbar() {
                         to={link.to}
                         onClick={() => setIsOpen(false)}
                         className={cn(
-                          "flex items-center px-4 py-4 rounded-xl text-base font-medium transition-all active:scale-95",
+                          "flex items-center text-base font-medium transition-all active:scale-95",
                           location.pathname === link.to
                             ? "bg-primary/10 text-primary border-l-4 border-primary"
                             : "text-muted-foreground hover:bg-muted/50"
                         )}>
-                        {link.title}
+                        <Button className="w-full rounded" variant={"outline"}>
+                          {" "}
+                          {link.title}
+                        </Button>
                       </Link>
                     ))}
                   </nav>
@@ -118,7 +121,7 @@ export default function Navbar() {
                   <div className="mt-auto pt-6">
                     <Button
                       asChild
-                      className="w-full h-12 rounded-xl bg-primary text-primary-foreground gap-2"
+                      className="w-full  rounded bg-primary text-primary-foreground gap-2"
                       onClick={() => setIsOpen(false)}>
                       <Link to="/contact">
                         Contact Me <Send className="h-4 w-4" />
