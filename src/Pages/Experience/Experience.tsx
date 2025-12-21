@@ -9,31 +9,31 @@ const evolution = [
     phase: "01. Phase: Build & Deploy",
     role: "Independent Full Stack Developer",
     org: "Open Source / Portfolio",
-    duration: "2024 — PRESENT",
+    duration: "2025 — PRESENT",
     description:
-      "Architecting high-performance web applications focusing on the MERN stack. Successfully deployed 5+ full-scale projects with integrated authentication and real-time databases.",
+      "Architecting high-performance web applications focusing on the MERN stack. Successfully deployed 1+ full-scale projects with integrated authentication and real-time databases.",
     stack: ["Next.js", "Zustand", "PostgreSQL", "Prisma"],
     impact: "99.9% Lighthouse SEO Score",
   },
   {
     phase: "02. Phase: Logic & DSA",
-    role: "Advanced Problem Solver",
+    role: "Problem Solver",
     org: "LeetCode / HackerRank",
-    duration: "2023 — 2024",
+    duration: "2024 — 2025",
     description:
-      "Mastered core Data Structures and Algorithms. Solved 300+ challenges, focusing on Big O optimization and efficient memory management in JavaScript/TypeScript.",
+      "Mastered core Data Structures and Algorithms. Solved 5+ challenges, focusing on Big O optimization and efficient memory management in JavaScript/TypeScript.",
     stack: ["Data Structures", "Big O", "ES6+", "TS Logic"],
     impact: "Top 15% Ranking",
   },
   {
     phase: "03. Phase: Foundation",
-    role: "Computer Science Graduate",
-    org: "University of Technology",
-    duration: "2020 — 2024",
+    role: "Science",
+    org: "Nazipur Govt collage",
+    duration: "2022 — 20224",
     description:
-      "Deep-dived into Software Engineering principles, Database Management Systems, and Object-Oriented Programming (OOP) architectures.",
-    stack: ["C++", "SQL", "Software Architecture", "Networking"],
-    impact: "3.8+ GPA",
+      "I completed my Intermediate education in the Science stream. I have a strong foundation in Physics, Chemistry, and Mathematics. I am skilled in analytical thinking and problem-solving, and I am always eager to learn new concepts and technologies.",
+    stack: ["Physics", "Chemistry", "Mathematics", "Networking"],
+    impact: "4.75+ GPA",
   },
 ];
 

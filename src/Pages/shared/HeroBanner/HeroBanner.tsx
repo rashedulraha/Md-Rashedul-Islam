@@ -11,6 +11,7 @@ import {
   Search,
   Boxes,
   InfinityIcon,
+  ExternalLink,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -120,8 +121,8 @@ export default function HeroBanner() {
             <InfinityIcon className="h-3 w-3" /> FULL-STACK DEVELOPER
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight tracking-tighter text-foreground">
-            Precision <br className="hidden sm:block" />
-            In Every <span className="text-primary italic">Pixel</span>
+            Welcome <br className="hidden sm:block" />
+            To My <span className="text-primary italic">World</span>
           </h1>
           <p className="max-w-md text-muted-foreground text-sm sm:text-base leading-relaxed">
             Turning complex backend logic and pixel-perfect designs into
@@ -129,10 +130,12 @@ export default function HeroBanner() {
           </p>
           <div className="pt-2 w-full sm:w-auto">
             <Button
-              variant={"outline"}
+              asChild
               size="lg"
               className="w-full sm:w-auto px-10 font-bold hover:shadow-md hover:shadow-primary/10 rounded transition-all active:scale-95">
-              Explore My Work
+              <a href="/Md-Rasheduli-Islam.pdf" download>
+                Download Resume <ExternalLink className="w-4 h-4 ml-2" />
+              </a>
             </Button>
           </div>
         </div>

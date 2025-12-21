@@ -67,9 +67,9 @@ export default function Navbar() {
           <Button
             asChild
             className="hidden md:flex rounded-full px-6 bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/25 transition-all gap-2">
-            <Link to="/contact">
+            <a href="https://www.linkedin.com/in/rashedulraha" target="_blank">
               Let's Talk <Send className="h-4 w-4" />
-            </Link>
+            </a>
           </Button>
 
           {/* Mobile Menu Trigger */}

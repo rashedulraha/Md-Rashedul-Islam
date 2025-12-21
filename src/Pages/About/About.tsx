@@ -176,9 +176,12 @@ export default function About() {
             {/* Action Buttons - Full width on mobile */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4">
               <Button
+                asChild
                 size="lg"
-                className="rounded px-6 sm:px-8 font-bold gap-2 w-full sm:w-auto">
-                Download Resume <ExternalLink className="w-4 h-4" />
+                className="w-full sm:w-auto px-10 font-bold hover:shadow-md hover:shadow-primary/10 rounded transition-all active:scale-95">
+                <a href="/Md-Rasheduli-Islam.pdf" download>
+                  Download Resume <ExternalLink className="w-4 h-4 ml-2" />
+                </a>
               </Button>
               <Button
                 variant="outline"
