@@ -99,38 +99,6 @@ export default function TechStack() {
               </div>
             ))}
           </div>
-
-          {/* Footer Metrics */}
-          <div className="mt-20 flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16 border-t border-border/20 pt-10">
-            <div className="flex items-center gap-8 sm:gap-16">
-              <div className="flex flex-col items-center">
-                <span className="text-3xl font-black text-primary tracking-tighter italic">
-                  99%
-                </span>
-                <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
-                  UPTIME
-                </span>
-              </div>
-              <div className="h-10 w-px bg-border/20 hidden sm:block" />
-              <div className="flex flex-col items-center">
-                <span className="text-3xl font-black text-primary tracking-tighter italic">
-                  50+
-                </span>
-                <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
-                  REPOS
-                </span>
-              </div>
-              <div className="h-10 w-px bg-border/20 hidden sm:block" />
-              <div className="flex flex-col items-center">
-                <span className="text-3xl font-black text-primary tracking-tighter italic">
-                  1.2ms
-                </span>
-                <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
-                  LATENCY
-                </span>
-              </div>
-            </div>
-          </div>
         </div>
       </main>
     </div>
