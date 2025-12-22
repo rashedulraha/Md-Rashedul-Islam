@@ -56,7 +56,7 @@ export default function About() {
                 <img
                   src={image}
                   alt="Rashedul Islam"
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-105 hover:scale-100"
+                  className="w-full h-full object-cover  transition-all duration-700 scale-105 hover:scale-100"
                 />
               </div>
 

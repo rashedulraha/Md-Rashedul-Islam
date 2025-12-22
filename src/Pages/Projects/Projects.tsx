@@ -1,4 +1,13 @@
-import { Github, ExternalLink, Zap, Truck, Heart } from "lucide-react";
+import {
+  Github,
+  ExternalLink,
+  Zap,
+  Truck,
+  Heart,
+  Baby,
+  Home,
+  User,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,6 +19,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Navbar from "../shared/Navbar/Navbar";
 import Animation from "@/components/Animation/Animation";
+import { FaOdnoklassnikiSquare } from "react-icons/fa";
 
 const projects = [
   {
@@ -48,6 +58,58 @@ const projects = [
     links: {
       live: "https://go-deliver-client.vercel.app",
       github: "https://github.com/rashedulraha/GoDeliver-Client",
+    },
+    metric: "Lifecycle Tracking",
+  },
+  {
+    title: "Baby Shope",
+    subtitle: "A Online baby shop",
+    description:
+      "An online baby shop is a digital retail platform specializing in baby essentials and gear, offering convenient home delivery. It features a wide range of products like diapers, clothing, strollers, cribs, toys, feeding supplies, and nursery decor, often with user reviews, personalized recommendations, and secure payment options. ",
+    icon: <Baby className="text-pink-500 h-6 w-6" />,
+    tech: ["Firebase", "RBAC", "DaisyUI", "More"],
+    links: {
+      live: "https://baby-buzz.vercel.app",
+      github: "https://github.com/rashedulraha/Baby-Buzz",
+    },
+    metric: "Lifecycle Tracking",
+  },
+  {
+    title: "Home Decor",
+    subtitle: "Furniture Shop Collection",
+    description:
+      "A curated assortment of high-quality, stylish furniture pieces designed for modern homes and offices. This collection includes sofas, tables, chairs, beds, and storage solutions, blending comfort, durability, and aesthetic appeal.",
+    icon: <Home className="text-green-500 h-6 w-6" />,
+    tech: ["Firebase", "RBAC", "DaisyUI", "React Icons", "React-Toastify"],
+    links: {
+      live: "https://home-decor-rashedul-islam.netlify.app",
+      github: "https://github.com/rashedulraha/home-decor",
+    },
+    metric: "Lifecycle Tracking",
+  },
+  {
+    title: "Rashedul Islam",
+    subtitle: "Personal Portfolio",
+    description:
+      "a curated collection of materials that showcases an individual's best skills, experience, and accomplishments to potential employers or clients",
+    icon: <User className="text-gray-500 h-6 w-6" />,
+    tech: ["Firebase", "RBAC", "DaisyUI", "React Icons", "React-Toastify"],
+    links: {
+      live: "https://rashedul-islam.vercel.app",
+      github: "https://github.com/rashedulraha/Md-Rashedul-Islam",
+    },
+    metric: "Lifecycle Tracking",
+  },
+  {
+    title: "Tech Zone",
+    subtitle: "Online tech shop",
+    description:
+      "Tech Zone is an online shop specializing in a wide range of electronic devices, computer components, and tech accessories. The store offers competitive pricing on the latest smartphones, laptops, gaming equipment, and smart home gadgets from leading brands. Customers can browse inventory, view detailed product specifications, and make secure purchases through the Tech Zone online store platform.",
+    icon: <FaOdnoklassnikiSquare className="text-gray-500 h-6 w-6" />,
+    tech: ["Firebase", "RBAC", "DaisyUI", "React Icons", "React-Toastify"],
+    links: {
+      live: "https://tech-zone-client-six.vercel.app",
+      github: "https://github.com/rashedulraha/tech-zone-client",
     },
     metric: "Lifecycle Tracking",
   },
