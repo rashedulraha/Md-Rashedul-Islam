@@ -18,7 +18,6 @@ const links = [
   { title: "Tech Stack", to: "/stack" },
   { title: "Experience", to: "/experience" },
   { title: "About", to: "/about" },
-  { title: "Contact", to: "/contact" },
 ];
 
 export default function Navbar() {

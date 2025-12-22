@@ -12,6 +12,7 @@ import {
   Boxes,
   InfinityIcon,
   ExternalLink,
+  Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +24,7 @@ import {
 
 import { FaFacebook, FaGithub, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 export default function HeroBanner() {
   // Social Links Configuration
@@ -128,7 +130,7 @@ export default function HeroBanner() {
             Turning complex backend logic and pixel-perfect designs into
             seamless user experiences using the latest web technologies.
           </p>
-          <div className="pt-2 w-full sm:w-auto">
+          <div className="pt-2 w-full sm:w-auto space-y-5 space-x-5">
             <Button
               asChild
               size="lg"
@@ -137,6 +139,16 @@ export default function HeroBanner() {
                 Download Resume <ExternalLink className="w-4 h-4 ml-2" />
               </a>
             </Button>
+            <Link to={"/contact"}>
+              <Button
+                asChild
+                size="lg"
+                className="w-full sm:w-auto px-10 font-bold hover:shadow-md hover:shadow-primary/10 rounded transition-all active:scale-95">
+                <a href="/Md-Rasheduli-Islam.pdf" download>
+                  Email me <Mail className="w-4 h-4 ml-2" />
+                </a>
+              </Button>
+            </Link>
           </div>
         </div>
 
