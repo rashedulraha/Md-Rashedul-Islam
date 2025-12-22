@@ -90,7 +90,7 @@ export default function Contact() {
               ].map((item, idx) => (
                 <div
                   key={idx}
-                  className="group flex items-center gap-5 p-5 rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl hover:border-primary/50 transition-all duration-300">
+                  className="group flex items-center gap-5 p-5 rounded border border-border/50 bg-card/40 backdrop-blur-xl hover:border-primary/50 transition-all duration-300">
                   <div
                     className={`p-3 rounded-xl bg-background border border-border group-hover:scale-110 transition-transform ${item.color}`}>
                     {item.icon}
@@ -111,7 +111,7 @@ export default function Contact() {
                 <a
                   key={i}
                   href="#"
-                  className="h-12 w-12 flex items-center justify-center rounded-xl bg-card border border-border hover:border-primary/50 hover:text-primary transition-all active:scale-90 shadow-sm">
+                  className="h-12 w-12 flex items-center justify-center rounded bg-card border border-border hover:border-primary/50 hover:text-primary transition-all active:scale-90 shadow-sm">
                   <Icon className="w-5 h-5" />
                 </a>
               ))}
@@ -124,7 +124,7 @@ export default function Contact() {
               {/* Background Glow Effect */}
               <div className="absolute -inset-1 bg-linear-to-r from-primary/30 to-blue-500/30 rounded-4xl blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
 
-              <div className="relative p-8 sm:p-12 rounded-4xl border border-border/50 bg-card/60 backdrop-blur-2xl shadow-2xl">
+              <div className="relative p-8 sm:p-12 rounded border border-border/50 bg-card/60 backdrop-blur-2xl shadow-2xl">
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -140,10 +140,10 @@ export default function Contact() {
                             </FormLabel>
                             <FormControl>
                               <div className="group relative">
-                                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                                <User className="absolute left-4 top-4.5 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                                 <Input
                                   placeholder="Rashed Islam"
-                                  className="pl-12 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded-xl h-14"
+                                  className="pl-12 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded "
                                   {...field}
                                 />
                               </div>
@@ -162,10 +162,10 @@ export default function Contact() {
                             </FormLabel>
                             <FormControl>
                               <div className="group relative">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                                <Mail className="absolute left-4 top-4.5 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                                 <Input
                                   placeholder="rashed@example.com"
-                                  className="pl-12 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded-xl h-14"
+                                  className="pl-12 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded"
                                   {...field}
                                 />
                               </div>
@@ -186,10 +186,10 @@ export default function Contact() {
                           </FormLabel>
                           <FormControl>
                             <div className="group relative">
-                              <MessageSquare className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                              <MessageSquare className="absolute left-4 top-4.5 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                               <Input
                                 placeholder="Project Cooperation"
-                                className="pl-12 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded-xl h-14"
+                                className="pl-12 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded "
                                 {...field}
                               />
                             </div>
@@ -210,7 +210,7 @@ export default function Contact() {
                           <FormControl>
                             <Textarea
                               placeholder="I'd like to talk about..."
-                              className="min-h-40 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded-2xl p-5 resize-none leading-relaxed"
+                              className="min-h-40 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded p-5 resize-none leading-relaxed"
                               {...field}
                             />
                           </FormControl>
@@ -219,10 +219,7 @@ export default function Contact() {
                       )}
                     />
 
-                    <Button
-                      type="submit"
-                      size="lg"
-                      className="w-full rounded-2xl h-16 font-black uppercase tracking-[0.2em] gap-3 bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 transition-all active:scale-[0.98]">
+                    <Button type="submit" size="lg" className="rounded w-full">
                       Send Transmission <Send className="w-4 h-4" />
                     </Button>
                   </form>
