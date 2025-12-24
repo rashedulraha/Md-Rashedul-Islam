@@ -98,7 +98,7 @@ export default function About() {
                 // System.Profile_Overview
               </h2>
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tighter uppercase leading-tight">
-                I Build <span className="text-primary italic">Scalable</span>{" "}
+                I Build <span className="text-primary italic">Scalable</span>
                 Digital Products.
               </h1>
               <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
