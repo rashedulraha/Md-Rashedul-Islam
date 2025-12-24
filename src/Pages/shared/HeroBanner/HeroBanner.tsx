@@ -115,7 +115,7 @@ export default function HeroBanner() {
   ];
 
   return (
-    <section className="relative z-10 max-w-7xl mx-auto  px-4 pt-10 md:pt-14 pb-16 lg:py-20">
+    <section className="relative z-10 pt-28 pb-16 px-6 md:px-10 max-w-7xl mx-auto">
       <div className="grid grid-cols-12 items-center gap-y-12 lg:gap-8">
         {/* LEFT: Intro Section */}
         <div className="col-span-12 lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">

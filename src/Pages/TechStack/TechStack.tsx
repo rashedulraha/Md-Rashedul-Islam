@@ -56,7 +56,7 @@ export default function TechStack() {
         <Animation />
       </div>
 
-      <main className="relative z-10 flex flex-col items-center px-6 pt-28 pb-16 md:pt-32 max-w-7xl mx-auto">
+      <main className="relative z-10 pt-28 pb-16 px-6 md:px-10 max-w-7xl mx-auto">
         <div className="max-w-5xl w-full">
           {/* Header */}
           <div className="text-center mb-16 animate-in fade-in slide-in-from-top duration-700">

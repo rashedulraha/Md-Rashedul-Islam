@@ -42,7 +42,7 @@ export default function About() {
         <Animation />
       </div>
 
-      <main className="relative z-10 h-screen pt-16 pb-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
+      <main className="relative z-10 pt-28 pb-16 px-6 md:px-10 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center h-full">
           {/* LEFT: Image Section */}
           <div className="col-span-12 lg:col-span-5 space-y-2">
