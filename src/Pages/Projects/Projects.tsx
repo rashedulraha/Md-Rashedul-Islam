@@ -4,100 +4,15 @@ import Navbar from "../shared/Navbar/Navbar";
 import Animation from "@/components/Animation/Animation";
 import { Badge } from "@/components/ui/badge";
 import { FaGithub } from "react-icons/fa";
+import type { Project } from "@/Routes/Types/Particle";
 
-const projects = [
-  {
-    title: "Blood Bridge",
-    subtitle: "MERN Blood Donation Platform",
-    description:
-      "A comprehensive role-based system for donors and volunteers. Integrated Stripe for funding and complex filtering for donor locations.",
-    image: "https://i.ibb.co.com/S7y6HxsM/piture-one.png",
-    tech: ["React", "Node.js", "MongoDB", "Stripe", "TanStack Query"],
-    links: {
-      live: "https://bloodbond-red.vercel.app/",
-      github: "https://github.com/rashedulraha/BloodBond-Client",
-    },
-    metric: "Role-Based RBAC",
-  },
-  {
-    title: "Sharebite",
-    subtitle: "Community Food Sharing",
-    description:
-      "Community-driven marketplace for surplus food. Features real-time request tracking and Firebase secure authentication.",
-    image: "https://i.ibb.co/Z8PzGzX/sharebite.jpg",
-    tech: ["React", "Firebase", "Axios", "AOS", "Tailwind"],
-    links: {
-      live: "https://share-bite-client-jet.vercel.app",
-      github: "https://github.com/rashedulraha/Share-bite-client",
-    },
-    metric: "Real-time CRUD",
-  },
-  {
-    title: "ParcelTrack",
-    subtitle: "Logistics & Delivery System",
-    description:
-      "Full-stack logistics platform with automated routing and real-time delivery lifecycle management for Riders and Admins.",
-    image: "https://i.ibb.co/MNp4Xf6/parcel.jpg",
-    tech: ["Node.js", "Express", "Firebase", "RBAC", "DaisyUI"],
-    links: {
-      live: "https://go-deliver-client.vercel.app",
-      github: "https://github.com/rashedulraha/GoDeliver-Client",
-    },
-    metric: "Lifecycle Tracking",
-  },
-  {
-    title: "Baby Shope",
-    subtitle: "Online Baby Essentials",
-    description:
-      "A digital retail platform specializing in baby gear. Features product reviews, category filtering, and secure checkout simulation.",
-    image: "https://i.ibb.co/Qv6Ym9X/baby.jpg",
-    tech: ["Firebase", "RBAC", "DaisyUI", "React"],
-    links: {
-      live: "https://baby-buzz.vercel.app",
-      github: "https://github.com/rashedulraha/Baby-Buzz",
-    },
-    metric: "E-commerce Flow",
-  },
-  {
-    title: "Home Decor",
-    subtitle: "Interior & Furniture Shop",
-    description:
-      "Curated assortment of stylish furniture. Focuses on aesthetic UI, smooth animations, and product catalog management.",
-    image: "https://i.ibb.co/Xz9LzH6/home.jpg",
-    tech: ["Firebase", "React Icons", "React-Toastify", "Tailwind"],
-    links: {
-      live: "https://home-decor-rashedul-islam.netlify.app",
-      github: "https://github.com/rashedulraha/home-decor",
-    },
-    metric: "UI/UX Driven",
-  },
-  {
-    title: "Rashedul Islam",
-    subtitle: "Personal Portfolio",
-    description:
-      "A professional showcase of skills and achievements. Built with high-performance components and optimized SEO techniques.",
-    image: "https://i.ibb.co/Yy0Xm4Y/portfolio.jpg",
-    tech: ["Next.js", "Framer Motion", "Lucide", "Tailwind"],
-    links: {
-      live: "https://rashedul-islam.vercel.app",
-      github: "https://github.com/rashedulraha/Md-Rashedul-Islam",
-    },
-    metric: "Performance Optimized",
-  },
-  {
-    title: "Tech Zone",
-    subtitle: "Modern Tech Retailer",
-    description:
-      "Specializing in electronic devices and gadgets. Includes detailed specifications, search functionality, and secure UI for tech enthusiasts.",
-    image: "https://i.ibb.co/Wp8Xz9G/tech.jpg",
-    tech: ["Firebase", "RBAC", "DaisyUI", "React"],
-    links: {
-      live: "https://tech-zone-client-six.vercel.app",
-      github: "https://github.com/rashedulraha/tech-zone-client",
-    },
-    metric: "Inventory Management",
-  },
-];
+//!  get data to public json file
+const loadProjects = async () => {
+  const res = await fetch("/projects.json");
+  const json = await res.json();
+  return json;
+};
+const data = await loadProjects();
 
 export default function Projects() {
   return (
@@ -130,7 +45,7 @@ export default function Projects() {
             <div className="flex flex-col gap-2 font-mono text-[10px] text-muted-foreground items-center">
               <div className="flex items-center gap-2">
                 <div className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                <span>DEPLOYED_APPS: {projects.length}</span>
+                <span>DEPLOYED_APPS: {data.length}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="h-1.5 w-1.5 rounded-full bg-primary/50" />
@@ -141,7 +56,7 @@ export default function Projects() {
 
           {/* Mobile Projects Grid */}
           <div className="space-y-6 pb-8">
-            {projects.map((project, index) => (
+            {data.map((project: Project, index: number) => (
               <Card
                 key={index}
                 className="group rounded relative bg-card/10 backdrop-blur-2xl border-border/40 hover:border-primary/40 transition-all duration-500 overflow-hidden shadow-lg">
@@ -250,7 +165,7 @@ export default function Projects() {
             <div className="flex flex-col gap-2 font-mono text-xs text-muted-foreground">
               <div className="flex items-center gap-2">
                 <div className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                <span>DEPLOYED_APPS: {projects.length}</span>
+                <span>DEPLOYED_APPS: {data.length}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="h-1.5 w-1.5 rounded-full bg-primary/50" />
@@ -261,7 +176,7 @@ export default function Projects() {
 
           {/* RIGHT SIDE: Scrollable Projects Cards */}
           <div className="col-span-1 lg:col-span-8 space-y-6 overflow-y-auto max-h-[calc(100vh-180px)] pr-4 custom-scrollbar">
-            {projects.map((project, index) => (
+            {data.map((project: Project, index: number) => (
               <Card
                 key={index}
                 className="group rounded relative bg-card/10 backdrop-blur-2xl border-border/40 hover:border-primary/40 transition-all duration-500 overflow-hidden shadow-xl">

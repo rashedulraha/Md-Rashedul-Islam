@@ -3,39 +3,15 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import Navbar from "../shared/Navbar/Navbar";
 import Animation from "@/components/Animation/Animation";
+import type { EvolutionPhase } from "@/Routes/Types/Particle";
 
-const evolution = [
-  {
-    phase: "01. Phase: Build & Deploy",
-    role: "Independent Full Stack Developer",
-    org: "Open Source / Portfolio",
-    duration: "2025 — PRESENT",
-    description:
-      "Architecting high-performance web applications focusing on the MERN stack. Successfully deployed 1+ full-scale projects with integrated authentication and real-time databases.",
-    stack: ["Next.js", "Zustand", "PostgreSQL", "Prisma"],
-    impact: "99.9% Lighthouse SEO Score",
-  },
-  {
-    phase: "02. Phase: Logic & DSA",
-    role: "Problem Solver",
-    org: "LeetCode / HackerRank",
-    duration: "2024 — 2025",
-    description:
-      "Mastered core Data Structures and Algorithms. Solved 5+ challenges, focusing on Big O optimization and efficient memory management in JavaScript/TypeScript.",
-    stack: ["Data Structures", "Big O", "ES6+", "TS Logic"],
-    impact: "Top 15% Ranking",
-  },
-  {
-    phase: "03. Phase: Foundation",
-    role: "Science",
-    org: "Nazipur Govt collage",
-    duration: "2022 — 2024",
-    description:
-      "I completed my Intermediate education in the Science stream. I have a strong foundation in Physics, Chemistry, and Mathematics. I am skilled in analytical thinking and problem-solving, and I am always eager to learn new concepts and technologies.",
-    stack: ["Physics", "Chemistry", "Mathematics", "Networking"],
-    impact: "4.75+ GPA",
-  },
-];
+//!  get data to public json file
+const loadProjects = async () => {
+  const res = await fetch("/evolution.json");
+  const json = await res.json();
+  return json;
+};
+const data = await loadProjects();
 
 export default function Experience() {
   return (
@@ -83,7 +59,7 @@ export default function Experience() {
 
           {/* RIGHT SIDE: Vertical Timeline Cards */}
           <div className="col-span-1 lg:col-span-8 space-y-4 sm:space-y-5 lg:overflow-y-auto lg:max-h-[70vh] lg:pr-4 custom-scrollbar">
-            {evolution.map((item, index) => (
+            {data.map((item: EvolutionPhase, index: number) => (
               <Card
                 key={index}
                 className="group rounded relative bg-card/20 backdrop-blur-xl border-border/40 p-4 sm:p-5 md:p-6 transition-all hover:bg-primary/3 hover:border-primary/50 overflow-hidden shadow-lg">
