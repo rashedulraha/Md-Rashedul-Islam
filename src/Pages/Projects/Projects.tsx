@@ -135,7 +135,7 @@ export default function Projects() {
             </h1>
           </div>
           <div className="text-left md:text-right font-mono text-[10px] text-muted-foreground bg-primary/5 p-3 rounded border border-primary/10">
-            <p>// TOTAL_REPOS: 03</p>
+            <p>// TOTAL_REPOS: {projects.length}</p>
             <p>// STATUS: PRODUCTION_READY</p>
           </div>
         </div>

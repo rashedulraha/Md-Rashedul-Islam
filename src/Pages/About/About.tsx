@@ -75,17 +75,17 @@ export default function About() {
             </div>
 
             {/* Quick Contact Info */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-xs mx-auto lg:max-w-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-xs mx-auto lg:max-w-sm mt-5">
               <div className="flex items-center gap-2 p-2 rounded bg-card/40 border border-border/40 backdrop-blur-sm">
                 <MapPin className="text-primary w-3 h-3 shrink-0" />
                 <span className="text-[9px] font-mono truncate">
-                  Naogaon, Dhaka
+                  Naogaon, Dhaka ,Bangladesh
                 </span>
               </div>
               <div className="flex items-center gap-2 p-2 rounded bg-card/40 border border-border/40 backdrop-blur-sm">
                 <Mail className="text-primary w-3 h-3 shrink-0" />
                 <span className="text-[9px] font-mono truncate">
-                  rashedulraha.bd
+                  rashedulraha.bd@gmail.com
                 </span>
               </div>
             </div>
