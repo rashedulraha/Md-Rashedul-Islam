@@ -24,7 +24,7 @@ export default function Projects() {
         <Animation />
       </div>
 
-      <main className="relative z-10 pt-24 md:pt-28 pb-16 px-4 sm:px-6 md:px-8 lg:px-10 max-w-7xl mx-auto">
+      <main className="relative z-10 pt-28 pb-16 px-6 md:px-10 max-w-7xl mx-auto">
         {/* Mobile View - Vertical Layout */}
         <div className="block lg:hidden">
           <div className="text-center mb-8 space-y-4">

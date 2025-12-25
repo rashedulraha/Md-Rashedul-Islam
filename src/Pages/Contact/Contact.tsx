@@ -11,8 +11,6 @@ import {
   Briefcase,
 } from "lucide-react";
 
-// alert
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -69,49 +67,50 @@ export default function Contact() {
   ];
 
   return (
-    <div className="relative min-h-screen w-full bg-background overflow-x-hidden">
+    <div className="h-screen w-full bg-background overflow-hidden flex flex-col">
       <Navbar />
 
       <div className="fixed inset-0 z-0">
         <Animation />
       </div>
 
-      <main className="relative z-10 pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-start lg:items-center">
+      <main className="relative z-10 pt-28 pb-16 px-6 md:px-10 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 lg:gap-8 w-full">
           {/* LEFT: Text & Info Section */}
-          <div className="col-span-12 lg:col-span-5 space-y-6 sm:space-y-8 lg:space-y-10">
-            <div className="space-y-4 sm:space-y-6 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-[9px] sm:text-[10px] font-mono tracking-widest text-primary uppercase animate-pulse">
-                <Sparkles className="h-3 w-3" /> Ready to Collaborate
+          <div className="col-span-12 lg:col-span-5 space-y-3 md:space-y-4 lg:space-y-5">
+            <div className="space-y-2 md:space-y-3 text-center lg:text-left">
+              <div className="inline-flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-[8px] md:text-[9px] lg:text-[10px] font-mono tracking-widest text-primary uppercase animate-pulse">
+                <Sparkles className="h-2 w-2 md:h-3 md:w-3" /> Ready to
+                Collaborate
               </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-none text-foreground">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tighter uppercase leading-none text-foreground">
                 Let's <span className="text-primary italic">Talk</span> <br />
                 About Your <span className="text-primary">Idea</span>.
               </h1>
-              <p className="text-muted-foreground text-sm sm:text-base lg:text-lg max-w-md mx-auto lg:mx-0 leading-relaxed">
+              <p className="text-muted-foreground text-xs md:text-sm lg:text-base max-w-md mx-auto lg:mx-0 leading-relaxed">
                 Whether you have a question or just want to say hi, I'll try my
                 best to get back to you!
               </p>
             </div>
 
             {/* Info Cards */}
-            <div className="space-y-3 sm:space-y-4 max-w-md mx-auto lg:mx-0">
+            <div className="space-y-2 md:space-y-3 max-w-md mx-auto lg:mx-0">
               {[
                 {
-                  icon: <Mail className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  icon: <Mail className="w-3 h-3 md:w-4 md:h-4" />,
                   label: "Email",
                   value: "rashedulraha.bd.gmail.com",
                   color: "text-blue-500",
                   href: "mailto:rashedulraha.bd.gmail.com",
                 },
                 {
-                  icon: <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  icon: <Briefcase className="w-3 h-3 md:w-4 md:h-4" />,
                   label: "Profession",
                   value: "Full Stack Developer",
                   color: "text-green-500",
                 },
                 {
-                  icon: <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  icon: <MapPin className="w-3 h-3 md:w-4 md:h-4" />,
                   label: "Location",
                   value: "Naogaon,Rajshahi, Dhaka, Bangladesh",
                   color: "text-red-500",
@@ -120,14 +119,14 @@ export default function Contact() {
                 const CardContent = (
                   <>
                     <div
-                      className={`p-2.5 sm:p-3 rounded-full bg-background border border-border group-hover:scale-110 transition-transform ${item.color}`}>
+                      className={`p-1.5 md:p-2.5 rounded-full bg-background border border-border group-hover:scale-110 transition-transform ${item.color}`}>
                       {item.icon}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[9px] sm:text-[10px] font-mono text-muted-foreground uppercase tracking-[0.2em]">
+                      <p className="text-[8px] md:text-[9px] lg:text-[10px] font-mono text-muted-foreground uppercase tracking-[0.2em]">
                         {item.label}
                       </p>
-                      <p className="text-xs sm:text-sm font-bold truncate">
+                      <p className="text-xs md:text-sm font-bold truncate">
                         {item.value}
                       </p>
                     </div>
@@ -138,13 +137,13 @@ export default function Contact() {
                   <a
                     key={idx}
                     href={item.href}
-                    className="group flex items-center gap-3 sm:gap-5 p-4 sm:p-5 rounded border border-border/50 bg-card/40 backdrop-blur-xl hover:border-primary/50 transition-all duration-300">
+                    className="group flex items-center gap-2 md:gap-3 lg:gap-5 p-2 md:p-3 lg:p-4 rounded border border-border/50 bg-card/40 backdrop-blur-xl hover:border-primary/50 transition-all duration-300">
                     {CardContent}
                   </a>
                 ) : (
                   <div
                     key={idx}
-                    className="group flex items-center gap-3 sm:gap-5 p-4 sm:p-5 rounded border border-border/50 bg-card/40 backdrop-blur-xl hover:border-primary/50 transition-all duration-300">
+                    className="group flex items-center gap-2 md:gap-3 lg:gap-5 p-2 md:p-3 lg:p-4 rounded border border-border/50 bg-card/40 backdrop-blur-xl hover:border-primary/50 transition-all duration-300">
                     {CardContent}
                   </div>
                 );
@@ -152,7 +151,7 @@ export default function Contact() {
             </div>
 
             {/* Social Icons */}
-            <div className="flex justify-center lg:justify-start gap-3 sm:gap-4">
+            <div className="flex justify-center lg:justify-start gap-2 md:gap-3">
               {socialLinks.map(({ Icon, href, label }, i) => (
                 <a
                   key={i}
@@ -160,8 +159,8 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="h-10 w-10 sm:h-12 sm:w-12 flex items-center justify-center rounded bg-card border border-border hover:border-primary/50 hover:text-primary transition-all active:scale-90 shadow-sm">
-                  <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                  className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 flex items-center justify-center rounded bg-card border border-border hover:border-primary/50 hover:text-primary transition-all active:scale-90 shadow-sm">
+                  <Icon className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5" />
                 </a>
               ))}
             </div>
@@ -169,35 +168,35 @@ export default function Contact() {
 
           {/* RIGHT: Modern Form Card */}
           <div className="col-span-12 lg:col-span-7">
-            <div className="relative group">
+            <div className="relative group h-full">
               {/* Background Glow Effect */}
-              <div className="absolute -inset-1 bg-linear-to-r from-primary/30 to-blue-500/30 rounded-3xl sm:rounded-4xl blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+              <div className="absolute -inset-1 bg-linear-to-r from-primary/30 to-blue-500/30 rounded-xl md:rounded-2xl lg:rounded-3xl blur-xl md:blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
 
-              <div className="relative p-6 sm:p-8 lg:p-12 rounded border border-border/50 bg-card/60 backdrop-blur-2xl shadow-2xl">
+              <div className="relative p-3 md:p-4 lg:p-6 xl:p-8 rounded border border-border/50 bg-card/60 backdrop-blur-2xl shadow-2xl h-full flex flex-col">
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-6 sm:space-y-8">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    className="space-y-3 md:space-y-4 lg:space-y-5 flex-1 flex flex-col">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 lg:gap-4">
                       <FormField
                         control={form.control}
                         name="name"
                         render={({ field }) => (
-                          <FormItem className="space-y-2 sm:space-y-3">
-                            <FormLabel className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-primary ml-1">
+                          <FormItem className="space-y-1 md:space-y-2">
+                            <FormLabel className="text-[8px] md:text-[9px] lg:text-[10px] font-mono uppercase tracking-widest text-primary ml-1">
                               Full_Name
                             </FormLabel>
                             <FormControl>
                               <div className="group relative">
-                                <User className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                                <User className="absolute left-2 md:left-3 lg:left-4 top-1/2 -translate-y-1/2 w-3 h-3 md:w-4 md:h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                                 <Input
                                   placeholder="Rashed Islam"
-                                  className="pl-10 sm:pl-12 h-10 sm:h-11 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded text-sm"
+                                  className="pl-8 md:pl-10 lg:pl-12 h-8 md:h-9 lg:h-10 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded text-xs md:text-sm"
                                   {...field}
                                 />
                               </div>
                             </FormControl>
-                            <FormMessage className="text-xs" />
+                            <FormMessage className="text-[10px] md:text-xs" />
                           </FormItem>
                         )}
                       />
@@ -205,21 +204,21 @@ export default function Contact() {
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                          <FormItem className="space-y-2 sm:space-y-3">
-                            <FormLabel className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-primary ml-1">
+                          <FormItem className="space-y-1 md:space-y-2">
+                            <FormLabel className="text-[8px] md:text-[9px] lg:text-[10px] font-mono uppercase tracking-widest text-primary ml-1">
                               Email_Address
                             </FormLabel>
                             <FormControl>
                               <div className="group relative">
-                                <Mail className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                                <Mail className="absolute left-2 md:left-3 lg:left-4 top-1/2 -translate-y-1/2 w-3 h-3 md:w-4 md:h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                                 <Input
                                   placeholder="rashed@example.com"
-                                  className="pl-10 sm:pl-12 h-10 sm:h-11 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded text-sm"
+                                  className="pl-8 md:pl-10 lg:pl-12 h-8 md:h-9 lg:h-10 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded text-xs md:text-sm"
                                   {...field}
                                 />
                               </div>
                             </FormControl>
-                            <FormMessage className="text-xs" />
+                            <FormMessage className="text-[10px] md:text-xs" />
                           </FormItem>
                         )}
                       />
@@ -229,21 +228,21 @@ export default function Contact() {
                       control={form.control}
                       name="subject"
                       render={({ field }) => (
-                        <FormItem className="space-y-2 sm:space-y-3">
-                          <FormLabel className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-primary ml-1">
+                        <FormItem className="space-y-1 md:space-y-2">
+                          <FormLabel className="text-[8px] md:text-[9px] lg:text-[10px] font-mono uppercase tracking-widest text-primary ml-1">
                             Message_Subject
                           </FormLabel>
                           <FormControl>
                             <div className="group relative">
-                              <MessageSquare className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                              <MessageSquare className="absolute left-2 md:left-3 lg:left-4 top-1/2 -translate-y-1/2 w-3 h-3 md:w-4 md:h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                               <Input
                                 placeholder="Project Cooperation"
-                                className="pl-10 sm:pl-12 h-10 sm:h-11 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded text-sm"
+                                className="pl-8 md:pl-10 lg:pl-12 h-8 md:h-9 lg:h-10 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded text-xs md:text-sm"
                                 {...field}
                               />
                             </div>
                           </FormControl>
-                          <FormMessage className="text-xs" />
+                          <FormMessage className="text-[10px] md:text-xs" />
                         </FormItem>
                       )}
                     />
@@ -252,18 +251,18 @@ export default function Contact() {
                       control={form.control}
                       name="message"
                       render={({ field }) => (
-                        <FormItem className="space-y-2 sm:space-y-3">
-                          <FormLabel className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-primary ml-1">
+                        <FormItem className="space-y-1 md:space-y-2 flex-1 flex flex-col">
+                          <FormLabel className="text-[8px] md:text-[9px] lg:text-[10px] font-mono uppercase tracking-widest text-primary ml-1">
                             Detailed_Message
                           </FormLabel>
                           <FormControl>
                             <Textarea
                               placeholder="I'd like to talk about..."
-                              className="min-h-32 sm:min-h-40 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded p-4 sm:p-5 resize-none leading-relaxed text-sm"
+                              className="min-h-20 md:min-h-24 lg:min-h-32 bg-background/50 border-border/60 focus:ring-1 focus:ring-primary rounded p-2 md:p-3 lg:p-4 resize-none leading-relaxed text-xs md:text-sm flex-1"
                               {...field}
                             />
                           </FormControl>
-                          <FormMessage className="text-xs" />
+                          <FormMessage className="text-[10px] md:text-xs" />
                         </FormItem>
                       )}
                     />
@@ -271,8 +270,9 @@ export default function Contact() {
                     <Button
                       type="submit"
                       size="lg"
-                      className="rounded w-full h-11 sm:h-12 text-sm sm:text-base gap-2">
-                      Send Transmission <Send className="w-4 h-4" />
+                      className="rounded w-full h-8 md:h-10 lg:h-11 text-xs md:text-sm lg:text-base gap-1 md:gap-2">
+                      Send Transmission{" "}
+                      <Send className="w-3 h-3 md:w-4 md:h-4" />
                     </Button>
                   </form>
                 </Form>
