@@ -13,6 +13,7 @@ import Navbar from "../shared/Navbar/Navbar";
 import Animation from "@/components/Animation/Animation";
 
 import image from "../../assets/rashedul.jpeg";
+import { Link } from "react-router-dom";
 
 export default function About() {
   const stats = [
@@ -176,12 +177,16 @@ export default function About() {
                   Download Resume <ExternalLink className="w-3 h-3 ml-2" />
                 </a>
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="rounded px-6 font-bold border-primary/20 hover:bg-primary/5 w-full sm:w-auto">
-                Read Blog
-              </Button>
+              <Link to={"/contact"}>
+                <Button
+                  asChild
+                  size="sm"
+                  className="w-full sm:w-auto px-10 font-bold hover:shadow-md hover:shadow-primary/10 rounded transition-all active:scale-95">
+                  <a href="/Md-Rasheduli-Islam.pdf" download>
+                    Email me <Mail className="w-4 h-4 ml-2" />
+                  </a>
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
