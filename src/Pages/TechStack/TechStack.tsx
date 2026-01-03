@@ -48,7 +48,7 @@ const stacks = [
 
 export default function TechStack() {
   return (
-    <div className="relative min-h-screen w-full bg-background overflow-x-hidden">
+    <div className="relative min-h-screen w-full bg-background overflow-x-hidden flex items-center justify-center">
       <Navbar />
 
       {/* Background Animation remains fixed */}

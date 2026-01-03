@@ -58,7 +58,7 @@ export default function About() {
               </div>
 
               {/* Floating Badge */}
-              <div className="absolute -bottom-2 sm:-bottom-3 -right-2 sm:-right-3 bg-card/95 backdrop-blur-xl border border-border p-2 sm:p-3 rounded-xl shadow-lg">
+              <div className="absolute -bottom-2 sm:-bottom-3 -right-2 sm:-right-3 bg-card/95 backdrop-blur-xl border border-border p-2 sm:p-3 rounded shadow-lg">
                 <div className="flex items-center gap-2">
                   <div className="bg-primary/20 p-1.5 sm:p-2 rounded-lg">
                     <User className="text-primary w-4 h-4 sm:w-5 sm:h-5" />
@@ -77,13 +77,13 @@ export default function About() {
 
             {/* Quick Contact Info */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-70 sm:max-w-[320px] md:max-w-90">
-              <div className="flex items-center gap-2 sm:gap-3 p-3 rounded-xl bg-card/60 border border-border/60 backdrop-blur-sm hover:bg-card/80 transition-all">
+              <div className="flex items-center gap-2 sm:gap-3 p-3 rounded bg-card/60 border border-border/60 backdrop-blur-sm hover:bg-card/80 transition-all">
                 <MapPin className="text-primary w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
                 <span className="text-xs sm:text-sm font-mono leading-tight">
                   Naogaon, Dhaka, Bangladesh
                 </span>
               </div>
-              <div className="flex items-center gap-2 sm:gap-3 p-3 rounded-xl bg-card/60 border border-border/60 backdrop-blur-sm hover:bg-card/80 transition-all">
+              <div className="flex items-center gap-2 sm:gap-3 p-3 rounded bg-card/60 border border-border/60 backdrop-blur-sm hover:bg-card/80 transition-all">
                 <Mail className="text-primary w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
                 <span className="text-xs sm:text-sm font-mono leading-tight break-all">
                   rashedulraha.bd@gmail.com
@@ -122,7 +122,7 @@ export default function About() {
               {stats.map((stat, i) => (
                 <div
                   key={i}
-                  className="p-3 sm:p-4 rounded-xl border border-border/40 bg-card/60 backdrop-blur-sm group hover:border-primary/60 hover:bg-card/80 transition-all duration-300">
+                  className="p-3 sm:p-4 rounded border border-border/40 bg-card/60 backdrop-blur-sm group hover:border-primary/60 hover:bg-card/80 transition-all duration-300">
                   <div className="flex items-center gap-1.5 sm:gap-2 mb-2 text-primary">
                     {stat.icon}
                     <span className="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-muted-foreground">
@@ -138,7 +138,7 @@ export default function About() {
 
             {/* Education & Passion */}
             <div className="space-y-3 sm:space-y-4">
-              <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-card/40 border border-border/40 backdrop-blur-sm hover:bg-card/60 transition-all">
+              <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded bg-card/40 border border-border/40 backdrop-blur-sm hover:bg-card/60 transition-all">
                 <div className="bg-primary/10 p-2 sm:p-2.5 rounded-lg shrink-0">
                   <GraduationCap className="text-primary w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
@@ -154,7 +154,7 @@ export default function About() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-card/40 border border-border/40 backdrop-blur-sm hover:bg-card/60 transition-all">
+              <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded bg-card/40 border border-border/40 backdrop-blur-sm hover:bg-card/60 transition-all">
                 <div className="bg-primary/10 p-2 sm:p-2.5 rounded-lg shrink-0">
                   <Code className="text-primary w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
@@ -176,7 +176,7 @@ export default function About() {
               <Button
                 asChild
                 size="lg"
-                className="w-full sm:w-auto px-6 sm:px-8 font-bold hover:shadow-lg hover:shadow-primary/20 rounded-xl transition-all active:scale-95 text-sm sm:text-base">
+                className="w-full sm:w-auto px-6 sm:px-8 font-bold hover:shadow-lg hover:shadow-primary/20 rounded transition-all active:scale-95 text-sm sm:text-base">
                 <a href="/Md-Rasheduli-Islam.pdf" download>
                   Download Resume <ExternalLink className="w-4 h-4 ml-2" />
                 </a>
@@ -185,7 +185,7 @@ export default function About() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="w-full sm:w-auto px-6 sm:px-8 font-bold hover:shadow-lg hover:shadow-primary/10 rounded-xl transition-all active:scale-95 border-primary/20 text-sm sm:text-base">
+                  className="w-full sm:w-auto px-6 sm:px-8 font-bold hover:shadow-lg hover:shadow-primary/10 rounded transition-all active:scale-95 border-primary/20 text-sm sm:text-base">
                   <Mail className="w-4 h-4 mr-2" />
                   Contact Me
                 </Button>
