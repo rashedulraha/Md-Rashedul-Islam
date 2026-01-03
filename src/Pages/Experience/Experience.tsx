@@ -24,7 +24,7 @@ export default function Experience() {
         <Animation />
       </div>
 
-      <main className="relative z-10 pt-28 pb-16 px-6 md:px-10 max-w-7xl mx-auto">
+      <main className="relative z-10 pt-20 sm:pt-24 md:pt-28 pb-8 sm:pb-12 md:pb-16 px-3 sm:px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* LEFT SIDE: Heading & Status */}
           <div className="col-span-1 lg:col-span-4 flex flex-col justify-start lg:justify-center space-y-4 sm:space-y-6 text-center lg:text-left items-center lg:items-start">

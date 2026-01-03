@@ -43,7 +43,7 @@ const socialLinks = [
   },
 ];
 
-//  card info
+// Card info
 const cardInfo = [
   {
     icon: <Mail className="w-4 h-4" />,
@@ -90,47 +90,57 @@ export default function Contact() {
     <div className="relative min-h-screen w-full bg-background overflow-x-hidden flex flex-col">
       <Navbar />
 
+      {/* Background Animation */}
       <div className="fixed inset-0 z-0">
         <Animation />
       </div>
 
-      <main className="relative z-10 pt-28 pb-16 px-6 md:px-10 max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start">
+      <main className="relative z-10 pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* LEFT: Text & Info Section */}
-          <div className="col-span-12 lg:col-span-5 space-y-8 lg:sticky lg:top-32">
+          <div className="col-span-1 lg:col-span-5 space-y-6 sm:space-y-8 lg:sticky lg:top-28">
             <div className="space-y-4 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-[10px] font-mono tracking-widest text-primary uppercase animate-pulse">
-                <Sparkles className="h-3 w-3" /> Ready to Collaborate
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-[10px] font-mono tracking-widest text-primary uppercase">
+                <Sparkles className="h-3 w-3 animate-pulse" />
+                Ready to Collaborate
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-tight text-foreground">
+
+              {/* Title */}
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-tight text-foreground">
                 Let's <span className="text-primary italic">Talk</span> <br />
                 About Your <span className="text-primary">Idea</span>.
               </h1>
-              <p className="text-muted-foreground text-sm md:text-base max-w-md mx-auto lg:mx-0 leading-relaxed">
+
+              {/* Description */}
+              <p className="text-muted-foreground text-sm sm:text-base max-w-md mx-auto lg:mx-0 leading-relaxed">
                 Whether you have a question or just want to say hi, I'll try my
                 best to get back to you!
               </p>
             </div>
 
             {/* Info Cards */}
-            <div className="space-y-4 max-w-md mx-auto lg:mx-0">
+            <div className="space-y-3 sm:space-y-4 max-w-md mx-auto lg:mx-0">
               {cardInfo.map((item, idx) => {
                 const content = (
                   <div
                     key={idx}
-                    className="group flex items-center gap-4 p-4 rounded border border-border/50 bg-card/40 backdrop-blur-xl hover:border-primary/50 transition-all duration-300 w-full">
+                    className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded border border-border/50 bg-card/40 backdrop-blur-xl hover:border-primary/50 hover:bg-card/60 transition-all duration-300 w-full cursor-pointer">
                     <div
-                      className={`p-3 rounded-full bg-background border border-border group-hover:scale-110 transition-transform ${item.color}`}>
+                      className={`p-2.5 sm:p-3 rounded-full bg-background border border-border group-hover:scale-110 transition-transform ${item.color}`}>
                       {item.icon}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
+                      <p className="text-[9px] sm:text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
                         {item.label}
                       </p>
-                      <p className="text-sm font-bold truncate">{item.value}</p>
+                      <p className="text-xs sm:text-sm font-bold truncate text-foreground">
+                        {item.value}
+                      </p>
                     </div>
                   </div>
                 );
+
                 return item.href ? (
                   <a key={idx} href={item.href} className="block">
                     {content}
@@ -143,102 +153,112 @@ export default function Contact() {
           </div>
 
           {/* RIGHT: Form Section */}
-          <div className="col-span-12 lg:col-span-6 xl:col-span-6">
-            <div className="relative p-6 md:p-10 rounded border border-border/50 bg-card/60 backdrop-blur-2xl shadow-2xl">
+          <div className="col-span-1 lg:col-span-6 xl:col-span-6">
+            <div className="relative p-5 sm:p-6 md:p-8 lg:p-10 rounded border border-border/50 bg-card/60 backdrop-blur-2xl shadow-2xl">
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  className="space-y-5 sm:space-y-6">
+                  {/* Name & Email Row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+                    {/* Name Field */}
                     <FormField
                       control={form.control}
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] font-mono uppercase text-primary ">
+                          <FormLabel className="text-[10px] font-mono uppercase text-primary tracking-wider">
                             Full_Name
                           </FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                              <User className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                               <Input
                                 placeholder="Rashed Islam"
-                                className="pl-12 bg-background/50 h-12 rounded"
+                                className="pl-10 sm:pl-12 bg-background/50 h-11 sm:h-12 rounded border-border/50 focus:border-primary/50 transition-colors"
                                 {...field}
                               />
                             </div>
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-xs" />
                         </FormItem>
                       )}
                     />
+
+                    {/* Email Field */}
                     <FormField
                       control={form.control}
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] font-mono uppercase text-primary">
+                          <FormLabel className="text-[10px] font-mono uppercase text-primary tracking-wider">
                             Email
                           </FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                              <Mail className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                               <Input
                                 placeholder="email@example.com"
-                                className="pl-12 bg-background/50 h-12 rounded"
+                                className="pl-10 sm:pl-12 bg-background/50 h-11 sm:h-12 rounded border-border/50 focus:border-primary/50 transition-colors"
                                 {...field}
                               />
                             </div>
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-xs" />
                         </FormItem>
                       )}
                     />
                   </div>
+
+                  {/* Subject Field */}
                   <FormField
                     control={form.control}
                     name="subject"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-[10px] font-mono uppercase text-primary">
+                        <FormLabel className="text-[10px] font-mono uppercase text-primary tracking-wider">
                           Subject
                         </FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <MessageSquare className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                            <MessageSquare className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                             <Input
                               placeholder="Project Inquiry"
-                              className="pl-12 bg-background/50 h-12 rounded"
+                              className="pl-10 sm:pl-12 bg-background/50 h-11 sm:h-12 rounded border-border/50 focus:border-primary/50 transition-colors"
                               {...field}
                             />
                           </div>
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-xs" />
                       </FormItem>
                     )}
                   />
+
+                  {/* Message Field */}
                   <FormField
                     control={form.control}
                     name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-[10px] font-mono uppercase text-primary">
+                        <FormLabel className="text-[10px] font-mono uppercase text-primary tracking-wider">
                           Message
                         </FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="How can I help you?"
-                            className="min-h-37.5 bg-background/50 rounded p-4 resize-none"
+                            className="min-h-37.5 bg-background/50 rounded p-3 sm:p-4 resize-none border-border/50 focus:border-primary/50 transition-colors"
                             {...field}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-xs" />
                       </FormItem>
                     )}
                   />
+
+                  {/* Submit Button */}
                   <Button
                     type="submit"
-                    className="w-full h-14 rounded font-bold uppercase tracking-widest gap-2 text-sm">
+                    className="w-full h-12 sm:h-14 rounded font-bold uppercase tracking-widest gap-2 text-xs sm:text-sm hover:scale-[1.02] transition-transform active:scale-95">
                     Send Transmission <Send className="w-4 h-4" />
                   </Button>
                 </form>
@@ -246,9 +266,9 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* RIGHT: Social Sidebar (Hidden on small, Desktop only) */}
-          <div className="hidden lg:col-span-1 lg:flex flex-col items-center justify-center gap-8">
-            <div className="h-20 w-px bg-linear-to-b from-transparent via-border to-primary" />
+          {/* RIGHT: Social Sidebar (Desktop only) */}
+          <div className="hidden xl:flex xl:col-span-1 flex-col items-center justify-center gap-6">
+            <div className="h-16 w-px bg-linear-to-b from-transparent via-border to-primary" />
             <div className="flex flex-col gap-5">
               {socialLinks.map((social, i) => (
                 <a
@@ -262,13 +282,13 @@ export default function Contact() {
                 </a>
               ))}
             </div>
-            <div className="h-20 w-px bg-linear-to-t from-transparent via-border to-primary" />
+            <div className="h-16 w-px bg-linear-to-t from-transparent via-border to-primary" />
           </div>
 
-          {/* Mobile Social Bar (Visible on small screens) */}
-          <div className="col-span-12 lg:hidden flex justify-center items-center gap-8 pt-4">
-            <div className="h-px w-12 bg-linear-to-r from-transparent to-primary" />
-            <div className="flex gap-6">
+          {/* Mobile Social Bar (Visible on small/medium screens) */}
+          <div className="col-span-1 xl:hidden flex justify-center items-center gap-6 sm:gap-8 pt-6 sm:pt-8">
+            <div className="h-px w-8 sm:w-12 bg-linear-to-r from-transparent to-primary" />
+            <div className="flex gap-5 sm:gap-6">
               {socialLinks.map((social, i) => (
                 <a
                   key={i}
@@ -276,12 +296,12 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.name}
-                  className="text-muted-foreground hover:text-primary transition-transform active:scale-90">
-                  <social.icon size={22} />
+                  className="text-muted-foreground hover:text-primary transition-all hover:scale-110 active:scale-90">
+                  <social.icon size={20} className="sm:w-5.5 sm:h-5.5" />
                 </a>
               ))}
             </div>
-            <div className="h-px w-12 bg-linear-to-l from-transparent to-primary" />
+            <div className="h-px w-8 sm:w-12 bg-linear-to-l from-transparent to-primary" />
           </div>
         </div>
       </main>
