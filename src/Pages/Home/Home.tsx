@@ -8,7 +8,7 @@ const Home = () => {
       <Animation />
       <Navbar />
 
-      <main className="relative z-10 min-h-[calc(100vh-64px)] w-full flex items-center justify-center pt-16 px-4">
+      <main className="relative z-10 min-h-[calc(100vh-64px)] w-full flex items-center justify-center pt-8 md:pt-16 px-4">
         <HeroBanner />
       </main>
     </div>
