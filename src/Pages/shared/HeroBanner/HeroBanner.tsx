@@ -34,7 +34,7 @@ export default function HeroBanner() {
   const skillGroups = skillsGroup;
 
   return (
-    <section className="relative z-10 pt-16 sm:pt-20 md:pt-24 pb-8 sm:pb-12 md:pb-16 px-4 sm:px-6 md:px-8 lg:px-12 max-w-7xl mx-auto overflow-hidden">
+    <section>
       <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-y-8 lg:gap-8">
         {/* LEFT: Intro Section */}
         <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left space-y-4 sm:space-y-6">
