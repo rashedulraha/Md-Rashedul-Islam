@@ -167,7 +167,7 @@ export default function Projects() {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-background text-foreground">
+    <div className="relative min-h-screen w-full bg-background text-foreground container mx-auto">
       {/* Background Animation */}
       <div className="fixed inset-0 z-0">
         <Animation />

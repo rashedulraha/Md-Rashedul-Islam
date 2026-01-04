@@ -1,19 +1,4 @@
-import {
-  Code2,
-  Database,
-  Globe,
-  Layers,
-  Cpu,
-  Smartphone,
-  GitBranch,
-  Terminal,
-  Zap,
-  Search,
-  Boxes,
-  InfinityIcon,
-  ExternalLink,
-  Mail,
-} from "lucide-react";
+import { InfinityIcon, ExternalLink, Mail, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -21,165 +6,146 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 
-import { FaFacebook, FaGithub, FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { skillsGroup, socialData } from "@/Data/HeroBanner/HeroBanner";
 
 export default function HeroBanner() {
-  // Social Links Configuration
-  const socialLinks = [
-    {
-      name: "GitHub",
-      icon: FaGithub,
-      url: "https://github.com/rashedulraha",
-    },
-    {
-      name: "LinkedIn",
-      icon: FaLinkedin,
-      url: "https://www.linkedin.com/in/rashedulraha",
-    },
-    {
-      name: "Twitter",
-      icon: FaXTwitter,
-      url: "https://x.com/rashedulraha",
-    },
-    {
-      name: "Facebook",
-      icon: FaFacebook,
-      url: "https://www.facebook.com/rashedulraha",
-    },
-  ];
+  // Typing animation for the subtitle
+  const [typedText, setTypedText] = useState("");
+  const [textIndex, setTextIndex] = useState(0);
+  const fullText =
+    "Turning complex backend logic and pixel-perfect designs into seamless user experiences using the latest web technologies.";
 
-  const skillGroups = [
-    {
-      name: "React",
-      icon: <Layers className="h-5 w-5 text-sky-500" />,
-      level: "Expert",
-    },
-    {
-      name: "JS",
-      icon: <Code2 className="h-5 w-5 text-amber-500" />,
-      level: "Advanced",
-    },
-    {
-      name: "TS",
-      icon: <Terminal className="h-5 w-5 text-blue-600" />,
-      level: "Advanced",
-    },
-    {
-      name: "Next.js",
-      icon: <Globe className="h-5 w-5 text-foreground" />,
-      level: "Intermediate",
-    },
-    {
-      name: "Query",
-      icon: <Zap className="h-5 w-5 text-orange-500" />,
-      level: "Tanstack Query",
-    },
-    {
-      name: "Node.js",
-      icon: <Cpu className="h-5 w-5 text-emerald-600" />,
-      level: "Backend",
-    },
-    {
-      name: "MongoDB",
-      icon: <Database className="h-5 w-5 text-green-600" />,
-      level: "NoSQL",
-    },
-    {
-      name: "Tailwind",
-      icon: <Smartphone className="h-5 w-5 text-cyan-500" />,
-      level: "Styling",
-    },
-    {
-      name: "Git",
-      icon: <GitBranch className="h-5 w-5 text-orange-700" />,
-      level: "VCS",
-    },
-    {
-      name: "GitHub",
-      icon: <FaGithub className="h-5 w-5 text-muted-foreground" />,
-      level: "Collab",
-    },
-    {
-      name: "Docker",
-      icon: <Boxes className="h-5 w-5 text-blue-700" />,
-      level: "DevOps",
-    },
-    {
-      name: "SEO",
-      icon: <Search className="h-5 w-5 text-pink-600" />,
-      level: "Optimization",
-    },
-  ];
+  useEffect(() => {
+    if (textIndex < fullText.length) {
+      const timeout = setTimeout(() => {
+        setTypedText(fullText.substring(0, textIndex + 1));
+        setTextIndex(textIndex + 1);
+      }, 20);
+      return () => clearTimeout(timeout);
+    }
+  }, [textIndex, fullText]);
+
+  // Social Links Configuration
+  const socialLinks = socialData;
+  const skillGroups = skillsGroup;
 
   return (
-    <section className="relative z-10 pt-20 sm:pt-24 md:pt-28 pb-8 sm:pb-12 md:pb-16  lg:px-8 max-w-7xl mx-auto">
-      <div className="grid grid-cols-12 items-center gap-y-12 lg:gap-8">
+    <section className="relative z-10 pt-16 sm:pt-20 md:pt-24 pb-8 sm:pb-12 md:pb-16 px-4 sm:px-6 md:px-8 lg:px-12 max-w-7xl mx-auto overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-y-8 lg:gap-8">
         {/* LEFT: Intro Section */}
-        <div className="col-span-12 lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-[10px] font-mono tracking-widest text-primary animate-pulse">
-            <InfinityIcon className="h-3 w-3" /> FULL-STACK DEVELOPER
+        <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left space-y-4 sm:space-y-6">
+          <div className="relative">
+            <div className="absolute -inset-1 bg-primary/20 rounded-lg blur opacity-25 animate-pulse"></div>
+            <div className="relative inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-[10px] font-mono tracking-widest text-primary">
+              <InfinityIcon className="h-3 w-3" /> FULL-STACK DEVELOPER
+            </div>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight tracking-tighter text-foreground">
-            Welcome <br className="hidden sm:block" />
-            To My <span className="text-primary italic">World</span>
-          </h1>
-          <p className="max-w-md text-muted-foreground text-sm sm:text-base leading-relaxed">
-            Turning complex backend logic and pixel-perfect designs into
-            seamless user experiences using the latest web technologies.
+
+          <div className="space-y-2 w-full">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight tracking-tighter text-foreground">
+              Welcome <br className="hidden sm:block" />
+              To My <span className="text-primary italic">World</span>
+            </h1>
+            <div className="flex items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm text-muted-foreground">
+              <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-primary shrink-0" />
+              <span className="text-center lg:text-left">
+                Building digital experiences with passion and precision
+              </span>
+            </div>
+          </div>
+
+          <p className="max-w-full sm:max-w-md text-muted-foreground text-sm sm:text-base leading-relaxed h-6">
+            {typedText}
+            <span className="inline-block w-1 h-4 bg-primary ml-1 animate-pulse"></span>
           </p>
-          <div className="pt-2 w-full sm:w-auto space-y-5 space-x-5">
+
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 w-full sm:w-auto">
             <Button
               asChild
               size="lg"
-              className="w-full sm:w-auto px-10 font-bold hover:shadow-md hover:shadow-primary/10 rounded transition-all active:scale-95">
-              <a href="/Md-Rasheduli-Islam.pdf" download>
-                Download Resume <ExternalLink className="w-4 h-4 ml-2" />
+              className="group w-full sm:w-auto px-6 sm:px-8 font-bold hover:shadow-lg hover:shadow-primary/20 rounded-full transition-all active:scale-95">
+              <a
+                href="/Md-Rasheduli-Islam.pdf"
+                download
+                className="flex items-center justify-center gap-2">
+                Download Resume{" "}
+                <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
             </Button>
-            <Link to={"/contact"}>
+            <Link to={"/contact"} className="w-full sm:w-auto">
               <Button
-                asChild
+                variant="outline"
                 size="lg"
-                className="w-full sm:w-auto px-10 font-bold hover:shadow-md hover:shadow-primary/10 rounded transition-all active:scale-95">
-                <a href="/Md-Rasheduli-Islam.pdf" download>
-                  Email me <Mail className="w-4 h-4 ml-2" />
-                </a>
+                className="group w-full sm:w-auto px-6 sm:px-8 font-bold hover:shadow-lg hover:shadow-primary/20 rounded-full transition-all active:scale-95 border-primary/30 hover:bg-primary/10">
+                <span className="flex items-center justify-center gap-2">
+                  Email me{" "}
+                  <Mail className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
               </Button>
             </Link>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-6 pt-4 w-full">
+            <div className="flex -space-x-2">
+              {["React", "Node.js", "TypeScript"].map((tech, i) => (
+                <Badge
+                  key={i}
+                  variant="secondary"
+                  className="px-2 sm:px-3 py-1 bg-background/80 backdrop-blur-sm border border-border/50 text-xs">
+                  {tech}
+                </Badge>
+              ))}
+            </div>
+            <div className="text-xs sm:text-sm text-muted-foreground">
+              <span className="font-semibold text-primary">5+</span> years
+              experience
+            </div>
           </div>
         </div>
 
         {/* MIDDLE: Technical Skills Grid */}
-        <div className="col-span-12 lg:col-span-6">
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-            <TooltipProvider>
-              {skillGroups.map((skill) => (
-                <Tooltip key={skill.name}>
-                  <TooltipTrigger asChild>
-                    <div className="group flex flex-col items-center justify-center p-3 sm:p-4 rounded border border-border/50 bg-card/40 backdrop-blur-md transition-all hover:bg-primary/5 hover:border-primary/40 hover:-translate-y-1 cursor-help shadow-sm">
-                      <div className="p-2 rounded-lg bg-background/80 group-hover:scale-110 transition-transform">
-                        {skill.icon}
+        <div className="lg:col-span-6 w-full">
+          <div className="relative">
+            <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 p-4 sm:p-6 bg-card/40 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-border/30">
+              <TooltipProvider>
+                {skillGroups.map((skill, i) => (
+                  <Tooltip key={skill.name}>
+                    <TooltipTrigger asChild>
+                      <div
+                        className="group flex flex-col items-center justify-center p-2 sm:p-3 md:p-4 rounded-lg sm:rounded-xl border border-border/50 bg-background/60 backdrop-blur-sm transition-all hover:shadow-lg hover:scale-105 cursor-help"
+                        style={{
+                          animationDelay: `${i * 50}ms`,
+                          animation: "fadeIn 0.5s ease-out forwards",
+                          opacity: 0,
+                        }}>
+                        <div className="p-1.5 sm:p-2.5 rounded-lg bg-background group-hover:scale-110 transition-transform shadow-sm">
+                          {skill.icon}
+                        </div>
+                        <span className="mt-1 sm:mt-2 text-[8px] sm:text-[9px] md:text-[10px] font-bold text-muted-foreground uppercase tracking-tighter group-hover:text-primary transition-colors">
+                          {skill.name}
+                        </span>
                       </div>
-                      <span className="mt-2 text-[9px] sm:text-[10px] font-bold text-muted-foreground uppercase tracking-tighter group-hover:text-primary">
-                        {skill.name}
-                      </span>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent className="bg-primary text-primary-foreground font-mono text-[10px]">
-                    {skill.level}
-                  </TooltipContent>
-                </Tooltip>
-              ))}
-            </TooltipProvider>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-card text-card-foreground font-mono text-[10px] border border-border">
+                      <div className="flex flex-col gap-1">
+                        <span className="font-bold">{skill.name}</span>
+                        <span>{skill.level}</span>
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </TooltipProvider>
+            </div>
           </div>
         </div>
 
         {/* RIGHT: Social Sidebar (Hidden on small, Desktop only) */}
         <div className="hidden lg:col-span-1 lg:flex flex-col items-center justify-center gap-8">
-          <div className="h-20 w-px bg-linear-to-b from-transparent via-border to-primary" />
+          <div className="h-20 w-px bg-linear-to-b from-transparent via-border to-primary"></div>
           <div className="flex flex-col gap-5">
             {socialLinks.map((social, i) => (
               <a
@@ -188,18 +154,21 @@ export default function HeroBanner() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.name}
-                className="text-muted-foreground hover:text-primary transition-all hover:scale-125 active:scale-90">
+                className="text-muted-foreground hover:text-primary transition-all hover:scale-125 active:scale-90 relative group">
                 <social.icon size={20} />
+                <span className="absolute -left-8 top-1/2 -translate-y-1/2 bg-primary text-primary-foreground text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  {social.name}
+                </span>
               </a>
             ))}
           </div>
-          <div className="h-20 w-px bg-linear-to-t from-transparent via-border to-primary" />
+          <div className="h-20 w-px bg-linear-to-t from-transparent via-border to-primary"></div>
         </div>
 
         {/* Mobile Social Bar (Visible on small screens) */}
-        <div className="col-span-12 lg:hidden flex justify-center items-center gap-8 pt-4">
-          <div className="h-px w-12 bg-linear-to-r from-transparent to-primary" />
-          <div className="flex gap-6">
+        <div className="col-span-1 lg:hidden flex justify-center items-center gap-4 sm:gap-6 pt-4 w-full">
+          <div className="h-px w-8 sm:w-12 bg-linear-to-r from-transparent to-primary"></div>
+          <div className="flex gap-4 sm:gap-6">
             {socialLinks.map((social, i) => (
               <a
                 key={i}
@@ -207,14 +176,27 @@ export default function HeroBanner() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.name}
-                className="text-muted-foreground hover:text-primary transition-transform active:scale-90">
-                <social.icon size={22} />
+                className="text-muted-foreground hover:text-primary transition-transform active:scale-90 hover:scale-110">
+                <social.icon size={18} />
               </a>
             ))}
           </div>
-          <div className="h-px w-12 bg-linear-to-l from-transparent to-primary" />
+          <div className="h-px w-8 sm:w-12 bg-linear-to-l from-transparent to-primary"></div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </section>
   );
 }
