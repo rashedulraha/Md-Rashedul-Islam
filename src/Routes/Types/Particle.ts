@@ -24,6 +24,7 @@ export interface Project {
 
 //
 export interface EvolutionPhase {
+  link: string;
   phase: string;
   role: string;
   org: string;
