@@ -58,12 +58,12 @@ export default function HeroBanner() {
             </div>
           </div>
 
-          <p className="max-w-full sm:max-w-md text-muted-foreground text-sm sm:text-base leading-relaxed h-6">
+          <p className="max-w-full sm:max-w-md text-muted-foreground text-sm sm:text-base leading-relaxed h-8">
             {typedText}
             <span className="inline-block w-1 h-4 bg-primary ml-1 animate-pulse"></span>
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 w-full sm:w-auto">
+          <div className="flex flex-col mt-5 md:mt-0 sm:flex-row gap-3 sm:gap-4 pt-2 w-full sm:w-auto">
             <Button
               asChild
               size="lg"
@@ -101,7 +101,7 @@ export default function HeroBanner() {
               ))}
             </div>
             <div className="text-xs sm:text-sm text-muted-foreground">
-              <span className="font-semibold text-primary">5+</span> years
+              <span className="font-semibold text-primary">2+</span> years
               experience
             </div>
           </div>

@@ -70,7 +70,7 @@ export default function TechStack() {
             <div className="mt-6 flex justify-center gap-4 sm:gap-6">
               <div className="text-center">
                 <p className="text-2xl sm:text-3xl font-bold text-primary">
-                  3+
+                  2+
                 </p>
                 <p className="text-xs sm:text-sm text-muted-foreground">
                   Years Experience
