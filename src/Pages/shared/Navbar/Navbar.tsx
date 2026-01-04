@@ -111,7 +111,6 @@ export default function Navbar() {
                             : "text-muted-foreground hover:bg-muted/50"
                         )}>
                         <Button className="w-full rounded" variant={"outline"}>
-                          {" "}
                           {link.title}
                         </Button>
                       </Link>
@@ -121,7 +120,6 @@ export default function Navbar() {
                   {/* Mobile Contact Button (Bottom of drawer) */}
                   <div className="mt-auto pt-6">
                     <Button
-                      asChild
                       className="w-full  rounded bg-primary text-primary-foreground gap-2"
                       onClick={() => setIsOpen(false)}>
                       <Link to="/contact">
