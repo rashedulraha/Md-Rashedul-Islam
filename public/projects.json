@@ -1,86 +1,163 @@
 [
   {
+    "id": "1",
     "title": "Blood Bridge",
     "subtitle": "MERN Blood Donation Platform",
     "description": "A comprehensive role-based system for donors and volunteers. Integrated Stripe for funding and complex filtering for donor locations.",
     "image": "https://i.ibb.co.com/S7y6HxsM/piture-one.png",
+    "category": "fullstack",
+    "status": "live",
     "tech": ["React", "Node.js", "MongoDB", "Stripe", "TanStack Query"],
     "links": {
       "live": "https://bloodbond-red.vercel.app/",
       "github": "https://github.com/rashedulraha/BloodBond-Client"
     },
+    "views": 1250,
+    "rating": 4.8,
+    "complexity": "advanced",
+    "duration": "3 months",
+    "date": "2023-06-15",
+    "tags": ["healthcare", "donation", "stripe", "rbac"],
+    "teamSize": 4,
+    "contributions": 120,
     "metric": "Role-Based RBAC"
   },
   {
+    "id": "2",
     "title": "Sharebite",
     "subtitle": "Community Food Sharing",
     "description": "Community-driven marketplace for surplus food. Features real-time request tracking and Firebase secure authentication.",
     "image": "https://i.ibb.co.com/GvQykv8K/fsdfsaf.png",
+    "category": "web",
+    "status": "live",
     "tech": ["React", "Firebase", "Axios", "AOS", "Tailwind"],
     "links": {
       "live": "https://share-bite-client-jet.vercel.app",
       "github": "https://github.com/rashedulraha/Share-bite-client"
     },
+    "views": 980,
+    "rating": 4.5,
+    "complexity": "intermediate",
+    "duration": "2 months",
+    "date": "2023-04-20",
+    "tags": ["community", "food", "firebase", "realtime"],
+    "teamSize": 3,
+    "contributions": 85,
     "metric": "Real-time CRUD"
   },
   {
+    "id": "3",
     "title": "ParcelTrack",
     "subtitle": "Logistics & Delivery System",
     "description": "Full-stack logistics platform with automated routing and real-time delivery lifecycle management for Riders and Admins.",
     "image": "https://i.ibb.co.com/21q1NGpg/fasfd.png",
+    "category": "fullstack",
+    "status": "live",
     "tech": ["Node.js", "Express", "Firebase", "RBAC", "DaisyUI"],
     "links": {
       "live": "https://go-deliver-client.vercel.app",
       "github": "https://github.com/rashedulraha/GoDeliver-Client"
     },
+    "views": 1500,
+    "rating": 4.7,
+    "complexity": "advanced",
+    "duration": "4 months",
+    "date": "2023-02-10",
+    "tags": ["logistics", "delivery", "tracking", "rbac"],
+    "teamSize": 5,
+    "contributions": 200,
     "metric": "Lifecycle Tracking"
   },
   {
+    "id": "4",
     "title": "Baby Shope",
     "subtitle": "Online Baby Essentials",
     "description": "A digital retail platform specializing in baby gear. Features product reviews, category filtering, and secure checkout simulation.",
     "image": "https://i.ibb.co/Qv6Ym9X/baby.jpg",
+    "category": "web",
+    "status": "live",
     "tech": ["Firebase", "RBAC", "DaisyUI", "React"],
     "links": {
       "live": "https://baby-buzz.vercel.app",
       "github": "https://github.com/rashedulraha/Baby-Buzz"
     },
+    "views": 750,
+    "rating": 4.3,
+    "complexity": "intermediate",
+    "duration": "1.5 months",
+    "date": "2023-03-25",
+    "tags": ["ecommerce", "baby", "retail", "firebase"],
+    "teamSize": 2,
+    "contributions": 60,
     "metric": "E-commerce Flow"
   },
   {
+    "id": "5",
     "title": "Home Decor",
     "subtitle": "Interior & Furniture Shop",
     "description": "Curated assortment of stylish furniture. Focuses on aesthetic UI, smooth animations, and product catalog management.",
     "image": "https://i.ibb.co/Xz9LzH6/home.jpg",
+    "category": "web",
+    "status": "live",
     "tech": ["Firebase", "React Icons", "React-Toastify", "Tailwind"],
     "links": {
       "live": "https://home-decor-rashedul-islam.netlify.app",
       "github": "https://github.com/rashedulraha/home-decor"
     },
+    "views": 620,
+    "rating": 4.6,
+    "complexity": "beginner",
+    "duration": "1 month",
+    "date": "2023-05-10",
+    "tags": ["interior", "furniture", "ui", "catalog"],
+    "teamSize": 2,
+    "contributions": 45,
     "metric": "UI/UX Driven"
   },
   {
+    "id": "6",
     "title": "Rashedul Islam",
     "subtitle": "Personal Portfolio",
     "description": "A professional showcase of skills and achievements. Built with high-performance components and optimized SEO techniques.",
     "image": "https://i.ibb.co/Yy0Xm4Y/portfolio.jpg",
+    "category": "web",
+    "status": "live",
     "tech": ["Next.js", "Framer Motion", "Lucide", "Tailwind"],
     "links": {
       "live": "https://rashedul-islam.vercel.app",
       "github": "https://github.com/rashedulraha/Md-Rashedul-Islam"
     },
+    "views": 2100,
+    "rating": 4.9,
+    "complexity": "intermediate",
+    "duration": "1 month",
+    "date": "2023-07-01",
+    "tags": ["portfolio", "personal", "nextjs", "performance"],
+    "teamSize": 1,
+    "contributions": 30,
     "metric": "Performance Optimized"
   },
   {
+    "id": "7",
     "title": "Tech Zone",
     "subtitle": "Modern Tech Retailer",
     "description": "Specializing in electronic devices and gadgets. Includes detailed specifications, search functionality, and secure UI for tech enthusiasts.",
     "image": "https://i.ibb.co/Wp8Xz9G/tech.jpg",
+    "category": "web",
+    "status": "live",
     "tech": ["Firebase", "RBAC", "DaisyUI", "React"],
     "links": {
       "live": "https://tech-zone-client-six.vercel.app",
       "github": "https://github.com/rashedulraha/tech-zone-client"
     },
+    "views": 890,
+    "rating": 4.4,
+    "complexity": "intermediate",
+    "duration": "2 months",
+    "date": "2023-01-15",
+    "tags": ["tech", "electronics", "retail", "inventory"],
+    "teamSize": 3,
+    "contributions": 75,
     "metric": "Inventory Management"
   }
 ]

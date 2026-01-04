@@ -81,13 +81,12 @@ export default function About() {
                 // System.Profile_Overview
               </h2>
               <h1 className="text-3xl font-black tracking-tighter uppercase leading-tight">
-                I Build <span className="text-primary italic">Scalable</span>{" "}
+                I Build <span className="text-primary italic">Scalable</span>
                 Digital Products.
               </h1>
               <p className="text-muted-foreground text-sm leading-relaxed">
                 Hi, I'm
                 <span className="text-foreground font-bold">
-                  {" "}
                   Rashedul Islam
                 </span>
                 , a Full-Stack Developer passionate about turning complex
@@ -276,7 +275,7 @@ export default function About() {
                     // System.Profile_Overview
                   </h2>
                   <h1 className="text-4xl lg:text-5xl font-black tracking-tighter uppercase leading-tight">
-                    I Build{" "}
+                    I Build
                     <span className="text-primary italic">Scalable</span>
                     <br />
                     Digital Products.
@@ -284,7 +283,6 @@ export default function About() {
                   <p className="text-muted-foreground text-base lg:text-lg leading-relaxed">
                     Hi, I'm
                     <span className="text-foreground font-bold">
-                      {" "}
                       Rashedul Islam
                     </span>
                     , a Full-Stack Developer passionate about turning complex
@@ -447,7 +445,7 @@ export default function About() {
                       size="lg"
                       className="px-8 font-bold hover:shadow-lg hover:shadow-primary/20 rounded-lg transition-all active:scale-95">
                       <a href="/Md-Rasheduli-Islam.pdf" download>
-                        Download Resume{" "}
+                        Download Resume
                         <ExternalLink className="w-4 h-4 ml-2" />
                       </a>
                     </Button>
