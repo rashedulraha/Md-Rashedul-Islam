@@ -58,7 +58,7 @@ export default function Experience() {
               <h2 className="text-primary font-mono text-[10px] sm:text-xs tracking-[0.3em] sm:tracking-[0.5em] uppercase">
                 Log_History
               </h2>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase leading-none">
+              <h1 className="text-4xl lg:text-5xl font-black tracking-tighter uppercase leading-tight">
                 Technical <br />{" "}
                 <span className="text-primary italic">Evolution</span>
               </h1>

@@ -21,7 +21,7 @@ export default function TechStack() {
             <h2 className="text-primary font-mono tracking-[0.3em] text-[10px] sm:text-xs uppercase mb-3">
               Technical Inventory
             </h2>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-foreground uppercase italic leading-none">
+            <h1 className="text-4xl lg:text-5xl font-black tracking-tighter uppercase leading-tight">
               My <span className="text-primary">Tech</span> Ecosystem
             </h1>
           </div>
