@@ -13,6 +13,11 @@ import Animation from "@/components/Animation/Animation";
 import image from "../../assets/rashedul.jpeg";
 import { Link } from "react-router-dom";
 import { aboutData, Details } from "@/Data/AboutData/AboutData";
+import { Colors, Skills, SkillsSet } from "@/Data/Skills/Skills";
+
+const TechnicalSkills = Skills;
+const skillColors = Colors;
+const TechnicalSet = SkillsSet;
 
 export default function About() {
   const stats = aboutData;
@@ -182,17 +187,7 @@ export default function About() {
                       Technical Skills
                     </h4>
                     <div className="flex flex-wrap gap-1.5">
-                      {[
-                        "React",
-                        "Next.js",
-                        "TypeScript",
-                        "Node.js",
-                        "Express",
-                        "MongoDB",
-                        "Tailwind",
-                        "Git",
-                        "REST APIs",
-                      ].map((skill, index) => (
+                      {TechnicalSet.map((skill, index) => (
                         <span
                           key={index}
                           className="px-2 py-1 text-[10px] bg-background/50 border border-border rounded-full">
@@ -408,26 +403,14 @@ export default function About() {
                           Technical Skills
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                          {[
-                            "React",
-                            "Next.js",
-                            "TypeScript",
-                            "Node.js",
-                            "Express",
-                            "MongoDB",
-                            "Tailwind CSS",
-                            "Git",
-                            "GitHub",
-                            "REST APIs",
-                            "HTML/CSS",
-                            "JavaScript",
-                            "Redux",
-                            "JWT",
-                            "Firebase",
-                          ].map((skill, index) => (
+                          {TechnicalSkills.map((skill, index) => (
                             <span
                               key={index}
-                              className="px-3 py-1.5 text-xs bg-background/50 border border-border rounded-full hover:border-primary/50 hover:text-primary transition-colors">
+                              className={`px-3 py-1.5 text-xs border border-border rounded-full hover:border-primary/50 hover:text-primary transition-colors${
+                                skillColors[
+                                  skill as keyof typeof skillColors
+                                ] || "bg-background/50 text-foreground/70"
+                              }`}>
                               {skill}
                             </span>
                           ))}

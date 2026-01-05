@@ -33,6 +33,14 @@ export default function HeroBanner() {
   const socialLinks = socialData;
   const skillGroups = skillsGroup;
 
+  // top language
+  const techColors = {
+    "Next.js": "bg-gray-500/20 text-gray-300",
+    "Node.js": "bg-green-500/20 text-green-400",
+    TypeScript: "bg-blue-500/20 text-blue-400",
+    Go: "bg-sky-500/20 text-sky-400",
+  };
+
   return (
     <section>
       <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-y-8 lg:gap-8">
@@ -91,14 +99,16 @@ export default function HeroBanner() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-6 pt-4 w-full">
             <div className="flex -space-x-2">
-              {["React", "Node.js", "TypeScript"].map((tech, i) => (
-                <Badge
-                  key={i}
-                  variant="secondary"
-                  className="px-2 sm:px-3 py-1 bg-background/80 backdrop-blur-sm border border-border/50 text-xs">
-                  {tech}
-                </Badge>
-              ))}
+              {(["Next.js", "Node.js", "TypeScript", "Go"] as const).map(
+                (tech, i) => (
+                  <Badge
+                    key={i}
+                    variant="secondary"
+                    className={`px-2 sm:px-3 py-1 backdrop-blur-sm border border-border/50 text-xs ${techColors[tech]}`}>
+                    {tech}
+                  </Badge>
+                )
+              )}
             </div>
             <div className="text-xs sm:text-sm text-muted-foreground">
               <span className="font-semibold text-primary">2+</span> years
