@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/modeToggle";
+import Logo from "@/Logo/Logo";
 
 const links = [
   { title: "Home", to: "/" },
@@ -30,9 +31,9 @@ export default function Navbar() {
         {/* Logo Section */}
         <Link
           to="/"
-          className="flex items-center gap-2 group shrink-0 active:scale-95 transition-transform">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 shadow-sm group-hover:bg-primary group-hover:border-primary transition-all">
-            <Cpu className="h-5 w-5 text-primary group-hover:text-primary-foreground transition-colors" />
+          className="flex items-center gap-1 group shrink-0 active:scale-95 transition-transform">
+          <div>
+            <Logo />
           </div>
           <span className="text-lg sm:text-xl font-bold tracking-tighter text-foreground">
             Rashed<span className="text-primary">.</span>Dev
