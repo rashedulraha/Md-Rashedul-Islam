@@ -35,7 +35,7 @@ export default function Navbar() {
           <div>
             <Logo />
           </div>
-          <span className="text-lg sm:text-xl font-bold tracking-tighter text-foreground">
+          <span className="text-lg hidden sm:flex sm:text-xl font-bold tracking-tighter text-foreground">
             Rashed<span className="text-primary">.</span>Dev
           </span>
         </Link>
@@ -121,9 +121,9 @@ export default function Navbar() {
                   {/* Mobile Contact Button (Bottom of drawer) */}
                   <div className="mt-auto pt-6">
                     <Button
-                      className="w-full  rounded bg-primary text-primary-foreground gap-2"
+                      className="w-full flex flex-row  rounded bg-primary text-primary-foreground gap-2"
                       onClick={() => setIsOpen(false)}>
-                      <Link to="/contact">
+                      <Link to="/contact" className="flex gap-2 items-center">
                         Contact Me <Send className="h-4 w-4" />
                       </Link>
                     </Button>

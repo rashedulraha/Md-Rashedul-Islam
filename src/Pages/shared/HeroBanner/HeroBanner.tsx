@@ -35,7 +35,7 @@ export default function HeroBanner() {
 
   // top language
   const techColors = {
-    "Next.js": "bg-gray-500/20 text-gray-300",
+    "Next.js": "bg-gray-500/20 text-gray-500",
     "Node.js": "bg-green-500/20 text-green-400",
     TypeScript: "bg-blue-500/20 text-blue-400",
     Go: "bg-sky-500/20 text-sky-400",
