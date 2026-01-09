@@ -33,3 +33,5 @@ export interface EvolutionPhase {
   stack: string[];
   impact: string;
 }
+
+//!  animation component types
