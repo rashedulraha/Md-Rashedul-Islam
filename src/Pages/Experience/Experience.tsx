@@ -30,7 +30,7 @@ import {
   metricsData,
   skillCategoriesData,
   testimonialsData,
-} from "@/Data/ExperienceData/ExperienceData";
+} from "@/Data/Experience/ExperienceData";
 
 //! get data to public json file
 const loadProjects = async () => {

@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 export const useLenis = () => {
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => t,
-      orientation: "vertical",
       lerp: 0.1,
       smoothWheel: true,
       autoRaf: false,
@@ -21,6 +23,9 @@ export const useLenis = () => {
 
     requestAnimationFrame(raf);
 
-    return () => lenis.destroy();
+    return () => {
+      lenis.destroy();
+      ScrollTrigger.killAll();
+    };
   }, []);
 };
