@@ -92,6 +92,12 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+/* scroll smooth  */
+.inner-scroll {
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

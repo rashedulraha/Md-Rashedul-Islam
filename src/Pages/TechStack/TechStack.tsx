@@ -1,10 +1,14 @@
 import { techData } from "@/Data/TechStack/TechStack";
 import Navbar from "../shared/Navbar/Navbar";
 import Animation from "@/components/Animation/Animation";
+import { useLenis } from "@/Hooks/useLenis";
 
 const stacks = techData;
 
 export default function TechStack() {
+  //!  awesome animation scroll
+  useLenis();
+
   return (
     <div className="relative min-h-screen w-full bg-background overflow-x-hidden flex items-center justify-center">
       <Navbar />

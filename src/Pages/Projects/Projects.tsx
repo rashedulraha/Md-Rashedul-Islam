@@ -24,6 +24,7 @@ import type {
   Project,
   ProjectCategory,
 } from "@/Routes/Types/projectType";
+import { useLenis } from "@/Hooks/useLenis";
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -34,6 +35,9 @@ export default function Projects() {
   const [selectedComplexity, setSelectedComplexity] =
     useState<ComplexityLevel>("all");
   const [loading, setLoading] = useState(true);
+
+  //! awesome scroll animation
+  useLenis();
 
   // Load projects data
   useEffect(() => {
@@ -466,7 +470,9 @@ export default function Projects() {
               </div>
 
               {/* RIGHT SIDE - Scrollable Projects */}
-              <div className="w-3/5 overflow-y-auto custom-scrollbar px-8 py-8">
+              <div
+                className="w-3/5 overflow-y-auto custom-scrollbar px-8 py-8"
+                data-lenis-prevent="false">
                 <div className="max-w-4xl mx-auto">
                   {/* Results Header */}
                   <div className="flex items-center justify-between mb-6">

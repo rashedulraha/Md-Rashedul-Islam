@@ -14,14 +14,69 @@ import image from "../../assets/rashedul.jpeg";
 import { Link } from "react-router-dom";
 import { aboutData, Details } from "@/Data/AboutData/AboutData";
 import { Colors, Skills, SkillsSet } from "@/Data/Skills/Skills";
+import { useLenis } from "@/Hooks/useLenis";
+import { useEffect, useRef } from "react";
 
 const TechnicalSkills = Skills;
 const skillColors = Colors;
 const TechnicalSet = SkillsSet;
 
 export default function About() {
+  // Initialize Lenis for smooth scrolling
+  useLenis();
+
+  // Ref for the scrollable content
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
   const stats = aboutData;
   const aboutDetails = Details;
+
+  // Add custom scrollbar styles and Lenis-specific styles
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.textContent = `
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: hsl(var(--muted) / 0.1);
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: hsl(var(--primary) / 0.3);
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: hsl(var(--primary) / 0.5);
+      }
+      
+      /* Lenis smooth scroll improvements */
+      html.lenis {
+        height: auto;
+      }
+      
+      .lenis-smooth {
+        scroll-behavior: auto !important;
+      }
+      
+      .lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+      }
+      
+      .lenis-stopped {
+        overflow: hidden;
+      }
+      
+      .lenis-scrolling iframe {
+        pointer-events: none;
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   return (
     <div className="relative min-h-screen w-full bg-background">
@@ -34,7 +89,7 @@ export default function About() {
 
       {/* MOBILE/TABLET VIEW: Single column, full page scroll */}
       <div className="md:hidden">
-        <main className="relative z-10 pt-20 pb-8 px-4">
+        <main className="relative z-10 pt-20 pb-8 px-4 lenis-smooth">
           <div className="max-w-4xl mx-auto space-y-8">
             {/* Profile Image for Mobile */}
             <div className="flex flex-col items-center space-y-6">
@@ -261,8 +316,11 @@ export default function About() {
               </div>
             </div>
 
-            {/* RIGHT SIDE: Scrollable Content Section */}
-            <div className="w-3/5 overflow-y-auto h-full custom-scrollbar px-8 py-8">
+            {/* RIGHT SIDE: Scrollable Content Section with Lenis */}
+            <div
+              ref={scrollContainerRef}
+              className="w-3/5 overflow-y-auto h-full custom-scrollbar px-8 py-8 lenis-smooth"
+              data-lenis-prevent="false">
               <div className="max-w-4xl mx-auto space-y-10">
                 {/* Header Section */}
                 <div className="space-y-4">
@@ -286,6 +344,7 @@ export default function About() {
                     between robust backend logic and seamless user experiences.
                   </p>
                 </div>
+
                 {/* Quick Contact Info */}
                 <div className="flex items-center justify-between gap-5">
                   <div className="flex items-center gap-3 p-4 rounded-lg bg-card/60 border border-border/60 backdrop-blur-sm w-full">
