@@ -31,7 +31,7 @@ export default function Navbar() {
         <Link
           to="/"
           className="flex items-center gap-1 group shrink-0 active:scale-95 transition-transform">
-          <span className="text-lg hidden sm:flex sm:text-xl font-bold tracking-tighter text-foreground">
+          <span className="text-lg  sm:text-xl font-bold tracking-tighter text-foreground">
             Rashed<span className="text-primary">.</span>Dev
           </span>
         </Link>
