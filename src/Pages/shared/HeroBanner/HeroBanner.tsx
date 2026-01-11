@@ -54,7 +54,7 @@ export default function HeroBanner() {
           </div>
 
           <div className="space-y-2 w-full">
-            <h1 className="text-4xl lg:text-5xl font-black tracking-tighter uppercase leading-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] uppercase">
               Welcome <br className="hidden sm:block" />
               To My <span className="text-primary italic">World</span>
             </h1>
