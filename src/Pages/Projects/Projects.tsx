@@ -395,9 +395,6 @@ export default function Projects() {
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Featured</p>
-                <p className="font-bold text-lg">
-                  {projects.filter((p) => p.featured).length}
-                </p>
               </div>
             </div>
           </Card>
