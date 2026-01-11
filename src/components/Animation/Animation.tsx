@@ -85,12 +85,31 @@ const Animation: React.FC = () => {
       {/* Base gradient background */}
       <div className="absolute inset-0 bg-linear-to-br from-background via-background/95 to-background" />
 
-      {/* Ultra-subtle grid pattern */}
+      {/* Square Grid Pattern - House-like structure */}
       <div
-        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
+        className="absolute inset-0"
         style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--border)) 1px, transparent 1px)`,
-          backgroundSize: "40px 40px",
+          backgroundImage: `
+            linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+            linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)
+          `,
+          backgroundSize: "30px 30px",
+          backgroundPosition: "-1px -1px",
+          opacity: "0.08",
+        }}
+      />
+
+      {/* Additional subtle grid overlay for depth */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, hsl(var(--muted-foreground) / 0.1) 1px, transparent 1px),
+            linear-gradient(to bottom, hsl(var(--muted-foreground) / 0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: "90px 90px",
+          backgroundPosition: "-1px -1px",
+          opacity: "0.05",
         }}
       />
 
@@ -221,6 +240,65 @@ const Animation: React.FC = () => {
         <div className="absolute inset-0 bg-linear-to-l from-background via-transparent to-background opacity-30" />
         <div className="absolute inset-0 bg-linear-to-r from-background via-transparent to-background opacity-30" />
       </div>
+
+      {/* Add CSS animations */}
+      <style>{`
+        @keyframes floatSlow {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          33% {
+            transform: translateY(-20px) rotate(1deg);
+          }
+          66% {
+            transform: translateY(10px) rotate(-1deg);
+          }
+        }
+
+        @keyframes floatTech {
+          0%,
+          100% {
+            transform: translateY(0px) translateX(0px) rotate(0deg);
+          }
+          25% {
+            transform: translateY(-10px) translateX(5px) rotate(1deg);
+          }
+          50% {
+            transform: translateY(5px) translateX(-5px) rotate(-1deg);
+          }
+          75% {
+            transform: translateY(-5px) translateX(10px) rotate(0.5deg);
+          }
+        }
+
+        @keyframes floatSymbol {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(0deg);
+            opacity: 0.04;
+          }
+          50% {
+            transform: translateY(-15px) rotate(180deg);
+            opacity: 0.08;
+          }
+        }
+
+        @keyframes scan {
+          0% {
+            transform: translateY(0);
+          }
+          100% {
+            transform: translateY(100vh);
+          }
+        }
+
+        .animation-reduced-motion * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      `}</style>
     </div>
   );
 };
