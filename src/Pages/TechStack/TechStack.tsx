@@ -1,157 +1,235 @@
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { techData } from "@/Data/TechStack/TechStack";
 import Navbar from "../shared/Navbar/Navbar";
 import Animation from "@/components/Animation/Animation";
 import { useLenis } from "@/Hooks/useLenis";
-
-const stacks = techData;
+import { ChevronRight, ShieldCheck, Globe, Cpu } from "lucide-react";
 
 export default function TechStack() {
-  //! awesome animation scroll
   useLenis();
-
-  // Function to generate random percentage between 80-85%
-  const getRandomPercentage = () => {
-    // eslint-disable-next-line react-hooks/purity
-    return Math.floor(Math.random() * 6) + 80; // 80 to 85
-  };
+  const [activeTab, setActiveTab] = useState(techData[0].category);
 
   return (
-    <div className="relative min-h-screen w-full bg-background overflow-x-hidden flex items-center justify-center">
+    <div className="relative min-h-screen w-full bg-background text-foreground transition-colors duration-500">
       <Navbar />
 
-      {/* Background Animation remains fixed */}
-      <div className="fixed inset-0 z-0">
+      {/* Subtle Background Animation */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-15">
         <Animation />
       </div>
 
-      <main className="relative z-10 pt-20 sm:pt-24 md:pt-28 pb-8 sm:pb-12 md:pb-16 px-3 sm:px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="max-w-5xl w-full mx-auto">
-          {/* Header */}
-          <div className="text-center mb-12 sm:mb-16 opacity-0 animate-fade-in">
-            <h2 className="text-primary font-mono tracking-[0.3em] text-[10px] sm:text-xs uppercase mb-3">
-              Technical Inventory
-            </h2>
-            <h1 className="text-4xl lg:text-5xl font-black tracking-tighter uppercase leading-tight">
-              My <span className="text-primary">Tech</span> Ecosystem
-            </h1>
-          </div>
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
+        {/* --- HEADER SECTION --- */}
+        <header className="max-w-4xl mb-12 sm:mb-20 space-y-4 sm:space-y-6">
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-3 text-primary font-mono text-[9px] sm:text-[11px] uppercase tracking-[0.4em]">
+            <span className="w-6 sm:w-12 h-[1.5px] bg-primary" />
+            <span>Engineer's Stack // 2026 Edition</span>
+          </motion.div>
 
-          {/* Stacks Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
-            {stacks.map((group, idx) => {
-              // Generate random percentages for each skill in this group
-              const skillPercentages = group.skills.map(() =>
-                getRandomPercentage()
-              );
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] uppercase">
+            Architecture & <br />
+            <span className="text-muted-foreground italic font-serif lowercase font-light">
+              Technical ecosystem.
+            </span>
+          </motion.h1>
 
-              return (
-                <div
-                  key={group.category}
-                  className="space-y-4 sm:space-y-6 opacity-0 animate-fade-in-up"
-                  style={{ animationDelay: `${idx * 150}ms` }}>
-                  <div className="flex items-center gap-3">
-                    <div className="h-px w-8 bg-primary/40" />
-                    <h3 className="text-xs font-bold tracking-[0.2em] text-muted-foreground uppercase">
-                      {group.category}
-                    </h3>
-                  </div>
+          {/* Core Skills Badges for HR */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="flex flex-wrap gap-2 pt-2">
+            {[
+              "System Design",
+              "Clean Architecture",
+              "API Optimization",
+              "Scalable UI",
+            ].map((skill) => (
+              <span
+                key={skill}
+                className="px-3 py-1 text-[9px] font-bold border border-border rounded-full bg-muted/20 text-muted-foreground uppercase tracking-wider">
+                {skill}
+              </span>
+            ))}
+          </motion.div>
+        </header>
 
-                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                    {group.skills.map((skill, skillIdx) => {
-                      const percentage = skillPercentages[skillIdx];
-
-                      return (
-                        <div
-                          key={skill.name}
-                          className="group flex flex-col items-center justify-center p-4 sm:p-5 rounded-lg sm:rounded-xl border border-border/40 bg-card/10 backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:bg-primary/5 hover:-translate-y-1 shadow-sm hover:shadow-md">
-                          <div className="mb-3 transition-transform duration-300 group-hover:scale-110">
-                            {skill.icon}
-                          </div>
-
-                          <span className="text-[10px] sm:text-xs font-bold text-muted-foreground group-hover:text-primary uppercase tracking-tight transition-colors text-center mb-2">
-                            {skill.name}
-                          </span>
-
-                          {/* Progress Bar */}
-                          <div className="w-full">
-                            <div className="flex justify-between items-center mb-1">
-                              <span className="text-[8px] sm:text-[9px] font-bold text-primary">
-                                Proficiency
-                              </span>
-                              <span className="text-[9px] sm:text-[10px] font-bold text-primary">
-                                {percentage}%
-                              </span>
-                            </div>
-
-                            <div className="w-full h-1.5 sm:h-2 bg-muted/30 rounded-full overflow-hidden">
-                              <div
-                                className="h-full bg-primary rounded-full transition-all duration-1000 ease-out"
-                                style={{
-                                  width: `${percentage}%`,
-                                  animation: `fillProgress 1s ease-out forwards`,
-                                }}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Additional info section */}
-          <div
-            className="mt-16 sm:mt-20 text-center opacity-0 animate-fade-in"
-            style={{ animationDelay: "450ms" }}>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
-              Continuously expanding my technical knowledge and staying
-              up-to-date with the latest technologies to build efficient,
-              scalable, and user-friendly applications.
-            </p>
-            <div className="mt-6 flex justify-center gap-4 sm:gap-6">
-              <div className="text-center">
-                <p className="text-2xl sm:text-3xl font-bold text-primary">
-                  2+
-                </p>
-                <p className="text-xs sm:text-sm text-muted-foreground">
-                  Years Experience
-                </p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl sm:text-3xl font-bold text-primary">
-                  20+
-                </p>
-                <p className="text-xs sm:text-sm text-muted-foreground">
-                  Projects Completed
-                </p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl sm:text-3xl font-bold text-primary">
-                  12+
-                </p>
-                <p className="text-xs sm:text-sm text-muted-foreground">
-                  Technologies
-                </p>
-              </div>
-            </div>
+        {/* --- DYNAMIC TABS (Responsive Scrollable) --- */}
+        <div className="sticky top-20 z-20 mb-12 py-2 bg-background/80 backdrop-blur-md">
+          <div className="flex items-center gap-1 p-1 bg-muted/20 border border-border/40 rounded-2xl w-fit overflow-x-auto no-scrollbar max-w-full">
+            {techData.map((group) => (
+              <button
+                key={group.category}
+                onClick={() => setActiveTab(group.category)}
+                className={`whitespace-nowrap px-4 sm:px-8 py-2 sm:py-3 rounded-xl text-[10px] sm:text-xs font-bold transition-all relative ${
+                  activeTab === group.category
+                    ? "text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}>
+                {activeTab === group.category && (
+                  <motion.div
+                    layoutId="active-pill"
+                    className="absolute inset-0 bg-primary rounded-xl z-0 shadow-lg shadow-primary/20"
+                    transition={{ type: "spring", bounce: 0.15, duration: 0.6 }}
+                  />
+                )}
+                <span className="relative z-10 uppercase tracking-widest">
+                  {group.category}
+                </span>
+              </button>
+            ))}
           </div>
         </div>
-      </main>
 
-      {/* CSS for progress bar animation */}
-      <style>{`
-        @keyframes fillProgress {
-          from {
-            width: 0%;
-          }
-          to {
-            width: var(--target-width);
-          }
-        }
-      `}</style>
+        {/* --- MAIN CONTENT GRID --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16">
+          {/* Left: Summary & Stats */}
+          <div className="lg:col-span-4 space-y-8 sm:space-y-12">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="space-y-6">
+                <div className="space-y-4">
+                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-primary">
+                    {activeTab} Domain
+                  </h3>
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed italic">
+                    {
+                      techData.find((g) => g.category === activeTab)
+                        ?.description
+                    }
+                  </p>
+                </div>
+
+                {/* Technical Stats for Recruiter */}
+                <div className="grid grid-cols-1 gap-4 pt-6">
+                  {[
+                    {
+                      icon: <Cpu size={14} />,
+                      label: "Performance Focus",
+                      desc: "99.9% Uptime logic",
+                    },
+                    {
+                      icon: <ShieldCheck size={14} />,
+                      label: "Security First",
+                      desc: "Best practices followed",
+                    },
+                    {
+                      icon: <Globe size={14} />,
+                      label: "Global Standards",
+                      desc: "W3C Compliance",
+                    },
+                  ].map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex gap-4 p-4 rounded-2xl border border-border/50 bg-card/10">
+                      <div className="text-primary mt-1">{item.icon}</div>
+                      <div>
+                        <p className="text-[11px] font-bold uppercase tracking-widest">
+                          {item.label}
+                        </p>
+                        <p className="text-[10px] text-muted-foreground">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Right: Skill Bento Grid */}
+          <div className="lg:col-span-8">
+            <motion.div
+              layout
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              {techData
+                .find((g) => g.category === activeTab)
+                ?.skills.map((skill, idx) => (
+                  <motion.div
+                    key={skill.name}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: idx * 0.05 }}
+                    className="group relative p-6 sm:p-8 rounded-4xl border border-border/40 bg-card/10 hover:bg-card/30 hover:border-primary/30 transition-all duration-500 overflow-hidden flex flex-col justify-between min-h-45 sm:min-h-55">
+                    <div className="flex justify-between items-start">
+                      <div className="p-4 rounded-2xl bg-background border border-border group-hover:scale-110 group-hover:border-primary/50 transition-all duration-500">
+                        {skill.icon}
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest mb-1">
+                          Expertise
+                        </p>
+                        <span className="text-xs font-black text-primary uppercase">
+                          {skill.level}%
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="text-lg font-bold uppercase tracking-tight mb-1 group-hover:text-primary transition-colors">
+                          {skill.name}
+                        </h4>
+                        <p className="text-[11px] text-muted-foreground leading-snug">
+                          {skill.description}
+                        </p>
+                      </div>
+
+                      {/* Minimal Blueprint Line */}
+                      <div className="relative h-0.5 w-full bg-muted/30 rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${skill.level}%` }}
+                          transition={{ duration: 1.5, ease: "circOut" }}
+                          className="h-full bg-primary"
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+            </motion.div>
+          </div>
+        </div>
+
+        {/* --- RESPONSIVE FOOTER (Quick Action) --- */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="mt-20 sm:mt-32 p-8 sm:p-16 rounded-[2.5rem] sm:rounded-[4rem] border border-border/50 bg-card/5 backdrop-blur-xl flex flex-col items-center text-center space-y-8">
+          <div className="space-y-4">
+            <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter">
+              Let's build the{" "}
+              <span className="text-primary italic">Future</span> together.
+            </h2>
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
+              Available for full-stack engineering roles and strategic technical
+              consultations.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <button className="px-10 py-4 text-[10px] font-black uppercase tracking-widest bg-primary text-primary-foreground rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
+              Launch Conversation
+            </button>
+            <button className="px-10 py-4 text-[10px] font-black uppercase tracking-widest border border-border hover:bg-muted/50 rounded-2xl transition-all flex items-center justify-center gap-2">
+              View Project Lab <ChevronRight size={14} />
+            </button>
+          </div>
+        </motion.div>
+      </main>
     </div>
   );
 }
