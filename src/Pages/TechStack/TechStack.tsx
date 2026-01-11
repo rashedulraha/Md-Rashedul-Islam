@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { techData } from "@/Data/TechStack/TechStack";
+import { techData, technologies } from "@/Data/TechStack/TechStack";
 import Navbar from "../shared/Navbar/Navbar";
 import Animation from "@/components/Animation/Animation";
 import { useLenis } from "@/Hooks/useLenis";
@@ -48,10 +48,12 @@ export default function TechStack() {
             transition={{ delay: 0.3 }}
             className="flex flex-wrap gap-2 pt-2">
             {[
-              "System Design",
+              "Full-Stack Development",
+              "React & Next.js Specialist",
+              "API Integration",
               "Clean Architecture",
-              "API Optimization",
-              "Scalable UI",
+              "UI/UX Design",
+              "AI Project Development",
             ].map((skill) => (
               <span
                 key={skill}
@@ -204,6 +206,58 @@ export default function TechStack() {
           </div>
         </div>
 
+        {/* --- TECHNOLOGY OVERVIEW SECTION --- */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="mt-20 sm:mt-32 space-y-10">
+          {/* Heading */}
+          <div className="text-center space-y-4">
+            <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tight">
+              Complete Technology <span className="text-primary">Stack</span>
+            </h2>
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl mx-auto">
+              A modern and scalable tech stack I use to build high-performance
+              applications.
+            </p>
+          </div>
+
+          {/* Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {technologies.map((tech, i) => {
+              const Icon = tech.icon;
+              return (
+                <motion.div
+                  key={tech.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="
+                group p-4 rounded-2xl border border-border/40
+                bg-card/10 backdrop-blur
+                hover:border-primary/40 hover:bg-card/30
+                transition-all duration-300
+                flex flex-col items-center gap-3
+              ">
+                  <div
+                    className="
+                  w-12 h-12 rounded-xl
+                  flex items-center justify-center
+                  bg-background/40
+                  group-hover:scale-110 transition-transform
+                ">
+                    <Icon className={`w-6 h-6 ${tech.color}`} />
+                  </div>
+
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-center">
+                    {tech.name}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+
         {/* --- RESPONSIVE FOOTER (Quick Action) --- */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -216,7 +270,8 @@ export default function TechStack() {
             </h2>
             <p className="text-xs sm:text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
               Available for full-stack engineering roles and strategic technical
-              consultations.
+              consultations. Expert in React, TypeScript, and Next.js with a
+              passion for clean architecture.
             </p>
           </div>
 
