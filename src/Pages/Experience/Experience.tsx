@@ -1,557 +1,322 @@
-import {
-  CircleDot,
-  Workflow,
-  Trophy,
-  Calendar,
-  MapPin,
-  ExternalLink,
-  Award,
-  BookOpen,
-  Users,
-  TrendingUp,
-  Star,
-  Download,
-  Zap,
-  Target,
-  Lightbulb,
-  Shield,
-  Cpu,
-} from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../shared/Navbar/Navbar";
 import Animation from "@/components/Animation/Animation";
-import type { EvolutionPhase } from "@/Routes/Types/Particle";
-import { useState, useEffect } from "react";
 import { useLenis } from "@/Hooks/useLenis";
 import {
-  certificationsData,
+  ChevronRight,
+  Download,
+  Briefcase,
+  Award,
+  Star,
+  Quote,
+} from "lucide-react";
+import {
   metricsData,
+  certificationsData,
   skillCategoriesData,
   testimonialsData,
 } from "@/Data/Experience/ExperienceData";
 
-//! get data to public json file
-const loadProjects = async () => {
-  const res = await fetch("/evolution.json");
-  const json = await res.json();
-  return json;
-};
-
-// Testimonial data
-const testimonials = testimonialsData;
-// Certifications data
-const certifications = certificationsData;
-
-// Key metrics
-const metrics = metricsData;
-
-// Skills categories with icons
-const skillCategories = skillCategoriesData;
-
-// Soft skills with icons
-const softSkills = [
-  { name: "Problem Solving", icon: <Lightbulb className="h-4 w-4" /> },
-  { name: "Team Collaboration", icon: <Users className="h-4 w-4" /> },
-  { name: "Communication", icon: <Target className="h-4 w-4" /> },
-  { name: "Time Management", icon: <Zap className="h-4 w-4" /> },
-  { name: "Adaptability", icon: <Cpu className="h-4 w-4" /> },
-  { name: "Attention to Detail", icon: <Shield className="h-4 w-4" /> },
-];
+// Type definition for public/evolution.json
+interface TimelineItem {
+  role: string;
+  org: string;
+  duration: string;
+  phase: string;
+  description: string;
+  impact: string;
+  stack: string[];
+  link?: string;
+}
 
 export default function Experience() {
-  const [data, setData] = useState<EvolutionPhase[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("timeline");
-
-  // use awesome scroll with lines
   useLenis();
+  const [activeTab, setActiveTab] = useState("Timeline");
+  const [timeline, setTimeline] = useState<TimelineItem[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await loadProjects();
-        setData(result);
-      } catch (error) {
-        console.error("Error loading evolution data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    fetch("/evolution.json")
+      .then((res) => res.json())
+      .then((data: TimelineItem[]) => setTimeline(data))
+      .catch((err) => console.error("Error loading timeline:", err));
   }, []);
 
+  const tabs = ["Timeline", "Expertise", "Testimonials"];
+
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden bg-background text-foreground">
-      {/* Navbar Integration */}
+    <div className="relative min-h-screen w-full bg-background text-foreground transition-colors duration-500">
       <Navbar />
 
-      {/* Tech Background Animation */}
-      <div className="fixed inset-0 z-0">
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-15">
         <Animation />
       </div>
 
-      <main className="relative z-10 pt-20 sm:pt-24 md:pt-28 pb-8 sm:pb-12 md:pb-16 px-3 sm:px-4 md:px-6 lg:px-8 container mx-auto">
-        {/* Tab Navigation */}
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex rounded-lg bg-card/40 backdrop-blur-sm border border-border/30 p-1">
-            <button
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                activeTab === "timeline"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-              onClick={() => setActiveTab("timeline")}>
-              Timeline
-            </button>
-            <button
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                activeTab === "skills"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-              onClick={() => setActiveTab("skills")}>
-              Skills & Expertise
-            </button>
-            <button
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                activeTab === "achievements"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-              onClick={() => setActiveTab("achievements")}>
-              Achievements
-            </button>
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
+        {/* --- HEADER SECTION (Matches TechStack) --- */}
+        <header className="max-w-4xl mb-12 sm:mb-20 space-y-4 sm:space-y-6">
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-3 text-primary font-mono text-[9px] sm:text-[11px] uppercase tracking-[0.4em]">
+            <span className="w-6 sm:w-12 h-[1.5px] bg-primary" />
+            <span>Professional Career // 2026</span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] uppercase">
+            Experience & <br />
+            <span className="text-muted-foreground italic font-serif lowercase font-light">
+              Career Evolution.
+            </span>
+          </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="flex flex-wrap gap-2 pt-2">
+            {metricsData.map((metric) => (
+              <span
+                key={metric.id}
+                className="px-3 py-1 text-[9px] font-bold border border-border rounded-full bg-muted/20 text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+                <metric.icon size={10} className={metric.color} />
+                {metric.value} {metric.label}
+              </span>
+            ))}
+          </motion.div>
+        </header>
+
+        {/* --- DYNAMIC TABS (Matches TechStack) --- */}
+        <div className="sticky top-20 z-20 mb-12 py-2 bg-background/80 backdrop-blur-md">
+          <div className="flex items-center gap-1 p-1 bg-muted/20 border border-border/40 rounded-2xl w-fit overflow-x-auto no-scrollbar max-w-full">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`whitespace-nowrap px-4 sm:px-8 py-2 sm:py-3 rounded-xl text-[10px] sm:text-xs font-bold transition-all relative ${
+                  activeTab === tab
+                    ? "text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}>
+                {activeTab === tab && (
+                  <motion.div
+                    layoutId="active-pill"
+                    className="absolute inset-0 bg-primary rounded-xl z-0 shadow-lg shadow-primary/20"
+                    transition={{ type: "spring", bounce: 0.15, duration: 0.6 }}
+                  />
+                )}
+                <span className="relative z-10 uppercase tracking-widest">
+                  {tab}
+                </span>
+              </button>
+            ))}
           </div>
         </div>
 
-        <div className="container w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
-          {/* LEFT SIDE: Heading & Status */}
-          <div className="col-span-1 lg:col-span-4 flex flex-col justify-start lg:justify-center space-y-4 sm:space-y-6 text-center lg:text-left items-center lg:items-start">
-            <div
-              className="space-y-2 aos-init aos-animate"
-              data-aos="fade-right">
-              <h2 className="text-primary font-mono text-[10px] sm:text-xs tracking-[0.3em] sm:tracking-[0.5em] uppercase">
-                Log_History
-              </h2>
-              <h1 className="text-4xl lg:text-5xl font-black tracking-tighter uppercase leading-tight">
-                Technical <br />{" "}
-                <span className="text-primary italic">Evolution</span>
-              </h1>
-            </div>
-            <p
-              className="text-muted-foreground text-xs sm:text-sm leading-relaxed max-w-xs border-l border-primary/30 pl-4 text-left aos-init aos-animate"
-              data-aos="fade-right"
-              data-aos-delay="100">
-              A timeline of my journey from theoretical foundations to building
-              scalable digital solutions. Focusing on efficiency and modern
-              architectures.
-            </p>
-            <div
-              className="flex items-center gap-3 sm:gap-4 pt-2 sm:pt-4 aos-init aos-animate"
-              data-aos="fade-right"
-              data-aos-delay="200">
-              <div className="flex -space-x-2">
-                <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-full border border-background bg-primary/20 flex items-center justify-center backdrop-blur-md">
-                  <Trophy className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
-                </div>
-                <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-full border border-background bg-chart-1/20 flex items-center justify-center backdrop-blur-md">
-                  <Workflow
-                    className="h-3 w-3 sm:h-4 sm:w-4"
-                    style={{ color: "var(--chart-1)" }}
-                  />
-                </div>
-              </div>
-              <span className="text-[9px] sm:text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
-                Ready for Onboarding
-              </span>
-            </div>
-
-            {/* Enhanced Stats Section */}
-            <div
-              className="grid grid-cols-2 gap-3 mt-6 aos-init aos-animate"
-              data-aos="fade-right"
-              data-aos-delay="300">
-              <Card className="p-3 bg-card/40 backdrop-blur-sm border-border/30">
-                <p className="text-xs text-muted-foreground">Phases</p>
-                <p className="text-xl font-bold">{data.length}</p>
-              </Card>
-              <Card className="p-3 bg-card/40 backdrop-blur-sm border-border/30">
-                <p className="text-xs text-muted-foreground">Technologies</p>
-                <p className="text-xl font-bold">
-                  {data.reduce((acc, item) => acc + item.stack.length, 0)}
+        {/* --- MAIN CONTENT GRID --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16">
+          {/* Left Column: Context Summary */}
+          <div className="lg:col-span-4 space-y-8">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="space-y-6">
+                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-primary">
+                  {activeTab} Overview
+                </h3>
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed italic">
+                  {activeTab === "Timeline" &&
+                    "A strategic log of roles and technical contributions that shaped high-performance products."}
+                  {activeTab === "Expertise" &&
+                    "Deep-dive into core domains where I bridge the gap between user needs and technical feasibility."}
+                  {activeTab === "Testimonials" &&
+                    "Direct feedback from industry professionals and clients who experienced my development workflow."}
                 </p>
-              </Card>
-            </div>
 
-            {/* Key Metrics */}
-            <div
-              className="space-y-3 mt-4 w-full aos-init aos-animate"
-              data-aos="fade-right"
-              data-aos-delay="400">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                Key Metrics
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                {metrics.map((metric, index) => (
-                  <Card
-                    key={metric.id}
-                    className="p-3 bg-card/40 backdrop-blur-sm border-border/30 flex items-center gap-3 aos-init aos-animate"
-                    data-aos="zoom-in"
-                    data-aos-delay={500 + index * 100}>
-                    <div className={`p-2 rounded-lg bg-background/50`}>
-                      <metric.icon className={`h-4 w-4 ${metric.color}`} />
-                    </div>
-                    <div>
-                      <p className="text-xs text-muted-foreground">
-                        {metric.label}
-                      </p>
-                      <p className="text-lg font-bold">{metric.value}</p>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* Download Resume Button */}
-            <Button
-              className="w-full mt-4 bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 aos-init aos-animate"
-              asChild
-              data-aos="fade-up"
-              data-aos-delay="600">
-              <a href="/Md-Rasheduli-Islam.pdf" download>
-                <Download className="h-4 w-4 mr-2" />
-                Download Resume
-              </a>
-            </Button>
-          </div>
-
-          {/* RIGHT SIDE: Content Based on Active Tab */}
-          <div
-            className="col-span-1 lg:col-span-8 space-y-4 sm:space-y-5 lg:overflow-y-auto lg:max-h-[70vh] lg:pr-4 custom-scrollbar"
-            data-lenis-prevent="false">
-            {activeTab === "timeline" && (
-              <>
-                {loading
-                  ? // Loading Skeleton
-                    Array.from({ length: 3 }).map((_, i) => (
-                      <Card key={i} className="animate-pulse">
-                        <div className="p-4 sm:p-5 md:p-6">
-                          <div className="h-5 bg-muted rounded w-3/4 mb-2"></div>
-                          <div className="h-4 bg-muted rounded w-1/2 mb-4"></div>
-                          <div className="h-3 bg-muted rounded w-full mb-2"></div>
-                          <div className="h-3 bg-muted rounded w-full mb-4"></div>
-                          <div className="flex gap-2">
-                            <div className="h-6 bg-muted rounded w-16"></div>
-                            <div className="h-6 bg-muted rounded w-16"></div>
-                            <div className="h-6 bg-muted rounded w-16"></div>
-                          </div>
-                        </div>
-                      </Card>
-                    ))
-                  : data.map((item: EvolutionPhase, index: number) => (
-                      <Card
-                        key={index}
-                        className="group rounded relative bg-card/20 backdrop-blur-xl border-border/40 p-4 sm:p-5 md:p-6 transition-all hover:bg-primary/3 hover:border-primary/50 overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 aos-init aos-animate"
-                        data-aos="fade-up"
-                        data-aos-delay={index * 100}>
-                        {/* Background Decor */}
-                        <span className="absolute -right-2 -top-2 sm:-right-4 sm:-top-4 text-4xl sm:text-5xl md:text-6xl font-black text-primary/5 italic select-none">
-                          0{index + 1}
-                        </span>
-
-                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4 mb-3 sm:mb-4">
-                          <div className="space-y-1">
-                            <span className="text-[9px] sm:text-[10px] font-mono text-primary/80 uppercase tracking-tighter">
-                              {item.phase}
-                            </span>
-                            <h3 className="text-lg sm:text-xl font-bold tracking-tight group-hover:text-primary transition-colors">
-                              {item.role}
-                            </h3>
-                            <div className="flex items-center gap-2 text-[11px] sm:text-xs text-muted-foreground/80 font-medium">
-                              <span className="flex items-center gap-1">
-                                <MapPin className="h-3 w-3" />
-                                {item.org}
-                              </span>
-                              <span>•</span>
-                              <span className="flex items-center gap-1">
-                                <Calendar className="h-3 w-3" />
-                                {item.duration}
-                              </span>
-                            </div>
-                          </div>
-                          <Badge
-                            variant="secondary"
-                            className="w-fit h-fit bg-primary/10 text-primary border-none text-[9px] sm:text-[10px] px-2.5 sm:px-3 py-1 shrink-0">
-                            {item.impact}
-                          </Badge>
-                        </div>
-
-                        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-4 sm:mb-6">
-                          {item.description}
+                {/* Validation Stats */}
+                <div className="pt-8 border-t border-border/40 space-y-4">
+                  {certificationsData.map((cert) => (
+                    <div
+                      key={cert.id}
+                      className="p-4 rounded-2xl border border-border/50 bg-card/10 flex gap-4 items-center group">
+                      <div className="text-primary group-hover:scale-110 transition-transform">
+                        <Award size={18} />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-widest">
+                          {cert.name}
                         </p>
-
-                        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
-                          {item.stack.map((s) => (
-                            <div
-                              key={s}
-                              className="flex items-center gap-1 bg-background/50 border border-border/50 px-2 py-1 rounded text-[8px] sm:text-[9px] font-mono text-muted-foreground uppercase tracking-wider group-hover:border-primary/30 transition-colors">
-                              <CircleDot className="h-1.5 w-1.5 sm:h-2 sm:w-2 text-primary/50" />
-                              {s}
-                            </div>
-                          ))}
-                        </div>
-
-                        {item.link && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-xs p-0 h-auto font-normal"
-                            asChild>
-                            <a
-                              href={item.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-1 text-primary hover:underline">
-                              View Project <ExternalLink className="h-3 w-3" />
-                            </a>
-                          </Button>
-                        )}
-                      </Card>
-                    ))}
-              </>
-            )}
-
-            {activeTab === "skills" && (
-              <div className="space-y-6">
-                {/* Technical Skills Section */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {skillCategories.map((category, index) => (
-                    <Card
-                      key={category.name}
-                      className="group rounded relative bg-card/20 backdrop-blur-xl border-border/40 p-4 sm:p-5 md:p-6 transition-all hover:bg-primary/3 hover:border-primary/50 overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 aos-init aos-animate"
-                      data-aos="fade-up"
-                      data-aos-delay={index * 100}>
-                      {/* Background Decor */}
-                      <span className="absolute -right-2 -top-2 sm:-right-4 sm:-top-4 text-4xl sm:text-5xl md:text-6xl font-black text-primary/5 italic select-none">
-                        {category.name.charAt(0)}
-                      </span>
-
-                      <div className="flex items-center gap-3 mb-4">
-                        <div
-                          className={`p-2 rounded-lg bg-background/50 ${category.color}`}>
-                          {category.icon}
-                        </div>
-                        <h3 className="text-lg sm:text-xl font-bold tracking-tight group-hover:text-primary transition-colors">
-                          {category.name}
-                        </h3>
+                        <p className="text-[9px] text-muted-foreground italic">
+                          {cert.issuer}
+                        </p>
                       </div>
-
-                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                        {category.skills.map((skill) => (
-                          <div
-                            key={skill}
-                            className="flex items-center gap-1 bg-background/50 border border-border/50 px-2 py-1 rounded text-[8px] sm:text-[9px] font-mono text-muted-foreground uppercase tracking-wider group-hover:border-primary/30 transition-colors">
-                            <CircleDot className="h-1.5 w-1.5 sm:h-2 sm:w-2 text-primary/50" />
-                            {skill}
-                          </div>
-                        ))}
-                      </div>
-                    </Card>
+                    </div>
                   ))}
                 </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
-                {/* Soft Skills Section */}
-                <Card
-                  className="group rounded relative bg-card/20 backdrop-blur-xl border-border/40 p-4 sm:p-5 md:p-6 transition-all hover:bg-primary/3 hover:border-primary/50 overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 aos-init aos-animate"
-                  data-aos="fade-up"
-                  data-aos-delay="400">
-                  <h3 className="text-lg sm:text-xl font-bold tracking-tight mb-4 flex items-center gap-2">
-                    <Users className="h-5 w-5 text-primary" />
-                    Soft Skills
-                  </h3>
-
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {softSkills.map((skill, index) => (
-                      <div
-                        key={skill.name}
-                        className="flex items-center gap-2 bg-background/50 border border-border/50 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground group-hover:border-primary/30 group-hover:text-primary transition-colors aos-init aos-animate"
-                        data-aos="fade-up"
-                        data-aos-delay={400 + index * 50}>
-                        {skill.icon}
-                        {skill.name}
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-
-                {/* Learning Path */}
-                <Card
-                  className="group rounded relative bg-card/20 backdrop-blur-xl border-border/40 p-4 sm:p-5 md:p-6 transition-all hover:bg-primary/3 hover:border-primary/50 overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 aos-init aos-animate"
-                  data-aos="fade-up"
-                  data-aos-delay="500">
-                  <h3 className="text-lg sm:text-xl font-bold tracking-tight mb-4 flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5 text-primary" />
-                    Learning Journey
-                  </h3>
-                  <div className="space-y-4">
+          {/* Right Column: Dynamic Data Cards */}
+          <div className="lg:col-span-8">
+            <AnimatePresence mode="wait">
+              {/* TIMELINE VIEW */}
+              {activeTab === "Timeline" && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="space-y-4">
+                  {timeline.map((item, idx) => (
                     <div
-                      className="flex items-start gap-3 aos-init aos-animate"
-                      data-aos="fade-right"
-                      data-aos-delay="600">
-                      <div className="bg-primary/10 p-2 rounded-lg">
-                        <BookOpen className="h-4 w-4 text-primary" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Continuous Learning</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Actively pursuing advanced courses in cloud
-                          architecture and machine learning to expand technical
-                          capabilities.
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      className="flex items-start gap-3 aos-init aos-animate"
-                      data-aos="fade-right"
-                      data-aos-delay="700">
-                      <div className="bg-chart-1/10 p-2 rounded-lg">
-                        <Award className="h-4 w-4 text-chart-1" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">
-                          Industry Certifications
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          Regularly updating certifications to stay current with
-                          industry standards and best practices.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            )}
-
-            {activeTab === "achievements" && (
-              <div className="space-y-6">
-                {/* Certifications Section */}
-                <Card
-                  className="group rounded relative bg-card/20 backdrop-blur-xl border-border/40 p-4 sm:p-5 md:p-6 transition-all hover:bg-primary/3 hover:border-primary/50 overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 aos-init aos-animate"
-                  data-aos="fade-up">
-                  <h3 className="text-lg sm:text-xl font-bold tracking-tight mb-4 flex items-center gap-2">
-                    <Award className="h-5 w-5 text-primary" />
-                    Certifications
-                  </h3>
-                  <div className="space-y-4">
-                    {certifications.map((cert, index) => (
-                      <div
-                        key={cert.id}
-                        className="border-l-2 border-primary/30 pl-4 aos-init aos-animate"
-                        data-aos="fade-right"
-                        data-aos-delay={index * 100}>
-                        <h4 className="font-semibold">{cert.name}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {cert.issuer} • {cert.date}
-                        </p>
-                        <p className="text-xs text-muted-foreground font-mono mt-1">
-                          Credential ID: {cert.credentialId}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-
-                {/* Testimonials Section */}
-                <Card
-                  className="group rounded relative bg-card/20 backdrop-blur-xl border-border/40 p-4 sm:p-5 md:p-6 transition-all hover:bg-primary/3 hover:border-primary/50 overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 aos-init aos-animate"
-                  data-aos="fade-up"
-                  data-aos-delay="100">
-                  <h3 className="text-lg sm:text-xl font-bold tracking-tight mb-4 flex items-center gap-2">
-                    <Users className="h-5 w-5 text-primary" />
-                    Testimonials
-                  </h3>
-                  <div className="space-y-4">
-                    {testimonials.map((testimonial, index) => (
-                      <div
-                        key={testimonial.id}
-                        className="border-l-2 border-chart-1/30 pl-4 aos-init aos-animate"
-                        data-aos="fade-right"
-                        data-aos-delay={100 + index * 100}>
-                        <div className="flex items-center gap-1 mb-2">
-                          {Array.from({ length: testimonial.rating }).map(
-                            (_, i) => (
-                              <Star
-                                key={i}
-                                className="h-3 w-3 fill-yellow-400 text-yellow-400"
-                              />
-                            )
-                          )}
+                      key={idx}
+                      className="group p-6 sm:p-10 rounded-4xl border border-border/40 bg-card/10 hover:bg-card/30 hover:border-primary/30 transition-all duration-500 overflow-hidden">
+                      <div className="flex flex-col md:flex-row justify-between gap-6">
+                        <div className="flex-1 space-y-4">
+                          <div className="flex items-center gap-3">
+                            <span className="px-3 py-1 bg-primary/10 text-primary text-[9px] font-bold rounded-full border border-primary/20">
+                              {item.duration}
+                            </span>
+                            <span className="text-[9px] text-muted-foreground uppercase font-mono tracking-widest">
+                              {item.phase}
+                            </span>
+                          </div>
+                          <h4 className="text-2xl font-black uppercase tracking-tight group-hover:text-primary transition-colors">
+                            {item.role}
+                          </h4>
+                          <div className="flex items-center gap-2 text-muted-foreground text-[10px] font-bold uppercase">
+                            <Briefcase size={12} className="text-primary" />{" "}
+                            {item.org}
+                          </div>
+                          <p className="text-sm text-muted-foreground leading-relaxed italic border-l-2 border-border pl-4">
+                            {item.description}
+                          </p>
                         </div>
-                        <p className="text-sm italic mb-2">
-                          "{testimonial.content}"
-                        </p>
-                        <p className="text-sm font-semibold">
-                          {testimonial.name}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {testimonial.position}
-                        </p>
+                        <div className="md:w-48 space-y-4">
+                          <div className="p-4 bg-background/50 rounded-2xl border border-border">
+                            <p className="text-[8px] font-bold uppercase text-primary mb-1 tracking-widest text-center">
+                              Outcome
+                            </p>
+                            <p className="text-center font-black text-sm uppercase leading-tight">
+                              {item.impact}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                </Card>
+                    </div>
+                  ))}
+                </motion.div>
+              )}
 
-                {/* Awards Section */}
-                <Card
-                  className="group rounded relative bg-card/20 backdrop-blur-xl border-border/40 p-4 sm:p-5 md:p-6 transition-all hover:bg-primary/3 hover:border-primary/50 overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 aos-init aos-animate"
-                  data-aos="fade-up"
-                  data-aos-delay="200">
-                  <h3 className="text-lg sm:text-xl font-bold tracking-tight mb-4 flex items-center gap-2">
-                    <Trophy className="h-5 w-5 text-primary" />
-                    Awards & Recognition
-                  </h3>
-                  <div className="space-y-4">
+              {/* EXPERTISE VIEW (Bento Style) */}
+              {activeTab === "Expertise" && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  {skillCategoriesData.map((cat, idx) => (
                     <div
-                      className="flex items-start gap-3 aos-init aos-animate"
-                      data-aos="fade-right"
-                      data-aos-delay="300">
-                      <div className="bg-yellow-500/10 p-2 rounded-lg">
-                        <Trophy className="h-4 w-4 text-yellow-500" />
+                      key={idx}
+                      className="group p-6 sm:p-8 rounded-4xl border border-border/40 bg-card/10 hover:bg-card/30 hover:border-primary/30 transition-all duration-500 flex flex-col justify-between min-h-60">
+                      <div className="flex justify-between items-start">
+                        <div
+                          className={`p-4 rounded-2xl bg-background border border-border group-hover:border-primary/50 transition-all ${cat.color}`}>
+                          {cat.icon}
+                        </div>
+                        <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
                       </div>
-                      <div>
-                        <h4 className="font-semibold">Best Innovation Award</h4>
-                        <p className="text-sm text-muted-foreground">
-                          TechFest 2022 - Recognized for developing an
-                          innovative solution to streamline workflow processes.
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      className="flex items-start gap-3 aos-init aos-animate"
-                      data-aos="fade-right"
-                      data-aos-delay="400">
-                      <div className="bg-blue-500/10 p-2 rounded-lg">
-                        <Award className="h-4 w-4 text-blue-500" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">
-                          Employee of the Quarter
+                      <div className="space-y-4 pt-6">
+                        <h4 className="text-lg font-bold uppercase tracking-tight group-hover:text-primary transition-colors">
+                          {cat.name}
                         </h4>
-                        <p className="text-sm text-muted-foreground">
-                          DevStudio Q3 2023 - Acknowledged for exceptional
-                          performance and dedication to team success.
+                        <p className="text-[11px] text-muted-foreground leading-snug">
+                          {cat.description}
                         </p>
+                        <div className="flex flex-wrap gap-2">
+                          {cat.skills.map((s, i) => (
+                            <span
+                              key={i}
+                              className="text-[8px] font-black uppercase tracking-widest bg-muted/40 px-2 py-1 rounded-md border border-border/50">
+                              {s}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Card>
-              </div>
-            )}
+                  ))}
+                </motion.div>
+              )}
+
+              {/* TESTIMONIALS VIEW */}
+              {activeTab === "Testimonials" && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="grid grid-cols-1 gap-6">
+                  {testimonialsData.map((test) => (
+                    <div
+                      key={test.id}
+                      className="p-8 sm:p-12 rounded-[2.5rem] sm:rounded-4xl border border-border/40 bg-card/10 relative overflow-hidden group">
+                      <Quote className="absolute -top-4 -right-4 w-24 h-24 text-primary opacity-5 group-hover:opacity-10 transition-opacity" />
+                      <div className="flex gap-1 mb-6">
+                        {[...Array(test.rating)].map((_, i) => (
+                          <Star
+                            key={i}
+                            size={14}
+                            className="fill-primary text-primary"
+                          />
+                        ))}
+                      </div>
+                      <p className="text-lg sm:text-xl text-foreground font-serif italic mb-8 relative z-10">
+                        "{test.content}"
+                      </p>
+                      <div className="flex items-center gap-4">
+                        <div className="h-12 w-12 rounded-full bg-primary flex items-center justify-center font-black text-primary-foreground italic uppercase shadow-xl shadow-primary/20">
+                          {test.name[0]}
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-black uppercase tracking-widest">
+                            {test.name}
+                          </p>
+                          <p className="text-[10px] text-muted-foreground uppercase">
+                            {test.position}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
+
+        {/* --- FOOTER ACTION (Matches TechStack) --- */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="mt-20 sm:mt-32 p-8 sm:p-16 rounded-[2.5rem] sm:rounded-[4rem] border border-border/50 bg-card/5 backdrop-blur-xl flex flex-col items-center text-center space-y-8">
+          <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter">
+            Ready to initiate the{" "}
+            <span className="text-primary italic font-serif lowercase font-light">
+              next project?
+            </span>
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <button className="px-10 py-4 text-[10px] font-black uppercase tracking-widest bg-primary text-primary-foreground rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all flex items-center justify-center gap-2">
+              <Download size={14} /> Get Full Resume
+            </button>
+            <button className="px-10 py-4 text-[10px] font-black uppercase tracking-widest border border-border hover:bg-muted/50 rounded-2xl transition-all flex items-center justify-center gap-2">
+              Contact HR <ChevronRight size={14} />
+            </button>
+          </div>
+        </motion.div>
       </main>
     </div>
   );

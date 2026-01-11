@@ -11,9 +11,11 @@ import {
 
 export const skillCategoriesData = [
   {
-    name: "Frontend",
+    name: "Frontend Architecture",
     icon: <Smartphone className="h-4 w-4" />,
     color: "text-blue-500",
+    description:
+      "Building high-performance, accessible, and scalable user interfaces.",
     skills: [
       "React",
       "Next.js",
@@ -24,9 +26,11 @@ export const skillCategoriesData = [
     ],
   },
   {
-    name: "Backend",
+    name: "Backend Systems",
     icon: <Database className="h-4 w-4" />,
     color: "text-green-500",
+    description:
+      "Designing robust server-side logic and optimized database schemas.",
     skills: [
       "Node.js",
       "Express",
@@ -37,15 +41,19 @@ export const skillCategoriesData = [
     ],
   },
   {
-    name: "DevOps & Tools",
+    name: "Cloud & Deployment",
     icon: <GitBranch className="h-4 w-4" />,
     color: "text-purple-500",
+    description:
+      "Automating workflows and managing cloud infrastructure for 99.9% uptime.",
     skills: ["Git", "Docker", "AWS", "CI/CD", "Vercel", "Netlify"],
   },
   {
-    name: "UI/UX Design",
+    name: "Product Design",
     icon: <Palette className="h-4 w-4" />,
     color: "text-pink-500",
+    description:
+      "Crafting intuitive user journeys and pixel-perfect design systems.",
     skills: [
       "Figma",
       "Adobe XD",
@@ -73,15 +81,15 @@ export const metricsData = [
   },
   {
     id: 3,
-    label: "Happy Clients",
+    label: "Global Clients",
     value: "15+",
     icon: Users,
     color: "text-purple-500",
   },
   {
     id: 4,
-    label: "Awards & Recognition",
-    value: "5+",
+    label: "Awards Won",
+    value: "05",
     icon: Award,
     color: "text-yellow-500",
   },
@@ -93,21 +101,21 @@ export const certificationsData = [
     name: "AWS Certified Developer",
     issuer: "Amazon Web Services",
     date: "2023",
-    credentialId: "AWS-DEV-2023-12345",
+    credentialId: "AWS-DEV-12345",
   },
   {
     id: 2,
     name: "MongoDB Certified Developer",
     issuer: "MongoDB University",
     date: "2022",
-    credentialId: "MDB-DEV-2022-67890",
+    credentialId: "MDB-DEV-67890",
   },
   {
     id: 3,
     name: "React Advanced Patterns",
     issuer: "Udemy",
     date: "2023",
-    credentialId: "UDM-REACT-2023-54321",
+    credentialId: "UDM-REACT-54321",
   },
 ];
 
