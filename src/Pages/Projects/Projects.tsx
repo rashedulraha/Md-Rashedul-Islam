@@ -1,30 +1,30 @@
 import { useState, useEffect } from "react";
 import {
-  ExternalLink,
-  CircleDot,
   Code,
-  Eye,
-  Star,
-  Clock,
   Search,
   ChevronRight,
-  Users,
   Globe,
+  GitBranch,
+  Zap,
+  ShieldCheck,
+  Layers,
+  Server,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { motion, AnimatePresence } from "framer-motion";
 
 import Navbar from "../shared/Navbar/Navbar";
 import Animation from "@/components/Animation/Animation";
-import { FaGithub } from "react-icons/fa";
 import type {
   ComplexityLevel,
   Project,
   ProjectCategory,
 } from "@/Routes/Types/projectType";
 import { useLenis } from "@/Hooks/useLenis";
+import ProjectCard from "@/components/projectCard/ProjectCard";
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -35,6 +35,7 @@ export default function Projects() {
   const [selectedComplexity, setSelectedComplexity] =
     useState<ComplexityLevel>("all");
   const [loading, setLoading] = useState(true);
+  const [activeProject, setActiveProject] = useState<string | null>(null);
 
   //! awesome scroll animation
   useLenis();
@@ -170,652 +171,383 @@ export default function Projects() {
     setSelectedComplexity("all");
   };
 
+  // Get category icon
+  const getCategoryIcon = (category: ProjectCategory) => {
+    switch (category) {
+      case "web":
+        return <Globe className="h-4 w-4" />;
+      case "mobile":
+        return <Layers className="h-4 w-4" />;
+      case "fullstack":
+        return <Server className="h-4 w-4" />;
+      case "opensource":
+        return <GitBranch className="h-4 w-4" />;
+      default:
+        return <Code className="h-4 w-4" />;
+    }
+  };
+
   return (
-    <>
-      {/* Background Animation */}
-      <div className="fixed inset-0 z-0">
+    <div className="relative min-h-screen w-full bg-background text-foreground transition-colors duration-500">
+      {/* Subtle Background Animation */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-15">
         <Animation />
       </div>
       <Navbar />
 
-      <div className="relative min-h-screen w-full bg-background text-foreground container mx-auto">
-        {/* MOBILE/TABLET VIEW */}
-        <div className="lg:hidden">
-          <main className="relative z-10 pt-20 pb-8 px-4">
-            {/* Header */}
-            <div className="mb-8 space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-primary font-mono text-xs uppercase tracking-wider">
-                    PROJECT_PORTFOLIO
-                  </h2>
-                  <h1 className="text-4xl lg:text-5xl font-black tracking-tighter uppercase leading-tight">
-                    Featured <span className="text-primary">Projects</span>
-                  </h1>
-                </div>
-                <Badge
-                  variant="outline"
-                  className="bg-primary/5 text-primary border-primary/20">
-                  {totalProjects} Projects
-                </Badge>
-              </div>
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
+        {/* --- HEADER SECTION --- */}
+        <header className="max-w-4xl mb-12 sm:mb-20 space-y-4 sm:space-y-6">
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-3 text-primary font-mono text-[9px] sm:text-[11px] uppercase tracking-[0.4em]">
+            <span className="w-6 sm:w-12 h-[1.5px] bg-primary" />
+            <span>Project Portfolio // 2026 Edition</span>
+          </motion.div>
 
-              <p className="text-muted-foreground text-sm">
-                Curated collection of professional projects built with modern
-                technologies
-              </p>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] uppercase">
+            Professional <br />
+            <span className="text-muted-foreground italic font-serif lowercase font-light">
+              Project Showcase.
+            </span>
+          </motion.h1>
 
-              {/* Search Bar */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search projects or technologies..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-background/50 backdrop-blur-sm"
-                />
-              </div>
+          {/* Core Skills Badges for HR */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="flex flex-wrap gap-2 pt-2">
+            {[
+              "Full-Stack Development",
+              "UI/UX Design",
+              "API Integration",
+              "Performance Optimization",
+            ].map((skill) => (
+              <span
+                key={skill}
+                className="px-3 py-1 text-[9px] font-bold border border-border rounded-full bg-muted/20 text-muted-foreground uppercase tracking-wider">
+                {skill}
+              </span>
+            ))}
+          </motion.div>
+        </header>
 
-              {/* Filter Tabs */}
-              <div className="overflow-x-auto pb-2">
-                <div className="flex gap-2 min-w-max">
-                  <Button
-                    variant={selectedCategory === "all" ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setSelectedCategory("all")}
-                    className="text-xs">
-                    All
-                  </Button>
-                  <Button
-                    variant={selectedCategory === "web" ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setSelectedCategory("web")}
-                    className="text-xs">
-                    Web
-                  </Button>
-                  <Button
-                    variant={
-                      selectedCategory === "fullstack" ? "default" : "outline"
-                    }
-                    size="sm"
-                    onClick={() => setSelectedCategory("fullstack")}
-                    className="text-xs">
-                    Full Stack
-                  </Button>
-                  <Button
-                    variant={
-                      selectedCategory === "opensource" ? "default" : "outline"
-                    }
-                    size="sm"
-                    onClick={() => setSelectedCategory("opensource")}
-                    className="text-xs">
-                    Open Source
-                  </Button>
-                </div>
-              </div>
-            </div>
+        {/* --- SEARCH AND FILTER SECTION --- */}
+        <div className="mb-12 space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search projects, technologies, or keywords..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-12 h-14 bg-card/20 backdrop-blur-sm border-border/40 focus:border-primary/50 transition-all"
+            />
+          </motion.div>
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              <Card className="p-3 bg-card/50 backdrop-blur-sm">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded bg-primary/10">
-                    <Code className="h-3 w-3 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Total</p>
-                    <p className="font-bold">{totalProjects}</p>
-                  </div>
-                </div>
-              </Card>
-              <Card className="p-3 bg-card/50 backdrop-blur-sm">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded bg-green-500/10">
-                    <Globe className="h-3 w-3 text-green-500" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Live</p>
-                    <p className="font-bold">{liveProjects}</p>
-                  </div>
-                </div>
-              </Card>
-            </div>
-
-            {/* Projects Grid */}
-            <div className="space-y-4">
-              {loading ? (
-                // Loading Skeleton
-                Array.from({ length: 3 }).map((_, i) => (
-                  <Card key={i} className="p-4 animate-pulse">
-                    <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-muted rounded w-1/2 mb-4"></div>
-                    <div className="flex gap-2 mb-3">
-                      <div className="h-6 bg-muted rounded w-16"></div>
-                      <div className="h-6 bg-muted rounded w-16"></div>
-                    </div>
-                  </Card>
-                ))
-              ) : filteredProjects.length > 0 ? (
-                filteredProjects.map((project, index) => (
-                  <ProjectCardMobile
-                    key={project.id}
-                    project={project}
-                    index={index}
-                    getStatusColor={getStatusColor}
-                    getComplexityColor={getComplexityColor}
-                    formatNumber={formatNumber}
-                  />
-                ))
-              ) : (
-                <Card className="p-8 text-center">
-                  <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="font-semibold mb-2">No projects found</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Try adjusting your search or filter criteria
-                  </p>
-                  <Button
-                    variant="outline"
-                    onClick={clearFilters}
-                    className="mt-4">
-                    Clear Filters
-                  </Button>
-                </Card>
-              )}
-            </div>
-          </main>
-        </div>
-
-        {/* DESKTOP VIEW */}
-        <div className="hidden lg:block">
-          <main className="relative z-10">
-            <div className="flex h-[calc(100vh-5rem)] pt-16">
-              {/* LEFT SIDE - Fixed Dashboard */}
-              <div className="w-2/5 flex flex-col p-8 lg:p-12">
-                <div className="space-y-8">
-                  {/* Header */}
-                  <div className="space-y-4">
-                    <h2 className="text-primary font-mono text-sm uppercase tracking-wider">
-                      PROJECT_PORTFOLIO
-                    </h2>
-                    <h1 className="text-4xl lg:text-5xl font-black tracking-tight leading-tight">
-                      Professional <br />
-                      <span className="text-primary">Projects</span>
-                    </h1>
-                    <p className="text-muted-foreground text-lg leading-relaxed">
-                      A curated showcase of production-ready applications and
-                      solutions
-                    </p>
-                  </div>
-
-                  {/* Search and Filters */}
-                  <div className="space-y-4">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        placeholder="Search projects or technologies..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 bg-background/50 backdrop-blur-sm"
+          <div className="flex flex-col sm:flex-row gap-4">
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+              className="flex-1">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
+                Category
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {(
+                  [
+                    "all",
+                    "web",
+                    "mobile",
+                    "fullstack",
+                    "opensource",
+                  ] as ProjectCategory[]
+                ).map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all relative ${
+                      selectedCategory === category
+                        ? "text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}>
+                    {selectedCategory === category && (
+                      <motion.div
+                        layoutId="active-category-pill"
+                        className="absolute inset-0 bg-primary rounded-xl z-0 shadow-lg shadow-primary/20"
+                        transition={{
+                          type: "spring",
+                          bounce: 0.15,
+                          duration: 0.6,
+                        }}
                       />
-                    </div>
-
-                    <div className="space-y-2">
-                      <h3 className="text-sm font-medium">Category</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {(
-                          [
-                            "all",
-                            "web",
-                            "mobile",
-                            "fullstack",
-                            "opensource",
-                          ] as ProjectCategory[]
-                        ).map((category) => (
-                          <Button
-                            key={category}
-                            variant={
-                              selectedCategory === category
-                                ? "default"
-                                : "outline"
-                            }
-                            size="sm"
-                            onClick={() => setSelectedCategory(category)}
-                            className="text-xs">
-                            {category === "all"
-                              ? "All"
-                              : category.charAt(0).toUpperCase() +
-                                category.slice(1)}
-                          </Button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <h3 className="text-sm font-medium">Complexity</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {(
-                          [
-                            "all",
-                            "beginner",
-                            "intermediate",
-                            "advanced",
-                          ] as ComplexityLevel[]
-                        ).map((complexity) => (
-                          <Button
-                            key={complexity}
-                            variant={
-                              selectedComplexity === complexity
-                                ? "default"
-                                : "outline"
-                            }
-                            size="sm"
-                            onClick={() => setSelectedComplexity(complexity)}
-                            className="text-xs">
-                            {complexity === "all"
-                              ? "All"
-                              : complexity.charAt(0).toUpperCase() +
-                                complexity.slice(1)}
-                          </Button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Technologies Cloud */}
-                  <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">Technologies Used</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {Array.from(new Set(projects.flatMap((p) => p.tech)))
-                        .slice(0, 12)
-                        .map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-3 py-1.5 text-sm bg-background/70 backdrop-blur-sm border rounded-full hover:border-primary/50 hover:text-primary transition-colors">
-                            {tech}
-                          </span>
-                        ))}
-                    </div>
-                  </div>
-
-                  {/* Stats */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <Card className="p-4 bg-card/50 backdrop-blur-sm">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 rounded bg-primary/10">
-                          <Code className="h-4 w-4 text-primary" />
-                        </div>
-                        <div>
-                          <p className="text-xs text-muted-foreground">
-                            Total Projects
-                          </p>
-                          <p className="font-bold text-lg">{totalProjects}</p>
-                        </div>
-                      </div>
-                    </Card>
-                    <Card className="p-4 bg-card/50 backdrop-blur-sm">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 rounded bg-green-500/10">
-                          <Globe className="h-4 w-4 text-green-500" />
-                        </div>
-                        <div>
-                          <p className="text-xs text-muted-foreground">
-                            Live Projects
-                          </p>
-                          <p className="font-bold text-lg">{liveProjects}</p>
-                        </div>
-                      </div>
-                    </Card>
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT SIDE - Scrollable Projects */}
-              <div
-                className="w-3/5 overflow-y-auto custom-scrollbar px-8 py-8"
-                data-lenis-prevent="false">
-                <div className="max-w-4xl mx-auto">
-                  {/* Results Header */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div>
-                      <h3 className="text-xl font-semibold">
-                        {filteredProjects.length} Project
-                        {filteredProjects.length !== 1 ? "s" : ""} Found
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        Sorted by recency
-                      </p>
-                    </div>
-                    <Badge variant="secondary" className="bg-primary/5">
-                      {selectedCategory !== "all"
-                        ? selectedCategory
-                        : "All Categories"}
-                      {selectedComplexity !== "all" &&
-                        ` • ${selectedComplexity}`}
-                    </Badge>
-                  </div>
-
-                  {/* Projects Grid */}
-                  <div className="space-y-6">
-                    {loading ? (
-                      // Loading Skeletons
-                      Array.from({ length: 4 }).map((_, i) => (
-                        <Card key={i} className="p-6 animate-pulse">
-                          <div className="flex justify-between mb-4">
-                            <div>
-                              <div className="h-5 bg-muted rounded w-48 mb-2"></div>
-                              <div className="h-4 bg-muted rounded w-32"></div>
-                            </div>
-                            <div className="h-8 bg-muted rounded w-20"></div>
-                          </div>
-                          <div className="h-4 bg-muted rounded w-full mb-4"></div>
-                          <div className="flex gap-2 mb-4">
-                            <div className="h-6 bg-muted rounded w-16"></div>
-                            <div className="h-6 bg-muted rounded w-16"></div>
-                            <div className="h-6 bg-muted rounded w-16"></div>
-                          </div>
-                          <div className="flex justify-between">
-                            <div className="flex gap-4">
-                              <div className="h-8 bg-muted rounded w-20"></div>
-                              <div className="h-8 bg-muted rounded w-20"></div>
-                            </div>
-                            <div className="h-8 bg-muted rounded w-24"></div>
-                          </div>
-                        </Card>
-                      ))
-                    ) : filteredProjects.length > 0 ? (
-                      filteredProjects.map((project, index) => (
-                        <ProjectCardDesktop
-                          key={project.id}
-                          project={project}
-                          index={index}
-                          getStatusColor={getStatusColor}
-                          getComplexityColor={getComplexityColor}
-                          formatNumber={formatNumber}
-                        />
-                      ))
-                    ) : (
-                      <Card className="p-12 text-center">
-                        <Search className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                        <h3 className="text-xl font-semibold mb-2">
-                          No matching projects
-                        </h3>
-                        <p className="text-muted-foreground mb-6">
-                          Try adjusting your search terms or filters
-                        </p>
-                        <Button variant="outline" onClick={clearFilters}>
-                          Clear Filters
-                        </Button>
-                      </Card>
                     )}
-                  </div>
-                </div>
+                    <span className="relative z-10 uppercase tracking-widest flex items-center gap-2">
+                      {getCategoryIcon(category)}
+                      {category === "all" ? "All" : category}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+              className="flex-1">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
+                Complexity
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {(
+                  [
+                    "all",
+                    "beginner",
+                    "intermediate",
+                    "advanced",
+                  ] as ComplexityLevel[]
+                ).map((complexity) => (
+                  <button
+                    key={complexity}
+                    onClick={() => setSelectedComplexity(complexity)}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all relative ${
+                      selectedComplexity === complexity
+                        ? "text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}>
+                    {selectedComplexity === complexity && (
+                      <motion.div
+                        layoutId="active-complexity-pill"
+                        className="absolute inset-0 bg-primary rounded-xl z-0 shadow-lg shadow-primary/20"
+                        transition={{
+                          type: "spring",
+                          bounce: 0.15,
+                          duration: 0.6,
+                        }}
+                      />
+                    )}
+                    <span className="relative z-10 uppercase tracking-widest">
+                      {complexity === "all" ? "All" : complexity}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* --- STATS SECTION --- */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+          <Card className="p-4 bg-card/20 backdrop-blur-sm border-border/40">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Code className="h-4 w-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">Total</p>
+                <p className="font-bold text-lg">{totalProjects}</p>
               </div>
             </div>
-          </main>
-        </div>
-      </div>
-    </>
-  );
-}
+          </Card>
+          <Card className="p-4 bg-card/20 backdrop-blur-sm border-border/40">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-green-500/10">
+                <Globe className="h-4 w-4 text-green-500" />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">Live</p>
+                <p className="font-bold text-lg">{liveProjects}</p>
+              </div>
+            </div>
+          </Card>
+          <Card className="p-4 bg-card/20 backdrop-blur-sm border-border/40">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-blue-500/10">
+                <Zap className="h-4 w-4 text-blue-500" />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">Active</p>
+                <p className="font-bold text-lg">
+                  {projects.filter((p) => p.status === "development").length}
+                </p>
+              </div>
+            </div>
+          </Card>
+          <Card className="p-4 bg-card/20 backdrop-blur-sm border-border/40">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-purple-500/10">
+                <ShieldCheck className="h-4 w-4 text-purple-500" />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">Featured</p>
+                <p className="font-bold text-lg">
+                  {projects.filter((p) => p.featured).length}
+                </p>
+              </div>
+            </div>
+          </Card>
+        </motion.div>
 
-// Mobile Project Card Component
-interface ProjectCardMobileProps {
-  project: Project;
-  index: number;
-  getStatusColor: (status: Project["status"]) => string;
-  getComplexityColor: (complexity: Project["complexity"]) => string;
-  formatNumber: (num: number) => string;
-}
-
-const ProjectCardMobile: React.FC<ProjectCardMobileProps> = ({
-  project,
-  index,
-  getStatusColor,
-  getComplexityColor,
-  formatNumber,
-}) => {
-  return (
-    <Card className="group relative bg-card/20 backdrop-blur-xl border-border/40 p-4 transition-all hover:bg-primary/3 hover:border-primary/50 overflow-hidden">
-      {/* Background Number */}
-      <span className="absolute -right-2 -top-2 text-4xl font-black text-primary/5 italic select-none">
-        0{index + 1}
-      </span>
-
-      {/* Header */}
-      <div className="flex justify-between items-start mb-3">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-1">
-            <Badge
-              className={`text-[10px] px-1.5 py-0.5 ${getStatusColor(
-                project.status
-              )}`}>
-              {project?.status?.toUpperCase()}
-            </Badge>
-            <Badge variant="outline" className="text-[10px] px-1.5 py-0.5">
-              {project.category}
-            </Badge>
-          </div>
-          <h3 className="text-lg font-bold group-hover:text-primary transition-colors">
-            {project.title}
-          </h3>
-          <p className="text-xs text-muted-foreground mt-1">
-            {project.subtitle}
-          </p>
-        </div>
-      </div>
-
-      {/* Description */}
-      <p className="text-sm text-muted-foreground leading-relaxed mb-3 line-clamp-2">
-        {project.description}
-      </p>
-
-      {/* Tech Stack */}
-      <div className="flex flex-wrap gap-1.5 mb-3">
-        {project.tech.slice(0, 3).map((tech) => (
-          <span
-            key={tech}
-            className="flex items-center gap-1 bg-background/50 border border-border/50 px-2 py-1 rounded text-[10px] font-medium">
-            <CircleDot className="h-1.5 w-1.5 text-primary" />
-            {tech}
-          </span>
-        ))}
-        {project.tech.length > 3 && (
-          <span className="text-[10px] text-muted-foreground px-2 py-1">
-            +{project.tech.length - 3}
-          </span>
-        )}
-      </div>
-
-      {/* Footer */}
-      <div className="flex items-center justify-between pt-3 border-t border-border/30">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1">
-            <Eye className="h-3.5 w-3.5 text-primary/70" />
-            <span className="text-xs font-medium">
-              {formatNumber(project.views)}
-            </span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Star className="h-3.5 w-3.5 text-primary/70" />
-            <span className="text-xs font-medium">{project.rating}</span>
-          </div>
-          <Badge
-            className={`text-[10px] px-1.5 py-0.5 ${getComplexityColor(
-              project.complexity
-            )}`}>
-            {project.complexity}
-          </Badge>
-        </div>
-
-        <div className="flex gap-1.5">
-          <Button size="icon" variant="ghost" className="h-8 w-8" asChild>
-            <a href={project.links.github} target="_blank" rel="noreferrer">
-              <FaGithub className="h-3.5 w-3.5" />
-            </a>
-          </Button>
-          <Button size="icon" variant="ghost" className="h-8 w-8" asChild>
-            <a href={project.links.live} target="_blank" rel="noreferrer">
-              <ExternalLink className="h-3.5 w-3.5" />
-            </a>
-          </Button>
-        </div>
-      </div>
-    </Card>
-  );
-};
-
-// Desktop Project Card Component
-interface ProjectCardDesktopProps {
-  project: Project;
-  index: number;
-  getStatusColor: (status: Project["status"]) => string;
-  getComplexityColor: (complexity: Project["complexity"]) => string;
-  formatNumber: (num: number) => string;
-}
-
-const ProjectCardDesktop: React.FC<ProjectCardDesktopProps> = ({
-  project,
-  index,
-  getStatusColor,
-  getComplexityColor,
-  formatNumber,
-}) => {
-  return (
-    <Card className="group relative bg-card/20 backdrop-blur-xl border-border/40 p-6 transition-all hover:bg-primary/3 hover:border-primary/50 overflow-hidden hover:shadow-xl">
-      {/* Background Decor */}
-      <span className="absolute -right-4 -top-4 text-6xl font-black text-primary/5 italic select-none">
-        0{index + 1}
-      </span>
-
-      {/* Main Content */}
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <Badge className={getStatusColor(project.status)}>
-              {project?.status?.toUpperCase()}
-            </Badge>
-            <Badge variant="outline" className="text-xs">
-              {project.category}
-            </Badge>
-            <span className="text-xs text-muted-foreground ml-auto">
-              {project.date}
-            </span>
-          </div>
-
-          <div className="mb-3">
-            <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">
-              {project.title}
+        {/* --- RESULTS HEADER --- */}
+        <div className="flex items-center justify-between mb-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}>
+            <h3 className="text-xl font-bold">
+              {filteredProjects.length} Project
+              {filteredProjects.length !== 1 ? "s" : ""} Found
             </h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              {project.subtitle}
+            <p className="text-sm text-muted-foreground">Sorted by recency</p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}>
+            <Badge variant="secondary" className="bg-primary/5">
+              {selectedCategory !== "all" ? selectedCategory : "All Categories"}
+              {selectedComplexity !== "all" && ` • ${selectedComplexity}`}
+            </Badge>
+          </motion.div>
+        </div>
+
+        {/* --- PROJECTS GRID --- */}
+        <AnimatePresence mode="wait">
+          {loading ? (
+            // Loading Skeleton
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Card
+                  key={i}
+                  className="p-6 animate-pulse bg-card/20 backdrop-blur-sm border-border/40">
+                  <div className="h-6 bg-muted rounded w-3/4 mb-4"></div>
+                  <div className="h-4 bg-muted rounded w-full mb-2"></div>
+                  <div className="h-4 bg-muted rounded w-5/6 mb-4"></div>
+                  <div className="flex gap-2 mb-4">
+                    <div className="h-6 bg-muted rounded w-16"></div>
+                    <div className="h-6 bg-muted rounded w-16"></div>
+                    <div className="h-6 bg-muted rounded w-16"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="flex gap-4">
+                      <div className="h-8 bg-muted rounded w-20"></div>
+                      <div className="h-8 bg-muted rounded w-20"></div>
+                    </div>
+                    <div className="h-8 bg-muted rounded w-24"></div>
+                  </div>
+                </Card>
+              ))}
+            </motion.div>
+          ) : filteredProjects.length > 0 ? (
+            <motion.div
+              key="projects"
+              layout
+              className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {filteredProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  getStatusColor={getStatusColor}
+                  getComplexityColor={getComplexityColor}
+                  formatNumber={formatNumber}
+                  activeProject={activeProject}
+                  setActiveProject={setActiveProject}
+                />
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="no-results"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="flex flex-col items-center justify-center py-20">
+              <Card className="p-12 text-center bg-card/20 backdrop-blur-sm border-border/40 max-w-md">
+                <Search className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-xl font-bold mb-2">No matching projects</h3>
+                <p className="text-muted-foreground mb-6">
+                  Try adjusting your search terms or filters
+                </p>
+                <Button variant="outline" onClick={clearFilters}>
+                  Clear Filters
+                </Button>
+              </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* --- TECHNOLOGY CLOUD --- */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="mt-20 space-y-6">
+          <h3 className="text-xl font-bold">Technologies Used</h3>
+          <div className="flex flex-wrap gap-2">
+            {Array.from(new Set(projects.flatMap((p) => p.tech)))
+              .slice(0, 20)
+              .map((tech, i) => (
+                <motion.span
+                  key={tech}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="px-3 py-1.5 text-sm bg-card/20 backdrop-blur-sm border border-border/40 rounded-full hover:border-primary/50 hover:text-primary transition-colors">
+                  {tech}
+                </motion.span>
+              ))}
+          </div>
+        </motion.div>
+
+        {/* --- RESPONSIVE FOOTER (Quick Action) --- */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="mt-20 sm:mt-32 p-8 sm:p-16 rounded-[2.5rem] sm:rounded-[4rem] border border-border/50 bg-card/5 backdrop-blur-xl flex flex-col items-center text-center space-y-8">
+          <div className="space-y-4">
+            <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter">
+              Interested in my{" "}
+              <span className="text-primary italic">work?</span>
+            </h2>
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
+              Let's discuss how I can contribute to your next project or
+              collaboration opportunity.
             </p>
           </div>
 
-          <p className="text-muted-foreground leading-relaxed mb-4">
-            {project.description}
-          </p>
-
-          {/* Tech Stack */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.tech.slice(0, 5).map((tech) => (
-              <span
-                key={tech}
-                className="flex items-center gap-1.5 bg-background/50 border border-border/50 px-3 py-1.5 rounded-lg text-sm font-medium group-hover:border-primary/30 transition-colors">
-                <CircleDot className="h-2 w-2 text-primary" />
-                {tech}
-              </span>
-            ))}
-            {project.tech.length > 5 && (
-              <span className="text-sm text-muted-foreground px-3 py-1.5">
-                +{project.tech.length - 5} more
-              </span>
-            )}
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <Button className="px-10 py-4 text-[10px] font-black uppercase tracking-widest bg-primary text-primary-foreground rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
+              Get In Touch
+            </Button>
+            <Button
+              variant="outline"
+              className="px-10 py-4 text-[10px] font-black uppercase tracking-widest border border-border hover:bg-muted/50 rounded-2xl transition-all flex items-center justify-center gap-2">
+              View GitHub <ChevronRight size={14} />
+            </Button>
           </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col gap-2 ml-4">
-          <Button size="icon" variant="ghost" className="h-10 w-10" asChild>
-            <a
-              href={project.links.github}
-              target="_blank"
-              rel="noreferrer"
-              title="View Code">
-              <FaGithub className="h-4 w-4" />
-            </a>
-          </Button>
-          <Button size="icon" variant="ghost" className="h-10 w-10" asChild>
-            <a
-              href={project.links.live}
-              target="_blank"
-              rel="noreferrer"
-              title="Live Demo">
-              <ExternalLink className="h-4 w-4" />
-            </a>
-          </Button>
-        </div>
-      </div>
-
-      {/* Footer Stats */}
-      <div className="flex items-center justify-between pt-4 border-t border-border/30">
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-primary/10">
-              <Eye className="h-4 w-4 text-primary" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground">Views</p>
-              <p className="font-semibold">{formatNumber(project.views)}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-yellow-500/10">
-              <Star className="h-4 w-4 text-yellow-500" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground">Rating</p>
-              <p className="font-semibold">{project.rating}/5.0</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-blue-500/10">
-              <Clock className="h-4 w-4 text-blue-500" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground">Duration</p>
-              <p className="font-semibold">{project.duration}</p>
-            </div>
-          </div>
-
-          <Badge className={getComplexityColor(project.complexity)}>
-            {project?.complexity?.toUpperCase()}
-          </Badge>
-        </div>
-
-        <Button size="sm" variant="outline" className="group/btn" asChild>
-          <a href={project.links.live} target="_blank" rel="noreferrer">
-            Visit Project
-            <ChevronRight className="h-3 w-3 ml-1 group-hover/btn:translate-x-1 transition-transform" />
-          </a>
-        </Button>
-      </div>
-
-      {/* Team Size (if available) */}
-      {project.teamSize && (
-        <div className="mt-3 pt-3 border-t border-border/20 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Users className="h-3.5 w-3.5" />
-            <span>Team of {project.teamSize}</span>
-          </div>
-          {project.contributions && (
-            <span className="text-xs text-muted-foreground">
-              {project.contributions} contributions
-            </span>
-          )}
-        </div>
-      )}
-    </Card>
+        </motion.div>
+      </main>
+    </div>
   );
-};
+}
