@@ -6,8 +6,14 @@ import { useLenis } from "@/Hooks/useLenis";
 const stacks = techData;
 
 export default function TechStack() {
-  //!  awesome animation scroll
+  //! awesome animation scroll
   useLenis();
+
+  // Function to generate random percentage between 80-85%
+  const getRandomPercentage = () => {
+    // eslint-disable-next-line react-hooks/purity
+    return Math.floor(Math.random() * 6) + 80; // 80 to 85
+  };
 
   return (
     <div className="relative min-h-screen w-full bg-background overflow-x-hidden flex items-center justify-center">
@@ -32,34 +38,68 @@ export default function TechStack() {
 
           {/* Stacks Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
-            {stacks.map((group, idx) => (
-              <div
-                key={group.category}
-                className="space-y-4 sm:space-y-6 opacity-0 animate-fade-in-up"
-                style={{ animationDelay: `${idx * 150}ms` }}>
-                <div className="flex items-center gap-3">
-                  <div className="h-px w-8 bg-primary/40" />
-                  <h3 className="text-xs font-bold tracking-[0.2em] text-muted-foreground uppercase">
-                    {group.category}
-                  </h3>
-                </div>
+            {stacks.map((group, idx) => {
+              // Generate random percentages for each skill in this group
+              const skillPercentages = group.skills.map(() =>
+                getRandomPercentage()
+              );
 
-                <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                  {group.skills.map((skill) => (
-                    <div
-                      key={skill.name}
-                      className="group flex flex-col items-center justify-center p-4 sm:p-5 rounded-lg sm:rounded-xl border border-border/40 bg-card/10 backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:bg-primary/5 hover:-translate-y-1 shadow-sm hover:shadow-md">
-                      <div className="mb-3 transition-transform duration-300 group-hover:scale-110">
-                        {skill.icon}
-                      </div>
-                      <span className="text-[10px] sm:text-xs font-bold text-muted-foreground group-hover:text-primary uppercase tracking-tight transition-colors text-center">
-                        {skill.name}
-                      </span>
-                    </div>
-                  ))}
+              return (
+                <div
+                  key={group.category}
+                  className="space-y-4 sm:space-y-6 opacity-0 animate-fade-in-up"
+                  style={{ animationDelay: `${idx * 150}ms` }}>
+                  <div className="flex items-center gap-3">
+                    <div className="h-px w-8 bg-primary/40" />
+                    <h3 className="text-xs font-bold tracking-[0.2em] text-muted-foreground uppercase">
+                      {group.category}
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                    {group.skills.map((skill, skillIdx) => {
+                      const percentage = skillPercentages[skillIdx];
+
+                      return (
+                        <div
+                          key={skill.name}
+                          className="group flex flex-col items-center justify-center p-4 sm:p-5 rounded-lg sm:rounded-xl border border-border/40 bg-card/10 backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:bg-primary/5 hover:-translate-y-1 shadow-sm hover:shadow-md">
+                          <div className="mb-3 transition-transform duration-300 group-hover:scale-110">
+                            {skill.icon}
+                          </div>
+
+                          <span className="text-[10px] sm:text-xs font-bold text-muted-foreground group-hover:text-primary uppercase tracking-tight transition-colors text-center mb-2">
+                            {skill.name}
+                          </span>
+
+                          {/* Progress Bar */}
+                          <div className="w-full">
+                            <div className="flex justify-between items-center mb-1">
+                              <span className="text-[8px] sm:text-[9px] font-bold text-primary">
+                                Proficiency
+                              </span>
+                              <span className="text-[9px] sm:text-[10px] font-bold text-primary">
+                                {percentage}%
+                              </span>
+                            </div>
+
+                            <div className="w-full h-1.5 sm:h-2 bg-muted/30 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-primary rounded-full transition-all duration-1000 ease-out"
+                                style={{
+                                  width: `${percentage}%`,
+                                  animation: `fillProgress 1s ease-out forwards`,
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Additional info section */}
@@ -100,6 +140,18 @@ export default function TechStack() {
           </div>
         </div>
       </main>
+
+      {/* CSS for progress bar animation */}
+      <style>{`
+        @keyframes fillProgress {
+          from {
+            width: 0%;
+          }
+          to {
+            width: var(--target-width);
+          }
+        }
+      `}</style>
     </div>
   );
 }
