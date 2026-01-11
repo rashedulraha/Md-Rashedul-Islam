@@ -66,7 +66,7 @@ export default function HeroBanner() {
             </div>
           </div>
 
-          <p className="max-w-full sm:max-w-md text-muted-foreground text-sm sm:text-base leading-relaxed h-8">
+          <p className="max-w-full sm:max-w-110 text-muted-foreground text-sm sm:text-base leading-relaxed h-8 ">
             {typedText}
             <span className="inline-block w-1 h-4 bg-primary ml-1 animate-pulse"></span>
           </p>
