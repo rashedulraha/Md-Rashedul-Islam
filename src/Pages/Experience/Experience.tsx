@@ -17,6 +17,8 @@ import {
   skillCategoriesData,
   testimonialsData,
 } from "@/Data/Experience/ExperienceData";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 // Type definition for public/evolution.json
 interface TimelineItem {
@@ -309,12 +311,16 @@ export default function Experience() {
             </span>
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <button className="px-10 py-4 text-[10px] font-black uppercase tracking-widest bg-primary text-primary-foreground rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all flex items-center justify-center gap-2">
+            <Button className="flex items-center justify-center gap-2">
               <Download size={14} /> Get Full Resume
-            </button>
-            <button className="px-10 py-4 text-[10px] font-black uppercase tracking-widest border border-border hover:bg-muted/50 rounded-2xl transition-all flex items-center justify-center gap-2">
-              Contact HR <ChevronRight size={14} />
-            </button>
+            </Button>
+            <Button>
+              <Link
+                to={"/contact"}
+                className="flex items-center justify-center gap-2">
+                Contact Me <ChevronRight size={14} />
+              </Link>
+            </Button>
           </div>
         </motion.div>
       </main>

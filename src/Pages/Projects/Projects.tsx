@@ -25,6 +25,7 @@ import type {
 } from "@/Routes/Types/projectType";
 import { useLenis } from "@/Hooks/useLenis";
 import ProjectCard from "@/components/projectCard/ProjectCard";
+import { Link } from "react-router-dom";
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -395,9 +396,6 @@ export default function Projects() {
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Featured</p>
-                <p className="font-bold text-lg">
-                  {projects.filter((p) => p.featured).length}
-                </p>
               </div>
             </div>
           </Card>
@@ -537,12 +535,12 @@ export default function Projects() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <Button className="px-10 py-4 text-[10px] font-black uppercase tracking-widest bg-primary text-primary-foreground rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
-              Get In Touch
+            <Button className="flex items-center justify-center gap-2">
+              <Link to={"/contact"}>Get In Touch</Link>
             </Button>
             <Button
               variant="outline"
-              className="px-10 py-4 text-[10px] font-black uppercase tracking-widest border border-border hover:bg-muted/50 rounded-2xl transition-all flex items-center justify-center gap-2">
+              className="flex items-center justify-center gap-2">
               View GitHub <ChevronRight size={14} />
             </Button>
           </div>

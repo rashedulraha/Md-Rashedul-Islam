@@ -5,6 +5,8 @@ import Navbar from "../shared/Navbar/Navbar";
 import Animation from "@/components/Animation/Animation";
 import { useLenis } from "@/Hooks/useLenis";
 import { ChevronRight, ShieldCheck, Globe, Cpu } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function TechStack() {
   useLenis();
@@ -276,12 +278,20 @@ export default function TechStack() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <button className="px-10 py-4 text-[10px] font-black uppercase tracking-widest bg-primary text-primary-foreground rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
-              Launch Conversation
-            </button>
-            <button className="px-10 py-4 text-[10px] font-black uppercase tracking-widest border border-border hover:bg-muted/50 rounded-2xl transition-all flex items-center justify-center gap-2">
-              View Project Lab <ChevronRight size={14} />
-            </button>
+            <Button>
+              <Link
+                to={"/contact"}
+                className="flex items-center justify-center gap-2">
+                Launch Conversation
+              </Link>
+            </Button>
+            <Button>
+              <Link
+                to={"/projects"}
+                className="flex items-center justify-center gap-2">
+                View Project Lab <ChevronRight size={14} />
+              </Link>
+            </Button>
           </div>
         </motion.div>
       </main>
