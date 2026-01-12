@@ -158,10 +158,10 @@ export default function Contact() {
               <motion.h1
                 variants={itemVariants}
                 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] uppercase">
-                Let's <span className="text-primary italic">Talk</span>
-                <br className="hidden sm:block" />
-                <span className="block sm:inline"> About Your </span>
-                <span className="text-primary">Idea</span>.
+                Let's Talk{" "}
+                <span className="text-muted-foreground italic font-serif lowercase font-light">
+                  About Your Idea.
+                </span>
               </motion.h1>
 
               {/* Description */}
@@ -267,10 +267,10 @@ export default function Contact() {
                           </FormLabel>
                           <FormControl>
                             <div className="relative group">
-                              <User className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground transition-colors group-focus-within:text-primary" />
+                              <User className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground transition-colors group-focus-within:text-primary" />
                               <Input
                                 placeholder="Rashedul Islam"
-                                className="pl-10 sm:pl-12 bg-background/50 h-10 sm:h-11 lg:h-12 text-sm sm:text-base rounded-lg sm:rounded-xl border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                                className="pl-10"
                                 {...field}
                               />
                             </div>
@@ -291,10 +291,10 @@ export default function Contact() {
                           </FormLabel>
                           <FormControl>
                             <div className="relative group">
-                              <Mail className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground transition-colors group-focus-within:text-primary" />
+                              <Mail className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground transition-colors group-focus-within:text-primary" />
                               <Input
                                 placeholder="email@example.com"
-                                className="pl-10 sm:pl-12 bg-background/50 h-10 sm:h-11 lg:h-12 text-sm sm:text-base rounded-lg sm:rounded-xl border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                                className="pl-10"
                                 {...field}
                               />
                             </div>
@@ -316,10 +316,10 @@ export default function Contact() {
                         </FormLabel>
                         <FormControl>
                           <div className="relative group">
-                            <MessageSquare className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground transition-colors group-focus-within:text-primary" />
+                            <MessageSquare className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground transition-colors group-focus-within:text-primary" />
                             <Input
                               placeholder="Project Inquiry"
-                              className="pl-10 sm:pl-12 bg-background/50 h-10 sm:h-11 lg:h-12 text-sm sm:text-base rounded-lg sm:rounded-xl border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                              className="pl-10"
                               {...field}
                             />
                           </div>
@@ -351,10 +351,7 @@ export default function Contact() {
                   />
 
                   {/* Submit Button */}
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full h-11 sm:h-12 lg:h-14 rounded-xl font-bold uppercase tracking-widest gap-2 text-xs sm:text-sm bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed group">
+                  <Button type="submit" disabled={isLoading} className="w-full">
                     {isLoading ? (
                       <>
                         <Loader2 className="w-4 h-4 animate-spin" />
