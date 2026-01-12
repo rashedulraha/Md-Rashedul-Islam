@@ -728,16 +728,12 @@ export default function About() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-2 max-w-md mx-auto">
-              <Button size="lg" className="group w-full sm:w-auto h-11 sm:h-12">
+              <Button size="lg">
                 <Mail className="w-4 h-4 mr-2" />
                 Start Conversation
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                asChild
-                className="w-full sm:w-auto h-11 sm:h-12">
+              <Button variant="outline" size="lg" asChild>
                 <a href="/projects.pdf" download>
                   <Download className="w-4 h-4 mr-2" />
                   View Portfolio
