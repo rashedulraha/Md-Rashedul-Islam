@@ -1,5 +1,6 @@
 // ChatHeader.tsx
 import React from "react";
+import Rashed from "../../assets/rashedul.jpeg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -44,11 +45,12 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         <div className="flex items-center gap-3">
           <div className="relative">
             <Avatar className="h-10 w-10 border-2 border-background shadow-md">
-              <AvatarImage src="/bot-avatar.png" />
+              <AvatarImage src={Rashed} />
               <AvatarFallback className="bg-linear-to-br from-primary to-primary/70">
                 <Bot className="h-5 w-5 text-primary-foreground" />
               </AvatarFallback>
             </Avatar>
+
             <span
               className={`absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-background ${
                 online ? "bg-green-500" : "bg-muted-foreground"
@@ -57,7 +59,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
           </div>
           <div>
             <h3 className="font-bold text-lg flex items-center gap-2">
-              AI Assistant
+              Rashedul
               <Badge variant="secondary" className="text-xs">
                 <Sparkles className="h-3 w-3 mr-1" />
                 PRO
@@ -65,10 +67,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
             </h3>
             <p className="text-xs text-muted-foreground flex items-center gap-1">
               {online ? (
-                <>
-                  <span className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
-                  Online • Ready to help
-                </>
+                <>Ready to help</>
               ) : (
                 <>
                   <span className="h-2 w-2 bg-muted-foreground rounded-full" />

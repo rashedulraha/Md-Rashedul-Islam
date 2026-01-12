@@ -405,7 +405,7 @@ const RealTimeChatWidget = () => {
                                 />
                               </div>
                               <span className="text-sm text-muted-foreground">
-                                AI is typing...
+                                please wait...
                               </span>
                             </div>
                           </motion.div>
@@ -416,7 +416,7 @@ const RealTimeChatWidget = () => {
                     </ScrollArea>
 
                     {/* Quick Replies */}
-                    <div className="px-4 py-3 border-t border-border/50">
+                    <div className="px-4 py-3 border-t border-border/50 ">
                       <ScrollArea className="h-20" data-lenis-prevent>
                         <div className="flex gap-2 pb-2">
                           {QUICK_REPLIES.map((reply) => (
@@ -505,7 +505,7 @@ const RealTimeChatWidget = () => {
 
                           <div className="flex items-center justify-between">
                             <div>
-                              <p className="font-medium">AI Response Speed</p>
+                              <p className="font-medium"> Response Speed</p>
                               <p className="text-sm text-muted-foreground">
                                 Fast responses
                               </p>
@@ -544,7 +544,7 @@ const RealTimeChatWidget = () => {
 
                       <div className="border-t border-border/50 pt-6 text-center">
                         <p className="text-sm text-muted-foreground">
-                          AI Assistant v2.0 • Powered by DeepSeek
+                          Md Rashedul Islam
                         </p>
                         <Button variant="link" size="sm">
                           Privacy Policy
