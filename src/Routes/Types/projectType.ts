@@ -5,6 +5,7 @@ interface ProjectLink {
 }
 
 export interface Project {
+  featured: unknown;
   id: string; // Will be added dynamically
   title: string;
   subtitle: string;
