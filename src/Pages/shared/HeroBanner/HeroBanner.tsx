@@ -48,7 +48,7 @@ export default function HeroBanner() {
         <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left space-y-4 sm:space-y-6">
           <div className="relative">
             <div className="absolute -inset-1 bg-primary/20 rounded-lg blur opacity-25 animate-pulse"></div>
-            <div className="relative inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-[10px] font-mono tracking-widest text-primary">
+            <div className="relative inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-[10px]  tracking-widest  text-muted-foreground italic font-serif lowercase font-light">
               <InfinityIcon className="h-3 w-3" /> FULL-STACK DEVELOPER
             </div>
           </div>

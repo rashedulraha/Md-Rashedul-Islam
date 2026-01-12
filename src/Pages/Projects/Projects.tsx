@@ -203,7 +203,7 @@ export default function Projects() {
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center gap-3 text-primary font-mono text-[9px] sm:text-[11px] uppercase tracking-[0.4em]">
             <span className="w-6 sm:w-12 h-[1.5px] bg-primary" />
-            <span>Project Portfolio // 2026 Edition</span>
+            <span>Project Portfolio // 2026 </span>
           </motion.div>
 
           <motion.h1
