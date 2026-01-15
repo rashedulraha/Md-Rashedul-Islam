@@ -13,7 +13,9 @@ import { ChatBubble } from "./ChatBubble";
 import { ChatHeader } from "./ChatHeader";
 import { ChatInput } from "./ChatInput";
 import { ChatToggle } from "./ChatToggle";
+
 import type { Message, QuickReply } from "./Types";
+import { QuickReplies } from "./QuickReplies";
 
 const MESSAGES: Message[] = [
   {
@@ -76,6 +78,7 @@ const RealTimeChatWidget = () => {
   );
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -241,6 +244,7 @@ const RealTimeChatWidget = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={chatContainerRef}
             initial={{ opacity: 0, y: 100, scale: 0.9 }}
             animate={{
               opacity: 1,
@@ -252,8 +256,8 @@ const RealTimeChatWidget = () => {
             transition={{ type: "spring", damping: 25 }}
             className={`fixed bottom-6 right-6 z-50 ${
               isMinimized ? "w-80" : "w-96"
-            } rounded-2xl shadow-2xl border border-border overflow-hidden bg-background`}>
-            {/* Header */}
+            } rounded-2xl shadow-2xl border border-border overflow-hidden bg-background flex flex-col`}>
+            {/* Header - Fixed at top */}
             <ChatHeader
               online={online}
               isMinimized={isMinimized}
@@ -268,9 +272,9 @@ const RealTimeChatWidget = () => {
 
             {/* Chat Content - Only show when not minimized */}
             {!isMinimized && (
-              <>
+              <div className="flex flex-col flex-1 overflow-hidden">
                 {/* Tabs */}
-                <div className="border-b border-border/50">
+                <div className="border-b border-border/50 shrink-0">
                   <div className="flex px-4">
                     <button
                       onClick={() => setActiveTab("chat")}
@@ -320,223 +324,219 @@ const RealTimeChatWidget = () => {
                   </div>
                 </div>
 
-                {/* Messages Area */}
-                {activeTab === "chat" && (
-                  <>
-                    <ScrollArea className="h-96 px-4 py-4" data-lenis-prevent>
-                      <div className="space-y-4">
-                        {/* Welcome Message */}
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          className="text-center mb-6">
-                          <Card className="inline-block px-4 py-2 bg-primary/5 border-primary/20">
-                            <p className="text-sm text-muted-foreground">
-                              Today at {formatTime(new Date())}
-                            </p>
-                          </Card>
-                        </motion.div>
-
-                        {/* Messages */}
-                        {messages.map((message) => (
-                          <ChatBubble
-                            key={message.id}
-                            message={message}
-                            onReaction={handleReaction}
-                            onCopy={copyMessage}
-                          />
-                        ))}
-
-                        {/* Typing Indicator */}
-                        {isTyping && (
+                {/* Content Area - Takes remaining space */}
+                <div className="flex-1 overflow-hidden flex flex-col">
+                  {/* Messages Area */}
+                  {activeTab === "chat" && (
+                    <>
+                      <ScrollArea
+                        className="flex-1 px-4 py-4"
+                        data-lenis-prevent
+                        // Add these props to prevent the scroll area from expanding beyond its container
+                        style={{ maxHeight: "calc(100% - 140px)" }}>
+                        <div className="space-y-4">
+                          {/* Welcome Message */}
                           <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="flex items-start gap-3 mb-4">
-                            <Avatar className="h-8 w-8">
-                              <AvatarFallback className="bg-linear-to-br from-primary to-primary/70">
-                                <Bot className="h-4 w-4 text-primary-foreground" />
-                              </AvatarFallback>
-                            </Avatar>
-                            <div className="flex items-center space-x-2 bg-muted rounded-2xl px-4 py-3 rounded-tl-none">
-                              <div className="flex space-x-1">
-                                <motion.div
-                                  animate={{ y: [0, -4, 0] }}
-                                  transition={{
-                                    repeat: Infinity,
-                                    duration: 0.6,
-                                  }}
-                                  className="h-2 w-2 bg-muted-foreground rounded-full"
-                                />
-                                <motion.div
-                                  animate={{ y: [0, -4, 0] }}
-                                  transition={{
-                                    repeat: Infinity,
-                                    duration: 0.6,
-                                    delay: 0.2,
-                                  }}
-                                  className="h-2 w-2 bg-muted-foreground rounded-full"
-                                />
-                                <motion.div
-                                  animate={{ y: [0, -4, 0] }}
-                                  transition={{
-                                    repeat: Infinity,
-                                    duration: 0.6,
-                                    delay: 0.4,
-                                  }}
-                                  className="h-2 w-2 bg-muted-foreground rounded-full"
-                                />
-                              </div>
-                              <span className="text-sm text-muted-foreground">
-                                please wait...
-                              </span>
-                            </div>
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="text-center mb-6">
+                            <Card className="inline-block px-4 py-2 bg-primary/5 border-primary/20">
+                              <p className="text-sm text-muted-foreground">
+                                Today at {formatTime(new Date())}
+                              </p>
+                            </Card>
                           </motion.div>
-                        )}
 
-                        <div ref={messagesEndRef} />
-                      </div>
-                    </ScrollArea>
-
-                    {/* Quick Replies */}
-                    <div className="px-4 py-3 border-t border-border/50 ">
-                      <ScrollArea className="h-20" data-lenis-prevent>
-                        <div className="flex gap-2 pb-2">
-                          {QUICK_REPLIES.map((reply) => (
-                            <Button
-                              key={reply.id}
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleQuickReply(reply)}
-                              className="rounded-full gap-2 whitespace-nowrap">
-                              <span>{reply.emoji}</span>
-                              {reply.text}
-                            </Button>
+                          {/* Messages */}
+                          {messages.map((message) => (
+                            <ChatBubble
+                              key={message.id}
+                              message={message}
+                              onReaction={handleReaction}
+                              onCopy={copyMessage}
+                            />
                           ))}
+
+                          {/* Typing Indicator */}
+                          {isTyping && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              className="flex items-start gap-3 mb-4">
+                              <Avatar className="h-8 w-8">
+                                <AvatarFallback className="bg-linear-to-br from-primary to-primary/70">
+                                  <Bot className="h-4 w-4 text-primary-foreground" />
+                                </AvatarFallback>
+                              </Avatar>
+                              <div className="flex items-center space-x-2 bg-muted rounded-2xl px-4 py-3 rounded-tl-none">
+                                <div className="flex space-x-1">
+                                  <motion.div
+                                    animate={{ y: [0, -4, 0] }}
+                                    transition={{
+                                      repeat: Infinity,
+                                      duration: 0.6,
+                                    }}
+                                    className="h-2 w-2 bg-muted-foreground rounded-full"
+                                  />
+                                  <motion.div
+                                    animate={{ y: [0, -4, 0] }}
+                                    transition={{
+                                      repeat: Infinity,
+                                      duration: 0.6,
+                                      delay: 0.2,
+                                    }}
+                                    className="h-2 w-2 bg-muted-foreground rounded-full"
+                                  />
+                                  <motion.div
+                                    animate={{ y: [0, -4, 0] }}
+                                    transition={{
+                                      repeat: Infinity,
+                                      duration: 0.6,
+                                      delay: 0.4,
+                                    }}
+                                    className="h-2 w-2 bg-muted-foreground rounded-full"
+                                  />
+                                </div>
+                                <span className="text-sm text-muted-foreground">
+                                  please wait...
+                                </span>
+                              </div>
+                            </motion.div>
+                          )}
+
+                          <div ref={messagesEndRef} />
                         </div>
                       </ScrollArea>
-                    </div>
 
-                    {/* Input Area */}
-                    <ChatInput
-                      inputMessage={inputMessage}
-                      setInputMessage={setInputMessage}
-                      onSendMessage={sendMessage}
-                    />
-                  </>
-                )}
+                      {/* Quick Replies - Fixed height */}
+                      <QuickReplies
+                        quickReplies={QUICK_REPLIES}
+                        onQuickReply={handleQuickReply}
+                      />
 
-                {/* Files Tab */}
-                {activeTab === "files" && (
-                  <div className="p-4 h-96">
-                    <div className="text-center py-12">
-                      <Paperclip className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                      <h4 className="font-semibold mb-2">
-                        No files shared yet
-                      </h4>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        Share files with the AI assistant
-                      </p>
-                      <Button variant="outline" className="gap-2">
-                        <Paperclip className="h-4 w-4" />
-                        Upload File
-                      </Button>
-                    </div>
-                  </div>
-                )}
+                      {/* Input Area - Fixed at bottom */}
+                      <ChatInput
+                        inputMessage={inputMessage}
+                        setInputMessage={setInputMessage}
+                        onSendMessage={sendMessage}
+                      />
+                    </>
+                  )}
 
-                {/* Settings Tab */}
-                {activeTab === "settings" && (
-                  <ScrollArea className="h-96 p-4" data-lenis-prevent>
-                    <div className="space-y-6">
-                      <div>
-                        <h4 className="font-semibold mb-4">Chat Settings</h4>
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <p className="font-medium">Notification Sound</p>
-                              <p className="text-sm text-muted-foreground">
-                                Play sound for new messages
-                              </p>
-                            </div>
-                            <Button
-                              variant={
-                                notificationSound ? "default" : "outline"
-                              }
-                              size="sm"
-                              onClick={() =>
-                                setNotificationSound(!notificationSound)
-                              }>
-                              {notificationSound ? "On" : "Off"}
-                            </Button>
-                          </div>
-
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <p className="font-medium">Dark Mode</p>
-                              <p className="text-sm text-muted-foreground">
-                                Toggle dark theme
-                              </p>
-                            </div>
-                            <Button
-                              variant={darkMode ? "default" : "outline"}
-                              size="sm"
-                              onClick={() => setDarkMode(!darkMode)}>
-                              {darkMode ? "On" : "Off"}
-                            </Button>
-                          </div>
-
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <p className="font-medium"> Response Speed</p>
-                              <p className="text-sm text-muted-foreground">
-                                Fast responses
-                              </p>
-                            </div>
-                            <Badge variant="secondary" className="gap-1">
-                              <Zap className="h-3 w-3" />
-                              Fast
-                            </Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="border-t border-border/50 pt-6">
-                        <h4 className="font-semibold mb-4">Actions</h4>
-                        <div className="space-y-2">
-                          <Button
-                            variant="outline"
-                            className="w-full justify-start gap-2">
-                            <Copy className="h-4 w-4" />
-                            Copy Chat History
-                          </Button>
-                          <Button
-                            variant="outline"
-                            className="w-full justify-start gap-2">
-                            <Trash2 className="h-4 w-4" />
-                            Clear Chat
-                          </Button>
-                          <Button
-                            variant="outline"
-                            className="w-full justify-start gap-2">
-                            <Download className="h-4 w-4" />
-                            Export Chat
-                          </Button>
-                        </div>
-                      </div>
-
-                      <div className="border-t border-border/50 pt-6 text-center">
-                        <p className="text-sm text-muted-foreground">
-                          Md Rashedul Islam
+                  {/* Files Tab */}
+                  {activeTab === "files" && (
+                    <div className="p-4 h-full flex items-center justify-center">
+                      <div className="text-center">
+                        <Paperclip className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                        <h4 className="font-semibold mb-2">
+                          No files shared yet
+                        </h4>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Share files with the AI assistant
                         </p>
-                        <Button variant="link" size="sm">
-                          Privacy Policy
+                        <Button variant="outline" className="gap-2">
+                          <Paperclip className="h-4 w-4" />
+                          Upload File
                         </Button>
                       </div>
                     </div>
-                  </ScrollArea>
-                )}
-              </>
+                  )}
+
+                  {/* Settings Tab */}
+                  {activeTab === "settings" && (
+                    <ScrollArea className="h-full p-4" data-lenis-prevent>
+                      <div className="space-y-6">
+                        <div>
+                          <h4 className="font-semibold mb-4">Chat Settings</h4>
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">
+                                  Notification Sound
+                                </p>
+                                <p className="text-sm text-muted-foreground">
+                                  Play sound for new messages
+                                </p>
+                              </div>
+                              <Button
+                                variant={
+                                  notificationSound ? "default" : "outline"
+                                }
+                                size="sm"
+                                onClick={() =>
+                                  setNotificationSound(!notificationSound)
+                                }>
+                                {notificationSound ? "On" : "Off"}
+                              </Button>
+                            </div>
+
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">Dark Mode</p>
+                                <p className="text-sm text-muted-foreground">
+                                  Toggle dark theme
+                                </p>
+                              </div>
+                              <Button
+                                variant={darkMode ? "default" : "outline"}
+                                size="sm"
+                                onClick={() => setDarkMode(!darkMode)}>
+                                {darkMode ? "On" : "Off"}
+                              </Button>
+                            </div>
+
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium"> Response Speed</p>
+                                <p className="text-sm text-muted-foreground">
+                                  Fast responses
+                                </p>
+                              </div>
+                              <Badge variant="secondary" className="gap-1">
+                                <Zap className="h-3 w-3" />
+                                Fast
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="border-t border-border/50 pt-6">
+                          <h4 className="font-semibold mb-4">Actions</h4>
+                          <div className="space-y-2">
+                            <Button
+                              variant="outline"
+                              className="w-full justify-start gap-2">
+                              <Copy className="h-4 w-4" />
+                              Copy Chat History
+                            </Button>
+                            <Button
+                              variant="outline"
+                              className="w-full justify-start gap-2">
+                              <Trash2 className="h-4 w-4" />
+                              Clear Chat
+                            </Button>
+                            <Button
+                              variant="outline"
+                              className="w-full justify-start gap-2">
+                              <Download className="h-4 w-4" />
+                              Export Chat
+                            </Button>
+                          </div>
+                        </div>
+
+                        <div className="border-t border-border/50 pt-6 text-center">
+                          <p className="text-sm text-muted-foreground">
+                            Md Rashedul Islam
+                          </p>
+                          <Button variant="link" size="sm">
+                            Privacy Policy
+                          </Button>
+                        </div>
+                      </div>
+                    </ScrollArea>
+                  )}
+                </div>
+              </div>
             )}
 
             {/* Minimized View */}
