@@ -13,24 +13,7 @@ import { ChatBubble } from "./ChatBubble";
 import { ChatHeader } from "./ChatHeader";
 import { ChatInput } from "./ChatInput";
 import { ChatToggle } from "./ChatToggle";
-
-interface Message {
-  id: string;
-  content: string;
-  sender: "user" | "bot";
-  timestamp: Date;
-  read: boolean;
-  reactions?: {
-    thumbsUp: number;
-    thumbsDown: number;
-  };
-}
-
-interface QuickReply {
-  id: string;
-  text: string;
-  emoji: string;
-}
+import type { Message, QuickReply } from "./Types";
 
 const MESSAGES: Message[] = [
   {
