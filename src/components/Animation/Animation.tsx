@@ -127,6 +127,128 @@ const Animation: React.FC = () => {
         />
       </div>
 
+      {/* Permanent Grid Lines - Always Visible */}
+      <div className="absolute inset-0 opacity-[0.08] dark:opacity-[0.05]">
+        {/* Horizontal lines */}
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={`h-${i}`}
+            className="absolute w-full h-px bg-foreground/20"
+            style={{
+              top: `${(i + 1) * 8.33}%`,
+            }}
+          />
+        ))}
+        {/* Vertical lines */}
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={`v-${i}`}
+            className="absolute h-full w-px bg-foreground/20"
+            style={{
+              left: `${(i + 1) * 8.33}%`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Permanent Diagonal Lines Pattern */}
+      <svg className="absolute inset-0 w-full h-full opacity-[0.05] dark:opacity-[0.03]">
+        <defs>
+          <pattern
+            id="diagonalHatch"
+            patternUnits="userSpaceOnUse"
+            width="60"
+            height="60">
+            <path
+              d="M0,60 L60,0"
+              stroke="hsl(var(--foreground))"
+              strokeWidth="0.5"
+              opacity="0.2"
+            />
+            <path
+              d="M0,30 L30,0 M30,60 L60,30"
+              stroke="hsl(var(--foreground))"
+              strokeWidth="0.5"
+              opacity="0.15"
+            />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#diagonalHatch)" />
+      </svg>
+
+      {/* Permanent Geometric Lines */}
+      <svg className="absolute inset-0 w-full h-full opacity-[0.06] dark:opacity-[0.04]">
+        {/* Corner accent lines */}
+        <path
+          d="M0,0 L200,0 L0,200 Z"
+          fill="none"
+          stroke="hsl(var(--primary))"
+          strokeWidth="1"
+          opacity="0.3"
+        />
+        <path
+          d="M100%,0 L100%-200,0 L100%,200 Z"
+          fill="none"
+          stroke="hsl(var(--primary))"
+          strokeWidth="1"
+          opacity="0.3"
+        />
+        <path
+          d="M0,100% L200,100% L0,100%-200 Z"
+          fill="none"
+          stroke="hsl(var(--primary))"
+          strokeWidth="1"
+          opacity="0.3"
+        />
+        <path
+          d="M100%,100% L100%-200,100% L100%,100%-200 Z"
+          fill="none"
+          stroke="hsl(var(--primary))"
+          strokeWidth="1"
+          opacity="0.3"
+        />
+
+        {/* Center geometric pattern */}
+        <g transform="translate(50%, 50%)">
+          <circle
+            cx="0"
+            cy="0"
+            r="100"
+            fill="none"
+            stroke="hsl(var(--foreground))"
+            strokeWidth="0.5"
+            opacity="0.2"
+          />
+          <circle
+            cx="0"
+            cy="0"
+            r="200"
+            fill="none"
+            stroke="hsl(var(--foreground))"
+            strokeWidth="0.5"
+            opacity="0.15"
+          />
+          <line
+            x1="-100"
+            y1="0"
+            x2="100"
+            y2="0"
+            stroke="hsl(var(--foreground))"
+            strokeWidth="0.5"
+            opacity="0.2"
+          />
+          <line
+            x1="0"
+            y1="-100"
+            x2="0"
+            y2="100"
+            stroke="hsl(var(--foreground))"
+            strokeWidth="0.5"
+            opacity="0.2"
+          />
+        </g>
+      </svg>
+
       {/* Dot Grid Pattern - Modern & Clean */}
       <div
         className="absolute inset-0 opacity-[0.15] dark:opacity-[0.08]"
@@ -134,16 +256,6 @@ const Animation: React.FC = () => {
           backgroundImage: `radial-gradient(circle, hsl(var(--foreground) / 0.15) 1px, transparent 1px)`,
           backgroundSize: "40px 40px",
           backgroundPosition: "0 0",
-        }}
-      />
-
-      {/* Animated gradient overlay that follows mouse */}
-      <div
-        className="absolute opacity-[0.03] dark:opacity-[0.05] w-125 h-125 rounded-full blur-[150px] transition-all duration-500 ease-out"
-        style={{
-          background: `radial-gradient(circle, hsl(var(--primary)) 0%, hsl(var(--chart-2)) 50%, transparent 100%)`,
-          left: `${mousePosition.x - 250}px`,
-          top: `${mousePosition.y - 250}px`,
         }}
       />
 
@@ -355,42 +467,6 @@ const Animation: React.FC = () => {
         })}
       </div>
 
-      {/* Animated Lines/Connections */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.03] dark:opacity-[0.05]">
-        <defs>
-          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0" />
-            <stop
-              offset="50%"
-              stopColor="hsl(var(--primary))"
-              stopOpacity="0.5"
-            />
-            <stop
-              offset="100%"
-              stopColor="hsl(var(--primary))"
-              stopOpacity="0"
-            />
-          </linearGradient>
-        </defs>
-        {[...Array(5)].map((_, i) => (
-          <line
-            key={i}
-            x1={`${(i * 20) % 100}%`}
-            y1="0%"
-            x2={`${(i * 20 + 50) % 100}%`}
-            y2="100%"
-            stroke="url(#lineGradient)"
-            strokeWidth="1"
-            style={{
-              animation: reducedMotion
-                ? "none"
-                : `drawLine ${15 + i * 2}s ease-in-out infinite`,
-              animationDelay: `${i * 2}s`,
-            }}
-          />
-        ))}
-      </svg>
-
       {/* Noise texture for depth */}
       <div
         className="absolute inset-0 opacity-[0.015] mix-blend-overlay pointer-events-none"
@@ -521,17 +597,6 @@ const Animation: React.FC = () => {
           }
           50% {
             transform: scale(1.1) rotate(5deg);
-          }
-        }
-
-        @keyframes drawLine {
-          0%, 100% {
-            opacity: 0;
-            stroke-dashoffset: 1000;
-          }
-          50% {
-            opacity: 1;
-            stroke-dashoffset: 0;
           }
         }
 
