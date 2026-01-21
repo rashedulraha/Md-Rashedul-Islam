@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
-import { Code, Globe, Zap, ShieldCheck } from "lucide-react";
+import { Code, Globe, Zap, Star } from "lucide-react";
 import type { Project } from "@/Routes/Types/projectType";
 
 interface ProjectStatsProps {
@@ -13,57 +13,78 @@ export default function ProjectStats({ projects }: ProjectStatsProps) {
   const activeProjects = projects.filter(
     (p) => p.status === "development",
   ).length;
-  // Featured logic can be added here if needed in data
+  const featuredProjects = projects.filter((p) => p.featured === true).length;
+  const stats = [
+    {
+      title: "Total Projects",
+      value: totalProjects,
+      icon: Code,
+      color: "text-primary",
+      bg: "bg-primary/10",
+    },
+    {
+      title: "Live Projects",
+      value: liveProjects,
+      icon: Globe,
+      color: "text-green-600 dark:text-green-400",
+      bg: "bg-green-500/10",
+    },
+    {
+      title: "In Development",
+      value: activeProjects,
+      icon: Zap,
+      color: "text-blue-600 dark:text-blue-400",
+      bg: "bg-blue-500/10",
+    },
+    {
+      title: "Featured",
+      value: featuredProjects,
+      icon: Star,
+      color: "text-purple-600 dark:text-purple-400",
+      bg: "bg-purple-500/10",
+    },
+  ];
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5 }}
-      className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
-      <Card className="p-4 bg-card/20 backdrop-blur-sm border-border/40">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-primary/10">
-            <Code className="h-4 w-4 text-primary" />
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">Total</p>
-            <p className="font-bold text-lg">{totalProjects}</p>
-          </div>
-        </div>
-      </Card>
-      <Card className="p-4 bg-card/20 backdrop-blur-sm border-border/40">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-green-500/10">
-            <Globe className="h-4 w-4 text-green-500" />
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">Live</p>
-            <p className="font-bold text-lg">{liveProjects}</p>
-          </div>
-        </div>
-      </Card>
-      <Card className="p-4 bg-card/20 backdrop-blur-sm border-border/40">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-blue-500/10">
-            <Zap className="h-4 w-4 text-blue-500" />
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">Active</p>
-            <p className="font-bold text-lg">{activeProjects}</p>
-          </div>
-        </div>
-      </Card>
-      <Card className="p-4 bg-card/20 backdrop-blur-sm border-border/40">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-purple-500/10">
-            <ShieldCheck className="h-4 w-4 text-purple-500" />
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">Featured</p>
-          </div>
-        </div>
-      </Card>
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6 mb-12 px-4 sm:px-0">
+      {stats.map((stat, index) => (
+        <motion.div
+          key={stat.title}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: index * 0.1 }}
+          whileHover={{ y: -4, transition: { duration: 0.2 } }}>
+          <Card
+            className={`
+              h-full p-2 sm:p-3 
+              border border-border/60 
+              bg-card 
+              shadow-sm 
+              hover:shadow-md 
+              hover:border-border 
+              transition-all duration-300
+            `}>
+            <div className="flex items-center gap-4">
+              <div className={`p-3 rounded-lg ${stat.bg}`}>
+                <stat.icon className={`h-5 w-5 ${stat.color}`} />
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-muted-foreground font-medium">
+                  {stat.title}
+                </p>
+                <p className="text-2xl font-bold tracking-tight">
+                  {stat.value}
+                </p>
+              </div>
+            </div>
+          </Card>
+        </motion.div>
+      ))}
     </motion.div>
   );
 }
