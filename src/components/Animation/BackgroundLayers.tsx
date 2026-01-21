@@ -8,7 +8,7 @@ export default function BackgroundLayers({
   return (
     <>
       {/* Base gradient background with mesh effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-background/95" />
+      <div className="absolute inset-0 bg-linear-to-br from-background via-background to-background/95" />
 
       {/* Animated gradient mesh */}
       <div className="absolute inset-0">

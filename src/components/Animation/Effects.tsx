@@ -65,7 +65,7 @@ export default function Effects({ reducedMotion, particles }: EffectsProps) {
       {/* Enhanced Scan line effect */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none overflow-hidden">
         <div
-          className="h-[1px] w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent"
+          className="h-px w-full bg-linear-to-r from-transparent via-primary/50 to-transparent"
           style={{
             animation: reducedMotion ? "none" : "scan 10s linear infinite",
           }}
@@ -74,10 +74,10 @@ export default function Effects({ reducedMotion, particles }: EffectsProps) {
 
       {/* Corner vignette with gradient */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/50 opacity-50" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background/50 opacity-50" />
-        <div className="absolute inset-0 bg-gradient-to-l from-background/70 via-transparent to-background/40 opacity-50" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-background/40 opacity-50" />
+        <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-background/50 opacity-50" />
+        <div className="absolute inset-0 bg-linear-to-b from-background/80 via-transparent to-background/50 opacity-50" />
+        <div className="absolute inset-0 bg-linear-to-l from-background/70 via-transparent to-background/40 opacity-50" />
+        <div className="absolute inset-0 bg-linear-to-r from-background/70 via-transparent to-background/40 opacity-50" />
       </div>
 
       {/* Radial gradient overlay for focus */}
