@@ -4,12 +4,14 @@ import HeroBanner from "../shared/HeroBanner/HeroBanner";
 
 const Home = () => {
   return (
-    <div className="relative min-h-screen lg:h-screen w-full overflow-y-auto lg:overflow-hidden bg-background selection:bg-primary selection:text-primary-foreground">
+    <div className="relative h-screen w-full overflow-hidden bg-background">
       <Animation />
       <Navbar />
 
-      <main className="relative z-10 pt-20 sm:pt-24 md:pt-28 pb-8 sm:pb-12 md:pb-16 px-3 sm:px-4 md:px-6 lg:px-8 container mx-auto flex items-center justify-center min-h-screen">
-        <HeroBanner />
+      <main className="relative z-10 h-full flex items-center justify-center">
+        <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <HeroBanner />
+        </div>
       </main>
     </div>
   );
