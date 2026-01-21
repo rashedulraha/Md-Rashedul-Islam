@@ -107,7 +107,7 @@ export default function HeroBanner() {
                     className={`px-2 sm:px-3 py-1 backdrop-blur-sm border border-border/50 text-xs ${techColors[tech]}`}>
                     {tech}
                   </Badge>
-                )
+                ),
               )}
             </div>
             <div className="text-xs sm:text-sm text-muted-foreground">
