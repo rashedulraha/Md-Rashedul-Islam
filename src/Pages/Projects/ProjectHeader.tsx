@@ -1,4 +1,3 @@
-// src/components/Projects/ProjectHeader.tsx
 import { motion } from "framer-motion";
 
 export default function ProjectHeader() {

@@ -1,4 +1,3 @@
-// src/components/Projects/ProjectFilters.tsx
 import { motion } from "framer-motion";
 import { Search, Globe, Layers, Server, GitBranch, Code } from "lucide-react";
 import { Input } from "@/components/ui/input";
