@@ -3,6 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { FaGithub } from "react-icons/fa";
 
 export default function FooterCTA() {
   return (
@@ -54,6 +55,7 @@ export default function FooterCTA() {
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-1.5">
+            <FaGithub />
             View GitHub
             <ChevronRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </a>
