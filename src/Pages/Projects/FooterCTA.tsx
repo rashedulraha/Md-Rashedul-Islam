@@ -19,10 +19,10 @@ export default function FooterCTA() {
         "text-center space-y-7",
       )}>
       <div className="space-y-3">
-        <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+        <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter">
           Interested in working together?
         </h2>
-        <p className="text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
+        <p className="text-xs sm:text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
           I'm currently open to new opportunities and collaborations. Let's
           discuss how I can support your next project.
         </p>
