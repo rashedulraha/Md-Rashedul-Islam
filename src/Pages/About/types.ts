@@ -1,4 +1,4 @@
-import type { JSX } from "react";
+import { type JSX } from "react";
 
 export type TabType =
   | "overview"
@@ -13,13 +13,13 @@ export interface TabConfig {
   icon: JSX.Element;
 }
 
-export interface Stat {
+export interface StatItem {
   icon: JSX.Element;
   value: string;
   label: string;
 }
 
-export interface Detail {
+export interface DetailItem {
   icon: JSX.Element;
   title: string;
   content: string;
@@ -36,8 +36,8 @@ export interface TimelineItem {
 }
 
 export interface SkillCategory {
-  icon: JSX.Element;
   title: string;
+  icon: JSX.Element;
   level: string;
   skills: string[];
 }
@@ -56,7 +56,7 @@ export interface Testimonial {
   rating: number;
 }
 
-export interface Proficiency {
+export interface ProficiencyItem {
   name: string;
   level: number;
 }
