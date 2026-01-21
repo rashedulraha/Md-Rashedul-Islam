@@ -9,15 +9,15 @@ export default function CTASection() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: 0.2 }}
-      className="mt-12 sm:mt-16 lg:mt-20 p-6 sm:p-8 md:p-10 lg:p-16 rounded-2xl sm:rounded-3xl lg:rounded-[3rem] border border-border/50 bg-linear-to-br from-card/20 to-card/5 backdrop-blur-xl text-center">
+      className="mt-12 sm:mt-16 lg:mt-20 p-6 sm:p-8 md:p-10 lg:p-16 rounded-lg sm:rounded-lg  lg:rounded-lg border border-border/50 bg-linear-to-br from-card/20 to-card/5 backdrop-blur-xl text-center">
       <div className="max-w-3xl mx-auto space-y-4 sm:space-y-6">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black uppercase tracking-tighter leading-tight">
+        <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter">
           Ready to Build Something{" "}
           <span className="text-primary italic block sm:inline mt-1 sm:mt-0">
             Amazing?
           </span>
         </h2>
-        <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed px-4">
+        <p className="text-xs sm:text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
           I'm always excited to take on new challenges and collaborate on
           innovative projects. Let's discuss how I can contribute to your team's
           success.
