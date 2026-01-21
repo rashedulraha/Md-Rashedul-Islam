@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import image from "../../assets/rashedul.jpeg";
+import image from "../../../../assets/rashedul.jpeg";
 
 const itemVariants = {
   hidden: { opacity: 0, y: 10 },
