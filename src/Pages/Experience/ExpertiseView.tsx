@@ -1,26 +1,17 @@
 import { motion } from "framer-motion";
-
-interface SkillCategory {
-  name: string;
-  description: string;
-  skills: string[];
-  icon: React.ReactNode;
-  color: string;
-}
+import type { SkillCategory } from "./types";
 
 interface ExpertiseViewProps {
-  skillCategoriesData: SkillCategory[];
+  skillCategories: SkillCategory[];
 }
 
-export default function ExpertiseView({
-  skillCategoriesData,
-}: ExpertiseViewProps) {
+export default function ExpertiseView({ skillCategories }: ExpertiseViewProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-      {skillCategoriesData.map((cat, idx) => (
+      {skillCategories.map((cat, idx) => (
         <div
           key={idx}
           className="group p-6 sm:p-8 rounded-4xl border border-border/40 bg-card/10 hover:bg-card/30 hover:border-primary/30 transition-all duration-500 flex flex-col justify-between min-h-60">

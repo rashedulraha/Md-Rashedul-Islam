@@ -1,21 +1,7 @@
 import { motion } from "framer-motion";
-import type { LucideIcon } from "lucide-react";
+import { metricsData } from "@/Data/Experience/ExperienceData";
 
-interface Metric {
-  id: string;
-  value: string;
-  label: string;
-  icon: LucideIcon;
-  color: string;
-}
-
-interface ExperienceHeaderProps {
-  metricsData: Metric[];
-}
-
-export default function ExperienceHeader({
-  metricsData,
-}: ExperienceHeaderProps) {
+export default function ExperienceHeader() {
   return (
     <header className="max-w-4xl mb-12 sm:mb-20 space-y-4 sm:space-y-6">
       <motion.div

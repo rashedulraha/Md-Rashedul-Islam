@@ -1,27 +1,20 @@
 import { motion } from "framer-motion";
-import { Star, Quote } from "lucide-react";
-
-interface Testimonial {
-  id: string;
-  name: string;
-  position: string;
-  content: string;
-  rating: number;
-}
+import { Quote, Star } from "lucide-react";
+import type { Testimonial } from "./types";
 
 interface TestimonialsViewProps {
-  testimonialsData: Testimonial[];
+  testimonials: Testimonial[];
 }
 
 export default function TestimonialsView({
-  testimonialsData,
+  testimonials,
 }: TestimonialsViewProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="grid grid-cols-1 gap-6">
-      {testimonialsData.map((test) => (
+      {testimonials.map((test) => (
         <div
           key={test.id}
           className="p-8 sm:p-12 rounded-[2.5rem] sm:rounded-4xl border border-border/40 bg-card/10 relative overflow-hidden group">

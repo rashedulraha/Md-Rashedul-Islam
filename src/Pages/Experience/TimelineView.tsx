@@ -1,16 +1,6 @@
 import { motion } from "framer-motion";
 import { Briefcase } from "lucide-react";
-
-interface TimelineItem {
-  role: string;
-  org: string;
-  duration: string;
-  phase: string;
-  description: string;
-  impact: string;
-  stack: string[];
-  link?: string;
-}
+import type { TimelineItem } from "./types";
 
 interface TimelineViewProps {
   timeline: TimelineItem[];
