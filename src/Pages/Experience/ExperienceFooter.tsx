@@ -8,7 +8,7 @@ export default function ExperienceFooter() {
     <motion.div
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
-      className="mt-20 sm:mt-32 p-8 sm:p-16 rounded-[2.5rem] sm:rounded-[4rem] border border-border/50 bg-card/5 backdrop-blur-xl flex flex-col items-center text-center space-y-8">
+      className="mt-20 sm:mt-32 p-8 sm:p-16 rounded-lg sm:rounded-lg border border-border/50 bg-card/5 backdrop-blur-xl flex flex-col items-center text-center space-y-8">
       <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter">
         Ready to initiate the{" "}
         <span className="text-primary italic font-serif lowercase font-light">
