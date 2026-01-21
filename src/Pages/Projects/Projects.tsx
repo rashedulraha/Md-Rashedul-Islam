@@ -1,33 +1,32 @@
 import { useState, useEffect } from "react";
-import {
-  Code,
-  Search,
-  ChevronRight,
-  Globe,
-  GitBranch,
-  Zap,
-  ShieldCheck,
-  Layers,
-  Server,
-} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { motion, AnimatePresence } from "framer-motion";
+import { Search } from "lucide-react";
 
+// Components Import
+import ProjectHeader from "./ProjectHeader";
+import ProjectFilters from "./ProjectFilters";
+import TechCloud from "./TechCloud";
+import FooterCTA from "./FooterCTA";
+import ProjectStats from "./ ProjectStats";
+
+// Shared Components
 import Navbar from "../shared/Navbar/Navbar";
 import Animation from "@/components/Animation/Animation";
+import ProjectCard from "@/components/projectCard/ProjectCard";
+
+// Types & Hooks
 import type {
-  ComplexityLevel,
   Project,
   ProjectCategory,
+  ComplexityLevel,
 } from "@/Routes/Types/projectType";
 import { useLenis } from "@/Hooks/useLenis";
-import ProjectCard from "@/components/projectCard/ProjectCard";
-import { Link } from "react-router-dom";
 
 export default function Projects() {
+  // --- STATES ---
   const [projects, setProjects] = useState<Project[]>([]);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,10 +37,9 @@ export default function Projects() {
   const [loading, setLoading] = useState(true);
   const [activeProject, setActiveProject] = useState<string | null>(null);
 
-  //! awesome scroll animation
   useLenis();
 
-  // Load projects data
+  // --- DATA LOADING ---
   useEffect(() => {
     const loadProjects = async () => {
       try {
@@ -54,27 +52,21 @@ export default function Projects() {
           (item: Record<string, unknown>, index: number) => ({
             ...item,
             id: item.id || `project-${index}`,
-            category: item.category || "web", // Default to "web" if not provided
-            status: item.status || "live", // Default to "live" if not provided
-            views: item.views || Math.floor(Math.random() * 2000) + 500, // Random views if not provided
-            rating: item.rating || (Math.random() * 1.5 + 3.5).toFixed(1), // Random rating if not provided
-            complexity: item.complexity || "intermediate", // Default to "intermediate" if not provided
+            category: item.category || "web",
+            status: item.status || "live",
+            views: item.views || Math.floor(Math.random() * 2000) + 500,
+            rating: item.rating || (Math.random() * 1.5 + 3.5).toFixed(1),
+            complexity: item.complexity || "intermediate",
             duration:
-              item.duration || `${Math.floor(Math.random() * 4) + 1} months`, // Random duration if not provided
+              item.duration || `${Math.floor(Math.random() * 4) + 1} months`,
             date:
               item.date ||
-              `2023-${String(Math.floor(Math.random() * 12) + 1).padStart(
-                2,
-                "0"
-              )}-${String(Math.floor(Math.random() * 28) + 1).padStart(
-                2,
-                "0"
-              )}`, // Random date if not provided
-            tags: item.tags || item.tech, // Use tech as tags if not provided
-            teamSize: item.teamSize || Math.floor(Math.random() * 4) + 1, // Random team size if not provided
+              `2023-${String(Math.floor(Math.random() * 12) + 1).padStart(2, "0")}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, "0")}`,
+            tags: item.tags || item.tech,
+            teamSize: item.teamSize || Math.floor(Math.random() * 4) + 1,
             contributions:
-              item.contributions || Math.floor(Math.random() * 150) + 20, // Random contributions if not provided
-          })
+              item.contributions || Math.floor(Math.random() * 150) + 20,
+          }),
         );
 
         setProjects(transformedData);
@@ -89,11 +81,10 @@ export default function Projects() {
     loadProjects();
   }, []);
 
-  // Filter projects based on search, category and complexity
+  // --- FILTER LOGIC ---
   useEffect(() => {
     let filtered = projects;
 
-    // Filter by search query
     if (searchQuery) {
       filtered = filtered.filter(
         (project) =>
@@ -102,42 +93,35 @@ export default function Projects() {
             .toLowerCase()
             .includes(searchQuery.toLowerCase()) ||
           project.tech.some((tech) =>
-            tech.toLowerCase().includes(searchQuery.toLowerCase())
+            tech.toLowerCase().includes(searchQuery.toLowerCase()),
           ) ||
           project.tags.some((tag) =>
-            tag.toLowerCase().includes(searchQuery.toLowerCase())
-          )
+            tag.toLowerCase().includes(searchQuery.toLowerCase()),
+          ),
       );
     }
 
-    // Filter by category
     if (selectedCategory !== "all") {
       filtered = filtered.filter(
-        (project) => project.category === selectedCategory
+        (project) => project.category === selectedCategory,
       );
     }
 
-    // Filter by complexity
     if (selectedComplexity !== "all") {
       filtered = filtered.filter(
-        (project) => project.complexity === selectedComplexity
+        (project) => project.complexity === selectedComplexity,
       );
     }
 
     setFilteredProjects(filtered);
   }, [projects, searchQuery, selectedCategory, selectedComplexity]);
 
-  // Stats calculations
-  const totalProjects = projects.length;
-  const liveProjects = projects.filter((p) => p.status === "live").length;
-
-  // Format number with K suffix
+  // --- HELPERS ---
   const formatNumber = (num: number): string => {
     if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
     return num?.toString();
   };
 
-  // Get status color
   const getStatusColor = (status: Project["status"]) => {
     switch (status) {
       case "live":
@@ -151,7 +135,6 @@ export default function Projects() {
     }
   };
 
-  // Get complexity color
   const getComplexityColor = (complexity: Project["complexity"]) => {
     switch (complexity) {
       case "beginner":
@@ -165,241 +148,36 @@ export default function Projects() {
     }
   };
 
-  // Clear all filters
   const clearFilters = () => {
     setSearchQuery("");
     setSelectedCategory("all");
     setSelectedComplexity("all");
   };
 
-  // Get category icon
-  const getCategoryIcon = (category: ProjectCategory) => {
-    switch (category) {
-      case "web":
-        return <Globe className="h-4 w-4" />;
-      case "mobile":
-        return <Layers className="h-4 w-4" />;
-      case "fullstack":
-        return <Server className="h-4 w-4" />;
-      case "opensource":
-        return <GitBranch className="h-4 w-4" />;
-      default:
-        return <Code className="h-4 w-4" />;
-    }
-  };
-
   return (
     <div className="relative min-h-screen w-full bg-background text-foreground transition-colors duration-500">
-      {/* Subtle Background Animation */}
+      {/* Background Animation */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-15">
         <Animation />
       </div>
       <Navbar />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
-        {/* --- HEADER SECTION --- */}
-        <header className="max-w-4xl mb-12 sm:mb-20 space-y-4 sm:space-y-6">
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-3 text-primary font-mono text-[9px] sm:text-[11px] uppercase tracking-[0.4em]">
-            <span className="w-6 sm:w-12 h-[1.5px] bg-primary" />
-            <span>Project Portfolio // 2026 </span>
-          </motion.div>
+        {/* 1. Header Component */}
+        <ProjectHeader />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] uppercase">
-            Professional <br />
-            <span className="text-muted-foreground italic font-serif lowercase font-light">
-              Project Showcase.
-            </span>
-          </motion.h1>
+        {/* 2. Search & Filter Component */}
+        <ProjectFilters
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          selectedComplexity={selectedComplexity}
+          setSelectedComplexity={setSelectedComplexity}
+        />
 
-          {/* Core Skills Badges for HR */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-wrap gap-2 pt-2">
-            {[
-              "Full-Stack Development",
-              "UI/UX Design",
-              "API Integration",
-              "Performance Optimization",
-            ].map((skill) => (
-              <span
-                key={skill}
-                className="px-3 py-1 text-[9px] font-bold border border-border rounded-full bg-muted/20 text-muted-foreground uppercase tracking-wider">
-                {skill}
-              </span>
-            ))}
-          </motion.div>
-        </header>
-
-        {/* --- SEARCH AND FILTER SECTION --- */}
-        <div className="mb-12 space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search projects, technologies, or keywords..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 h-14 bg-card/20 backdrop-blur-sm border-border/40 focus:border-primary/50 transition-all"
-            />
-          </motion.div>
-
-          <div className="flex flex-col sm:flex-row gap-4">
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-              className="flex-1">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
-                Category
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {(
-                  [
-                    "all",
-                    "web",
-                    "mobile",
-                    "fullstack",
-                    "opensource",
-                  ] as ProjectCategory[]
-                ).map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all relative ${
-                      selectedCategory === category
-                        ? "text-primary-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}>
-                    {selectedCategory === category && (
-                      <motion.div
-                        layoutId="active-category-pill"
-                        className="absolute inset-0 bg-primary rounded-xl z-0 shadow-lg shadow-primary/20"
-                        transition={{
-                          type: "spring",
-                          bounce: 0.15,
-                          duration: 0.6,
-                        }}
-                      />
-                    )}
-                    <span className="relative z-10 uppercase tracking-widest flex items-center gap-2">
-                      {getCategoryIcon(category)}
-                      {category === "all" ? "All" : category}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
-              className="flex-1">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
-                Complexity
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {(
-                  [
-                    "all",
-                    "beginner",
-                    "intermediate",
-                    "advanced",
-                  ] as ComplexityLevel[]
-                ).map((complexity) => (
-                  <button
-                    key={complexity}
-                    onClick={() => setSelectedComplexity(complexity)}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all relative ${
-                      selectedComplexity === complexity
-                        ? "text-primary-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}>
-                    {selectedComplexity === complexity && (
-                      <motion.div
-                        layoutId="active-complexity-pill"
-                        className="absolute inset-0 bg-primary rounded-xl z-0 shadow-lg shadow-primary/20"
-                        transition={{
-                          type: "spring",
-                          bounce: 0.15,
-                          duration: 0.6,
-                        }}
-                      />
-                    )}
-                    <span className="relative z-10 uppercase tracking-widest">
-                      {complexity === "all" ? "All" : complexity}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-
-        {/* --- STATS SECTION --- */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
-          <Card className="p-4 bg-card/20 backdrop-blur-sm border-border/40">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <Code className="h-4 w-4 text-primary" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Total</p>
-                <p className="font-bold text-lg">{totalProjects}</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-card/20 backdrop-blur-sm border-border/40">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-green-500/10">
-                <Globe className="h-4 w-4 text-green-500" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Live</p>
-                <p className="font-bold text-lg">{liveProjects}</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-card/20 backdrop-blur-sm border-border/40">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-blue-500/10">
-                <Zap className="h-4 w-4 text-blue-500" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Active</p>
-                <p className="font-bold text-lg">
-                  {projects.filter((p) => p.status === "development").length}
-                </p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-card/20 backdrop-blur-sm border-border/40">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-purple-500/10">
-                <ShieldCheck className="h-4 w-4 text-purple-500" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Featured</p>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
+        {/* 3. Stats Component */}
+        <ProjectStats projects={projects} />
 
         {/* --- RESULTS HEADER --- */}
         <div className="flex items-center justify-between mb-6">
@@ -427,7 +205,6 @@ export default function Projects() {
         {/* --- PROJECTS GRID --- */}
         <AnimatePresence mode="wait">
           {loading ? (
-            // Loading Skeleton
             <motion.div
               key="loading"
               initial={{ opacity: 0 }}
@@ -495,56 +272,11 @@ export default function Projects() {
           )}
         </AnimatePresence>
 
-        {/* --- TECHNOLOGY CLOUD --- */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="mt-20 space-y-6">
-          <h3 className="text-xl font-bold">Technologies Used</h3>
-          <div className="flex flex-wrap gap-2">
-            {Array.from(new Set(projects.flatMap((p) => p.tech)))
-              .slice(0, 20)
-              .map((tech, i) => (
-                <motion.span
-                  key={tech}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.05 }}
-                  className="px-3 py-1.5 text-sm bg-card/20 backdrop-blur-sm border border-border/40 rounded-full hover:border-primary/50 hover:text-primary transition-colors">
-                  {tech}
-                </motion.span>
-              ))}
-          </div>
-        </motion.div>
+        {/* 4. Tech Cloud Component */}
+        <TechCloud projects={projects} />
 
-        {/* --- RESPONSIVE FOOTER (Quick Action) --- */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          className="mt-20 sm:mt-32 p-8 sm:p-16 rounded-[2.5rem] sm:rounded-[4rem] border border-border/50 bg-card/5 backdrop-blur-xl flex flex-col items-center text-center space-y-8">
-          <div className="space-y-4">
-            <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter">
-              Interested in my{" "}
-              <span className="text-primary italic">work?</span>
-            </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
-              Let's discuss how I can contribute to your next project or
-              collaboration opportunity.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <Button className="flex items-center justify-center gap-2">
-              <Link to={"/contact"}>Get In Touch</Link>
-            </Button>
-            <Button
-              variant="outline"
-              className="flex items-center justify-center gap-2">
-              View GitHub <ChevronRight size={14} />
-            </Button>
-          </div>
-        </motion.div>
+        {/* 5. Footer CTA Component */}
+        <FooterCTA />
       </main>
     </div>
   );
