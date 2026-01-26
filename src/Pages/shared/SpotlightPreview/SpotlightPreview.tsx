@@ -35,7 +35,7 @@ export function SpotlightPreview({ data }: ctaProps) {
         className="-top-40 left-0 md:-top-20 md:left-60"
         fill="white"
       />
-      <div className="relative z-10 mx-auto w-full max-w-7xl p-4 pt-20 md:pt-0">
+      <div className="relative z-10 mx-auto w-full max-w-7xl p-4 pt-20 md:pt-0 space-y-3 md:space-y-4">
         <div className="space-y-3">
           <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter">
             {data.title}
