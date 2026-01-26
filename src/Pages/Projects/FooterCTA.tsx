@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { SpotlightPreview } from "../shared/SpotlightPreview/SpotlightPreview";
 import { FaGithub } from "react-icons/fa";
+import { FingerprintPattern } from "lucide-react";
 
 const data = {
   title: " Interested in working together?",
@@ -10,7 +11,8 @@ const data = {
   button1: "Get in Touch",
   button2: " View GitHub",
   link: "https://github.com/rashedulraha",
-  icons: FaGithub,
+  icons2: FaGithub,
+  icons1: FingerprintPattern,
 };
 
 export default function FooterCTA() {

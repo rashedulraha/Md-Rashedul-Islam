@@ -11,12 +11,15 @@ export interface ctaProps {
     button1: string;
     button2: string;
     link?: string | undefined;
-    icons?: IconType;
+    icons1?: IconType;
+    icons2?: IconType;
   };
 }
 
 export function SpotlightPreview({ data }: ctaProps) {
-  const Icon = data.icons;
+  const Icon1 = data.icons1;
+  const Icon2 = data.icons2;
+
   return (
     <div className="relative flex w-full overflow-hidden rounded-md bg-background antialiased md:items-center md:justify-center px-6 py-10 sm:px-10 sm:py-12 md:p-14">
       <div
@@ -48,7 +51,10 @@ export function SpotlightPreview({ data }: ctaProps) {
               "hover:shadow-md hover:-translate-y-0.5",
               "active:translate-y-0 active:shadow-sm",
             )}>
-            <Link to="/contact">{data.button1}</Link>
+            <Link to="/contact">
+              {Icon1 && <Icon1 />}
+              {data.button1}
+            </Link>
           </Button>
 
           <Button
@@ -58,7 +64,7 @@ export function SpotlightPreview({ data }: ctaProps) {
               "min-w-45 group relative overflow-hidden transition-all duration-300",
               "border-border hover:border-primary/70 hover:bg-primary/5",
               "hover:shadow-sm hover:-translate-y-0.5",
-              // subtle interactive border feel
+
               "after:absolute after:inset-0 after:rounded-md after:border after:border-primary/0 after:transition-all after:duration-300",
               "hover:after:border-primary/30 hover:after:scale-[1.02]",
             )}>
@@ -67,8 +73,8 @@ export function SpotlightPreview({ data }: ctaProps) {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-1.5">
-              {Icon && <Icon />}
               {data.button2}
+              {Icon2 && <Icon2 />}
             </a>
           </Button>
         </div>
