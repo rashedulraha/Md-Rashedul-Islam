@@ -1,38 +1,42 @@
-"use client";
-
 import { PinContainer } from "@/components/ui/3d-pin";
 
 export function AnimatedPinDemo() {
   return (
     <div className="w-full flex items-center justify-center bg-background py-20">
       <PinContainer
-        title="This is my running project using next js"
+        title="Visit Live Site"
         href="https://koda-rashed.vercel.app">
-        <div className="flex basis-full flex-col p-4 tracking-tight sm:basis-1/2 w-[22rem] h-auto min-h-[25rem] bg-card text-card-foreground rounded-xl border border-border">
-          <h3 className="max-w-xs pb-2 font-bold text-base md:text-lg text-foreground">
-            Running project
+        <div className="flex basis-full flex-col p-4 tracking-tight sm:basis-1/2 w-88 h-auto bg-card text-card-foreground rounded-xl border border-border">
+          {/* Main Title - Bolder & Clear */}
+          <h3 className="max-w-xs font-bold text-xl text-foreground">
+            Running Project
           </h3>
 
-          <div className="text-base font-normal">
-            <span className="text-muted-foreground text-sm font-inter lowercase font-medium">
+          {/* Primary Description - Balanced Size */}
+          <div className="mt-2">
+            <p className="text-muted-foreground text-[14px] leading-relaxed font-medium">
               A minimalist, high-performance project management tool inspired by
-              Linear. Engineered for speed with Next.js, TypeScript, Tailwind,
-              and Real-time sync.
-            </span>
+              Linear. Engineered for speed with Next.js, TypeScript, and
+              Tailwind.
+            </p>
           </div>
 
-          {/* Image Container with Padding */}
-          <div className="flex flex-1 w-full rounded-lg mt-4 overflow-hidden bg-muted/20 p-1 flex-col ">
-            <img
-              src="/koda.png"
-              alt="project preview"
-              className="w-full h-full object-cover rounded-md"
-              style={{ width: "100%", display: "block" }}
-            />
-            <div className="mt-3">
-              <p>
+          {/* Image and Solo Note Container */}
+          <div className="mt-4 w-full flex flex-col">
+            {/* Image Box */}
+            <div className="w-full rounded-lg overflow-hidden bg-muted/20 p-1 border border-border/50">
+              <img
+                src="/koda.png"
+                alt="project preview"
+                className="w-full aspect-video object-cover rounded-md"
+              />
+            </div>
+
+            {/* Solo Note - Smaller & Subtle */}
+            <div className="mt-3 px-1">
+              <p className="text-[12px] text-muted-foreground/80 italic leading-snug">
                 Solo-developed during my learning journey to master
-                high-performance web development and clean architecture
+                high-performance web development and clean architecture.
               </p>
             </div>
           </div>
