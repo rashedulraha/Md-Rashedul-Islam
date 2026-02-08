@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { socialData } from "@/Data/HeroBanner/HeroBanner";
+import { TextGenerateEffectDemo } from "@/Pages/Home/shared/TextGenerateEffect";
 
 export default function HeroBanner() {
   const [typedText, setTypedText] = useState("");
@@ -67,9 +68,7 @@ export default function HeroBanner() {
 
         {/* Heading */}
         <div className="space-y-4">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-b from-foreground to-muted-foreground/50 leading-[1.1]">
-            Creative Developer & Designer
-          </h1>
+          <TextGenerateEffectDemo />
 
           {/* Typing Subheading */}
           <div className="min-h-15 md:min-h-7.5">
