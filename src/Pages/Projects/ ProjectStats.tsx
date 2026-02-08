@@ -63,10 +63,10 @@ export default function ProjectStats({ projects }: ProjectStatsProps) {
             className={`
     relative overflow-hidden
     h-full p-4 sm:p-5 
-    bg-white/5 backdrop-blur-md 
-    border border-white/10 
+    bg-white/2 backdrop-blur-md 
+    border border-white/20 
     shadow-[0_8px_30px_rgb(0,0,0,0.04)]
-    hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)]
+    hover:shadow-[0_20px_50px_rgba(8,112,184,0.07)]
     hover:border-primary/20
     hover:-translate-y-1
     transition-all duration-500 ease-out
