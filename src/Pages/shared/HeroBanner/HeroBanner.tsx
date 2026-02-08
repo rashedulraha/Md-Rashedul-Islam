@@ -105,16 +105,16 @@ export default function HeroBanner() {
         </div>
 
         {/* Tech Stack Display */}
-        <div className="pt-12 w-full animate-in fade-in duration-1000 delay-500">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/60 mb-8 font-semibold">
+        <div className="pt-5 w-full animate-in fade-in duration-1000 delay-500">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/60 mb-5 font-semibold">
             Tech Stack & Tools
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-12 opacity-50 hover:opacity-100 transition-opacity duration-500">
+          <div className="overflow-x-auto gap-6 md:gap-12 opacity-50 hover:opacity-100 transition-opacity duration-500 whitespace-nowrap px-4 scrollbar-none md-5 flex items-center justify-center ">
             {["Next.js", "Node.js", "TypeScript", "Golang", "Postgres"].map(
               (tech) => (
                 <span
                   key={tech}
-                  className="text-base md:text-xl font-black text-foreground tracking-tighter">
+                  className="inline-block text-base md:text-xl font-black text-foreground tracking-tighter">
                   {tech}
                 </span>
               ),
