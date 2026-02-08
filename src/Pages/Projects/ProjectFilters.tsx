@@ -147,7 +147,7 @@ export default function ProjectFilters({
                 "advanced",
               ] as ComplexityLevel[]
             ).map((complexity) => (
-              <button
+              <Button
                 key={complexity}
                 onClick={() => setSelectedComplexity(complexity)}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all relative group ${
@@ -165,7 +165,7 @@ export default function ProjectFilters({
                 <span className="relative z-10 uppercase tracking-widest">
                   {complexity}
                 </span>
-              </button>
+              </Button>
             ))}
           </div>
         </motion.div>

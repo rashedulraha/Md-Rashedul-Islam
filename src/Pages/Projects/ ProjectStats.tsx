@@ -63,8 +63,9 @@ export default function ProjectStats({ projects }: ProjectStatsProps) {
             className={`
               h-full p-2 sm:p-3 
               border border-border/60 
-              bg-card 
               shadow-sm 
+              bg-transparent
+              backdrop-blur-xs
               hover:shadow-md 
               hover:border-border 
               transition-all duration-300
