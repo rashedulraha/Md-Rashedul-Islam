@@ -17,7 +17,7 @@ export function AnimatedPinDemo() {
         <div
           onClick={handleNavigation}
           className="flex basis-full flex-col p-4 tracking-tight sm:basis-1/2 w-88 h-auto bg-card text-card-foreground rounded-xl border border-border cursor-pointer">
-          <h3 className="max-w-xs font-bold text-xl text-foreground">
+          <h3 className="max-w-xs font-bold text-xl text-blue-500">
             Running Project
           </h3>
 
