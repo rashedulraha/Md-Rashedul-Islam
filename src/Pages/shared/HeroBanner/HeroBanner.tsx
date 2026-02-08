@@ -26,7 +26,7 @@ export default function HeroBanner() {
   }, [textIndex, fullText]);
 
   return (
-    <section className="relative w-full min-h-[calc(100vh-75px)] h-full flex items-center justify-center overflow-hidden px-4 sm:px-6">
+    <section className="relative w-full min-h-[calc(100vh-75px)] h-full flex justify-center overflow-hidden">
       {/* 1. Left Sidebar Socials (Desktop Only) */}
       <div className="absolute left-6 xl:left-12 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center justify-center gap-8 z-20">
         <div className="h-24 w-px bg-linear-to-b from-transparent via-border to-primary/50"></div>
@@ -56,7 +56,7 @@ export default function HeroBanner() {
       </div>
 
       {/* 3. Main Content Container */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center max-w-4xl w-full space-y-8 py-10">
+      <div className="relative z-10 flex flex-col items-center md:justify-center text-center max-w-4xl w-full space-y-3 py-20 md:py-0 ">
         {/* Top Badge */}
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 mt-10">
           <Badge
