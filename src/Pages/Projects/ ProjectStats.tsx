@@ -61,24 +61,39 @@ export default function ProjectStats({ projects }: ProjectStatsProps) {
           whileHover={{ y: -4, transition: { duration: 0.2 } }}>
           <Card
             className={`
-              h-full p-2 sm:p-3 
-              border border-border/60 
-              shadow-sm 
-              bg-transparent
-              backdrop-blur-xs
-              hover:shadow-md 
-              hover:border-border 
-              transition-all duration-300
-            `}>
-            <div className="flex items-center gap-4">
-              <div className={`p-3 rounded-lg ${stat.bg}`}>
-                <stat.icon className={`h-5 w-5 ${stat.color}`} />
+    relative overflow-hidden
+    h-full p-4 sm:p-5 
+    bg-white/5 backdrop-blur-md 
+    border border-white/10 
+    shadow-[0_8px_30px_rgb(0,0,0,0.04)]
+    hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)]
+    hover:border-primary/20
+    hover:-translate-y-1
+    transition-all duration-500 ease-out
+    group
+  `}>
+            <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            <div className="relative flex items-center gap-5">
+              {/* Icon Container with Glass Effect */}
+              <div
+                className={`
+            p-3 rounded-2xl 
+          ${stat.bg} 
+          bg-opacity-10 backdrop-blur-xl
+          ring-1 ring-white/10
+          group-hover:scale-110 transition-transform duration-500
+    `}>
+                <stat.icon
+                  className={`h-6 w-6 ${stat.color} filter drop-shadow-sm`}
+                />
               </div>
-              <div className="space-y-1">
-                <p className="text-sm text-muted-foreground font-medium">
+
+              <div className="space-y-0.5">
+                <p className="text-xs sm:text-sm text-muted-foreground font-semibold uppercase tracking-wider">
                   {stat.title}
                 </p>
-                <p className="text-2xl font-bold tracking-tight">
+                <p className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/70">
                   {stat.value}
                 </p>
               </div>
