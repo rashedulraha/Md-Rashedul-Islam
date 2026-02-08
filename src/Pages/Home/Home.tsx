@@ -1,14 +1,10 @@
-// import Animation from "@/components/Animation/Animation";
 import Navbar from "../shared/Navbar/Navbar";
 import HeroBanner from "../shared/HeroBanner/HeroBanner";
 import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
-// import ParticleSceCreate from "@/components/ParticleScene/ParticleSceCreate";
 
 const Home = () => {
   return (
     <div className="relative h-screen w-full overflow-hidden bg-background">
-      {/* <Animation /> */}
-      {/* check animation */}
       <AnimatedGridBackground />
       <Navbar />
 
