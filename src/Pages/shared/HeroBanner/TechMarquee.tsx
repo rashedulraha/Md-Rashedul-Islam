@@ -1,58 +1,96 @@
 import React from "react";
+import { motion } from "framer-motion";
+import {
+  SiJavascript,
+  SiTypescript,
+  SiGo,
+  SiReact,
+  SiNextdotjs,
+  SiTailwindcss,
+  SiNodedotjs,
+  SiMongodb,
+  SiPostgresql,
+  SiPrisma,
+  SiFirebase,
+  SiDocker,
+  SiNginx,
+  SiGit,
+} from "react-icons/si";
 
 const TechMarquee: React.FC = () => {
-  // All technologies from your image
   const technologies = [
-    "JavaScript",
-    "TypeScript",
-    "Go",
-    "React.js",
-    "Next.js",
-    "Tailwind",
-    "Node.js",
-    "MongoDB",
-    "PostgreSQL",
-    "Prisma",
-    "Firebase",
-    "Docker",
-    "Nginx",
-    "Git",
+    {
+      name: "JavaScript",
+      icon: <SiJavascript />,
+      color: "hover:text-[#F7DF1E]",
+    },
+    {
+      name: "TypeScript",
+      icon: <SiTypescript />,
+      color: "hover:text-[#3178C6]",
+    },
+    { name: "Golang", icon: <SiGo />, color: "hover:text-[#00ADD8]" },
+    { name: "React.js", icon: <SiReact />, color: "hover:text-[#61DAFB]" },
+    { name: "Next.js", icon: <SiNextdotjs />, color: "hover:text-foreground" },
+    {
+      name: "Tailwind",
+      icon: <SiTailwindcss />,
+      color: "hover:text-[#06B6D4]",
+    },
+    { name: "Node.js", icon: <SiNodedotjs />, color: "hover:text-[#339933]" },
+    { name: "MongoDB", icon: <SiMongodb />, color: "hover:text-[#47A248]" },
+    {
+      name: "PostgreSQL",
+      icon: <SiPostgresql />,
+      color: "hover:text-[#4169E1]",
+    },
+    { name: "Prisma", icon: <SiPrisma />, color: "hover:text-[#2D3748]" },
+    { name: "Firebase", icon: <SiFirebase />, color: "hover:text-[#FFCA28]" },
+    { name: "Docker", icon: <SiDocker />, color: "hover:text-[#2496ED]" },
+    { name: "Nginx", icon: <SiNginx />, color: "hover:text-[#009639]" },
+    { name: "Git", icon: <SiGit />, color: "hover:text-[#F05032]" },
   ];
 
+  // We duplicate the array to ensure there's no gap during the loop
+  const duplicatedTech = [...technologies, ...technologies];
+
   return (
-    <div className="pt-5 w-full animate-in fade-in duration-1000 delay-500">
+    <div className="pt-10 w-full overflow-hidden">
       <div
-        className="relative flex overflow-hidden select-none"
+        className="relative flex items-center"
         style={{
-          // This creates the transparent fade on both sides
+          // Creates the transparent fade on both sides
           maskImage:
             "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
           WebkitMaskImage:
             "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
         }}>
-        {/* We use two sets of the list to make the animation infinite */}
-        <div className="flex flex-nowrap shrink-0 items-center justify-around gap-12 py-4 animate-marquee">
-          {technologies.map((tech, index) => (
-            <span
-              key={`${tech}-${index}`}
-              className="inline-block text-base md:text-xl font-black text-foreground tracking-tighter opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-default">
-              {tech}
-            </span>
+        <motion.div
+          className="flex flex-nowrap gap-12 py-4"
+          animate={{
+            x: ["0%", "-50%"], // Move from start to halfway (since it's duplicated)
+          }}
+          transition={{
+            x: {
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 25, // Adjust speed (higher = slower)
+              ease: "linear",
+            },
+          }}
+          // Pause animation on hover
+          whileHover={{ animationPlayState: "paused" }}>
+          {duplicatedTech.map((tech, index) => (
+            <div
+              key={`${tech.name}-${index}`}
+              className={`flex items-center gap-3 text-base md:text-xl font-bold text-foreground/50 transition-all duration-300 ${tech.color} hover:scale-110 cursor-pointer`}>
+              <span className="text-2xl md:text-4xl">{tech.icon}</span>
+              <span className="tracking-tighter whitespace-nowrap">
+                {tech.name}
+              </span>
+            </div>
           ))}
-        </div>
-
-        {/* Duplicate list for seamless loop */}
-        <div
-          className="flex flex-nowrap shrink-0 items-center justify-around gap-12 py-4 animate-marquee"
-          aria-hidden="true">
-          {technologies.map((tech, index) => (
-            <span
-              key={`dup-${tech}-${index}`}
-              className="inline-block text-base md:text-xl font-black text-foreground tracking-tighter opacity-50 hover:opacity-100 transition-opacity duration-300">
-              {tech}
-            </span>
-          ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
