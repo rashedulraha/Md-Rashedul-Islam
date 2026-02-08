@@ -1,30 +1,6 @@
-// Types - Updated to match your JSON structure
-interface ProjectLink {
+export interface ProjectLink {
   live: string;
   github: string;
-}
-
-export interface Project {
-  featured: unknown;
-  id: string; // Will be added dynamically
-  title: string;
-  subtitle: string;
-  description: string;
-  image: string;
-  tech: string[];
-  links: ProjectLink;
-  metric: string;
-  // Added fields with default values
-  category: string;
-  status: "live" | "development" | "archived";
-  views: number;
-  rating: number;
-  complexity: "beginner" | "intermediate" | "advanced";
-  duration: string;
-  date: string;
-  tags: string[];
-  teamSize?: number;
-  contributions?: number;
 }
 
 export type ProjectCategory =
@@ -33,5 +9,27 @@ export type ProjectCategory =
   | "mobile"
   | "fullstack"
   | "opensource";
-
+export type ProjectStatus = "live" | "development" | "archived" | "planning";
 export type ComplexityLevel = "all" | "beginner" | "intermediate" | "advanced";
+
+export interface Project {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  category: ProjectCategory;
+  status: ProjectStatus;
+  tech: string[];
+  links: ProjectLink;
+  views: number;
+  rating: number;
+  complexity: Exclude<ComplexityLevel, "all">; // "all" বাদে বাকিগুলো
+  duration: string;
+  date: string;
+  tags: string[];
+  teamSize?: number;
+  contributions?: number;
+  metric: string;
+  featured: boolean;
+}

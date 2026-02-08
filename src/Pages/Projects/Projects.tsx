@@ -1,32 +1,51 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
 
 // Components
 import ProjectHeader from "./ProjectHeader";
 import ProjectFilters from "./ProjectFilters";
 import TechCloud from "./TechCloud";
 import FooterCTA from "./FooterCTA";
-import ProjectStats from "./ ProjectStats";
 import Navbar from "../shared/Navbar/Navbar";
-
 import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
+import ProjectCard from "./ProjectCard";
 
-// Hooks & Types
 import { useLenis } from "@/Hooks/useLenis";
+
+// Types
 import type {
   Project,
   ProjectCategory,
   ComplexityLevel,
+  ProjectStatus,
 } from "@/Routes/Types/projectType";
-import ProjectCard from "./ProjectCard";
+import ProjectStats from "./ ProjectStats";
+
+// JSON Data Structure Interface
+interface RawProject {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  category: string;
+  status: string;
+  tech: string[];
+  links: { live: string; github: string };
+  views: number;
+  rating: number;
+  complexity: string;
+  duration: string;
+  date: string;
+  tags: string[];
+  teamSize: number;
+  contributions: number;
+  metric: string;
+}
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] =
     useState<ProjectCategory>("all");
@@ -42,19 +61,17 @@ export default function Projects() {
       try {
         setLoading(true);
         const res = await fetch("/projects.json");
-        const data = await res.json();
-        const transformedData: Project[] = data.map(
-          (item: any, index: number) => ({
-            ...item,
-            id: item.id || `project-${index}`,
-            category: item.category || "web",
-            status: item.status || "live",
-            complexity: item.complexity || "intermediate",
-            tags: item.tags || item.tech,
-          }),
-        );
+        const data: RawProject[] = await res.json();
+
+        const transformedData: Project[] = data.map((item) => ({
+          ...item,
+          category: item.category as ProjectCategory,
+          status: item.status as ProjectStatus,
+          complexity: item.complexity as Exclude<ComplexityLevel, "all">,
+          featured: item.views > 1000,
+        }));
+
         setProjects(transformedData);
-        setFilteredProjects(transformedData);
       } catch (error) {
         console.error("Error loading projects:", error);
       } finally {
@@ -64,24 +81,20 @@ export default function Projects() {
     loadProjects();
   }, []);
 
-  useEffect(() => {
-    let filtered = projects;
-    if (searchQuery) {
-      filtered = filtered.filter(
-        (p) =>
-          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.tech.some((t) =>
-            t.toLowerCase().includes(searchQuery.toLowerCase()),
-          ),
-      );
-    }
-    if (selectedCategory !== "all") {
-      filtered = filtered.filter((p) => p.category === selectedCategory);
-    }
-    if (selectedComplexity !== "all") {
-      filtered = filtered.filter((p) => p.complexity === selectedComplexity);
-    }
-    setFilteredProjects(filtered);
+  const filteredProjects = useMemo(() => {
+    return projects.filter((project) => {
+      const matchesSearch =
+        project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.tech.some((t) =>
+          t.toLowerCase().includes(searchQuery.toLowerCase()),
+        );
+      const matchesCategory =
+        selectedCategory === "all" || project.category === selectedCategory;
+      const matchesComplexity =
+        selectedComplexity === "all" ||
+        project.complexity === selectedComplexity;
+      return matchesSearch && matchesCategory && matchesComplexity;
+    });
   }, [projects, searchQuery, selectedCategory, selectedComplexity]);
 
   const clearFilters = () => {
@@ -90,63 +103,13 @@ export default function Projects() {
     setSelectedComplexity("all");
   };
 
-  // --- RENDERING LOGIC USING IF-ELSE ---
-  let mainContent;
-
-  if (loading) {
-    mainContent = (
-      <motion.div
-        key="loading"
-        className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <Card
-            key={i}
-            className="p-6 animate-pulse bg-card/20 backdrop-blur-sm border-border/40 h-64"
-          />
-        ))}
-      </motion.div>
-    );
-  } else if (filteredProjects.length > 0) {
-    mainContent = (
-      <motion.div
-        key="projects"
-        layout
-        className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filteredProjects.map((project, index) => (
-          <ProjectCard
-            key={project.id}
-            project={project}
-            index={index}
-            activeProject={activeProject}
-            setActiveProject={setActiveProject}
-          />
-        ))}
-      </motion.div>
-    );
-  } else {
-    mainContent = (
-      <motion.div
-        key="no-results"
-        className="flex flex-col items-center justify-center py-20">
-        <Card className="p-12 text-center bg-card/20 backdrop-blur-sm border-border/40 max-w-md">
-          <Search className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-xl font-bold mb-2">No matching projects</h3>
-          <Button variant="outline" onClick={clearFilters}>
-            Clear Filters
-          </Button>
-        </Card>
-      </motion.div>
-    );
-  }
-
   return (
-    <div className="relative min-h-screen w-full bg-background text-foreground">
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-50">
-        <AnimatedGridBackground />
-      </div>
+    <div className="relative min-h-screen bg-background">
+      <AnimatedGridBackground />
       <Navbar />
-      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 pt-24 pb-20">
         <ProjectHeader />
+
         <ProjectFilters
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -154,19 +117,34 @@ export default function Projects() {
           setSelectedCategory={setSelectedCategory}
           selectedComplexity={selectedComplexity}
           setSelectedComplexity={setSelectedComplexity}
+          onClearFilters={clearFilters}
         />
+
         <ProjectStats projects={projects} />
 
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold">
-            {filteredProjects.length} Projects Found
-          </h3>
-          <Badge variant="secondary" className="bg-primary/5 capitalize">
-            {selectedCategory} • {selectedComplexity}
-          </Badge>
-        </div>
-
-        <AnimatePresence mode="wait">{mainContent}</AnimatePresence>
+        <AnimatePresence mode="wait">
+          {loading ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {[...Array(4)].map((_, i) => (
+                <Card key={i} className="h-64 animate-pulse bg-muted/20" />
+              ))}
+            </div>
+          ) : (
+            <motion.div
+              layout
+              className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {filteredProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  activeProject={activeProject}
+                  setActiveProject={setActiveProject}
+                />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <TechCloud projects={projects} />
         <FooterCTA />
