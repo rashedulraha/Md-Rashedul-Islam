@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { skills } from "./Data/Data";
 import { AnimatedPinDemo } from "./Components/AnimatedPinDemo/AnimatedPinDemo";
 
+import { FlipWordsText } from "../shared/HeroBanner/FlipWordsText";
+
 export default function ProjectHeader() {
   return (
     <header className="w-full mb-12 sm:mb-20 grid grid-cols-2 items-center gap-10 md:gap-0">
@@ -19,10 +21,13 @@ export default function ProjectHeader() {
           transition={{ delay: 0.1 }}
           className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] uppercase">
           Professional <br />
-          <span className="text-muted-foreground italic font-serif lowercase font-light">
-            Project Showcase.
+          <span className="text-muted-foreground italic font-serif lowercase font-light flex items-center gap-2 md:gap-3">
+            Project <FlipWordsText />
           </span>
         </motion.h1>
+
+        <h1></h1>
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -37,6 +42,8 @@ export default function ProjectHeader() {
           ))}
         </motion.div>
       </div>
+
+      {/* running project */}
       <div className="col-span-2 md:col-span-1">
         <AnimatedPinDemo />
       </div>
