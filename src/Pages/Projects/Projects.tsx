@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 
 // Components
@@ -130,9 +130,7 @@ export default function Projects() {
               ))}
             </div>
           ) : (
-            <motion.div
-              layout
-              className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filteredProjects.map((project, index) => (
                 <ProjectCard
                   key={project.id}
@@ -140,9 +138,10 @@ export default function Projects() {
                   index={index}
                   activeProject={activeProject}
                   setActiveProject={setActiveProject}
+                  compact={true}
                 />
               ))}
-            </motion.div>
+            </div>
           )}
         </AnimatePresence>
 

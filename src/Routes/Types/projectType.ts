@@ -24,7 +24,7 @@ export interface Project {
   links: ProjectLink;
   views: number;
   rating: number;
-  complexity: Exclude<ComplexityLevel, "all">; // "all" বাদে বাকিগুলো
+  complexity: Exclude<ComplexityLevel, "all">;
   duration: string;
   date: string;
   tags: string[];
