@@ -12,7 +12,7 @@ export function AnimatedPinDemo() {
   };
 
   return (
-    <div className="w-full flex items-center justify-center  py-20">
+    <div className="w-full flex items-center justify-center py-5">
       <PinContainer title="Visit Live Site">
         <div
           onClick={handleNavigation}

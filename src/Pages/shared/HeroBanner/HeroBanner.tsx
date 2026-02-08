@@ -68,7 +68,7 @@ export default function HeroBanner() {
         {/* Heading */}
         <div className="space-y-4">
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-b from-foreground to-muted-foreground/50 leading-[1.1]">
-            Welcome To My <span className="text-primary italic">World</span>
+            Creative Developer & Designer
           </h1>
 
           {/* Typing Subheading */}

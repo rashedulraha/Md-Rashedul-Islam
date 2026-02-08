@@ -11,7 +11,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/ui/modeToggle";
 
 const links = [
   { title: "Home", to: "/" },
@@ -92,8 +91,6 @@ export default function Navbar() {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2 sm:gap-3">
-          <ModeToggle />
-
           {/* Desktop Contact Button */}
           <Button
             asChild
