@@ -12,7 +12,7 @@ import TechCloud from "./TechCloud";
 import FooterCTA from "./FooterCTA";
 import ProjectStats from "./ ProjectStats";
 import Navbar from "../shared/Navbar/Navbar";
-import ProjectCard from "@/components/projectCard/ProjectCard";
+
 import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
 
 // Hooks & Types
@@ -22,6 +22,7 @@ import type {
   ProjectCategory,
   ComplexityLevel,
 } from "@/Routes/Types/projectType";
+import ProjectCard from "./ProjectCard";
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
