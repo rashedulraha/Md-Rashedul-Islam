@@ -28,9 +28,9 @@ const AnimatedGridBackground: React.FC = () => {
   const fpsRef = useRef<number>(60);
   const frameCountRef = useRef<number>(0);
 
-  // Color palette
+  // Color palette with proper OKLCH syntax
   const colorPalette = {
-    border: "oklch(1 0 0 / 10%)",
+    border: "oklch(1 0 0 / 0.1)",
     primary: "oklch(0.922 0 0)",
     secondary: "oklch(0.269 0 0)",
     accent: "oklch(0.627 0.265 303.9)",
@@ -178,8 +178,8 @@ const AnimatedGridBackground: React.FC = () => {
 
           ctx.fillStyle =
             char === "1"
-              ? `${colorPalette.primary} / ${opacity * 0.7})`
-              : `${colorPalette.secondary} / ${opacity * 0.5})`;
+              ? `oklch(0.922 0 0 / ${opacity * 0.7})`
+              : `oklch(0.269 0 0 / ${opacity * 0.5})`;
 
           ctx.fillText(char, stream.x, y);
 
@@ -196,9 +196,9 @@ const AnimatedGridBackground: React.FC = () => {
 
             gradient.addColorStop(
               0,
-              `${colorPalette.accent} / ${opacity * 0.3})`,
+              `oklch(0.627 0.265 303.9 / ${opacity * 0.3})`,
             );
-            gradient.addColorStop(1, `${colorPalette.accent} / 0)`);
+            gradient.addColorStop(1, `oklch(0.627 0.265 303.9 / 0)`);
 
             ctx.fillStyle = gradient;
             ctx.fillRect(
@@ -298,9 +298,9 @@ const AnimatedGridBackground: React.FC = () => {
         curveWidth * 1.8,
       );
 
-      gradient.addColorStop(0, `${colorPalette.muted} / 0.25)`);
-      gradient.addColorStop(0.5, `${colorPalette.card} / 0.15)`);
-      gradient.addColorStop(1, `${colorPalette.background} / 0)`);
+      gradient.addColorStop(0, "oklch(0.269 0 0 / 0.25)");
+      gradient.addColorStop(0.5, "oklch(0.205 0 0 / 0.15)");
+      gradient.addColorStop(1, "oklch(0.145 0 0 / 0)");
 
       ctx.fillStyle = gradient;
       ctx.fill();
@@ -323,10 +323,10 @@ const AnimatedGridBackground: React.FC = () => {
         250 * pulse,
       );
 
-      gradient.addColorStop(0, `${colorPalette.chart1} / 0.15)`);
-      gradient.addColorStop(0.4, `${colorPalette.card} / 0.08)`);
-      gradient.addColorStop(0.7, `${colorPalette.muted} / 0.03)`);
-      gradient.addColorStop(1, `${colorPalette.background} / 0)`);
+      gradient.addColorStop(0, "oklch(0.488 0.243 264.376 / 0.15)");
+      gradient.addColorStop(0.4, "oklch(0.371 0 0 / 0.08)");
+      gradient.addColorStop(0.7, "oklch(0.269 0 0 / 0.03)");
+      gradient.addColorStop(1, "oklch(0.145 0 0 / 0)");
 
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
@@ -341,7 +341,7 @@ const AnimatedGridBackground: React.FC = () => {
       const gridLines = 16;
       const gridSpacing = 30;
 
-      ctx.strokeStyle = `${colorPalette.ring} / 0.05)`;
+      ctx.strokeStyle = "oklch(0.556 0 0 / 0.05)";
       ctx.lineWidth = 0.5;
 
       for (let i = 0; i < gridLines; i++) {
@@ -415,8 +415,8 @@ const AnimatedGridBackground: React.FC = () => {
           const opacity = 0.03 + Math.sin(timeRef.current * 0.5 + i) * 0.02;
 
           const gradient = ctx.createLinearGradient(x, y, x, y + segmentHeight);
-          gradient.addColorStop(0, `${colorPalette.primary} / ${opacity})`);
-          gradient.addColorStop(1, `${colorPalette.primary} / 0)`);
+          gradient.addColorStop(0, `oklch(0.922 0 0 / ${opacity})`);
+          gradient.addColorStop(1, `oklch(0.922 0 0 / 0)`);
 
           ctx.fillStyle = gradient;
           ctx.fillRect(x - 1, y, 2, segmentHeight);
@@ -475,19 +475,12 @@ const AnimatedGridBackground: React.FC = () => {
       }
     };
   }, [
-    colorPalette.accent,
-    colorPalette.background,
     colorPalette.border,
-    colorPalette.card,
     colorPalette.chart1,
     colorPalette.chart2,
     colorPalette.chart3,
     colorPalette.chart4,
     colorPalette.chart5,
-    colorPalette.muted,
-    colorPalette.primary,
-    colorPalette.ring,
-    colorPalette.secondary,
   ]);
 
   return (
@@ -499,7 +492,7 @@ const AnimatedGridBackground: React.FC = () => {
       />
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent opacity-20" />
+        <div className="absolute inset-0 bg-linear-to-t from-background/40 via-transparent to-transparent opacity-20" />
 
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,transparent_60%,oklch(0.145_0_0/0.3)_100%)] opacity-30" />
 
