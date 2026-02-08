@@ -8,7 +8,7 @@ const Home = () => {
       <AnimatedGridBackground />
       <Navbar />
 
-      <main className="relative z-10 h-full flex items-center justify-center">
+      <main className="relative z-10 h-full flex md:items-center justify-center">
         <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <HeroBanner />
           {/* <ParticleSceCreate /> */}

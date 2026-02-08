@@ -96,7 +96,7 @@ export default function Navbar() {
             asChild
             variant="outline"
             // Custom Variable Usage (Glassy style using vars)
-            className="hidden md:flex rounded-full px-4 lg:px-6 h-9 lg:h-10 border-border bg-muted/50 text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all gap-2 text-sm font-medium group">
+            className="hidden md:flex rounded-full px-4 lg:px-6 h-9 lg:h-10 border-border bg-muted/50 text-foreground hover:bg-primary hover:text-foreground hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all gap-2 text-sm font-medium group">
             <Link to="/contact">
               Let's Talk{" "}
               <Send className="h-3.5 w-3.5 lg:h-4 lg:w-4 group-hover:translate-x-0.5 transition-transform" />

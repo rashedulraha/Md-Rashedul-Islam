@@ -11,7 +11,7 @@ export default function HeroBanner() {
   const socialLinks = socialData;
 
   const fullText =
-    "Architecting scalable backend systems and high-performance web interfaces with modern engineering principles.";
+    "I build interactive web applications with clean, modern design.";
 
   useEffect(() => {
     if (textIndex < fullText.length) {
@@ -24,7 +24,7 @@ export default function HeroBanner() {
   }, [textIndex, fullText]);
 
   return (
-    <section className="relative w-full min-h-[calc(100vh-75px)] flex items-center justify-center overflow-hidden px-4 sm:px-6">
+    <section className="relative w-full min-h-[calc(100vh-75px)] h-full flex items-center justify-center overflow-hidden px-4 sm:px-6">
       {/* 1. Left Sidebar Socials (Desktop Only) */}
       <div className="absolute left-6 xl:left-12 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center justify-center gap-8 z-20">
         <div className="h-24 w-px bg-linear-to-b from-transparent via-border to-primary/50"></div>
@@ -56,7 +56,7 @@ export default function HeroBanner() {
       {/* 3. Main Content Container */}
       <div className="relative z-10 flex flex-col items-center justify-center text-center max-w-4xl w-full space-y-8 py-10">
         {/* Top Badge */}
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 mt-10">
           <Badge
             variant="outline"
             className="px-4 py-1.5 rounded-full bg-secondary/20 backdrop-blur-md border-primary/20 text-primary gap-2 text-[10px] sm:text-xs tracking-[0.15em] uppercase font-bold">
@@ -106,9 +106,6 @@ export default function HeroBanner() {
 
         {/* Tech Stack Display */}
         <div className="pt-5 w-full animate-in fade-in duration-1000 delay-500">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/60 mb-5 font-semibold">
-            Tech Stack & Tools
-          </p>
           <div className="overflow-x-auto gap-6 md:gap-12 opacity-50 hover:opacity-100 transition-opacity duration-500 whitespace-nowrap px-4 scrollbar-none md-5 flex items-center justify-center ">
             {["Next.js", "Node.js", "TypeScript", "Golang", "Postgres"].map(
               (tech) => (
