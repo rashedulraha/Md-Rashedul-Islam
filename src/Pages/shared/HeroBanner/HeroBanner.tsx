@@ -23,14 +23,14 @@ export default function HeroBanner() {
   return (
     <section
       className="relative w-full mt-18.75 h-[calc(100vh-75px)]
- flex flex-col items-center justify-center px-6 overflow-hidden">
+ flex flex-col items-center justify-center overflow-hidden">
       {/* Background Decorative Elements (Inspired by image) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-250 h-150 bg-primary/5 rounded-[100%] blur-[120px]" />
+        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-250 h-150  rounded-[100%] blur-[120px]" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center text-center max-w-5xl w-full space-y-10">
+      <div className="relative z-10 flex flex-col items-center justify-center text-center max-w-5xl w-full space-y-5 md:my-10">
         {/* Top Badge: Floating Style */}
         <div className="animate-fade-in">
           <Badge
@@ -43,13 +43,13 @@ export default function HeroBanner() {
 
         {/* Hero Heading: Large & Bold */}
         <div className="space-y-6">
-          <h1 className="text-2xl text-left sm:text-3xl md:text-5xl lg:text-6xl font-medium md:leading-17 text-wrap bg-clip-text text-transparent bg-linear-to-b from-foreground to-muted-foreground/60 leading-snug tracking-wide md:text-center">
+          <h1 className="text-2xl  sm:text-3xl md:text-5xl lg:text-6xl font-medium md:leading-17 text-wrap bg-clip-text text-transparent bg-linear-to-b from-foreground to-muted-foreground/60 leading-snug tracking-wide md:text-center">
             Welcome To My World
           </h1>
 
           {/* Subheading with Typing Effect */}
           <div className="min-h-15 flex flex-col items-center">
-            <p className="max-w-2xl text-muted-foreground text-base md:text-xl leading-relaxed">
+            <p className="text-sm md:text-base md:leading-8 text-muted-foreground max-w-2xl">
               {typedText}
               <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-pulse" />
             </p>

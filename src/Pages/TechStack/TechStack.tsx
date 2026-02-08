@@ -3,7 +3,6 @@ import { useLenis } from "@/Hooks/useLenis";
 
 // Layout & Background
 import Navbar from "../shared/Navbar/Navbar";
-import Animation from "@/components/Animation/Animation";
 
 // Data
 import { techData, technologies } from "@/Data/TechStack/TechStack";
@@ -13,6 +12,7 @@ import TechSummary from "./TechSummary";
 import SkillBentoGrid from "./SkillBentoGrid";
 import TechOverview from "./TechOverview";
 import TechFooter from "./TechFooter";
+import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
 
 // Child Components
 
@@ -32,8 +32,8 @@ export default function TechStack() {
       <Navbar />
 
       {/* Subtle Background Animation */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-15">
-        <Animation />
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-50">
+        <AnimatedGridBackground />
       </div>
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">

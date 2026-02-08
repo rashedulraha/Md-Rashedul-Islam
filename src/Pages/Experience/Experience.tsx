@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 
 import Navbar from "../shared/Navbar/Navbar";
-import Animation from "@/components/Animation/Animation";
+
 import { useLenis } from "@/Hooks/useLenis";
 import type { TimelineItem } from "./types";
 import ExperienceHeader from "./ExperienceHeader";
 import ExperienceTabs from "./ExperienceTabs";
 import ExperienceContent from "./ExperienceContent";
 import ExperienceFooter from "./ExperienceFooter";
+import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
 
 export default function Experience() {
   useLenis();
@@ -25,8 +26,8 @@ export default function Experience() {
     <div className="relative min-h-screen w-full bg-background text-foreground transition-colors duration-500">
       <Navbar />
 
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-15">
-        <Animation />
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-50">
+        <AnimatedGridBackground />
       </div>
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">

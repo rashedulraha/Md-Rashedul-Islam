@@ -14,7 +14,6 @@ import ProjectStats from "./ ProjectStats";
 
 // Shared Components
 import Navbar from "../shared/Navbar/Navbar";
-import Animation from "@/components/Animation/Animation";
 import ProjectCard from "@/components/projectCard/ProjectCard";
 
 // Types & Hooks
@@ -24,6 +23,7 @@ import type {
   ComplexityLevel,
 } from "@/Routes/Types/projectType";
 import { useLenis } from "@/Hooks/useLenis";
+import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
 
 export default function Projects() {
   // --- STATES ---
@@ -157,8 +157,8 @@ export default function Projects() {
   return (
     <div className="relative min-h-screen w-full bg-background text-foreground transition-colors duration-500">
       {/* Background Animation */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-15">
-        <Animation />
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-50">
+        <AnimatedGridBackground />
       </div>
       <Navbar />
 

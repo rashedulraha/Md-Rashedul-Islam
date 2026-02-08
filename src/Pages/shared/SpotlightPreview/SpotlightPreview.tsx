@@ -23,7 +23,7 @@ export function SpotlightPreview({ data }: ctaProps) {
   const Icon3 = data.icons3;
 
   return (
-    <div className="relative flex w-full overflow-hidden rounded-md bg-background antialiased md:items-center md:justify-center px-6 py-10 sm:px-10 sm:py-12 md:p-14">
+    <div className="relative flex w-full overflow-hidden rounded-md  antialiased md:items-center md:justify-center px-6 py-10 sm:px-10 sm:py-12 md:p-14">
       <div
         className={cn(
           "pointer-events-none absolute inset-0 bg-size-[40px_40px] select-none",

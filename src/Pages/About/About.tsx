@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "../shared/Navbar/Navbar";
-import Animation from "@/components/Animation/Animation";
+
 import { useLenis } from "@/Hooks/useLenis";
 import HeroSection from "./components/HeroSection/HeroSection";
 
@@ -13,6 +13,7 @@ import TestimonialsTab from "./components/TabContent/TestimonialsTab";
 import "./styles/scrollbar.css";
 import CTASection from "./components/CTASection";
 import NavigationTabs from "./components/NavigationTabs";
+import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
 
 export default function About() {
   useLenis();
@@ -21,8 +22,8 @@ export default function About() {
   return (
     <div className="relative min-h-screen w-full bg-background text-foreground overflow-x-hidden">
       {/* Background Animation */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-10">
-        <Animation />
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-50">
+        <AnimatedGridBackground />
       </div>
 
       <Navbar />
