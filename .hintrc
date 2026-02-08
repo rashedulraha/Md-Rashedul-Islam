@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "development"
-  ],
+  "extends": ["development"],
   "hints": {
     "no-inline-styles": "off",
     "compat-api/css": [
@@ -11,10 +9,11 @@
           "scrollbar-width",
           "scrollbar-width: none",
           "scrollbar-width: thin",
-          "scrollbar-color"
-        ]
-      }
+          "scrollbar-color",
+        ],
+      },
     ],
-    "disown-opener": "off"
-  }
+    "disown-opener": "off",
+    "typescript-config/consistent-casing": "off",
+  },
 }

@@ -26,7 +26,6 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -43,9 +42,10 @@ export default function Navbar() {
       transition={{ duration: 0.3 }}
       className={cn(
         "fixed top-0 z-50 w-full transition-all duration-300",
+        // Custom Variable Usage
         scrolled
-          ? "border-b border-border/40 bg-background/80 backdrop-blur-xl shadow-lg shadow-background/10"
-          : "border-b border-border/20 bg-background/60 backdrop-blur-lg"
+          ? "border-b border-border bg-background/80 backdrop-blur-xl shadow-lg shadow-background/20"
+          : "border-b border-transparent bg-background/20 backdrop-blur-md",
       )}>
       <div className="mx-auto flex h-14 sm:h-16 lg:h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo Section */}
@@ -55,9 +55,11 @@ export default function Navbar() {
           <motion.div
             whileHover={{ rotate: 360 }}
             transition={{ duration: 0.5 }}
-            className="p-1.5 sm:p-2 rounded-lg bg-primary/10 border border-primary/20">
+            // Custom Variable Usage
+            className="p-1.5 sm:p-2 rounded-lg bg-primary/10 border border-primary/20 group-hover:border-primary/50 transition-colors">
             <Cpu className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
           </motion.div>
+          {/* Custom Variable Usage */}
           <span className="text-base sm:text-lg lg:text-xl font-black tracking-tighter text-foreground">
             Rashed<span className="text-primary">.</span>Dev
           </span>
@@ -70,15 +72,16 @@ export default function Navbar() {
               key={link.title}
               to={link.to}
               className={cn(
-                "relative px-3 lg:px-4 py-2 text-sm lg:text-base font-medium transition-all hover:text-primary rounded-lg",
+                "relative px-3 lg:px-4 py-2 text-sm lg:text-base font-medium transition-all hover:text-foreground rounded-lg",
                 location.pathname === link.to
-                  ? "text-primary"
-                  : "text-muted-foreground hover:bg-muted/50"
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:bg-muted",
               )}>
               {link.title}
               {location.pathname === link.to && (
                 <motion.span
                   layoutId="navbar-indicator"
+                  // Custom Variable Usage
                   className="absolute inset-x-1 -bottom-0.5 h-0.5 bg-primary rounded-full shadow-[0_0_10px_rgba(var(--primary),0.5)]"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
@@ -94,7 +97,9 @@ export default function Navbar() {
           {/* Desktop Contact Button */}
           <Button
             asChild
-            className="hidden md:flex rounded-full px-4 lg:px-6 h-9 lg:h-10 bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/25 transition-all gap-2 text-sm font-medium group">
+            variant="outline"
+            // Custom Variable Usage (Glassy style using vars)
+            className="hidden md:flex rounded-full px-4 lg:px-6 h-9 lg:h-10 border-border bg-muted/50 text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all gap-2 text-sm font-medium group">
             <Link to="/contact">
               Let's Talk{" "}
               <Send className="h-3.5 w-3.5 lg:h-4 lg:w-4 group-hover:translate-x-0.5 transition-transform" />
@@ -108,7 +113,8 @@ export default function Navbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-9 w-9 border border-border/40 hover:bg-primary/5 hover:border-primary/30 transition-all">
+                  // Custom Variable Usage
+                  className="h-9 w-9 text-foreground hover:bg-muted hover:text-primary transition-all border border-transparent hover:border-border">
                   <AnimatePresence mode="wait">
                     {isOpen ? (
                       <motion.div
@@ -134,14 +140,15 @@ export default function Navbar() {
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="w-70 sm:w-87.5 bg-background/95 backdrop-blur-2xl border-l border-border/40 p-0">
+                // Custom Variable Usage
+                className="w-70 sm:w-87.5 bg-background/95 backdrop-blur-2xl border-l border-border p-0 text-foreground">
                 <div className="flex flex-col h-full p-5 sm:p-6">
                   <SheetHeader className="text-left mb-6 sm:mb-8">
                     <SheetTitle className="flex items-center gap-2.5">
                       <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
                         <Cpu className="h-5 w-5 text-primary" />
                       </div>
-                      <span className="font-black tracking-tighter text-lg">
+                      <span className="font-black tracking-tighter text-lg text-foreground">
                         Rashed<span className="text-primary">.</span>Dev
                       </span>
                     </SheetTitle>
@@ -161,7 +168,7 @@ export default function Navbar() {
                             "flex items-center px-4 py-3 text-sm sm:text-base font-medium rounded-xl transition-all active:scale-95",
                             location.pathname === link.to
                               ? "bg-primary/10 text-primary border border-primary/30 shadow-sm"
-                              : "text-muted-foreground hover:bg-muted/50 hover:text-foreground border border-transparent"
+                              : "text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent",
                           )}>
                           <span className="flex-1">{link.title}</span>
                           {location.pathname === link.to && (
@@ -184,7 +191,8 @@ export default function Navbar() {
                     className="mt-auto pt-6">
                     <Button
                       asChild
-                      className="w-full h-11 rounded-xl bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/25 transition-all gap-2 font-medium group"
+                      variant="outline"
+                      className="w-full h-11 rounded-xl border-border bg-muted/50 text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all gap-2 font-medium group"
                       onClick={() => setIsOpen(false)}>
                       <Link
                         to="/contact"
