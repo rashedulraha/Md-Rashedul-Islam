@@ -21,11 +21,13 @@ export default function HeroBanner() {
   }, [textIndex, fullText]);
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden">
+    <section
+      className="relative w-full mt-18.75 h-[calc(100vh-75px)]
+ flex flex-col items-center justify-center px-6 overflow-hidden">
       {/* Background Decorative Elements (Inspired by image) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/5 rounded-[100%] blur-[120px]" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-250 h-150 bg-primary/5 rounded-[100%] blur-[120px]" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center text-center max-w-5xl w-full space-y-10">
@@ -41,16 +43,15 @@ export default function HeroBanner() {
 
         {/* Hero Heading: Large & Bold */}
         <div className="space-y-6">
-          <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[1.05] text-white">
-            Building Modular <br />
-            Digital <span className="text-primary italic">Experiences.</span>
+          <h1 className="text-2xl text-left sm:text-3xl md:text-5xl lg:text-6xl font-medium md:leading-17 text-wrap bg-clip-text text-transparent bg-linear-to-b from-foreground to-muted-foreground/60 leading-snug tracking-wide md:text-center">
+            Welcome To My World
           </h1>
 
           {/* Subheading with Typing Effect */}
-          <div className="min-h-[60px] flex flex-col items-center">
+          <div className="min-h-15 flex flex-col items-center">
             <p className="max-w-2xl text-muted-foreground text-base md:text-xl leading-relaxed">
               {typedText}
-              <span className="inline-block w-[2px] h-5 bg-primary ml-1 animate-pulse" />
+              <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-pulse" />
             </p>
           </div>
         </div>
@@ -59,8 +60,8 @@ export default function HeroBanner() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full">
           <Button
             asChild
-            size="lg"
-            className="group relative w-full sm:w-auto px-10 py-7 text-lg font-bold rounded-xl overflow-hidden bg-white text-black hover:bg-white/90 transition-all active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+            size={"lg"}
+            className="w-full sm:w-auto font-semibold cursor-pointer">
             <a
               href="/Md-Rasheduli-Islam.pdf"
               download
@@ -73,15 +74,14 @@ export default function HeroBanner() {
           <Link to="/contact" className="w-full sm:w-auto">
             <Button
               variant="outline"
-              size="lg"
-              className="w-full sm:w-auto px-10 py-7 text-lg font-bold rounded-xl border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all active:scale-95">
+              className="w-full sm:w-auto font-semibold cursor-pointer">
               Contact Me <ChevronRight className="w-5 h-5 ml-1" />
             </Button>
           </Link>
         </div>
 
         {/* Partner-style Tech Stack Bottom Row */}
-        <div className="pt-16 w-full">
+        <div className="pt-8 w-full">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8 font-medium">
             Expertise in modern stack
           </p>

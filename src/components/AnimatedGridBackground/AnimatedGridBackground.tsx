@@ -364,15 +364,15 @@ const AnimatedGridBackground: React.FC = () => {
       {/* Subtle overlay effects */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Soft vignette */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-20" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-20" />
         {/* Center focus */}
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/30 opacity-30" />
         {/* Very subtle scan lines */}
         <div className="absolute inset-0 opacity-10">
-          <div className="h-full w-full bg-[linear-gradient(0deg,transparent_99%,rgba(0,255,200,0.03)_100%)] bg-[length:100%_3px]" />
+          <div className="h-full w-full bg-[linear-gradient(0deg,transparent_99%,rgba(0,255,200,0.03)_100%)] bg-size-[100%_3px]" />
         </div>
         {/* Ambient color */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 via-transparent to-cyan-900/5 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-linear-to-br from-blue-900/5 via-transparent to-cyan-900/5 mix-blend-overlay" />
       </div>
     </div>
   );
