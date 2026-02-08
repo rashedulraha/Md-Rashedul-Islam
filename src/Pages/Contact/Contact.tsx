@@ -29,7 +29,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Navbar from "../shared/Navbar/Navbar";
-import Animation from "@/components/Animation/Animation";
+
+import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
 
 // Social Links Configuration
 const socialLinks = [
@@ -131,8 +132,8 @@ export default function Contact() {
       <Navbar />
 
       {/* Background Animation */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-10">
-        <Animation />
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-50">
+        <AnimatedGridBackground />
       </div>
 
       <main className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 lg:pt-32 pb-12 sm:pb-16 lg:pb-20">
