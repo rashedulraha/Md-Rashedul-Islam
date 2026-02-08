@@ -14,10 +14,16 @@ export function FlipWordsText() {
   ];
 
   return (
-    <div>
-      <div className="text-muted-foreground italic font-serif lowercase font-light flex items-center">
-        Build
-        <FlipWords words={words} />
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center text-2xl md:text-4xl tracking-tight ">
+        {/* Main Static Text */}
+        <span className="text-foreground font-semibold">Crafting with</span>
+
+        {/* Dynamic Words with a distinct style */}
+        <FlipWords
+          words={words}
+          className="font-bold text-primary drop-shadow-sm"
+        />
       </div>
     </div>
   );
