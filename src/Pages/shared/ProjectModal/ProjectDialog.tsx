@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import React, { useState, useEffect } from "react";
 import {
   Dialog,
@@ -17,6 +18,16 @@ const ProjectDialog: React.FC<{ projectData: ProjectDetails }> = ({
   projectData,
 }) => {
   const [open, setOpen] = useState(false);
+
+  // ✅ First visit auto open
+  useEffect(() => {
+    const visited = localStorage.getItem("hasVisitedProjectDialog");
+
+    if (!visited) {
+      setOpen(true);
+      localStorage.setItem("hasVisitedProjectDialog", "true");
+    }
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -52,7 +63,7 @@ const ProjectDialog: React.FC<{ projectData: ProjectDetails }> = ({
             <div className="flex items-center gap-3">
               <Users className="h-5 w-5 text-muted-foreground" />
               <div>
-                <p className="text-sm font-medium leading-none">Team</p>
+                <p className="text-sm font-medium">Team</p>
                 <p className="text-sm text-muted-foreground">
                   {projectData.team}
                 </p>
@@ -62,7 +73,7 @@ const ProjectDialog: React.FC<{ projectData: ProjectDetails }> = ({
             <div className="flex items-center gap-3">
               <User className="h-5 w-5 text-muted-foreground" />
               <div>
-                <p className="text-sm font-medium leading-none">My Role</p>
+                <p className="text-sm font-medium">My Role</p>
                 <p className="text-sm text-muted-foreground">
                   {projectData.role}
                 </p>
@@ -72,7 +83,7 @@ const ProjectDialog: React.FC<{ projectData: ProjectDetails }> = ({
             <div className="flex items-center gap-3">
               <Calendar className="h-5 w-5 text-muted-foreground" />
               <div>
-                <p className="text-sm font-medium leading-none">Started</p>
+                <p className="text-sm font-medium">Started</p>
                 <p className="text-sm text-muted-foreground">
                   {projectData.startDate}
                 </p>
