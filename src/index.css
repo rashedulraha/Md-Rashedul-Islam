@@ -154,20 +154,18 @@
     scrollbar-width: none;
   }
 }
+
 /* Custom Scrollbar */
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(100, 116, 139, 0.3) transparent;
 }
-
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
-
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
-
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: rgba(100, 116, 139, 0.3);
   border-radius: 20px;
@@ -194,10 +192,7 @@ img {
   }
 }
 
-/* scroll bar  */
-
 /* TechStack.css */
-
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -221,14 +216,11 @@ img {
 .animate-fade-in {
   animation: fade-in 0.7s ease-out forwards;
 }
-
 .animate-fade-in-up {
   animation: fade-in-up 0.7s ease-out forwards;
 }
 
-/* ! animation component kay frame style */
-/* src/styles/Animation.css */
-
+/* Animation component keyframes */
 @keyframes floatSlow {
   0%,
   100% {
@@ -289,7 +281,7 @@ img {
   }
 }
 
-/* grid style call to action */
+/* Grid call-to-action spotlight */
 @theme inline {
   --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
 }
@@ -303,4 +295,122 @@ img {
     opacity: 1;
     transform: translate(-50%, -40%) scale(1);
   }
+}
+
+/* ============================================================
+   NEW ADDITIONS — dev-background enhancements
+   All rules below are NEW. Nothing above was removed or changed.
+   ============================================================ */
+
+/* NEW: Subtle CRT scan-line overlay used by the .dev-scanlines div in AnimatedGridBackground */
+@keyframes scanline-drift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 4px;
+  }
+}
+
+.dev-scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+  background-size: 100% 4px;
+  animation: scanline-drift 8s linear infinite;
+  pointer-events: none;
+  /* Invisible on mobile to preserve performance */
+}
+
+@media (max-width: 640px) {
+  .dev-scanlines {
+    display: none;
+  }
+}
+
+/* NEW: Neon cursor blink utility (pure CSS fallback if needed outside canvas) */
+@keyframes neon-blink {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow:
+      0 0 6px #00ffb4,
+      0 0 10px #00ffb4;
+  }
+  50% {
+    opacity: 0;
+    box-shadow: none;
+  }
+}
+
+.dev-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: #00ffb4;
+  vertical-align: middle;
+  animation: neon-blink 1s step-end infinite;
+}
+
+/* NEW: Reusable neon text glow utility classes */
+.neon-green {
+  color: #00ffb4;
+  text-shadow:
+    0 0 8px rgba(0, 255, 180, 0.6),
+    0 0 20px rgba(0, 255, 180, 0.2);
+}
+.neon-blue {
+  color: #00b4ff;
+  text-shadow:
+    0 0 8px rgba(0, 180, 255, 0.6),
+    0 0 20px rgba(0, 180, 255, 0.2);
+}
+.neon-purple {
+  color: #c084fc;
+  text-shadow:
+    0 0 8px rgba(192, 132, 252, 0.6),
+    0 0 20px rgba(192, 132, 252, 0.2);
+}
+.neon-cyan {
+  color: #22d3ee;
+  text-shadow:
+    0 0 8px rgba(34, 211, 238, 0.6),
+    0 0 20px rgba(34, 211, 238, 0.2);
+}
+
+/* NEW: Fade-in-up for any UI element entering the hero section */
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-enter {
+  animation: hero-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Stagger helpers for hero children */
+.hero-enter-d1 {
+  animation-delay: 0.1s;
+}
+.hero-enter-d2 {
+  animation-delay: 0.2s;
+}
+.hero-enter-d3 {
+  animation-delay: 0.3s;
+}
+.hero-enter-d4 {
+  animation-delay: 0.4s;
+}
+.hero-enter-d5 {
+  animation-delay: 0.5s;
 }

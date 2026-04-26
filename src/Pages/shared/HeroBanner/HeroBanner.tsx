@@ -109,7 +109,7 @@ export default function HeroBanner() {
       </div>
 
       {/* 4. Experience Indicator (Bottom Right) */}
-      <div className="absolute bottom-10 right-6 xl:right-12 hidden md:flex items-center gap-4 text-muted-foreground border-l border-primary/20 pl-4 animate-in slide-in-from-right-8 duration-700">
+      <div className="absolute bottom-10 left-6 xl:right-12 hidden md:flex items-center gap-4 text-muted-foreground border-l border-primary/20 pl-4 animate-in slide-in-from-right-8 duration-700">
         <span className="text-4xl font-light text-foreground tracking-tighter">
           02+
         </span>
