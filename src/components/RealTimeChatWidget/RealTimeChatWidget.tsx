@@ -14,8 +14,7 @@ import { ChatHeader } from "./ChatHeader";
 import { ChatInput } from "./ChatInput";
 import { ChatToggle } from "./ChatToggle";
 
-import type { Message, QuickReply } from "./Types";
-import { QuickReplies } from "./QuickReplies";
+import type { Message } from "./Types";
 
 const MESSAGES: Message[] = [
   {
@@ -43,15 +42,6 @@ const MESSAGES: Message[] = [
   },
 ];
 
-const QUICK_REPLIES: QuickReply[] = [
-  { id: "qr1", text: "Need project help", emoji: "💻" },
-  { id: "qr2", text: "Technical support", emoji: "🔧" },
-  { id: "qr3", text: "Schedule a call", emoji: "📅" },
-  { id: "qr4", text: "See portfolio", emoji: "🎨" },
-  { id: "qr5", text: "Pricing info", emoji: "💰" },
-  { id: "qr6", text: "Other questions", emoji: "❓" },
-];
-
 const BOT_RESPONSES = [
   "I'm analyzing your request...",
   "Let me check that for you...",
@@ -74,7 +64,7 @@ const RealTimeChatWidget = () => {
   const [notificationSound, setNotificationSound] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [activeTab, setActiveTab] = useState<"chat" | "files" | "settings">(
-    "chat"
+    "chat",
   );
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -167,7 +157,7 @@ const RealTimeChatWidget = () => {
       gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(
         0.01,
-        audioContext.currentTime + 0.5
+        audioContext.currentTime + 0.5,
       );
 
       oscillator.start(audioContext.currentTime);
@@ -178,22 +168,9 @@ const RealTimeChatWidget = () => {
     }
   };
 
-  const handleQuickReply = (reply: QuickReply) => {
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      content: reply.text,
-      sender: "user",
-      timestamp: new Date(),
-      read: true,
-    };
-
-    setMessages((prev) => [...prev, newMessage]);
-    setIsTyping(true);
-  };
-
   const handleReaction = (
     messageId: string,
-    type: "thumbsUp" | "thumbsDown"
+    type: "thumbsUp" | "thumbsDown",
   ) => {
     setMessages((prev) =>
       prev.map((msg) => {
@@ -207,7 +184,7 @@ const RealTimeChatWidget = () => {
           };
         }
         return msg;
-      })
+      }),
     );
   };
 
@@ -407,12 +384,6 @@ const RealTimeChatWidget = () => {
                           <div ref={messagesEndRef} />
                         </div>
                       </ScrollArea>
-
-                      {/* Quick Replies - Fixed height */}
-                      <QuickReplies
-                        quickReplies={QUICK_REPLIES}
-                        onQuickReply={handleQuickReply}
-                      />
 
                       {/* Input Area - Fixed at bottom */}
                       <ChatInput
