@@ -8,7 +8,6 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Bot, Zap, Copy, Trash2, Download, Paperclip, X } from "lucide-react";
 import { useLenis } from "@/Hooks/useLenis";
 
-// Import components
 import { ChatBubble } from "./ChatBubble";
 import { ChatHeader } from "./ChatHeader";
 import { ChatInput } from "./ChatInput";
@@ -16,42 +15,61 @@ import { ChatToggle } from "./ChatToggle";
 
 import type { Message } from "./Types";
 
+const PORTFOLIO_CONTEXT = `Role: You are an intelligent AI assistant for Rashedul Islam's personal portfolio. 
+Tone: Professional, friendly, and helpful. 
+Language: Respond in the language used by the user (Bangla or English).
+
+--- USER INFORMATION ---
+Name: Rashedul Islam (Raha)
+Profession: Full-Stack Web Developer, Software Engineer, and System Architect.
+Location: Naogaon, Rajshahi, Bangladesh.
+Education: Honours Student at Naogaon Government College (Expected Graduation: 2028).
+
+--- TECHNICAL EXPERTISE ---
+Frontend: Next.js 16+, React 19, TypeScript, Tailwind CSS, Redux, Zustand, TanStack Query.
+Backend: Node.js, Golang, Python, FastAPI, WebSockets, gRPC.
+Database: PostgreSQL (Prisma), MongoDB, Redis.
+DevOps & Cloud: AWS (EC2, S3, Lambda), Docker, Kubernetes, CI/CD (GitHub Actions), Terraform.
+AI Focus: LLM Integration, RAG Systems, Vector Databases (Pinecone), Prompt Engineering.
+DSA: Expert in C, C++, Python; solved 500+ problems on various online judges.
+
+--- FEATURED PROJECTS ---
+1. Koda (formerly Velocity): A high-performance project management tool inspired by Linear.app. Built with Next.js, TypeScript, Tailwind, and Prisma.
+2. AI-Powered Medical Assistant: A RAG system using Next.js, FastAPI, LangChain, and OpenAI for summarizing medical reports.
+3. Scalable E-Commerce Platform: Microservices-based platform using Golang, PostgreSQL, and AWS.
+4. Blood Bridge: A MERN stack blood donation platform.
+5. Sharebite: A community food-sharing platform using Firebase and React.
+
+--- CONTACT & SOCIAL ---
+Email: rashedulraha.bd@gmail.com
+LinkedIn: linkedin.com/in/rashedulraha
+GitHub: github.com/rashedulraha
+X (Twitter): x.com/rashedulraha
+Portfolio: rashedulraha.github.io/Main-exzazon/
+
+--- GUIDELINES FOR RESPONSE ---
+- If a user asks about services, mention Full-Stack development or AI integration.
+- If a user asks for contact, provide the email and LinkedIn link.
+- If asked about location, mention Naogaon, Bangladesh.
+- For irrelevant or inappropriate questions, politely redirect them to Rashedul's professional work.
+- Use "I" or "Rashedul" based on the question (e.g., "Rashedul is an expert in..." or "I can help you with...").`;
+
 const MESSAGES: Message[] = [
   {
     id: "1",
-    content: "Hello! I'm your AI assistant. How can I help you today?",
+    content:
+      "Hi! I'm Rashedul's AI assistant. Ask me anything about his skills, projects, or how to get in touch!",
     sender: "bot",
     timestamp: new Date(Date.now() - 3600000),
     read: true,
-    reactions: { thumbsUp: 3, thumbsDown: 0 },
-  },
-  {
-    id: "2",
-    content: "I need help with my project setup",
-    sender: "user",
-    timestamp: new Date(Date.now() - 3500000),
-    read: true,
-  },
-  {
-    id: "3",
-    content:
-      "Sure! I can help you with that. What specific issues are you facing?",
-    sender: "bot",
-    timestamp: new Date(Date.now() - 3400000),
-    read: true,
+    reactions: { thumbsUp: 0, thumbsDown: 0 },
   },
 ];
 
-const BOT_RESPONSES = [
-  "I'm analyzing your request...",
-  "Let me check that for you...",
-  "Based on your query, I recommend...",
-  "Here's what I found:",
-  "Would you like more details?",
-];
+const GEMINI_API_KEY = "AIzaSyADzRMvuIMjGLav-ORSBALLfdtrbFUcQtQ";
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 const RealTimeChatWidget = () => {
-  // Initialize Lenis for smooth scrolling
   useLenis();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -67,26 +85,16 @@ const RealTimeChatWidget = () => {
     "chat",
   );
 
+  const chatHistoryRef = useRef<{ role: string; parts: { text: string }[] }[]>(
+    [],
+  );
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  // Simulate bot typing
-  useEffect(() => {
-    if (isTyping) {
-      const timer = setTimeout(() => {
-        sendBotResponse();
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTyping]);
-
-  // Simulate online status
   useEffect(() => {
     const interval = setInterval(() => {
       setOnline(Math.random() > 0.1);
@@ -99,7 +107,7 @@ const RealTimeChatWidget = () => {
   };
 
   const sendMessage = () => {
-    if (!inputMessage.trim()) return;
+    if (!inputMessage.trim() || isTyping) return;
 
     const newMessage: Message = {
       id: Date.now().toString(),
@@ -110,41 +118,91 @@ const RealTimeChatWidget = () => {
     };
 
     setMessages((prev) => [...prev, newMessage]);
+
+    chatHistoryRef.current.push({
+      role: "user",
+      parts: [{ text: inputMessage }],
+    });
+
     setInputMessage("");
     setIsTyping(true);
+    sendBotResponse();
   };
 
-  const sendBotResponse = () => {
-    const randomResponse =
-      BOT_RESPONSES[Math.floor(Math.random() * BOT_RESPONSES.length)];
-    const botMessage: Message = {
-      id: Date.now().toString(),
-      content: randomResponse,
-      sender: "bot",
-      timestamp: new Date(),
-      read: false,
-      reactions: { thumbsUp: 0, thumbsDown: 0 },
-    };
+  const sendBotResponse = async () => {
+    try {
+      const payload = {
+        contents: chatHistoryRef.current,
+        systemInstruction: {
+          parts: [{ text: PORTFOLIO_CONTEXT }],
+        },
+      };
 
-    setMessages((prev) => [...prev, botMessage]);
-    setIsTyping(false);
+      const response = await fetch(GEMINI_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    // Play notification sound
-    if (notificationSound && isOpen) {
-      playNotificationSound();
-    }
+      const data = await response.json();
 
-    // Increase unread count if minimized
-    if (isMinimized) {
-      setUnreadCount((prev) => prev + 1);
+      if (data.error) {
+        throw new Error(data.error.message || "API Error");
+      }
+
+      const botText =
+        data.candidates?.[0]?.content?.parts?.[0]?.text ||
+        "Sorry, I couldn't process that. Please try again.";
+
+      chatHistoryRef.current.push({
+        role: "model",
+        parts: [{ text: botText }],
+      });
+
+      if (chatHistoryRef.current.length > 20) {
+        chatHistoryRef.current = chatHistoryRef.current.slice(-16);
+      }
+
+      const botMessage: Message = {
+        id: Date.now().toString(),
+        content: botText,
+        sender: "bot",
+        timestamp: new Date(),
+        read: false,
+        reactions: { thumbsUp: 0, thumbsDown: 0 },
+      };
+
+      setMessages((prev) => [...prev, botMessage]);
+      setIsTyping(false);
+
+      if (notificationSound && !isMinimized) {
+        playNotificationSound();
+      }
+
+      if (isMinimized) {
+        setUnreadCount((prev) => prev + 1);
+      }
+    } catch (error) {
+      console.error("Gemini API Error:", error);
+
+      const errorMessage: Message = {
+        id: Date.now().toString(),
+        content: `Sorry, I'm having trouble responding right now.  You can also contact me via WhatsApp SMS or send email.
+        Phone: 01992284845
+        Email: rashedulraha.bd@gmail.com`,
+        sender: "bot",
+        timestamp: new Date(),
+        read: true,
+      };
+
+      setMessages((prev) => [...prev, errorMessage]);
+      setIsTyping(false);
     }
   };
 
   const playNotificationSound = () => {
-    // Simple notification sound using Web Audio API
     try {
       const audioContext = new window.AudioContext();
-
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
 
@@ -210,14 +268,12 @@ const RealTimeChatWidget = () => {
 
   return (
     <>
-      {/* Chat Toggle Button */}
       <ChatToggle
         unreadCount={unreadCount}
         online={online}
         onToggle={toggleChat}
       />
 
-      {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -234,7 +290,6 @@ const RealTimeChatWidget = () => {
             className={`fixed bottom-6 right-6 z-50 ${
               isMinimized ? "w-80" : "w-96"
             } rounded-2xl shadow-2xl border border-border overflow-hidden bg-background flex flex-col`}>
-            {/* Header - Fixed at top */}
             <ChatHeader
               online={online}
               isMinimized={isMinimized}
@@ -247,10 +302,8 @@ const RealTimeChatWidget = () => {
               onClose={toggleChat}
             />
 
-            {/* Chat Content - Only show when not minimized */}
             {!isMinimized && (
               <div className="flex flex-col flex-1 overflow-hidden">
-                {/* Tabs */}
                 <div className="border-b border-border/50 shrink-0">
                   <div className="flex px-4">
                     <button
@@ -301,18 +354,14 @@ const RealTimeChatWidget = () => {
                   </div>
                 </div>
 
-                {/* Content Area - Takes remaining space */}
                 <div className="flex-1 overflow-hidden flex flex-col">
-                  {/* Messages Area */}
                   {activeTab === "chat" && (
                     <>
                       <ScrollArea
                         className="flex-1 px-4 py-4"
                         data-lenis-prevent
-                        // Add these props to prevent the scroll area from expanding beyond its container
                         style={{ maxHeight: "calc(100% - 140px)" }}>
                         <div className="space-y-4">
-                          {/* Welcome Message */}
                           <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -324,7 +373,6 @@ const RealTimeChatWidget = () => {
                             </Card>
                           </motion.div>
 
-                          {/* Messages */}
                           {messages.map((message) => (
                             <ChatBubble
                               key={message.id}
@@ -334,7 +382,6 @@ const RealTimeChatWidget = () => {
                             />
                           ))}
 
-                          {/* Typing Indicator */}
                           {isTyping && (
                             <motion.div
                               initial={{ opacity: 0, y: 10 }}
@@ -385,7 +432,6 @@ const RealTimeChatWidget = () => {
                         </div>
                       </ScrollArea>
 
-                      {/* Input Area - Fixed at bottom */}
                       <ChatInput
                         inputMessage={inputMessage}
                         setInputMessage={setInputMessage}
@@ -394,7 +440,6 @@ const RealTimeChatWidget = () => {
                     </>
                   )}
 
-                  {/* Files Tab */}
                   {activeTab === "files" && (
                     <div className="p-4 h-full flex items-center justify-center">
                       <div className="text-center">
@@ -413,7 +458,6 @@ const RealTimeChatWidget = () => {
                     </div>
                   )}
 
-                  {/* Settings Tab */}
                   {activeTab === "settings" && (
                     <ScrollArea className="h-full p-4" data-lenis-prevent>
                       <div className="space-y-6">
@@ -458,14 +502,14 @@ const RealTimeChatWidget = () => {
 
                             <div className="flex items-center justify-between">
                               <div>
-                                <p className="font-medium"> Response Speed</p>
+                                <p className="font-medium">Response Speed</p>
                                 <p className="text-sm text-muted-foreground">
-                                  Fast responses
+                                  Powered by Gemini AI
                                 </p>
                               </div>
                               <Badge variant="secondary" className="gap-1">
                                 <Zap className="h-3 w-3" />
-                                Fast
+                                AI
                               </Badge>
                             </div>
                           </div>
@@ -476,19 +520,49 @@ const RealTimeChatWidget = () => {
                           <div className="space-y-2">
                             <Button
                               variant="outline"
-                              className="w-full justify-start gap-2">
+                              className="w-full justify-start gap-2"
+                              onClick={() => {
+                                const text = messages
+                                  .map(
+                                    (m) =>
+                                      `${m.sender === "user" ? "You" : "Bot"}: ${m.content}`,
+                                  )
+                                  .join("\n\n");
+                                navigator.clipboard.writeText(text);
+                              }}>
                               <Copy className="h-4 w-4" />
                               Copy Chat History
                             </Button>
                             <Button
                               variant="outline"
-                              className="w-full justify-start gap-2">
+                              className="w-full justify-start gap-2"
+                              onClick={() => {
+                                setMessages(MESSAGES);
+                                chatHistoryRef.current = [];
+                              }}>
                               <Trash2 className="h-4 w-4" />
                               Clear Chat
                             </Button>
                             <Button
                               variant="outline"
-                              className="w-full justify-start gap-2">
+                              className="w-full justify-start gap-2"
+                              onClick={() => {
+                                const text = messages
+                                  .map(
+                                    (m) =>
+                                      `${m.sender === "user" ? "You" : "Bot"}: ${m.content}`,
+                                  )
+                                  .join("\n\n");
+                                const blob = new Blob([text], {
+                                  type: "text/plain",
+                                });
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement("a");
+                                a.href = url;
+                                a.download = "chat-history.txt";
+                                a.click();
+                                URL.revokeObjectURL(url);
+                              }}>
                               <Download className="h-4 w-4" />
                               Export Chat
                             </Button>
@@ -510,7 +584,6 @@ const RealTimeChatWidget = () => {
               </div>
             )}
 
-            {/* Minimized View */}
             {isMinimized && (
               <div className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">

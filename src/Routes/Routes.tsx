@@ -14,26 +14,11 @@ const router = createBrowserRouter([
     Component: Layout,
     children: [
       { path: "/", Component: Home },
-      {
-        path: "projects",
-        Component: Projects,
-      },
-      {
-        path: "stack",
-        Component: TechStack,
-      },
-      {
-        path: "experience",
-        Component: Experience,
-      },
-      {
-        path: "about",
-        Component: About,
-      },
-      {
-        path: "contact",
-        Component: Contact,
-      },
+      { path: "projects", Component: Projects },
+      { path: "stack", Component: TechStack },
+      { path: "experience", Component: Experience },
+      { path: "about", Component: About },
+      { path: "contact", Component: Contact },
     ],
   },
 ]);
