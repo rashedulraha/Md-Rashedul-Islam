@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 interface CanvasTextProps {
   text: string;
@@ -187,8 +187,7 @@ export function CanvasText({
         "relative inline-block",
         overlay && "absolute inset-0",
         className,
-      )}
-    >
+      )}>
       <span
         ref={bgRef}
         className={cn(
