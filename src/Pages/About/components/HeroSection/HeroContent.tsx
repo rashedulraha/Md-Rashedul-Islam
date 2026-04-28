@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import QuickStats from "../shared/QuickStats";
 
+import CanvasTextRashedulIslam from "@/components/canvas-text-demo";
+
 const itemVariants = {
   hidden: { opacity: 0, y: 10 },
   visible: {
@@ -16,16 +18,12 @@ const itemVariants = {
 
 export default function HeroContent() {
   return (
-    <motion.div
-      variants={itemVariants}
-      className="flex-1 text-center lg:text-left w-full">
+    <motion.div variants={itemVariants} className="flex-1  lg:text-left w-full">
       <Badge className="mb-3 sm:mb-4 bg-primary/10 text-primary border-primary/20 text-xs sm:text-sm px-3 py-1">
         Full-Stack Developer
       </Badge>
 
-      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter uppercase mb-3 sm:mb-4 leading-tight">
-        Rashedul <span className="text-primary block sm:inline">Islam</span>
-      </h1>
+      <CanvasTextRashedulIslam />
 
       <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0">
         Passionate Full-Stack Developer specializing in React, Next.js, and
