@@ -23,7 +23,7 @@ export default function HeroSection() {
       className="mb-12 sm:mb-16 lg:mb-20">
       <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-8 lg:gap-12">
         <ProfileImage />
-        <HeroContent name={""} title={""} bio={""} />
+        <HeroContent />
       </div>
     </motion.section>
   );
