@@ -54,12 +54,12 @@ export default function Navbar() {
         <div
           className={cn(
             "flex h-12 sm:h-16 items-center justify-between gap-4 md:gap-8",
-            "px-4 sm:px-6 lg:px-8",
+            "px-4",
             "border border-foreground/10 rounded-full",
-            "bg-background/80 backdrop-blur-xl",
+            " backdrop-blur-xl",
             "shadow-lg shadow-black/5",
             "transition-all duration-300",
-            scrolled && "bg-background/95 shadow-xl shadow-black/10",
+            scrolled && "shadow-xl shadow-black/10",
             "max-w-7xl w-auto", // Changed w-full to w-auto for true Island look
           )}>
           {/* Logo Section */}
@@ -94,7 +94,7 @@ export default function Navbar() {
                 {location.pathname === link.to && (
                   <motion.span
                     layoutId="navbar-indicator"
-                    className="absolute inset-x-3 -bottom-0.5 h-0.5 bg-gradient-to-r from-foreground to-foreground/50 rounded-full"
+                    className="absolute inset-x-3 -bottom-0.5 h-0.5 bg-linear-to-r from-foreground to-foreground/50 rounded-full"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -111,7 +111,7 @@ export default function Navbar() {
               className={cn(
                 "hidden md:flex rounded-full px-5 lg:px-6 h-9 lg:h-10",
                 "border-foreground/20 bg-foreground/5 text-foreground",
-                "hover:bg-foreground hover:text-background hover:border-foreground",
+                " hover:text-foreground cursor-pointer hover:border-foreground",
                 "hover:shadow-lg hover:shadow-foreground/10",
                 "transition-all duration-300 gap-2 text-sm font-medium group",
               )}>

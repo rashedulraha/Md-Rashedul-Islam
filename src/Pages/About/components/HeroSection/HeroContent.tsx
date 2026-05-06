@@ -49,7 +49,6 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
   // --- Typewriter Logic ---
   const [displayedTitle, setDisplayedTitle] = useState("");
   const [isTyping, setIsTyping] = useState(true);
-
   useEffect(() => {
     let index = 0;
     const currentTitle = title;
