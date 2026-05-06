@@ -76,8 +76,8 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBMMDQgMEgwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20 mask-image-gradient" />
 
       {/* Decorative Blobs (Subtle background atmosphere) */}
-      <div className="absolute top-[-10%] left-[-10%] w-125 h-125 bg-primary/5 rounded-full blur-[100px] animate-pulse" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-125 h-125 bg-purple-500/5 rounded-full blur-[100px]" />
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] animate-pulse" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[100px]" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -102,7 +102,7 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
             transition={{ delay: 0.3 }}
             className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter mb-6 leading-[1.1]">
             <span className="relative inline-block">
-              <span className="relative z-10 bg-linear-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">
+              <span className="relative z-10 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">
                 {name}
               </span>
               {/* Subtle underline */}
@@ -110,7 +110,7 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
                 initial={{ width: 0 }}
                 animate={{ width: "100%" }}
                 transition={{ delay: 0.8, duration: 1 }}
-                className="absolute bottom-2 left-0 h-3 w-full bg-primary/20 z-0 blur-xl"
+                className="absolute bottom-2 left-0 h-3 w-full bg-primary/20 -z-0 blur-xl"
               />
             </span>
           </motion.h1>
@@ -120,7 +120,7 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="text-xl sm:text-2xl lg:text-3xl font-mono text-muted-foreground mb-6 min-h-10 flex items-center justify-center">
+            className="text-xl sm:text-2xl lg:text-3xl font-mono text-muted-foreground mb-6 min-h-[40px] flex items-center justify-center">
             <span className="inline-flex items-center gap-2 bg-card/50 px-4 py-1.5 rounded-lg border border-border/50 backdrop-blur-sm">
               <Terminal className="h-5 w-5 text-primary" />
               <span className="text-foreground">{displayedTitle}</span>
@@ -155,7 +155,7 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
                 }}
                 className="group relative overflow-hidden text-center p-4 rounded-2xl bg-background/40 border border-border/50 backdrop-blur-md transition-all duration-300">
                 {/* Hover glow effect */}
-                <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                 <div className="relative z-10">
                   <motion.div

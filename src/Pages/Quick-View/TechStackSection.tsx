@@ -16,7 +16,7 @@ interface Technology {
 
 interface TechCategory {
   icon: React.ComponentType<{ className?: string }>;
-  color: string; // Expects string like "from-blue-500 to-cyan-500"
+  color: string;
   technologies: Technology[];
 }
 
