@@ -2,7 +2,6 @@ import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "../shared/Navbar/Navbar";
 
-import { useLenis } from "@/Hooks/useLenis";
 import HeroSection from "./components/HeroSection/HeroSection";
 
 import OverviewTab from "./components/TabContent/OverviewTab";
@@ -14,6 +13,7 @@ import "./styles/scrollbar.css";
 import CTASection from "./components/CTASection";
 import NavigationTabs from "./components/NavigationTabs";
 import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
+import { useLenis } from "@/Hooks/useLenis";
 
 export default function About() {
   useLenis();
