@@ -104,7 +104,7 @@ export default function Projects() {
   };
 
   return (
-    <div className="relative min-h-screen bg-background">
+    <div className="relative min-h-screen bg-background ">
       <AnimatedGridBackground />
       <Navbar />
       <main className="relative z-10 max-w-7xl mx-auto px-4 pt-24 pb-20">
