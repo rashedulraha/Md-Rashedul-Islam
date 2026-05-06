@@ -11,8 +11,6 @@ import Navbar from "../shared/Navbar/Navbar";
 import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
 import ProjectCard from "./ProjectCard";
 
-import { useLenis } from "@/Hooks/useLenis";
-
 // Types
 import type {
   Project,
@@ -21,6 +19,7 @@ import type {
   ProjectStatus,
 } from "@/Routes/Types/projectType";
 import ProjectStats from "./ ProjectStats";
+import { useLenis } from "@/Hooks/useLenis";
 
 // JSON Data Structure Interface
 interface RawProject {
@@ -104,7 +103,7 @@ export default function Projects() {
   };
 
   return (
-    <div className="relative min-h-screen bg-background">
+    <div className="relative min-h-screen bg-background ">
       <AnimatedGridBackground />
       <Navbar />
       <main className="relative z-10 max-w-7xl mx-auto px-4 pt-24 pb-20">
