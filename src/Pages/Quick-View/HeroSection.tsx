@@ -25,11 +25,8 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
     mouseY.set(clientY - top);
   }
 
-  // Smooth values for the spotlight
   const spotlightX = useSpring(mouseX, { stiffness: 100, damping: 30 });
   const spotlightY = useSpring(mouseY, { stiffness: 100, damping: 30 });
-
-  // Transform values for the background gradient opacity
 
   // --- Typewriter Logic ---
   const [displayedTitle, setDisplayedTitle] = useState("");
@@ -39,7 +36,6 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
     let index = 0;
     const currentTitle = title;
 
-    // Clear previous title on prop change
     setDisplayedTitle("");
     setIsTyping(true);
 
@@ -52,10 +48,10 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
           clearInterval(interval);
           setIsTyping(false);
         }
-      }, 50); // Typing speed
+      }, 50);
 
       return () => clearInterval(interval);
-    }, 500); // Initial delay
+    }, 500);
 
     return () => clearTimeout(timeout);
   }, [title]);
@@ -64,21 +60,66 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
     <section
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background selection:bg-primary/20"
       onMouseMove={handleMouseMove}>
-      {/* Dynamic Spotlight Gradient */}
+      {/* 1. Mesh Gradient Background (Aurora Effect) */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Moving Blobs */}
+        <motion.div
+          animate={{
+            x: [0, 100, 0],
+            y: [0, -50, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut",
+          }}
+          className="absolute -top-[10%] -left-[10%] w-125 h-125 bg-purple-500/20 rounded-full blur-[120px]"
+        />
+        <motion.div
+          animate={{
+            x: [0, -100, 0],
+            y: [0, 50, 0],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut",
+          }}
+          className="absolute top-[20%] -right-[10%] w-150 h-150 bg-blue-500/20 rounded-full blur-[120px]"
+        />
+        <motion.div
+          animate={{
+            x: [0, 50, 0],
+            y: [0, 100, 0],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut",
+          }}
+          className="absolute -bottom-[20%] left-[20%] w-100 h-100 bg-pink-500/20 rounded-full blur-[100px]"
+        />
+      </div>
+
+      <div className="absolute inset-0 z-1 opacity-[0.15] pointer-events-none">
+        {/* Dotted Grid Pattern */}
+        <div className="w-full h-full bg-[radial-gradient(circle,var(--foreground)_1px,transparent_1px)] bg-size-[24px_24px] mask-[radial-gradient(ellipse_at_center,black_40%,transparent_80%)]" />
+      </div>
+
+      {/* 3. Dynamic Spotlight Gradient */}
       <motion.div
-        className="absolute inset-0 pointer-events-none z-0"
+        className="absolute inset-0 pointer-events-none z-2"
         style={{
           background: `radial-gradient(600px circle at ${spotlightX}px ${spotlightY}px, rgba(var(--primary-rgb), 0.08), transparent 40%)`,
         }}
       />
 
-      {/* Background Grid Pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBMMDQgMEgwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20 mask-image-gradient" />
-
-      {/* Decorative Blobs (Subtle background atmosphere) */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] animate-pulse" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[100px]" />
-
+      {/* 4. Content Container */}
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -90,7 +131,7 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 text-primary/90 text-sm font-medium mb-8 shadow-[0_0_20px_-5px_rgba(var(--primary-rgb),0.3)]">
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 text-primary/90 text-sm font-medium mb-8 shadow-[0_0_20px_-5px_rgba(var(--primary-rgb),0.3)] backdrop-blur-md">
             <Sparkles className="w-4 h-4" />
             <span>Available for new opportunities</span>
           </motion.div>
@@ -102,15 +143,15 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
             transition={{ delay: 0.3 }}
             className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter mb-6 leading-[1.1]">
             <span className="relative inline-block">
-              <span className="relative z-10 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">
+              <span className="relative z-10 bg-linear-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">
                 {name}
               </span>
-              {/* Subtle underline */}
+              {/* Glow Effect */}
               <motion.span
                 initial={{ width: 0 }}
                 animate={{ width: "100%" }}
                 transition={{ delay: 0.8, duration: 1 }}
-                className="absolute bottom-2 left-0 h-3 w-full bg-primary/20 -z-0 blur-xl"
+                className="absolute bottom-2 left-0 h-3 w-full bg-primary/20 z-0 blur-xl"
               />
             </span>
           </motion.h1>
@@ -120,7 +161,7 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="text-xl sm:text-2xl lg:text-3xl font-mono text-muted-foreground mb-6 min-h-[40px] flex items-center justify-center">
+            className="text-xl sm:text-2xl lg:text-3xl font-mono text-muted-foreground mb-6 min-h-10 flex items-center justify-center">
             <span className="inline-flex items-center gap-2 bg-card/50 px-4 py-1.5 rounded-lg border border-border/50 backdrop-blur-sm">
               <Terminal className="h-5 w-5 text-primary" />
               <span className="text-foreground">{displayedTitle}</span>
@@ -153,14 +194,15 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
                   scale: 1.05,
                   borderColor: "rgba(var(--primary-rgb), 0.5)",
                 }}
+                transition={{ type: "spring" as const, stiffness: 300 }}
                 className="group relative overflow-hidden text-center p-4 rounded-2xl bg-background/40 border border-border/50 backdrop-blur-md transition-all duration-300">
                 {/* Hover glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                 <div className="relative z-10">
                   <motion.div
                     whileHover={{ rotate: 15 }}
-                    transition={{ type: "spring", stiffness: 300 }}>
+                    transition={{ type: "spring" as const, stiffness: 300 }}>
                     <item.icon
                       className={`h-6 w-6 ${item.color} mx-auto mb-2`}
                     />
