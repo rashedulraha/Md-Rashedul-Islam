@@ -1,0 +1,216 @@
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Sparkles, Terminal, MousePointer2 } from "lucide-react";
+import { achievements, socialLinks } from "./Data/quickViewData";
+
+interface HeroSectionProps {
+  name: string;
+  title: string;
+  bio: string;
+}
+
+export default function HeroSection({ name, title, bio }: HeroSectionProps) {
+  // --- Spotlight Effect Logic ---
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  function handleMouseMove({
+    currentTarget,
+    clientX,
+    clientY,
+  }: React.MouseEvent) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  // Smooth values for the spotlight
+  const spotlightX = useSpring(mouseX, { stiffness: 100, damping: 30 });
+  const spotlightY = useSpring(mouseY, { stiffness: 100, damping: 30 });
+
+  // Transform values for the background gradient opacity
+
+  // --- Typewriter Logic ---
+  const [displayedTitle, setDisplayedTitle] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    let index = 0;
+    const currentTitle = title;
+
+    // Clear previous title on prop change
+    setDisplayedTitle("");
+    setIsTyping(true);
+
+    const timeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        if (index < currentTitle.length) {
+          setDisplayedTitle((prev) => prev + currentTitle.charAt(index));
+          index++;
+        } else {
+          clearInterval(interval);
+          setIsTyping(false);
+        }
+      }, 50); // Typing speed
+
+      return () => clearInterval(interval);
+    }, 500); // Initial delay
+
+    return () => clearTimeout(timeout);
+  }, [title]);
+
+  return (
+    <section
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background selection:bg-primary/20"
+      onMouseMove={handleMouseMove}>
+      {/* Dynamic Spotlight Gradient */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          background: `radial-gradient(600px circle at ${spotlightX}px ${spotlightY}px, rgba(var(--primary-rgb), 0.08), transparent 40%)`,
+        }}
+      />
+
+      {/* Background Grid Pattern */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBMMDQgMEgwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20 mask-image-gradient" />
+
+      {/* Decorative Blobs (Subtle background atmosphere) */}
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] animate-pulse" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[100px]" />
+
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center max-w-5xl mx-auto flex flex-col items-center">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 text-primary/90 text-sm font-medium mb-8 shadow-[0_0_20px_-5px_rgba(var(--primary-rgb),0.3)]">
+            <Sparkles className="w-4 h-4" />
+            <span>Available for new opportunities</span>
+          </motion.div>
+
+          {/* Main Title */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter mb-6 leading-[1.1]">
+            <span className="relative inline-block">
+              <span className="relative z-10 bg-linear-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">
+                {name}
+              </span>
+              {/* Subtle underline */}
+              <motion.span
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                transition={{ delay: 0.8, duration: 1 }}
+                className="absolute bottom-2 left-0 h-3 w-full bg-primary/20 -z-0 blur-xl"
+              />
+            </span>
+          </motion.h1>
+
+          {/* Typing Animation Title */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-xl sm:text-2xl lg:text-3xl font-mono text-muted-foreground mb-6 min-h-[40px] flex items-center justify-center">
+            <span className="inline-flex items-center gap-2 bg-card/50 px-4 py-1.5 rounded-lg border border-border/50 backdrop-blur-sm">
+              <Terminal className="h-5 w-5 text-primary" />
+              <span className="text-foreground">{displayedTitle}</span>
+              <span
+                className={`w-2 h-5 bg-primary ml-1 ${isTyping ? "animate-pulse" : "opacity-0"}`}>
+                |
+              </span>
+            </span>
+          </motion.div>
+
+          {/* Bio */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
+            {bio}
+          </motion.p>
+
+          {/* Quick Stats - Glassmorphism Cards */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-3xl mb-12">
+            {achievements.map((item, idx) => (
+              <motion.div
+                key={idx}
+                whileHover={{
+                  scale: 1.05,
+                  borderColor: "rgba(var(--primary-rgb), 0.5)",
+                }}
+                className="group relative overflow-hidden text-center p-4 rounded-2xl bg-background/40 border border-border/50 backdrop-blur-md transition-all duration-300">
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                <div className="relative z-10">
+                  <motion.div
+                    whileHover={{ rotate: 15 }}
+                    transition={{ type: "spring", stiffness: 300 }}>
+                    <item.icon
+                      className={`h-6 w-6 ${item.color} mx-auto mb-2`}
+                    />
+                  </motion.div>
+                  <div className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+                    {item.value}
+                  </div>
+                  <div className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+                    {item.label}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Social & CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1 }}
+            className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 w-full">
+            {/* Primary CTA */}
+            <Button
+              size="lg"
+              className="rounded-full h-12 px-8 text-base font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all gap-2 group">
+              <span>Let's Connect</span>
+              <MousePointer2 className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </Button>
+
+            {/* Secondary Socials */}
+            <div className="flex gap-3">
+              {socialLinks.map((social, i) => (
+                <Button
+                  key={i}
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full h-12 w-12 border-border/50 bg-background/50 backdrop-blur-md hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all hover:scale-110"
+                  asChild>
+                  <a
+                    href={social.href}
+                    target={social.href.startsWith("http") ? "_blank" : "_self"}
+                    rel="noopener noreferrer">
+                    <social.icon className="h-5 w-5" />
+                  </a>
+                </Button>
+              ))}
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
