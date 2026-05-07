@@ -42,7 +42,7 @@ export default function ProjectCard({
 
   const isActive = activeProject === project.id;
 
-  // Enhanced Status Configuration
+  // Enhanced Status Configuration - B&W Version
   const getStatusConfig = (status: ProjectStatus) => {
     const configs: Record<
       ProjectStatus,
@@ -55,41 +55,41 @@ export default function ProjectCard({
       }
     > = {
       live: {
-        gradient: "from-emerald-500 to-green-500",
-        text: "text-emerald-400",
+        gradient: "from-foreground to-foreground/70",
+        text: "text-foreground",
         label: "Live",
         icon: "●",
-        glow: "shadow-emerald-500/50",
+        glow: "shadow-foreground/30",
       },
       development: {
-        gradient: "from-amber-500 to-orange-500",
-        text: "text-amber-400",
+        gradient: "from-foreground/70 to-foreground/40",
+        text: "text-foreground/70",
         label: "In Development",
         icon: "◐",
-        glow: "shadow-amber-500/50",
+        glow: "shadow-foreground/20",
       },
       archived: {
-        gradient: "from-rose-500 to-red-500",
-        text: "text-rose-400",
+        gradient: "from-foreground/50 to-foreground/30",
+        text: "text-foreground/50",
         label: "Archived",
         icon: "○",
-        glow: "shadow-rose-500/50",
+        glow: "shadow-foreground/10",
       },
       planning: {
-        gradient: "from-purple-500 to-violet-500",
-        text: "text-purple-400",
+        gradient: "from-foreground/60 to-foreground/40",
+        text: "text-foreground/60",
         label: "Planning",
         icon: "◑",
-        glow: "shadow-purple-500/50",
+        glow: "shadow-foreground/20",
       },
     };
     return (
       configs[status] || {
-        gradient: "from-blue-500 to-cyan-500",
-        text: "text-blue-400",
+        gradient: "from-foreground to-foreground/60",
+        text: "text-foreground",
         label: "Unknown",
         icon: "●",
-        glow: "shadow-blue-500/50",
+        glow: "shadow-foreground/20",
       }
     );
   };
@@ -100,25 +100,25 @@ export default function ProjectCard({
       { gradient: string; text: string; bars: number }
     > = {
       beginner: {
-        gradient: "from-emerald-400 to-green-500",
-        text: "text-emerald-400",
+        gradient: "from-foreground/60 to-foreground/40",
+        text: "text-foreground/60",
         bars: 1,
       },
       intermediate: {
-        gradient: "from-amber-400 to-orange-500",
-        text: "text-amber-400",
+        gradient: "from-foreground/80 to-foreground/60",
+        text: "text-foreground/80",
         bars: 2,
       },
       advanced: {
-        gradient: "from-rose-400 to-red-500",
-        text: "text-rose-400",
+        gradient: "from-foreground to-foreground/80",
+        text: "text-foreground",
         bars: 3,
       },
     };
     return (
       configs[complexity] || {
-        gradient: "from-blue-400 to-cyan-500",
-        text: "text-blue-400",
+        gradient: "from-foreground/70 to-foreground/50",
+        text: "text-foreground/70",
         bars: 1,
       }
     );
@@ -138,7 +138,7 @@ export default function ProjectCard({
     }
   };
 
-  // Compact Card View
+  // Compact Card View - B&W
   if (compact) {
     return (
       <motion.div
@@ -166,19 +166,19 @@ export default function ProjectCard({
           className={`group h-full relative overflow-hidden border transition-all duration-500 cursor-pointer
             ${
               isActive
-                ? "border-primary shadow-2xl shadow-primary/30 bg-linear-to-br from-card via-card/95 to-primary/5"
-                : "border-border/50 bg-card/80 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/20"
+                ? "border-foreground/40 shadow-2xl shadow-foreground/20 bg-linear-to-br from-card via-card/95 to-foreground/5"
+                : "border-border/50 bg-card/80 hover:border-foreground/30 hover:shadow-xl hover:shadow-foreground/10"
             } backdrop-blur-xl`}
           onClick={handleCardClick}
           role="article"
           aria-label={`${project.title} project - click to view source code`}>
-          {/* Animated Background Gradient */}
-          <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          {/* Animated Background Gradient - B&W */}
+          <div className="absolute inset-0 bg-linear-to-br from-foreground/5 via-transparent to-foreground/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
           {/* Top Badges */}
           <div className="absolute top-3 left-3 right-3 z-10 flex justify-between items-start pointer-events-none">
             <Badge
-              className={`bg-linear-to-r ${statusConfig.gradient} text-white border-0 text-[10px] px-2.5 py-1 font-semibold shadow-lg ${statusConfig.glow} backdrop-blur-sm`}>
+              className={`bg-linear-to-r ${statusConfig.gradient} border-0 text-[10px] px-2.5 py-1 font-semibold shadow-lg ${statusConfig.glow} backdrop-blur-sm`}>
               <span className="animate-pulse mr-1">{statusConfig.icon}</span>
               {statusConfig.label}
             </Badge>
@@ -190,7 +190,7 @@ export default function ProjectCard({
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}>
-                <Badge className="bg-linear-to-r from-yellow-400 via-orange-500 to-pink-500 text-white border-0 p-1.5 shadow-xl shadow-orange-500/50">
+                <Badge className="bg-linear-to-r from-foreground via-foreground/70 to-foreground/40border-0 p-1.5 shadow-xl shadow-foreground/30">
                   <Sparkles className="w-3.5 h-3.5" />
                 </Badge>
               </motion.div>
@@ -198,7 +198,7 @@ export default function ProjectCard({
           </div>
 
           {/* Project Image */}
-          <div className="relative aspect-video overflow-hidden bg-linear-to-br from-primary/10 via-muted to-primary/5">
+          <div className="relative aspect-video overflow-hidden bg-linear-to-br from-foreground/10 via-muted to-foreground/5">
             {!imageLoaded && (
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div
@@ -208,7 +208,7 @@ export default function ProjectCard({
                     repeat: Infinity,
                     ease: "linear",
                   }}>
-                  <Zap className="w-8 h-8 text-primary/40" />
+                  <Zap className="w-8 h-8 text-foreground/40" />
                 </motion.div>
               </div>
             )}
@@ -224,8 +224,8 @@ export default function ProjectCard({
                 loading="lazy"
               />
             ) : imageError ? (
-              <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-primary/5 to-primary/20">
-                <Code2 className="w-8 h-8 text-primary/50" />
+              <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-foreground/5 to-foreground/20">
+                <Code2 className="w-8 h-8 text-foreground/50" />
               </div>
             ) : null}
 
@@ -241,7 +241,7 @@ export default function ProjectCard({
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ type: "spring", stiffness: 200 }}>
-                    <FaGithub className="w-12 h-12 text-white mb-2" />
+                    <FaGithub className="w-12 h-12 text-blue-400 mb-2" />
                   </motion.div>
                   <p className="text-white text-xs font-bold tracking-wide">
                     VIEW SOURCE CODE
@@ -253,7 +253,7 @@ export default function ProjectCard({
 
           {/* Content */}
           <div className="p-4 relative">
-            <h3 className="font-bold text-base line-clamp-1 group-hover:text-primary transition-colors mb-1.5">
+            <h3 className="font-bold text-base line-clamp-1 group-hover:text-foreground transition-colors mb-1.5">
               {project.title}
             </h3>
             <p className="text-xs text-muted-foreground/80 line-clamp-2 mb-3 leading-relaxed">
@@ -264,7 +264,7 @@ export default function ProjectCard({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3 text-[11px]">
                 <span
-                  className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors"
+                  className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
                   title="Views">
                   <Eye className="w-3.5 h-3.5" />
                   <span className="font-medium">
@@ -272,16 +272,16 @@ export default function ProjectCard({
                   </span>
                 </span>
                 <span
-                  className="flex items-center gap-1.5 text-muted-foreground hover:text-yellow-500 transition-colors"
+                  className="flex items-center gap-1.5 text-muted-foreground transition-colors"
                   title="Rating">
-                  <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
+                  <Star className="w-3.5 h-3.5 text-foreground/60" />
                   <span className="font-medium">{project.rating}</span>
                 </span>
               </div>
               {liveUrl && (
                 <Button
                   size="sm"
-                  className="h-7 px-2.5 gap-1.5 bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg shadow-primary/30 text-[11px] pointer-events-auto"
+                  className="h-7 px-2.5 gap-1.5 bg-linear-to-r from-foreground to-foreground/80 hover:from-foreground/90 hover:to-foreground/70 shadow-lg shadow-foreground/20 text-[11px] pointer-events-auto "
                   onClick={(e) => {
                     e.stopPropagation();
                     window.open(liveUrl, "_blank", "noopener,noreferrer");
@@ -297,7 +297,7 @@ export default function ProjectCard({
     );
   }
 
-  // Full/Regular Card View
+  // Full/Regular Card View - B&W
   return (
     <motion.div
       layout
@@ -320,25 +320,25 @@ export default function ProjectCard({
         setActiveProject(null);
       }}
       className="relative h-full group">
-      {/* Glowing Border Effect */}
+      {/* Glowing Border Effect - B&W */}
       <div
-        className={`absolute -inset-px bg-linear-to-r ${statusConfig.gradient} rounded-xl opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-500`}
+        className={`absolute -inset-px bg-linear-to-r ${statusConfig.gradient} rounded-xl opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-500`}
       />
 
       <Card
         className={`relative overflow-hidden transition-all duration-500 h-full flex flex-col cursor-pointer
           ${
             isActive
-              ? "border-primary/60 bg-linear-to-br from-card via-card/95 to-primary/5 shadow-2xl shadow-primary/30"
-              : "border-border/50 bg-card/80 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20"
+              ? "border-foreground/40 bg-linear-to-br from-card via-card/95 to-foreground/5 shadow-2xl shadow-foreground/20"
+              : "border-border/50 bg-card/80 hover:border-foreground/30 hover:shadow-2xl hover:shadow-foreground/10"
           } backdrop-blur-xl`}
         role="article"
         aria-label={`${project.title} - click to view source code`}
         onClick={handleCardClick}>
-        {/* Animated Background */}
-        <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        {/* Animated Background - B&W */}
+        <div className="absolute inset-0 bg-linear-to-br from-foreground/5 via-transparent to-foreground/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-        {/* Featured Badge */}
+        {/* Featured Badge - B&W */}
         {project.featured && (
           <motion.div
             initial={{ scale: 0, rotate: -90 }}
@@ -349,7 +349,7 @@ export default function ProjectCard({
               delay: index * 0.1 + 0.3,
             }}
             className="absolute top-4 right-4 z-20">
-            <Badge className="bg-linear-to-r from-yellow-400 via-orange-500 to-pink-500 text-white border-0 text-[11px] px-3 py-1.5 flex items-center gap-1.5 shadow-xl shadow-orange-500/50 backdrop-blur-sm">
+            <Badge className="bg-linear-to-r from-foreground via-foreground/70 to-foreground/40 text-white border-0 text-[11px] px-3 py-1.5 flex items-center gap-1.5 shadow-xl shadow-foreground/30 backdrop-blur-sm">
               <Sparkles className="w-3.5 h-3.5" />
               <span className="font-bold">Featured</span>
             </Badge>
@@ -357,7 +357,7 @@ export default function ProjectCard({
         )}
 
         {/* Project Image */}
-        <div className="relative aspect-video overflow-hidden bg-linear-to-br from-primary/10 via-muted to-primary/5">
+        <div className="relative aspect-video overflow-hidden bg-linear-to-br from-foreground/10 via-muted to-foreground/5">
           {!imageLoaded && (
             <div className="absolute inset-0 flex items-center justify-center">
               <motion.div
@@ -367,7 +367,7 @@ export default function ProjectCard({
                   repeat: Infinity,
                   ease: "linear",
                 }}>
-                <Zap className="w-12 h-12 text-primary/40" />
+                <Zap className="w-12 h-12 text-foreground/40" />
               </motion.div>
             </div>
           )}
@@ -383,12 +383,12 @@ export default function ProjectCard({
               loading="lazy"
             />
           ) : imageError ? (
-            <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-primary/5 to-primary/20">
-              <Code2 className="w-16 h-16 text-primary/50" />
+            <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-foreground/5 to-foreground/20">
+              <Code2 className="w-16 h-16 text-foreground/50" />
             </div>
           ) : null}
 
-          {/* Status Badge on Image */}
+          {/* Status Badge on Image - B&W */}
           <div className="absolute top-4 left-4">
             <Badge
               className={`bg-linear-to-r ${statusConfig.gradient} text-white border-0 text-[11px] font-bold uppercase px-3 py-1.5 shadow-xl ${statusConfig.glow} backdrop-blur-sm`}>
@@ -437,7 +437,7 @@ export default function ProjectCard({
         <div className="p-6 flex flex-col grow relative">
           {/* Title & Description */}
           <div className="mb-5">
-            <h3 className="font-bold text-2xl mb-2 line-clamp-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-primary group-hover:to-primary/60 transition-all duration-300">
+            <h3 className="font-bold text-2xl mb-2 line-clamp-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-foreground group-hover:to-foreground/60 transition-all duration-300">
               {project.title}
             </h3>
             {project.subtitle && (
@@ -450,7 +450,7 @@ export default function ProjectCard({
             </p>
           </div>
 
-          {/* Tech Stack Pills */}
+          {/* Tech Stack Pills - B&W */}
           <div className="flex flex-wrap gap-2 mb-5">
             {project.tech?.slice(0, 5).map((tech, idx) => (
               <motion.div
@@ -460,7 +460,7 @@ export default function ProjectCard({
                 transition={{ delay: index * 0.1 + idx * 0.05 }}>
                 <Badge
                   variant="secondary"
-                  className="text-[11px] px-3 py-1 bg-linear-to-r from-primary/10 to-primary/5 border border-primary/20 text-primary hover:border-primary/40 hover:bg-primary/15 transition-all duration-300 font-medium">
+                  className="text-[11px] px-3 py-1 bg-linear-to-r from-foreground/10 to-foreground/5 border border-foreground/20 text-foreground hover:border-foreground/40 hover:bg-foreground/15 transition-all duration-300 font-medium">
                   {tech}
                 </Badge>
               </motion.div>
@@ -474,11 +474,11 @@ export default function ProjectCard({
             )}
           </div>
 
-          {/* Enhanced Stats Grid */}
+          {/* Enhanced Stats Grid - B&W */}
           <div className="grid grid-cols-2 gap-4 mb-5 pb-5 border-b border-border/50">
             <div className="flex items-center gap-3 group/stat">
-              <div className="p-2 rounded-lg bg-primary/10 group-hover/stat:bg-primary/20 transition-colors">
-                <Eye className="w-5 h-5 text-primary" />
+              <div className="p-2 rounded-lg bg-foreground/10 group-hover/stat:bg-foreground/20 transition-colors">
+                <Eye className="w-5 h-5 text-foreground/80" />
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Views</p>
@@ -489,8 +489,8 @@ export default function ProjectCard({
             </div>
 
             <div className="flex items-center gap-3 group/stat">
-              <div className="p-2 rounded-lg bg-yellow-500/10 group-hover/stat:bg-yellow-500/20 transition-colors">
-                <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+              <div className="p-2 rounded-lg bg-foreground/10 group-hover/stat:bg-foreground/20 transition-colors">
+                <Star className="w-5 h-5 text-foreground/60" />
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Rating</p>
@@ -501,8 +501,8 @@ export default function ProjectCard({
             </div>
 
             <div className="flex items-center gap-3 group/stat">
-              <div className="p-2 rounded-lg bg-blue-500/10 group-hover/stat:bg-blue-500/20 transition-colors">
-                <Calendar className="w-5 h-5 text-blue-500" />
+              <div className="p-2 rounded-lg bg-foreground/10 group-hover/stat:bg-foreground/20 transition-colors">
+                <Calendar className="w-5 h-5 text-foreground/80" />
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Duration</p>
@@ -527,7 +527,7 @@ export default function ProjectCard({
             </div>
           </div>
 
-          {/* Additional Metrics */}
+          {/* Additional Metrics - B&W */}
           {(project.teamSize || project.contributions || project.metric) && (
             <div className="flex flex-wrap gap-4 mb-5 text-xs">
               {project.teamSize && (
@@ -545,7 +545,7 @@ export default function ProjectCard({
                 </div>
               )}
               {project.metric && (
-                <div className="flex items-center gap-2 text-primary/90 hover:text-primary transition-colors">
+                <div className="flex items-center gap-2 text-foreground/80 hover:text-foreground transition-colors">
                   <Award className="w-4 h-4" />
                   <span className="font-semibold">{project.metric}</span>
                 </div>
@@ -553,11 +553,11 @@ export default function ProjectCard({
             </div>
           )}
 
-          {/* Action Buttons */}
+          {/* Action Buttons - B&W */}
           <div className="flex gap-3 mt-auto relative z-10">
             <Button
               size="lg"
-              className="flex-1 gap-2.5 bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 font-semibold text-base disabled:opacity-40 pointer-events-auto"
+              className="flex-1 gap-2.5 bg-linear-to-r from-foreground to-foreground/80 hover:from-foreground/90 hover:to-foreground/70 shadow-xl shadow-foreground/20 hover:shadow-2xl hover:shadow-foreground/30 transition-all duration-300 font-semibold text-base disabled:opacity-40 pointer-events-auto text-white"
               disabled={!githubUrl}
               onClick={(e) => {
                 e.stopPropagation();
@@ -572,7 +572,7 @@ export default function ProjectCard({
             <Button
               size="lg"
               variant="outline"
-              className="flex-1 gap-2.5 border-2 border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300 font-semibold text-base group/btn disabled:opacity-40 pointer-events-auto"
+              className="flex-1 gap-2.5 border-2 border-foreground/30 hover:border-foreground hover:bg-foreground/10 transition-all duration-300 font-semibold text-base group/btn disabled:opacity-40 pointer-events-auto"
               disabled={!liveUrl}
               onClick={(e) => {
                 e.stopPropagation();
