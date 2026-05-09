@@ -132,7 +132,7 @@ export const achievements: Achievement[] = [
   {
     icon: GitBranch,
     label: "Repositories",
-    value: "50+",
+    value: "150+",
     color: "text-blue-500",
   },
 ];

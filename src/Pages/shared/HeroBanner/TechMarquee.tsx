@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import {
   SiJavascript,
   SiTypescript,
-  SiGo,
   SiReact,
   SiNextdotjs,
   SiTailwindcss,
@@ -15,6 +14,12 @@ import {
   SiDocker,
   SiNginx,
   SiGit,
+  SiC,
+  SiCplusplus,
+  SiThealgorithms,
+  SiHackerrank,
+  SiFastapi,
+  SiCodeforces,
 } from "react-icons/si";
 
 const TechMarquee: React.FC = () => {
@@ -29,7 +34,6 @@ const TechMarquee: React.FC = () => {
       icon: <SiTypescript />,
       color: "hover:text-[#3178C6]",
     },
-    { name: "Golang", icon: <SiGo />, color: "hover:text-[#00ADD8]" },
     { name: "React.js", icon: <SiReact />, color: "hover:text-[#61DAFB]" },
     { name: "Next.js", icon: <SiNextdotjs />, color: "hover:text-foreground" },
     {
@@ -38,6 +42,8 @@ const TechMarquee: React.FC = () => {
       color: "hover:text-[#06B6D4]",
     },
     { name: "Node.js", icon: <SiNodedotjs />, color: "hover:text-[#339933]" },
+
+    // Backend & DB
     { name: "MongoDB", icon: <SiMongodb />, color: "hover:text-[#47A248]" },
     {
       name: "PostgreSQL",
@@ -46,9 +52,31 @@ const TechMarquee: React.FC = () => {
     },
     { name: "Prisma", icon: <SiPrisma />, color: "hover:text-[#2D3748]" },
     { name: "Firebase", icon: <SiFirebase />, color: "hover:text-[#FFCA28]" },
+
+    // DevOps & Tools
     { name: "Docker", icon: <SiDocker />, color: "hover:text-[#2496ED]" },
     { name: "Nginx", icon: <SiNginx />, color: "hover:text-[#009639]" },
     { name: "Git", icon: <SiGit />, color: "hover:text-[#F05032]" },
+
+    { name: "C", icon: <SiC />, color: "hover:text-[#A8B9CC]" },
+    { name: "C++", icon: <SiCplusplus />, color: "hover:text-[#00599C]" },
+    {
+      name: "Data Structures",
+      icon: <SiCodeforces />,
+      color: "hover:text-purple-400",
+    },
+    {
+      name: "Algorithms",
+      icon: <SiThealgorithms />,
+      color: "hover:text-orange-400",
+    },
+    {
+      name: "Problem Solving",
+      icon: <SiHackerrank />,
+      color: "hover:text-green-500",
+    },
+
+    { name: "REST API", icon: <SiFastapi />, color: "hover:text-teal-400" },
   ];
 
   // We duplicate the array to ensure there's no gap during the loop

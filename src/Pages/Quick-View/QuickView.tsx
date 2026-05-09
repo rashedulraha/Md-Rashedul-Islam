@@ -12,7 +12,8 @@ export default function QuickView() {
 
   const userData = {
     name: "Rashedul Islam",
-    title: "Full-Stack Architect | AI Integrator | System Designer",
+    title:
+      "Full-Stack Architect | AI Integrator | System Designer | AI & RAG Systems Builder",
     bio: "I'm a Full-Stack Developer and System Architect with a passion for building production-grade applications. My expertise spans from low-level performance optimization to high-level system design and AI integration.",
   };
 
