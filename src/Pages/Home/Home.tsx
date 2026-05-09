@@ -55,7 +55,6 @@ const Home: React.FC = () => {
       <main className="relative z-10 h-full flex md:items-center justify-center">
         <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <HeroBanner />
-
           <div className="flex justify-center">
             <ProjectDialog projectData={myProjectDetails} />
           </div>

@@ -8,7 +8,8 @@ import ExperienceHeader from "./ExperienceHeader";
 import ExperienceTabs from "./ExperienceTabs";
 import ExperienceContent from "./ExperienceContent";
 import ExperienceFooter from "./ExperienceFooter";
-import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
+
+import CommonBg from "@/components/CommonBg/CommonBg";
 
 export default function Experience() {
   useLenis();
@@ -23,12 +24,10 @@ export default function Experience() {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full bg-background text-foreground transition-colors duration-500">
+    <div className="relative min-h-screen w-full text-foreground transition-colors duration-500">
       <Navbar />
 
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-50">
-        <AnimatedGridBackground />
-      </div>
+      <CommonBg />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
         <ExperienceHeader />

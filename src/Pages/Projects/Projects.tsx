@@ -8,7 +8,7 @@ import ProjectFilters from "./ProjectFilters";
 import TechCloud from "./TechCloud";
 import FooterCTA from "./FooterCTA";
 import Navbar from "../shared/Navbar/Navbar";
-import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
+
 import ProjectCard from "./ProjectCard";
 
 // Types
@@ -20,6 +20,7 @@ import type {
 } from "@/Routes/Types/projectType";
 import ProjectStats from "./ ProjectStats";
 import { useLenis } from "@/Hooks/useLenis";
+import CommonBg from "@/components/CommonBg/CommonBg";
 
 // JSON Data Structure Interface
 interface RawProject {
@@ -103,8 +104,8 @@ export default function Projects() {
   };
 
   return (
-    <div className="relative min-h-screen bg-background ">
-      <AnimatedGridBackground />
+    <div className="relative min-h-screen  ">
+      <CommonBg />
       <Navbar />
       <main className="relative z-10 max-w-7xl mx-auto px-4 pt-24 pb-20">
         <ProjectHeader />

@@ -12,7 +12,8 @@ import TechSummary from "./TechSummary";
 import SkillBentoGrid from "./SkillBentoGrid";
 import TechOverview from "./TechOverview";
 import TechFooter from "./TechFooter";
-import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
+
+import CommonBg from "@/components/CommonBg/CommonBg";
 
 // Child Components
 
@@ -28,13 +29,10 @@ export default function TechStack() {
   }, [activeTab]);
 
   return (
-    <div className="relative min-h-screen w-full bg-background text-foreground transition-colors duration-500">
+    <div className="relative min-h-screen w-full  text-foreground transition-colors duration-500">
       <Navbar />
 
-      {/* Subtle Background Animation */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-50">
-        <AnimatedGridBackground />
-      </div>
+      <CommonBg />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
         {/* 1. Header */}

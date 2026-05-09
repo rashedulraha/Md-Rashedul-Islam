@@ -12,19 +12,16 @@ import TestimonialsTab from "./components/TabContent/TestimonialsTab";
 import "./styles/scrollbar.css";
 import CTASection from "./components/CTASection";
 import NavigationTabs from "./components/NavigationTabs";
-import AnimatedGridBackground from "@/components/AnimatedGridBackground/AnimatedGridBackground";
 import { useLenis } from "@/Hooks/useLenis";
+import CommonBg from "@/components/CommonBg/CommonBg";
 
 export default function About() {
   useLenis();
   const [activeTab, setActiveTab] = useState<string>("overview");
 
   return (
-    <div className="relative min-h-screen w-full bg-background text-foreground overflow-x-hidden">
-      {/* Background Animation */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-50">
-        <AnimatedGridBackground />
-      </div>
+    <div className="relative min-h-screen w-full text-foreground overflow-x-hidden">
+      <CommonBg />
 
       <Navbar />
 
