@@ -47,7 +47,7 @@ export default function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.3, type: "spring", bounce: 0.2 }}
         className={cn(
-          "fixed top-5 left-0 right-0 z-50 flex justify-center px-4 transition-all duration-500",
+          "fixed top-5 left-0 right-0 z-20 flex justify-center px-4 transition-all duration-500",
           scrolled && "top-2", // Moves up slightly on scroll
         )}>
         {/* Floating Pill Container */}

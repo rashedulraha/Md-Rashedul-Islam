@@ -137,7 +137,7 @@ export default function CommonBg() {
       {/* ── fixed background layer ── */}
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
         {/* base */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-foreground/[0.04]" />
+        <div className="absolute inset-0 bg-linear-to-br from-background via-background to-foreground/4" />
 
         {/* aurora orbs */}
         <Orb
