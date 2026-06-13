@@ -45,7 +45,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         <div className="flex items-center gap-3">
           <div className="relative">
             <Avatar className="h-10 w-10 border-2 border-background shadow-md">
-              <AvatarImage src={Rashed} />
+              <AvatarImage src={Rashed.src} />
               <AvatarFallback className="bg-linear-to-br from-primary to-primary/70">
                 <Bot className="h-5 w-5 text-primary-foreground" />
               </AvatarFallback>

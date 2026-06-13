@@ -2,7 +2,7 @@ import { WebcamPixelGrid } from "@/components/ui/webcam-pixel-grid";
 
 export function WebcamPixelGridDemo() {
   return (
-    <div className="relative overflow-hidden bg-background text-foreground">
+    <div className="relative  overflow-hidden bg-background text-foreground">
       {/* AI Webcam Pixel Background */}
       <div className="absolute inset-0">
         <WebcamPixelGrid
