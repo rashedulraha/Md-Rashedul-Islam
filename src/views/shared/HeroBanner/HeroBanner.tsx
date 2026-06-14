@@ -89,9 +89,10 @@ export default function HeroBanner() {
             className="w-full sm:w-auto font-bold rounded-full px-8 shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all active:scale-95">
             <a
               href="/Md-Rasheduli-Islam.pdf"
-              download
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2">
-              Get Resume <ExternalLink className="w-4 h-4" />
+              Show Resume <ExternalLink className="w-4 h-4" />
             </a>
           </Button>
 

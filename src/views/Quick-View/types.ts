@@ -20,6 +20,7 @@ export interface TechStackData {
 }
 
 export interface Project {
+  live: import("react").JSX.Element;
   title: string;
   tech: string;
   desc: string;
