@@ -6,7 +6,7 @@ import { FlipWordsText } from "../shared/HeroBanner/FlipWordsText";
 
 export default function ProjectHeader() {
   return (
-    <header className="w-full my-12 sm:my-20 grid grid-cols-2 items-center gap-10 md:gap-0">
+    <header className="w-full  grid grid-cols-2 items-center gap-10 md:gap-0">
       <div className="space-y-4 sm:space-y-6 col-span-2 md:col-span-1">
         <motion.div
           initial={{ opacity: 0, x: -10 }}

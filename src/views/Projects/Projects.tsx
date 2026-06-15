@@ -8,8 +8,6 @@ import ProjectHeader from "./ProjectHeader";
 import FooterCTA from "./FooterCTA";
 import Navbar from "../shared/Navbar/Navbar";
 
-import ProjectCard from "./ProjectCard";
-
 // Types
 import type {
   Project,
@@ -53,7 +51,6 @@ export default function Projects() {
   const [selectedComplexity, setSelectedComplexity] =
     useState<ComplexityLevel>("all");
   const [loading, setLoading] = useState(true);
-  const [activeProject, setActiveProject] = useState<string | null>(null);
 
   useLenis();
 
@@ -90,7 +87,6 @@ export default function Projects() {
         <main className="relative z-10">
           <ProjectHeader />
           <FeaturedProjects />
-
           <FooterCTA />
         </main>
       </Responsive>
