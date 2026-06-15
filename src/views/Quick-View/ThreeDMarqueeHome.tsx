@@ -10,7 +10,6 @@ import { FaXTwitter } from "react-icons/fa6";
 import TechMarquee from "../shared/HeroBanner/TechMarquee";
 
 export function ThreeDMarqueeHome() {
-  // Keeping your original image array
   const images = [
     "https://assets.aceternity.com/cloudinary_bkp/3d-card.png",
     "https://assets.aceternity.com/animated-modal.png",
@@ -46,24 +45,24 @@ export function ThreeDMarqueeHome() {
   ];
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black">
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-background">
       {/* ─── BACKGROUND: 3D Marquee ─── */}
       <ThreeDMarquee
-        className="pointer-events-none absolute inset-0 h-full w-full opacity-60" // Slightly reduced opacity for better readability
+        className="pointer-events-none absolute inset-0 h-full w-full opacity-40"
         images={images}
       />
 
-      {/* ─── VIGNETTE OVERLAY ─── */}
-      {/* This gradient makes the center clear and edges dark */}
+      {/* ─── VIGNETTE OVERLAY (Dynamic Theme) ─── */}
+      {/* Using HSL variables to ensure it fades to the correct background color */}
       <div
-        className="absolute inset-0 z-10 bg-black/40"
+        className="absolute inset-0 z-10 pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle at center, transparent 10%, rgba(0,0,0,0.8) 90%)",
+            "radial-gradient(circle at center, transparent 10%, hsl(var(--background)) 90%)",
         }}
       />
 
-      {/* ─── CONTENT CONTAINER (Glass Panel Style) ─── */}
+      {/* ─── CONTENT CONTAINER ─── */}
       <div className="relative z-20 mx-auto w-full max-w-4xl px-4 pt-20 mb-5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -75,7 +74,7 @@ export function ThreeDMarqueeHome() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 text-transparent bg-clip-text bg-linear-to-br from-white via-slate-200 to-slate-500">
+            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 text-transparent bg-clip-text bg-gradient-to-br from-foreground via-muted-foreground to-muted-foreground/50">
             Rashedul Islam
           </motion.h1>
 
@@ -84,9 +83,9 @@ export function ThreeDMarqueeHome() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="max-w-2xl text-xl md:text-2xl text-slate-300 font-light leading-relaxed mb-8">
+            className="max-w-2xl text-xl md:text-2xl text-muted-foreground font-light leading-relaxed mb-8">
             Crafting{" "}
-            <span className="text-sky-400 font-medium">
+            <span className="text-primary font-medium">
               Next-Gen Web Experiences
             </span>{" "}
             from Scratch.
@@ -97,7 +96,7 @@ export function ThreeDMarqueeHome() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="max-w-xl text-sm md:text-base text-slate-400 mb-10 leading-relaxed">
+            className="max-w-xl text-sm md:text-base text-muted-foreground mb-10 leading-relaxed">
             I am a Full Stack Developer & Tech Lead specialized in building
             scalable, high-performance applications using React, Next.js, and
             modern UI architectures.
@@ -127,7 +126,7 @@ export function ThreeDMarqueeHome() {
             </Link>
           </motion.div>
 
-          {/* Social Icons (Small) */}
+          {/* Social Icons (Dynamic Theme) */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -137,21 +136,21 @@ export function ThreeDMarqueeHome() {
               href="https://github.com/rashedulraha"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-400 hover:text-white transition-colors hover:scale-110 transform">
+              className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform">
               <FaGithub className="w-5 h-5" />
             </a>
             <a
               href="https://linkedin.com/in/rashedulraha"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-400 hover:text-white transition-colors hover:scale-110 transform">
+              className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform">
               <FaLinkedin className="w-5 h-5" />
             </a>
             <a
               href="https://twitter.com/rashedulraha"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-400 hover:text-white transition-colors hover:scale-110 transform">
+              className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform">
               <FaXTwitter className="w-5 h-5" />
             </a>
           </motion.div>

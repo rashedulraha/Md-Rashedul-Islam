@@ -715,6 +715,7 @@ export default function FeaturedProjects() {
             <h2 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight  text-start">
               Featured <span>Projects</span>
             </h2>
+
             <p className="text-muted-foreground text-base md:text-lg max-w-2xl  text-start">
               A curated selection of full-stack web applications and real-world
               digital products.

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import ProfileImage from "./ProfileImage";
 import HeroContent from "./HeroContent";
+import { ScalesWithImageDemo } from "../shared/ScalesWithImage";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -21,8 +22,13 @@ export default function HeroSection() {
       animate="visible"
       variants={containerVariants}>
       <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-8 lg:gap-12">
-        <ProfileImage />
-        <HeroContent />
+        {/* <ProfileImage /> */}
+        <div className="w-full md:flex-1">
+          <ScalesWithImageDemo />
+        </div>
+        <div className="w-full md:flex-2">
+          <HeroContent />
+        </div>
       </div>
     </motion.section>
   );

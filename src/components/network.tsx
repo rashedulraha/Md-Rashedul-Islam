@@ -79,7 +79,6 @@ function NetworkVisualization() {
   const avatars: Avatar[] = useMemo(() => {
     // New list of image links for avatars
     const newImageLinks = [
-      "https://i.postimg.cc/W1rCvYnT/nazmul-hossain.jpg",
       "https://i.pinimg.com/736x/8c/6d/db/8c6ddb5fe6600fcc4b183cb2ee228eb7.jpg",
       "https://i.pinimg.com/736x/6f/a3/6a/6fa36aa2c367da06b2a4c8ae1cf9ee02.jpg",
       "https://i.pinimg.com/1200x/c2/4e/27/c24e271f2f992fd7e62e8c1e8d9b3e2f.jpg",

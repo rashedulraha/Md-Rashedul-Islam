@@ -27,21 +27,23 @@ export default function About() {
 
       <Navbar />
 
-      <main className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="relative z-10 w-full max-w-7xl mx-auto px-4  sm:px-6 lg:px-8">
         <HeroSection />
 
-        <NavigationTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+        <div className="mt-10 md:mt-20">
+          <NavigationTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        {/* DYNAMIC CONTENT */}
-        <AnimatePresence mode="wait">
-          {activeTab === "overview" && <OverviewTab />}
-          {activeTab === "experience" && <ExperienceTab />}
-          {activeTab === "skills" && <SkillsTab />}
-          {activeTab === "education" && <EducationTab />}
-          {activeTab === "testimonials" && <TestimonialsTab />}
-        </AnimatePresence>
+          {/* DYNAMIC CONTENT */}
+          <AnimatePresence mode="wait">
+            {activeTab === "overview" && <OverviewTab />}
+            {activeTab === "experience" && <ExperienceTab />}
+            {activeTab === "skills" && <SkillsTab />}
+            {activeTab === "education" && <EducationTab />}
+            {activeTab === "testimonials" && <TestimonialsTab />}
+          </AnimatePresence>
 
-        <CTASection />
+          <CTASection />
+        </div>
       </main>
     </div>
   );
