@@ -51,34 +51,34 @@
 :root {
   --radius: 0.75rem;
 
-  /* ── LIGHT MODE: Clean Studio + Deep Navy Accent ── */
+  /* ── LIGHT MODE: Pure White + Black ── */
   --background: oklch(0.99 0.003 250);
   --foreground: oklch(0.12 0.03 250);
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.12 0.03 250);
+  --card: oklch(1 0 0); /* Pure White */
+  --card-foreground: oklch(0 0 0); /* Pure Black */
 
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.12 0.03 250);
+  --popover-foreground: oklch(0 0 0);
 
-  --primary: oklch(0.32 0.14 260);
-  --primary-foreground: oklch(0.99 0 0);
+  --primary: oklch(0 0 0); /* Pure Black for primary */
+  --primary-foreground: oklch(1 0 0); /* Pure White */
 
-  --secondary: oklch(0.95 0.01 250);
-  --secondary-foreground: oklch(0.18 0.04 250);
+  --secondary: oklch(0.96 0 0);
+  --secondary-foreground: oklch(0.2 0 0);
 
-  --muted: oklch(0.96 0.008 250);
-  --muted-foreground: oklch(0.45 0.02 250);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.45 0 0);
 
-  --accent: oklch(0.91 0.03 240);
-  --accent-foreground: oklch(0.25 0.12 260);
+  --accent: oklch(0.95 0 0);
+  --accent-foreground: oklch(0.1 0 0);
 
   --destructive: oklch(0.58 0.2 25);
-  --destructive-foreground: oklch(0.995 0 0);
+  --destructive-foreground: oklch(1 0 0);
 
-  --border: oklch(0.88 0.012 250);
-  --input: oklch(0.88 0.012 250);
-  --ring: oklch(0.32 0.14 260 / 20%);
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.9 0 0);
+  --ring: oklch(0 0 0 / 20%);
 
   --chart-1: oklch(0.5 0.2 250);
   --chart-2: oklch(0.65 0.18 195);
@@ -86,62 +86,109 @@
   --chart-4: oklch(0.78 0.16 80);
   --chart-5: oklch(0.72 0.18 155);
 
-  --sidebar: oklch(0.98 0.005 250);
-  --sidebar-foreground: oklch(0.12 0.03 250);
-  --sidebar-primary: oklch(0.32 0.14 260);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.94 0.015 250);
-  --sidebar-accent-foreground: oklch(0.18 0.04 250);
-  --sidebar-border: oklch(0.88 0.012 250);
-  --sidebar-ring: oklch(0.32 0.14 260 / 15%);
+  --sidebar: oklch(0.98 0 0);
+  --sidebar-foreground: oklch(0 0 0);
+  --sidebar-primary: oklch(0 0 0);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.95 0 0);
+  --sidebar-accent-foreground: oklch(0.1 0 0);
+  --sidebar-border: oklch(0.9 0 0);
+  --sidebar-ring: oklch(0 0 0 / 15%);
 }
 
 .dark {
-  /* ── EXTREME DARK MODE: Almost Black Navy + Vibrant Accents ── */
+  /* ── DARK MODE: Pure Black + White ── */
   --background: oklch(0.03 0.02 260); /* Almost black navy */
   --foreground: oklch(0.96 0.01 250); /* Crisp white text */
 
-  --card: oklch(0.06 0.025 260); /* Very dark card */
-  --card-foreground: oklch(0.96 0.01 250);
+  --card: oklch(0.05 0 0); /* Almost Black */
+  --card-foreground: oklch(1 0 0); /* Pure White */
 
-  --popover: oklch(0.07 0.03 260);
-  --popover-foreground: oklch(0.96 0.01 250);
+  --popover: oklch(0.05 0 0);
+  --popover-foreground: oklch(1 0 0);
 
-  --primary: oklch(0.72 0.2 235); /* Vibrant electric blue */
-  --primary-foreground: oklch(0.03 0.02 260);
+  --primary: oklch(1 0 0); /* Pure White for primary */
+  --primary-foreground: oklch(0 0 0); /* Pure Black */
 
-  --secondary: oklch(0.12 0.035 260);
-  --secondary-foreground: oklch(0.96 0.01 250);
+  --secondary: oklch(0.12 0 0);
+  --secondary-foreground: oklch(1 0 0);
 
-  --muted: oklch(0.08 0.03 260);
-  --muted-foreground: oklch(0.55 0.02 250);
+  --muted: oklch(0.08 0 0);
+  --muted-foreground: oklch(0.65 0 0);
 
-  --accent: oklch(0.18 0.045 240);
-  --accent-foreground: oklch(0.82 0.18 235);
+  --accent: oklch(0.15 0 0);
+  --accent-foreground: oklch(1 0 0);
 
   --destructive: oklch(0.55 0.19 25);
-  --destructive-foreground: oklch(0.96 0.01 250);
+  --destructive-foreground: oklch(1 0 0);
 
-  --border: oklch(0.15 0.035 260);
-  --input: oklch(0.15 0.035 260);
-  --ring: oklch(0.72 0.2 235 / 50%);
+  --border: oklch(0.15 0 0);
+  --input: oklch(0.15 0 0);
+  --ring: oklch(1 0 0 / 50%);
 
-  /* Chart colors - super vibrant for extreme dark mode */
-  --chart-1: oklch(0.72 0.2 235);
-  --chart-2: oklch(0.75 0.18 180);
-  --chart-3: oklch(0.72 0.24 340);
-  --chart-4: oklch(0.78 0.2 80);
-  --chart-5: oklch(0.75 0.22 155);
+  /* Chart colors - minimal grayscale for dark mode */
+  --chart-1: oklch(0.7 0 0);
+  --chart-2: oklch(0.6 0 0);
+  --chart-3: oklch(0.5 0 0);
+  --chart-4: oklch(0.4 0 0);
+  --chart-5: oklch(0.3 0 0);
 
-  /* Sidebar - even darker */
-  --sidebar: oklch(0.02 0.02 260);
-  --sidebar-foreground: oklch(0.96 0.01 250);
-  --sidebar-primary: oklch(0.72 0.2 235);
-  --sidebar-primary-foreground: oklch(0.03 0.02 260);
-  --sidebar-accent: oklch(0.08 0.035 260);
-  --sidebar-accent-foreground: oklch(0.96 0.01 250);
-  --sidebar-border: oklch(0.15 0.035 260);
-  --sidebar-ring: oklch(0.72 0.2 235 / 35%);
+  /* Sidebar - pure black */
+  --sidebar: oklch(0.02 0 0);
+  --sidebar-foreground: oklch(1 0 0);
+  --sidebar-primary: oklch(1 0 0);
+  --sidebar-primary-foreground: oklch(0 0 0);
+  --sidebar-accent: oklch(0.08 0 0);
+  --sidebar-accent-foreground: oklch(1 0 0);
+  --sidebar-border: oklch(0.15 0 0);
+  --sidebar-ring: oklch(1 0 0 / 35%);
+}
+
+/* Optional: Add smooth transitions for theme switching */
+* {
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Better scrollbar for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: oklch(0.05 0 0);
+  border-radius: 10px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: oklch(0.2 0 0);
+  border-radius: 10px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.3 0 0);
+}
+
+/* Selection color */
+::selection {
+  background: oklch(0 0 0 / 20%);
+}
+
+.dark ::selection {
+  background: oklch(1 1 1 / 20%);
+}
+
+/* Focus visible */
+:focus-visible {
+  outline-color: oklch(0 0 0 / 50%);
+  outline-offset: 2px;
+}
+
+.dark :focus-visible {
+  outline-color: oklch(1 1 1 / 50%);
 }
 
 /* scroll smooth  */

@@ -13,7 +13,7 @@ export default function HeroBanner() {
   const socialLinks = socialData;
 
   const fullText =
-    "I build interactive web applications with clean, modern design.";
+    "I build responsive web apps, dashboards, APIs, and AI-integrated tools with clean UI, maintainable code, and deployment-ready architecture.";
 
   useEffect(() => {
     if (textIndex < fullText.length) {

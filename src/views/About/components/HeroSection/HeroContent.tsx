@@ -69,7 +69,7 @@ const HeroContent = () => {
       </motion.div>
 
       {/* Canvas Text Component */}
-      <motion.div variants={itemVariants} className="mb-6">
+      <motion.div variants={itemVariants}>
         <CanvasTextRashedulIslam />
       </motion.div>
 
@@ -77,9 +77,8 @@ const HeroContent = () => {
       <motion.p
         variants={itemVariants}
         className="text-sm md:text-base lg:text-lg text-muted-foreground mb-8 md:mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal tracking-wide">
-        Passionate Full-Stack Developer specializing in React, Next.js, Node.js,
-        and cloud architecture. I transform complex problems into elegant,
-        scalable digital solutions with clean code and modern practices.
+        I build responsive web apps, dashboards, APIs, and AI-integrated tools
+        with clean UI, maintainable code, and deployment-ready architecture.
       </motion.p>
 
       {/* Quick Stats Component */}
@@ -92,10 +91,7 @@ const HeroContent = () => {
         variants={itemVariants}
         className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start max-w-md mx-auto lg:mx-0">
         {/* Download Resume Button */}
-        <Button
-          size="lg"
-          onClick={handleDownload}
-          className="group w-full sm:w-auto h-11 md:h-12 text-sm md:text-base font-medium rounded-full px-6 md:px-8 bg-foreground text-background hover:bg-foreground/90 transition-all duration-300 shadow-lg shadow-black/20 hover:shadow-black/30 hover:scale-105">
+        <Button size="lg" onClick={handleDownload} className="rounded-full">
           <Download className="w-4 h-4 mr-2" />
           {buttonConfig.resume.text}
           <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -106,7 +102,7 @@ const HeroContent = () => {
           <Button
             variant={buttonConfig.contact.variant}
             size="lg"
-            className="w-full h-11 md:h-12 text-sm md:text-base font-medium rounded-full px-6 md:px-8 border-foreground/20 bg-background/50 backdrop-blur-sm hover:bg-foreground hover:text-background hover:border-foreground transition-all duration-300 hover:scale-105">
+            className="rounded-full ">
             <Mail className="w-4 h-4 mr-2" />
             {buttonConfig.contact.text}
           </Button>

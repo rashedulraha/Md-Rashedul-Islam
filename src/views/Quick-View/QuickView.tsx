@@ -8,6 +8,7 @@ import CallToAction from "./CallToAction";
 import { ThreeDMarqueeHome } from "./ThreeDMarqueeHome";
 import Skills from "../skills/skills";
 import NetworkVisualization from "@/components/network";
+import Footer from "./Footer.quick";
 
 export default function QuickView() {
   const { scrollYProgress } = useScroll();
@@ -31,15 +32,7 @@ export default function QuickView() {
         <FeaturedProjects />
         <NetworkVisualization />
         <GitHubStats />
-        <CallToAction />
-
-        {/* Footer Note */}
-        <div className="text-center py-8 border-t border-border/50">
-          <p className="text-sm text-muted-foreground">
-            © 2026 Rashedul Islam | Built with 💙 for creating exceptional
-            digital experiences
-          </p>
-        </div>
+        <Footer />
       </div>
     </>
   );
