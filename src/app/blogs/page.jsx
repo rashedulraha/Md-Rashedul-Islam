@@ -1,3 +1,4 @@
+import Navbar from "@/views/shared/Navbar/Navbar";
 import BlogClient from "./_Conponents/blog/BlogClient";
 import {
   getBlogPosts,
@@ -31,10 +32,15 @@ export default function BlogPage() {
   const categories = getCategories();
 
   return (
-    <BlogClient
-      posts={posts}
-      featuredPost={featuredPost}
-      categories={categories}
-    />
+    <div>
+      <Navbar />
+      <div className="my-10 md:my-20">
+        <BlogClient
+          posts={posts}
+          featuredPost={featuredPost}
+          categories={categories}
+        />
+      </div>
+    </div>
   );
 }
