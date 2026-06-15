@@ -1,14 +1,40 @@
-import { ThreeDMarqueeHome } from "@/views/Quick-View/ThreeDMarqueeHome";
-import Navbar from "@/views/shared/Navbar/Navbar";
-import React from "react";
+import BlogClient from "./_Conponents/blog/BlogClient";
+import {
+  getBlogPosts,
+  getCategories,
+  getFeaturedPost,
+} from "./_Utilities/blog";
 
-const BlogsPage = () => {
-  return (
-    <div>
-      <Navbar />
-      <h1>Blogs page loading..</h1>
-    </div>
-  );
+export const metadata = {
+  title: "Blog | Rashedul Islam - Tech Insights & Tutorials",
+  description:
+    "Explore in-depth articles on Next.js, TypeScript, modern CSS, API design, and web development best practices. Learn from real-world engineering experiences.",
+  keywords: [
+    "web development",
+    "Next.js",
+    "TypeScript",
+    "React",
+    "programming blog",
+    "tech tutorials",
+  ],
+  openGraph: {
+    title: "Blog | Rashedul Islam - Tech Insights & Tutorials",
+    description:
+      "Explore in-depth articles on modern web development and engineering best practices.",
+    type: "website",
+  },
 };
 
-export default BlogsPage;
+export default function BlogPage() {
+  const posts = getBlogPosts();
+  const featuredPost = getFeaturedPost();
+  const categories = getCategories();
+
+  return (
+    <BlogClient
+      posts={posts}
+      featuredPost={featuredPost}
+      categories={categories}
+    />
+  );
+}
