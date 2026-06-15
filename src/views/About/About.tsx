@@ -27,7 +27,7 @@ export default function About() {
 
       <Navbar />
 
-      <main className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 lg:pt-32 pb-12 sm:pb-16 lg:pb-20">
+      <main className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:pt-24 lg:pt-32 pb-12 sm:pb-16 lg:pb-20">
         <HeroSection />
 
         <NavigationTabs activeTab={activeTab} setActiveTab={setActiveTab} />

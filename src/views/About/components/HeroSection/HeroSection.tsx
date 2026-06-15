@@ -20,7 +20,7 @@ export default function HeroSection() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="mb-12 sm:mb-16 lg:mb-20">
+      className="mb-12 sm:mb-16 lg:mb-20 mt-10">
       <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-8 lg:gap-12">
         <ProfileImage />
         <HeroContent />

@@ -1,5 +1,10 @@
-import TechStack from "@/views/TechStack/TechStack";
+import Navbar from "@/views/shared/Navbar/Navbar";
+import Skills from "@/views/skills/skills";
 
 export default function Page() {
-  return <TechStack />;
+  return (
+    <>
+      <Skills />
+    </>
+  );
 }

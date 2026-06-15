@@ -535,3 +535,77 @@ img {
   );
   background-size: 24px 24px;
 }
+
+/* feature project section style */
+/* Project Card 3D Tilt Effect */
+.project-card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.project-card-3d:hover {
+  transform: perspective(1000px) rotateY(-5deg) rotateX(5deg) translateZ(20px);
+}
+
+/* Animated Border Gradient */
+@keyframes border-glow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.project-border-glow {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary) / 0.5),
+    hsl(var(--primary) / 0.2),
+    hsl(270 0.8 0.6 / 0.5),
+    hsl(var(--primary) / 0.2),
+    hsl(var(--primary) / 0.5)
+  );
+  background-size: 200% 100%;
+  animation: border-glow 3s ease infinite;
+}
+
+/* Skeleton Loading Animation */
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 25%,
+    hsl(var(--muted-foreground) / 0.1) 50%,
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+/* Modal Scrollbar */
+.modal-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 10px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}

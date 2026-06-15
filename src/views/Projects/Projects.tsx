@@ -23,6 +23,7 @@ import type {
 import ProjectStats from "./ ProjectStats";
 import { useLenis } from "@/Hooks/useLenis";
 import CommonBg from "@/components/CommonBg/CommonBg";
+import FeaturedProjects from "../Quick-View/FeaturedProjects";
 
 // JSON Data Structure Interface
 interface RawProject {
@@ -111,43 +112,8 @@ export default function Projects() {
       <Navbar />
       <main className="relative z-10 max-w-7xl mx-auto px-4 pt-24 pb-20">
         <ProjectHeader />
+        <FeaturedProjects />
 
-        <ProjectFilters
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          selectedComplexity={selectedComplexity}
-          setSelectedComplexity={setSelectedComplexity}
-          onClearFilters={clearFilters}
-        />
-
-        <ProjectStats projects={projects} />
-
-        <AnimatePresence mode="wait">
-          {loading ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {[...Array(4)].map((_, i) => (
-                <Card key={i} className="h-64 animate-pulse bg-muted/20" />
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {filteredProjects.map((project, index) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  index={index}
-                  activeProject={activeProject}
-                  setActiveProject={setActiveProject}
-                  compact={true}
-                />
-              ))}
-            </div>
-          )}
-        </AnimatePresence>
-
-        <TechCloud projects={projects} />
         <FooterCTA />
       </main>
     </div>

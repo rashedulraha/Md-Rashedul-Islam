@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, Send, X, Terminal, ChevronDown, Sparkles } from "lucide-react";
+import { Menu, Send, X, Terminal, ChevronDown, Award } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -37,7 +37,7 @@ const moreLinks = [
   {
     title: "Certifications",
     to: "/certifications",
-    icon: Sparkles,
+    icon: Award,
     description: "Awards & certificates",
   },
   {

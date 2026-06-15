@@ -19,7 +19,6 @@ const ProjectDialog: React.FC<{ projectData: ProjectDetails }> = ({
 }) => {
   const [open, setOpen] = useState(false);
 
-  // ✅ First visit auto open
   useEffect(() => {
     const visited = localStorage.getItem("hasVisitedProjectDialog");
 
