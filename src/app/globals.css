@@ -49,111 +49,113 @@
 :root {
   --radius: 0.75rem;
 
-  /* ── PROFESSIONAL LIGHT MODE (Clean Tech Studio White) ── */
+  /* ── SUPER PREMIUM LIGHT MODE (Elegant Studio & Deep Indigo) ── */
   --background: oklch(
-    0.99 0.003 240
-  ); /* Extremely clean, pure studio feeling */
+    0.995 0.002 270
+  ); /* Ultra-clean studio white with a microscopic cool tint */
   --foreground: oklch(
-    0.22 0.015 240
-  ); /* Muted slate text - no harsh stark black */
+    0.18 0.02 270
+  ); /* Deep, rich ink (dark indigo/slate) - no harsh pure black */
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.015 240);
+  --card: oklch(
+    1 0 0
+  ); /* Pure white cards to create subtle depth against the off-white bg */
+  --card-foreground: oklch(0.18 0.02 270);
 
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.015 240);
+  --popover-foreground: oklch(0.18 0.02 270);
 
   --primary: oklch(
-    0.42 0.16 255
-  ); /* Deep Tech Sapphire Blue - professional & sleek */
-  --primary-foreground: oklch(0.99 0 0);
+    0.45 0.2 275
+  ); /* Rich, Deep Royal Indigo - luxurious and high-contrast */
+  --primary-foreground: oklch(0.995 0 0);
 
-  --secondary: oklch(0.955 0.008 240); /* Soft premium border tint */
-  --secondary-foreground: oklch(0.25 0.015 240);
+  --secondary: oklch(0.965 0.008 270); /* Soft, premium cool gray */
+  --secondary-foreground: oklch(0.25 0.02 270);
 
-  --muted: oklch(0.965 0.005 240);
-  --muted-foreground: oklch(0.52 0.015 240);
+  --muted: oklch(0.97 0.005 270);
+  --muted-foreground: oklch(0.48 0.02 270);
 
-  --accent: oklch(0.935 0.015 255); /* Smooth modern blue-gray accent */
-  --accent-foreground: oklch(0.42 0.16 255);
+  --accent: oklch(0.94 0.015 275); /* Smooth modern violet-gray accent */
+  --accent-foreground: oklch(0.45 0.2 275);
 
   --destructive: oklch(0.58 0.2 25);
-  --destructive-foreground: oklch(0.99 0 0);
+  --destructive-foreground: oklch(0.995 0 0);
 
-  --border: oklch(0.91 0.008 240); /* Crisp, elegant lines */
-  --input: oklch(0.91 0.008 240);
-  --ring: oklch(0.42 0.16 255 / 20%);
+  --border: oklch(0.92 0.008 270); /* Crisp, elegant, subtle lines */
+  --input: oklch(0.92 0.008 270);
+  --ring: oklch(0.45 0.2 275 / 20%);
 
-  --chart-1: oklch(0.55 0.2 240);
-  --chart-2: oklch(0.65 0.18 190);
-  --chart-3: oklch(0.42 0.15 280);
-  --chart-4: oklch(0.78 0.14 80);
-  --chart-5: oklch(0.72 0.16 50);
+  --chart-1: oklch(0.55 0.22 275); /* Indigo */
+  --chart-2: oklch(0.65 0.18 190); /* Cyan */
+  --chart-3: oklch(0.65 0.22 340); /* Rose */
+  --chart-4: oklch(0.78 0.16 80); /* Amber */
+  --chart-5: oklch(0.72 0.18 155); /* Emerald */
 
-  --sidebar: oklch(0.985 0.003 240);
-  --sidebar-foreground: oklch(0.22 0.015 240);
-  --sidebar-primary: oklch(0.42 0.16 255);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.945 0.008 240);
-  --sidebar-accent-foreground: oklch(0.25 0.015 240);
-  --sidebar-border: oklch(0.91 0.008 240);
-  --sidebar-ring: oklch(0.42 0.16 255 / 15%);
+  --sidebar: oklch(0.985 0.002 270);
+  --sidebar-foreground: oklch(0.18 0.02 270);
+  --sidebar-primary: oklch(0.45 0.2 275);
+  --sidebar-primary-foreground: oklch(0.995 0 0);
+  --sidebar-accent: oklch(0.95 0.01 270);
+  --sidebar-accent-foreground: oklch(0.25 0.02 270);
+  --sidebar-border: oklch(0.92 0.008 270);
+  --sidebar-ring: oklch(0.45 0.2 275 / 15%);
 }
 
 .dark {
-  /* ── CLIENT REFINED DARK MODE (Premium Matte Charcoal & Indigo Glow) ── */
+  /* ── SUPER PREMIUM DARK MODE (Deep Space Obsidian & Electric Violet) ── */
   --background: oklch(
-    0.16 0.012 245
-  ); /* "Not too black" — Gorgeous high-end Matte Carbon Grey */
+    0.13 0.012 270
+  ); /* Deep Space Obsidian - rich, almost black with a subtle indigo undertone */
   --foreground: oklch(
-    0.94 0.006 240
-  ); /* Soft silver white text that's extremely easy on eyes */
+    0.96 0.005 270
+  ); /* Crisp, clean silver-white that's extremely easy on the eyes */
 
   --card: oklch(
-    0.2 0.014 245
-  ); /* Layered cards — noticeably lighter than bg to create depth */
-  --card-foreground: oklch(0.94 0.006 240);
+    0.17 0.014 270
+  ); /* Layered cards - noticeably lighter than bg to create premium depth */
+  --card-foreground: oklch(0.96 0.005 270);
 
-  --popover: oklch(0.22 0.014 245);
-  --popover-foreground: oklch(0.94 0.006 240);
+  --popover: oklch(0.18 0.014 270);
+  --popover-foreground: oklch(0.96 0.005 270);
 
   --primary: oklch(
-    0.74 0.14 250
-  ); /* Luxurious Neon Indigo Cyan blend — pops against matte background */
-  --primary-foreground: oklch(0.16 0.012 245);
+    0.78 0.18 275
+  ); /* Electric Indigo/Violet - pops beautifully and feels ultra-modern */
+  --primary-foreground: oklch(0.13 0.012 270);
 
-  --secondary: oklch(0.24 0.012 245);
-  --secondary-foreground: oklch(0.94 0.006 240);
+  --secondary: oklch(0.22 0.015 270);
+  --secondary-foreground: oklch(0.96 0.005 270);
 
-  --muted: oklch(0.23 0.012 245);
-  --muted-foreground: oklch(0.68 0.012 240);
+  --muted: oklch(0.2 0.012 270);
+  --muted-foreground: oklch(0.65 0.015 270); /* Soft, readable silver */
 
-  --accent: oklch(0.26 0.02 250);
-  --accent-foreground: oklch(0.74 0.14 250);
+  --accent: oklch(0.25 0.02 275);
+  --accent-foreground: oklch(0.78 0.18 275);
 
   --destructive: oklch(0.54 0.18 25);
-  --destructive-foreground: oklch(0.94 0.006 240);
+  --destructive-foreground: oklch(0.96 0.005 270);
 
   --border: oklch(
-    0.25 0.012 245
-  ); /* Extremely professional, subtle divider grids */
-  --input: oklch(0.25 0.012 245);
-  --ring: oklch(0.74 0.14 250 / 40%);
+    0.26 0.015 270
+  ); /* Elegant, subtle divider grids that don't distract */
+  --input: oklch(0.26 0.015 270);
+  --ring: oklch(0.78 0.18 275 / 40%);
 
-  --chart-1: oklch(0.62 0.22 270);
-  --chart-2: oklch(0.68 0.16 170);
-  --chart-3: oklch(0.75 0.15 80);
-  --chart-4: oklch(0.65 0.22 310);
-  --chart-5: oklch(0.62 0.21 20);
+  --chart-1: oklch(0.7 0.2 275); /* Electric Indigo */
+  --chart-2: oklch(0.75 0.16 180); /* Neon Cyan */
+  --chart-3: oklch(0.72 0.2 340); /* Vibrant Rose */
+  --chart-4: oklch(0.8 0.16 80); /* Bright Amber */
+  --chart-5: oklch(0.75 0.18 155); /* Neon Emerald */
 
-  --sidebar: oklch(0.18 0.012 245);
-  --sidebar-foreground: oklch(0.94 0.006 240);
-  --sidebar-primary: oklch(0.74 0.14 250);
-  --sidebar-primary-foreground: oklch(0.16 0.012 245);
-  --sidebar-accent: oklch(0.23 0.012 245);
-  --sidebar-accent-foreground: oklch(0.94 0.006 240);
-  --sidebar-border: oklch(0.25 0.012 245);
-  --sidebar-ring: oklch(0.74 0.14 250 / 25%);
+  --sidebar: oklch(0.15 0.012 270);
+  --sidebar-foreground: oklch(0.96 0.005 270);
+  --sidebar-primary: oklch(0.78 0.18 275);
+  --sidebar-primary-foreground: oklch(0.13 0.012 270);
+  --sidebar-accent: oklch(0.21 0.015 270);
+  --sidebar-accent-foreground: oklch(0.96 0.005 270);
+  --sidebar-border: oklch(0.26 0.015 270);
+  --sidebar-ring: oklch(0.78 0.18 275 / 25%);
 }
 
 /* scroll smooth  */
@@ -399,20 +401,20 @@ img {
 
 /* Luxury Soft Glow Utility Classes (Optimized for High-end UI) */
 .neon-green {
-  color: oklch(0.78 0.15 160);
-  text-shadow: 0 0 12px oklch(0.78 0.15 160 / 30%);
+  color: oklch(0.82 0.18 155);
+  text-shadow: 0 0 15px oklch(0.82 0.18 155 / 40%);
 }
 .neon-blue {
-  color: var(--primary);
-  text-shadow: 0 0 12px var(--primary / 35%);
+  color: oklch(0.78 0.18 275); /* Matches new primary */
+  text-shadow: 0 0 15px oklch(0.78 0.18 275 / 45%);
 }
 .neon-purple {
-  color: oklch(0.74 0.18 310);
-  text-shadow: 0 0 12px oklch(0.74 0.18 310 / 30%);
+  color: oklch(0.72 0.22 310);
+  text-shadow: 0 0 15px oklch(0.72 0.22 310 / 40%);
 }
 .neon-cyan {
-  color: oklch(0.78 0.12 210);
-  text-shadow: 0 0 12px oklch(0.78 0.12 210 / 35%);
+  color: oklch(0.85 0.15 190);
+  text-shadow: 0 0 15px oklch(0.85 0.15 190 / 45%);
 }
 
 /* Elegant Component Mounting Animation */

@@ -34,10 +34,6 @@ export default function QuickView() {
 
         {/* <HeroSection {...userData} /> */}
 
-        <Responsive>
-          <TechMarquee />
-        </Responsive>
-
         <FeaturedProjects />
         <ExpertiseSection />
         <GitHubStats />

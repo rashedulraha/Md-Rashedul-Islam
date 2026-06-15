@@ -250,12 +250,6 @@ export default function Navbar() {
           </div>
         </div>
       </motion.header>
-
-      {/* Spacer to prevent content overlap 
-          Height Calculation: top-5 (20px) + h-12 (48px) = 68px (Mobile)
-                           top-5 (20px) + h-16 (64px) = 84px (Desktop)
-      */}
-      <div className="h-17 sm:h-21" />
     </>
   );
 }

@@ -3,16 +3,11 @@
 import { ThreeDMarquee } from "@/components/ui/3d-marquee";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import {
-  MoveUpRight,
-  ArrowRight,
-  Github,
-  Linkedin,
-  Twitter,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaTwitch, FaTwitter } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import TechMarquee from "../shared/HeroBanner/TechMarquee";
 
 export function ThreeDMarqueeHome() {
   // Keeping your original image array
@@ -69,40 +64,18 @@ export function ThreeDMarqueeHome() {
       />
 
       {/* ─── CONTENT CONTAINER (Glass Panel Style) ─── */}
-      <div className="relative z-20 mx-auto w-full max-w-4xl px-4 py-20">
+      <div className="relative z-20 mx-auto w-full max-w-4xl px-4 pt-20 mb-5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="flex flex-col items-center text-center">
-          {/* Status Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-white backdrop-blur-md shadow-lg">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
-            </span>
-            Available for Freelance & Full-time
-          </motion.div>
-
-          {/* Greeting */}
-          <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-lg md:text-xl text-slate-300 font-medium mb-2">
-            Hello, I'm
-          </motion.h2>
-
           {/* Main Name with Gradient */}
           <motion.h1
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-200 to-slate-500">
+            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 text-transparent bg-clip-text bg-linear-to-br from-white via-slate-200 to-slate-500">
             Rashedul Islam
           </motion.h1>
 
@@ -183,6 +156,8 @@ export function ThreeDMarqueeHome() {
             </a>
           </motion.div>
         </motion.div>
+
+        <TechMarquee />
       </div>
     </div>
   );
