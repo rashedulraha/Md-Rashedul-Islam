@@ -485,3 +485,53 @@ img {
     letter-spacing: -0.02em;
   }
 }
+
+/* navbar style */
+/* Animated Gradient Border for Navbar */
+@keyframes gradient-rotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.navbar-gradient-border {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary) / 0.3),
+    hsl(var(--primary) / 0.1),
+    hsl(270 0.8 0.6 / 0.3),
+    hsl(var(--primary) / 0.1),
+    hsl(var(--primary) / 0.3)
+  );
+  background-size: 200% 100%;
+  animation: gradient-rotate 3s ease infinite;
+}
+
+.dark .navbar-gradient-border {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary) / 0.5),
+    hsl(var(--primary) / 0.2),
+    hsl(270 0.8 0.7 / 0.5),
+    hsl(var(--primary) / 0.2),
+    hsl(var(--primary) / 0.5)
+  );
+  background-size: 200% 100%;
+  animation: gradient-rotate 3s ease infinite;
+}
+
+/* Mobile Menu Pattern Background */
+.mobile-menu-pattern {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    hsl(var(--foreground) / 0.05) 1px,
+    transparent 0
+  );
+  background-size: 24px 24px;
+}
