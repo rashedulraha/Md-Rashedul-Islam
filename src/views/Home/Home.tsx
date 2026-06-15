@@ -48,8 +48,6 @@ const Home: React.FC = () => {
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-background">
-      {/* <AnimatedGridBackground /> */}
-      {/* <Infinitegrid /> */}
       <Navbar />
 
       <main className="relative z-10 h-full flex md:items-center justify-center">

@@ -247,13 +247,11 @@ export default function Navbar() {
                 className={cn(
                   "hidden md:flex rounded-full px-5 lg:px-6 h-9 lg:h-10",
                   "border-foreground/20 bg-foreground/5 text-foreground",
-                  "hover:text-background hover:bg-foreground hover:border-foreground",
-                  "hover:shadow-lg hover:shadow-foreground/20",
                   "transition-all duration-300 gap-2 text-sm font-medium group",
                 )}>
                 <Link href="/contact">
-                  Let's Talk
-                  <Send className="h-3.5 w-3.5 lg:h-4 lg:w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  Contact
+                  <Send className="h-3.5 w-3.5 lg:h-4 lg:w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-foreground " />
                 </Link>
               </Button>
 

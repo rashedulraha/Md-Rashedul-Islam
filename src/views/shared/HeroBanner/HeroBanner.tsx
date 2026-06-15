@@ -29,7 +29,6 @@ export default function HeroBanner() {
     <section className="relative w-full min-h-[calc(100vh-75px)] h-full flex justify-center overflow-hidden">
       {/* 1. Left Sidebar Socials (Desktop Only) */}
       <div className="absolute left-6 xl:left-12 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center justify-center gap-8 z-20">
-        <div className="h-24 w-px bg-linear-to-b from-transparent via-border to-primary/50"></div>
         <div className="flex flex-col gap-6">
           {socialLinks.map((social, i) => (
             <a
@@ -47,12 +46,6 @@ export default function HeroBanner() {
           ))}
         </div>
         <div className="h-24 w-px bg-linear-to-t from-transparent via-border to-primary/50"></div>
-      </div>
-
-      {/* 2. Background Effects */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[80vw] h-[50vh] bg-primary/5 rounded-[100%] blur-[120px]" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
       </div>
 
       {/* 3. Main Content Container */}
