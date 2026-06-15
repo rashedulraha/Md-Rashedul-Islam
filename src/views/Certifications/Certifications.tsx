@@ -105,14 +105,14 @@ export default function PageCertifications() {
   });
 
   return (
-    <section className="relative min-h-screen w-full bg-black text-white px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative min-h-screen w-full bg-black text-white px-4 gap-5 sm:px-6 lg:px-8 overflow-hidden">
       {/* Background Decorative Ambient Lights */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-sky-500/10 blur-[120px]" />
         <div className="absolute bottom-[20%] left-[-10%] w-[600px] h-[600px] rounded-full bg-purple-500/10 blur-[140px]" />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto w-full">
+      <div className="relative z-10 max-w-6xl mx-auto w-full ">
         {/* Header Section */}
         <div className="text-center md:text-left md:flex md:items-end md:justify-between border-b border-white/10 ">
           <div>

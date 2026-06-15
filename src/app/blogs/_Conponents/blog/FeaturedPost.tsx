@@ -20,7 +20,7 @@ export default function FeaturedPost({ post }: FeaturedPostProps) {
       viewport={{ once: true }}
       className="group">
       <Link href={`/blog/${post.slug}`} className="block">
-        <div className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card/80 to-card/40 backdrop-blur-xl hover:border-primary/40 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
+        <div className="creative-3d-card relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card/80 to-card/40 backdrop-blur-xl hover:border-primary/40 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
           {/* Featured Badge */}
           <div className="absolute top-6 left-6 z-20">
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/90 text-primary-foreground backdrop-blur-sm font-semibold text-sm">
@@ -64,22 +64,23 @@ export default function FeaturedPost({ post }: FeaturedPostProps) {
                 </span>
               </div>
 
-              {/* Title */}
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors">
-                {post.title}
-              </h2>
+              {/* Title & Excerpt with 3D pop-out */}
+              <div className="creative-3d-inner">
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors">
+                  {post.title}
+                </h2>
 
-              {/* Excerpt */}
-              <p className="text-base text-muted-foreground mb-6 line-clamp-3">
-                {post.excerpt}
-              </p>
+                <p className="text-base text-muted-foreground mb-6 line-clamp-3">
+                  {post.excerpt}
+                </p>
+              </div>
 
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-6">
                 {post.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1.5 text-xs rounded-full bg-muted/50 text-muted-foreground border border-border/50">
+                    className="creative-3d-button px-3 py-1.5 text-xs rounded-full bg-muted/50 text-muted-foreground border border-border/50">
                     {tag}
                   </span>
                 ))}

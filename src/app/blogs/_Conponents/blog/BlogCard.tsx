@@ -21,7 +21,7 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
       viewport={{ once: true }}
       className="group">
       <Link href={`/blog/${post.slug}`} className="block">
-        <div className="relative overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl hover:border-primary/40 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1">
+        <div className="creative-3d-card relative overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl hover:border-primary/40 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10">
           {/* Cover Image */}
           <div className="relative h-48 overflow-hidden">
             <Image
@@ -70,7 +70,7 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
               {post.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
-                  className="px-2.5 py-1 text-xs rounded-full bg-muted/50 text-muted-foreground border border-border/50">
+                  className="creative-3d-button px-2.5 py-1 text-xs rounded-full bg-muted/50 text-muted-foreground border border-border/50">
                   {tag}
                 </span>
               ))}

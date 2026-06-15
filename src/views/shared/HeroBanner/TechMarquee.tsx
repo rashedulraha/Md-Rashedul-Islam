@@ -27,96 +27,159 @@ const TechMarquee: React.FC = () => {
     {
       name: "JavaScript",
       icon: <SiJavascript />,
-      color: "hover:text-[#F7DF1E]",
+      brandColor: "#F7DF1E",
+      hoverColor: "hover:text-[#F7DF1E]",
     },
     {
       name: "TypeScript",
       icon: <SiTypescript />,
-      color: "hover:text-[#3178C6]",
+      brandColor: "#3178C6",
+      hoverColor: "hover:text-[#3178C6]",
     },
-    { name: "React.js", icon: <SiReact />, color: "hover:text-[#61DAFB]" },
-    { name: "Next.js", icon: <SiNextdotjs />, color: "hover:text-foreground" },
+    {
+      name: "React.js",
+      icon: <SiReact />,
+      brandColor: "#61DAFB",
+      hoverColor: "hover:text-[#61DAFB]",
+    },
+    {
+      name: "Next.js",
+      icon: <SiNextdotjs />,
+      brandColor: "#FFFFFF",
+      hoverColor: "hover:text-white dark:hover:text-white",
+    },
     {
       name: "Tailwind",
       icon: <SiTailwindcss />,
-      color: "hover:text-[#06B6D4]",
+      brandColor: "#06B6D4",
+      hoverColor: "hover:text-[#06B6D4]",
     },
-    { name: "Node.js", icon: <SiNodedotjs />, color: "hover:text-[#339933]" },
-
-    // Backend & DB
-    { name: "MongoDB", icon: <SiMongodb />, color: "hover:text-[#47A248]" },
+    {
+      name: "Node.js",
+      icon: <SiNodedotjs />,
+      brandColor: "#339933",
+      hoverColor: "hover:text-[#339933]",
+    },
+    {
+      name: "MongoDB",
+      icon: <SiMongodb />,
+      brandColor: "#47A248",
+      hoverColor: "hover:text-[#47A248]",
+    },
     {
       name: "PostgreSQL",
       icon: <SiPostgresql />,
-      color: "hover:text-[#4169E1]",
+      brandColor: "#4169E1",
+      hoverColor: "hover:text-[#4169E1]",
     },
-    { name: "Prisma", icon: <SiPrisma />, color: "hover:text-[#2D3748]" },
-    { name: "Firebase", icon: <SiFirebase />, color: "hover:text-[#FFCA28]" },
-
-    // DevOps & Tools
-    { name: "Docker", icon: <SiDocker />, color: "hover:text-[#2496ED]" },
-    { name: "Nginx", icon: <SiNginx />, color: "hover:text-[#009639]" },
-    { name: "Git", icon: <SiGit />, color: "hover:text-[#F05032]" },
-
-    { name: "C", icon: <SiC />, color: "hover:text-[#A8B9CC]" },
-    { name: "C++", icon: <SiCplusplus />, color: "hover:text-[#00599C]" },
+    {
+      name: "Prisma",
+      icon: <SiPrisma />,
+      brandColor: "#2D3748",
+      hoverColor: "hover:text-gray-900 dark:hover:text-white",
+    },
+    {
+      name: "Firebase",
+      icon: <SiFirebase />,
+      brandColor: "#FFCA28",
+      hoverColor: "hover:text-[#FFCA28]",
+    },
+    {
+      name: "Docker",
+      icon: <SiDocker />,
+      brandColor: "#2496ED",
+      hoverColor: "hover:text-[#2496ED]",
+    },
+    {
+      name: "Nginx",
+      icon: <SiNginx />,
+      brandColor: "#009639",
+      hoverColor: "hover:text-[#009639]",
+    },
+    {
+      name: "Git",
+      icon: <SiGit />,
+      brandColor: "#F05032",
+      hoverColor: "hover:text-[#F05032]",
+    },
+    {
+      name: "C",
+      icon: <SiC />,
+      brandColor: "#A8B9CC",
+      hoverColor: "hover:text-[#A8B9CC]",
+    },
+    {
+      name: "C++",
+      icon: <SiCplusplus />,
+      brandColor: "#00599C",
+      hoverColor: "hover:text-[#00599C]",
+    },
     {
       name: "Data Structures",
       icon: <SiCodeforces />,
-      color: "hover:text-purple-400",
+      brandColor: "#A020F0",
+      hoverColor: "hover:text-purple-500",
     },
     {
       name: "Algorithms",
       icon: <SiThealgorithms />,
-      color: "hover:text-orange-400",
+      brandColor: "#FF8C00",
+      hoverColor: "hover:text-orange-500",
     },
     {
       name: "Problem Solving",
       icon: <SiHackerrank />,
-      color: "hover:text-green-500",
+      brandColor: "#00EA64",
+      hoverColor: "hover:text-green-500",
     },
-
-    { name: "REST API", icon: <SiFastapi />, color: "hover:text-teal-400" },
+    {
+      name: "REST API",
+      icon: <SiFastapi />,
+      brandColor: "#009688",
+      hoverColor: "hover:text-teal-500",
+    },
   ];
 
-  // We duplicate the array to ensure there's no gap during the loop
+  // Duplicate array for seamless loop
   const duplicatedTech = [...technologies, ...technologies];
 
   return (
-    <div className="pt-10 w-full overflow-hidden">
+    <div className="w-full overflow-hidden transition-colors duration-300">
       <div
-        className="relative flex items-center"
+        className="relative flex items-center py-8 md:py-12"
         style={{
-          // Creates the transparent fade on both sides
           maskImage:
-            "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+            "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
           WebkitMaskImage:
-            "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+            "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
         }}>
         <motion.div
-          className="flex flex-nowrap gap-12 py-4"
+          className="flex flex-nowrap gap-12 md:gap-16 py-4"
           animate={{
-            x: ["0%", "-50%"], // Move from start to halfway (since it's duplicated)
+            x: ["0%", "-50%"],
           }}
           transition={{
             x: {
               repeat: Infinity,
               repeatType: "loop",
-              duration: 25, // Adjust speed (higher = slower)
+              duration: 30,
               ease: "linear",
             },
           }}
-          // Pause animation on hover
           whileHover={{ animationPlayState: "paused" }}>
           {duplicatedTech.map((tech, index) => (
-            <div
+            <motion.div
               key={`${tech.name}-${index}`}
-              className={`flex items-center gap-3 text-base md:text-xl font-bold text-foreground/50 transition-all duration-300 ${tech.color} hover:scale-110 cursor-pointer`}>
-              <span className="text-2xl md:text-4xl">{tech.icon}</span>
-              <span className="tracking-tighter whitespace-nowrap">
+              className={`flex items-center gap-3 text-base md:text-xl font-bold transition-all duration-300 cursor-pointer group ${tech.hoverColor}`}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}>
+              <span className="text-2xl md:text-4xl text-gray-800 dark:text-gray-200 group-hover:text-inherit transition-colors duration-300">
+                {tech.icon}
+              </span>
+              <span className="tracking-tighter whitespace-nowrap text-gray-700 dark:text-gray-300 group-hover:text-inherit transition-colors duration-300">
                 {tech.name}
               </span>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>

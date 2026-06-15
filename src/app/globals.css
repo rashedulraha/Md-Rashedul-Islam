@@ -51,113 +51,95 @@
 :root {
   --radius: 0.75rem;
 
-  /* ── SUPER PREMIUM LIGHT MODE (Elegant Studio & Deep Indigo) ── */
-  --background: oklch(
-    0.995 0.002 270
-  ); /* Ultra-clean studio white with a microscopic cool tint */
-  --foreground: oklch(
-    0.18 0.02 270
-  ); /* Deep, rich ink (dark indigo/slate) - no harsh pure black */
+  /* ── LIGHT MODE: Clean Studio + Deep Navy Accent ── */
+  --background: oklch(0.99 0.003 250);
+  --foreground: oklch(0.18 0.035 250);
 
-  --card: oklch(
-    1 0 0
-  ); /* Pure white cards to create subtle depth against the off-white bg */
-  --card-foreground: oklch(0.18 0.02 270);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.035 250);
 
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.02 270);
+  --popover-foreground: oklch(0.18 0.035 250);
 
-  --primary: oklch(
-    0.45 0.2 275
-  ); /* Rich, Deep Royal Indigo - luxurious and high-contrast */
-  --primary-foreground: oklch(0.995 0 0);
+  --primary: oklch(0.38 0.16 250); /* Deep Navy — buttons, links */
+  --primary-foreground: oklch(0.99 0 0);
 
-  --secondary: oklch(0.965 0.008 270); /* Soft, premium cool gray */
-  --secondary-foreground: oklch(0.25 0.02 270);
+  --secondary: oklch(0.96 0.01 250);
+  --secondary-foreground: oklch(0.25 0.03 250);
 
-  --muted: oklch(0.97 0.005 270);
-  --muted-foreground: oklch(0.48 0.02 270);
+  --muted: oklch(0.97 0.008 250);
+  --muted-foreground: oklch(0.48 0.02 250);
 
-  --accent: oklch(0.94 0.015 275); /* Smooth modern violet-gray accent */
-  --accent-foreground: oklch(0.45 0.2 275);
+  --accent: oklch(0.93 0.025 230); /* Soft sky-blue accent */
+  --accent-foreground: oklch(0.38 0.16 250);
 
   --destructive: oklch(0.58 0.2 25);
   --destructive-foreground: oklch(0.995 0 0);
 
-  --border: oklch(0.92 0.008 270); /* Crisp, elegant, subtle lines */
-  --input: oklch(0.92 0.008 270);
-  --ring: oklch(0.45 0.2 275 / 20%);
+  --border: oklch(0.91 0.012 250);
+  --input: oklch(0.91 0.012 250);
+  --ring: oklch(0.38 0.16 250 / 20%);
 
-  --chart-1: oklch(0.55 0.22 275); /* Indigo */
-  --chart-2: oklch(0.65 0.18 190); /* Cyan */
-  --chart-3: oklch(0.65 0.22 340); /* Rose */
-  --chart-4: oklch(0.78 0.16 80); /* Amber */
-  --chart-5: oklch(0.72 0.18 155); /* Emerald */
+  --chart-1: oklch(0.5 0.2 250);
+  --chart-2: oklch(0.65 0.18 195);
+  --chart-3: oklch(0.65 0.22 340);
+  --chart-4: oklch(0.78 0.16 80);
+  --chart-5: oklch(0.72 0.18 155);
 
-  --sidebar: oklch(0.985 0.002 270);
-  --sidebar-foreground: oklch(0.18 0.02 270);
-  --sidebar-primary: oklch(0.45 0.2 275);
-  --sidebar-primary-foreground: oklch(0.995 0 0);
-  --sidebar-accent: oklch(0.95 0.01 270);
-  --sidebar-accent-foreground: oklch(0.25 0.02 270);
-  --sidebar-border: oklch(0.92 0.008 270);
-  --sidebar-ring: oklch(0.45 0.2 275 / 15%);
+  --sidebar: oklch(0.985 0.005 250);
+  --sidebar-foreground: oklch(0.18 0.035 250);
+  --sidebar-primary: oklch(0.38 0.16 250);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.95 0.015 250);
+  --sidebar-accent-foreground: oklch(0.25 0.03 250);
+  --sidebar-border: oklch(0.91 0.012 250);
+  --sidebar-ring: oklch(0.38 0.16 250 / 15%);
 }
 
 .dark {
-  /* ── SUPER PREMIUM DARK MODE (Deep Space Obsidian & Electric Violet) ── */
-  --background: oklch(
-    0.13 0.012 270
-  ); /* Deep Space Obsidian - rich, almost black with a subtle indigo undertone */
-  --foreground: oklch(
-    0.96 0.005 270
-  ); /* Crisp, clean silver-white that's extremely easy on the eyes */
+  /* ── DARK MODE: Deep Navy + Electric Blue Accent ── */
+  --background: oklch(0.16 0.03 250); /* Deep navy base */
+  --foreground: oklch(0.95 0.01 250); /* Soft off-white text */
 
-  --card: oklch(
-    0.17 0.014 270
-  ); /* Layered cards - noticeably lighter than bg to create premium depth */
-  --card-foreground: oklch(0.96 0.005 270);
+  --card: oklch(0.2 0.035 250);
+  --card-foreground: oklch(0.95 0.01 250);
 
-  --popover: oklch(0.18 0.014 270);
-  --popover-foreground: oklch(0.96 0.005 270);
+  --popover: oklch(0.21 0.035 250);
+  --popover-foreground: oklch(0.95 0.01 250);
 
-  --primary: oklch(
-    0.78 0.18 275
-  ); /* Electric Indigo/Violet - pops beautifully and feels ultra-modern */
-  --primary-foreground: oklch(0.13 0.012 270);
+  --primary: oklch(0.72 0.17 230); /* Electric sky-blue — buttons */
+  --primary-foreground: oklch(0.14 0.02 250);
 
-  --secondary: oklch(0.22 0.015 270);
-  --secondary-foreground: oklch(0.96 0.005 270);
+  --secondary: oklch(0.25 0.03 250);
+  --secondary-foreground: oklch(0.95 0.01 250);
 
-  --muted: oklch(0.2 0.012 270);
-  --muted-foreground: oklch(0.65 0.015 270); /* Soft, readable silver */
+  --muted: oklch(0.22 0.025 250);
+  --muted-foreground: oklch(0.65 0.015 250);
 
-  --accent: oklch(0.25 0.02 275);
-  --accent-foreground: oklch(0.78 0.18 275);
+  --accent: oklch(0.28 0.035 230);
+  --accent-foreground: oklch(0.78 0.17 230);
 
-  --destructive: oklch(0.54 0.18 25);
-  --destructive-foreground: oklch(0.96 0.005 270);
+  --destructive: oklch(0.55 0.19 25);
+  --destructive-foreground: oklch(0.96 0.005 250);
 
-  --border: oklch(
-    0.26 0.015 270
-  ); /* Elegant, subtle divider grids that don't distract */
-  --input: oklch(0.26 0.015 270);
-  --ring: oklch(0.78 0.18 275 / 40%);
+  --border: oklch(0.28 0.025 250);
+  --input: oklch(0.28 0.025 250);
+  --ring: oklch(0.72 0.17 230 / 40%);
 
-  --chart-1: oklch(0.7 0.2 275); /* Electric Indigo */
-  --chart-2: oklch(0.75 0.16 180); /* Neon Cyan */
-  --chart-3: oklch(0.72 0.2 340); /* Vibrant Rose */
-  --chart-4: oklch(0.8 0.16 80); /* Bright Amber */
-  --chart-5: oklch(0.75 0.18 155); /* Neon Emerald */
+  --chart-1: oklch(0.72 0.18 230);
+  --chart-2: oklch(0.76 0.16 180);
+  --chart-3: oklch(0.72 0.2 340);
+  --chart-4: oklch(0.8 0.16 80);
+  --chart-5: oklch(0.75 0.18 155);
 
-  --sidebar: oklch(0.15 0.012 270);
-  --sidebar-foreground: oklch(0.96 0.005 270);
-  --sidebar-primary: oklch(0.78 0.18 275);
-  --sidebar-primary-foreground: oklch(0.13 0.012 270);
-  --sidebar-accent: oklch(0.21 0.015 270);
-  --sidebar-accent-foreground: oklch(0.96 0.005 270);
-  --sidebar-border: oklch(0.26 0.015 270);
-  --sidebar-ring: oklch(0.78 0.18 275 / 25%);
+  --sidebar: oklch(0.14 0.03 250);
+  --sidebar-foreground: oklch(0.96 0.01 250);
+  --sidebar-primary: oklch(0.72 0.17 230);
+  --sidebar-primary-foreground: oklch(0.14 0.02 250);
+  --sidebar-accent: oklch(0.21 0.03 250);
+  --sidebar-accent-foreground: oklch(0.96 0.01 250);
+  --sidebar-border: oklch(0.28 0.025 250);
+  --sidebar-ring: oklch(0.72 0.17 230 / 25%);
 }
 
 /* scroll smooth  */
