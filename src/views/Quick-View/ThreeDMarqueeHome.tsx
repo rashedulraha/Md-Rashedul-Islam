@@ -7,11 +7,10 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import TechMarquee from "../shared/HeroBanner/TechMarquee";
-
-import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import Responsive from "../Responsive/Responsive";
-
+import HorizontalResponsive from "@/components/Responsive/HorizontalResponsive";
+import { FaGithub, FaXTwitter } from "react-icons/fa6";
+import { FaLinkedin } from "react-icons/fa";
 const images = [
   "https://assets.aceternity.com/cloudinary_bkp/3d-card.png",
   "https://assets.aceternity.com/animated-modal.png",
@@ -145,7 +144,7 @@ export function ThreeDMarqueeHome() {
         }}
       />
 
-      <div className="pt-10 md:pt-20 lg:pt-30 mt-20">
+      <HorizontalResponsive>
         <Responsive>
           <motion.div
             style={{ opacity, scale, filter: `blur(${blur}px)` }}
@@ -154,43 +153,39 @@ export function ThreeDMarqueeHome() {
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="flex flex-col items-center text-center px-4 sm:px-6">
-              {/* NAME - Reduced max font size for better fit */}
+              className="flex flex-col items-center text-center">
               <motion.h1
                 variants={scaleVariants}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tighter mb-4 sm:mb-6 bg-gradient-to-br from-foreground via-foreground/80 to-muted-foreground bg-clip-text text-transparent leading-[1.1] break-words">
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tighter mb-4 sm:mb-6 bg-linear-to-br from-foreground via-foreground/80 to-muted-foreground bg-clip-text text-transparent">
                 Rashedul Islam
               </motion.h1>
 
-              {/* TAGLINE - Optimized for wrapping */}
               <motion.p
                 variants={itemVariants}
-                className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground font-light leading-relaxed max-w-3xl mx-auto mb-4 sm:mb-6">
+                className="text-lg sm:text-xl lg:text-3xl text-muted-foreground font-light leading-relaxed max-w-3xl mx-auto px-4 mb-6 sm:mb-8">
                 Crafting{" "}
-                <span className="text-primary font-semibold bg-primary/10 px-2 py-0.5 rounded-md inline-block align-middle">
+                <span className="text-primary font-semibold bg-primary/10 px-2 py-1 rounded-lg inline-block">
                   Next-Gen Web Experiences
                 </span>{" "}
                 from Scratch.
               </motion.p>
 
-              {/* BIO - Adjusted spacing and font size */}
               <motion.p
                 variants={itemVariants}
-                className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed break-words">
+                className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4 mb-8 sm:mb-10 leading-relaxed">
                 I build responsive web apps, dashboards, APIs, and AI-integrated
                 tools with clean UI, maintainable code, and deployment-ready
-                architecture
+                architecture.
               </motion.p>
 
-              {/* BUTTONS - Increased max-width slightly for better touch targets */}
               <motion.div
                 variants={itemVariants}
-                className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-lg mx-auto">
+                className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto px-4">
                 <Link href="/contact" className="w-full sm:w-auto">
                   <Button
                     variant="outline"
                     size="lg"
-                    className="w-full sm:w-auto font-bold rounded-full px-6 sm:px-8 py-2.5 sm:py-3 shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all duration-300 hover:scale-105 active:scale-95 group">
+                    className="w-full sm:w-auto font-bold rounded-full px-6 sm:px-8 py-2 sm:py-3 shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all duration-300 hover:scale-105 active:scale-95 group">
                     Let's Connect
                     <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
@@ -199,16 +194,15 @@ export function ThreeDMarqueeHome() {
                 <Link href="/projects" className="w-full sm:w-auto">
                   <Button
                     size="lg"
-                    className="w-full sm:w-auto font-bold rounded-full px-6 sm:px-8 py-2.5 sm:py-3 shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all duration-300 hover:scale-105 active:scale-95">
+                    className="w-full sm:w-auto font-bold rounded-full px-6 sm:px-8 py-2 sm:py-3 shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all duration-300 hover:scale-105 active:scale-95">
                     Explore Work
                   </Button>
                 </Link>
               </motion.div>
 
-              {/* SOCIALS */}
               <motion.div
                 variants={itemVariants}
-                className="flex items-center justify-center gap-4 sm:gap-6 mt-8 sm:mt-10">
+                className="flex items-center justify-center gap-4 sm:gap-6 mt-10 sm:mt-12">
                 {socialLinks.map((social) => (
                   <motion.a
                     key={social.label}
@@ -225,10 +219,12 @@ export function ThreeDMarqueeHome() {
               </motion.div>
             </motion.div>
 
-            <TechMarquee />
+            <div className="pt-8 ">
+              <TechMarquee />
+            </div>
           </motion.div>
         </Responsive>
-      </div>
+      </HorizontalResponsive>
     </div>
   );
 }

@@ -146,7 +146,7 @@ const TechMarquee: React.FC = () => {
   return (
     <div className="w-full overflow-hidden transition-colors duration-300">
       <div
-        className="relative flex items-center py-8 md:py-12"
+        className="relative flex items-center "
         style={{
           maskImage:
             "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
