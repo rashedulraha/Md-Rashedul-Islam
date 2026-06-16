@@ -48,8 +48,9 @@ const Home: React.FC = () => {
   }, [router]);
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-background">
+    <div className="relative h-screen w-full overflow-hidden">
       <Navbar />
+
       <main className="relative z-10 h-full flex md:items-end justify-center">
         <div className="w-full">
           <Responsive>

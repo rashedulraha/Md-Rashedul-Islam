@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -13,6 +14,8 @@ import {
   Search,
   X,
   Sparkles,
+  TrendingUp,
+  Eye,
 } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 
@@ -77,18 +80,28 @@ export default function ProjectsPage() {
 
   if (loading) {
     return (
-      <section className="bg-background">
+      <section className="bg-background py-16 md:py-24">
         <div className="container mx-auto px-4">
+          <div className="mb-12">
+            <div className="h-10 bg-muted rounded-lg w-64 mb-3 animate-pulse" />
+            <div className="h-5 bg-muted rounded-lg w-96 animate-pulse" />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
+            {[1, 2, 3, 4, 5, 6].map((i) => (
               <div
                 key={i}
                 className="border-2 border-border rounded-2xl bg-card overflow-hidden animate-pulse">
-                <div className="h-48 bg-muted" />
-                <div className="p-5 space-y-3">
-                  <div className="h-6 bg-muted rounded w-3/4" />
-                  <div className="h-4 bg-muted rounded w-1/2" />
-                  <div className="h-16 bg-muted rounded" />
+                <div className="h-56 bg-muted" />
+                <div className="p-6 space-y-4">
+                  <div className="space-y-2">
+                    <div className="h-6 bg-muted rounded w-3/4" />
+                    <div className="h-4 bg-muted rounded w-1/2" />
+                  </div>
+                  <div className="h-12 bg-muted rounded" />
+                  <div className="flex gap-2">
+                    <div className="h-8 bg-muted rounded flex-1" />
+                    <div className="h-8 bg-muted rounded flex-1" />
+                  </div>
                 </div>
               </div>
             ))}
@@ -99,20 +112,20 @@ export default function ProjectsPage() {
   }
 
   return (
-    <section className="bg-background">
+    <section className="bg-background py-16 md:py-24">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-2">
+          className="mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-3">
             Featured Projects
           </h1>
-          <p className="text-sm text-muted-foreground max-w-2xl">
+          <p className="text-base text-muted-foreground max-w-2xl">
             A curated selection of full-stack web applications and real-world
-            digital products.
+            digital products I've built.
           </p>
         </motion.div>
 
@@ -121,24 +134,24 @@ export default function ProjectsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="border-2 border-border rounded-2xl bg-card overflow-hidden mb-8">
+          className="border-2 border-border rounded-2xl bg-card overflow-hidden mb-10 shadow-sm">
           {/* Search */}
-          <div className="p-4 border-b border-border">
+          <div className="p-5 border-b-2 border-border">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <input
                 type="text"
                 placeholder="Search by title, tech, or description..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="w-full pl-10 pr-10 py-2.5 rounded-lg bg-muted/30 border border-border focus:outline-none focus:border-primary/40 transition-colors text-sm text-foreground placeholder:text-muted-foreground"
+                className="w-full pl-12 pr-12 py-3 rounded-xl bg-muted/30 border-2 border-border focus:outline-none focus:border-primary/40 transition-colors text-sm text-foreground placeholder:text-muted-foreground"
                 aria-label="Search projects"
               />
               {searchInput && (
                 <button
                   onClick={() => setSearchInput("")}
                   aria-label="Clear search"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 rounded-full hover:bg-muted transition-colors">
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1.5 rounded-full hover:bg-muted transition-colors">
                   <X className="w-4 h-4" />
                 </button>
               )}
@@ -146,24 +159,27 @@ export default function ProjectsPage() {
           </div>
 
           {/* Categories */}
-          <div className="p-4">
+          <div className="p-5">
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all border ${
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all border-2 ${
                     selectedCategory === category
-                      ? "bg-primary text-primary-foreground border-primary"
+                      ? "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/20"
                       : "bg-muted/30 text-muted-foreground border-border hover:border-primary/40 hover:text-foreground"
                   }`}>
                   {category === "all" ? "All Projects" : category}
                 </button>
               ))}
             </div>
-            <div className="mt-3 text-xs text-muted-foreground">
-              Found {filteredProjects.length} project
-              {filteredProjects.length !== 1 ? "s" : ""}
+            <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+              <Eye className="w-4 h-4" />
+              <span>
+                Showing {filteredProjects.length} project
+                {filteredProjects.length !== 1 ? "s" : ""}
+              </span>
             </div>
           </div>
         </motion.div>
@@ -181,36 +197,53 @@ export default function ProjectsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="border-2 border-border rounded-2xl bg-card overflow-hidden hover:border-primary/40 transition-colors group">
+                className="border-2 border-border rounded-2xl bg-card overflow-hidden hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 group">
                 {/* Image */}
-                <div className="relative h-48 overflow-hidden bg-muted">
+                <div className="relative h-56 overflow-hidden bg-muted">
                   <Image
                     src={project.image}
                     alt={project.title}
                     fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     loading="lazy"
                   />
-                  <div className="absolute top-3 left-3 flex items-center gap-2">
-                    <Badge className="bg-primary/90 backdrop-blur-sm text-primary-foreground border-0 text-xs px-2.5 py-0.5 font-semibold">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  {/* Badges */}
+                  <div className="absolute top-4 left-4 flex items-center gap-2">
+                    <Badge className="bg-background/90 backdrop-blur-sm border-2 border-border text-foreground text-xs px-3 py-1 font-semibold">
                       {project.category}
                     </Badge>
                     {index === 0 && (
-                      <Badge className="bg-linear-to-r from-yellow-400 to-amber-500 text-yellow-950 border-0 text-xs px-2.5 py-0.5 font-bold">
+                      <Badge className="bg-gradient-to-r from-yellow-400 to-amber-500 text-yellow-950 border-0 text-xs px-3 py-1 font-bold shadow-lg">
                         <Sparkles className="w-3 h-3 mr-1" />
                         Featured
                       </Badge>
                     )}
                   </div>
+
+                  {/* Hover Overlay Stats */}
+                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="flex items-center gap-3 text-white text-xs font-medium">
+                      <div className="flex items-center gap-1 bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                        <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                        <span>{project.rating}</span>
+                      </div>
+                      <div className="flex items-center gap-1 bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>{project.views.toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-5">
-                  <h3 className="text-lg font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-foreground mb-1.5 group-hover:text-primary transition-colors line-clamp-1">
                     {project.title}
                   </h3>
-                  <p className="text-xs text-muted-foreground font-mono mb-3">
+                  <p className="text-xs text-muted-foreground font-mono mb-3 line-clamp-1">
                     {project.subtitle}
                   </p>
                   <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
@@ -218,32 +251,30 @@ export default function ProjectsPage() {
                   </p>
 
                   {/* Quick Stats */}
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground mb-4">
-                    <div className="flex items-center gap-1">
-                      <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
-                      <span>{project.rating}</span>
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4 pb-4 border-b border-border">
+                    <div className="flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-emerald-500" />
+                      <span className="font-medium">{project.duration}</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      <span>{project.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Users className="w-3.5 h-3.5" />
-                      <span>{project.teamSize}</span>
+                    <div className="flex items-center gap-1.5">
+                      <Users className="w-3.5 h-3.5 text-blue-500" />
+                      <span className="font-medium">
+                        {project.teamSize} people
+                      </span>
                     </div>
                   </div>
 
                   {/* Tech Stack */}
-                  <div className="flex flex-wrap gap-1.5 mb-4">
+                  <div className="flex flex-wrap gap-1.5 mb-5">
                     {project.tech.slice(0, 4).map((t) => (
                       <span
                         key={t}
-                        className="px-2 py-0.5 text-xs rounded bg-muted border border-border text-foreground">
+                        className="px-2.5 py-1 text-xs rounded-lg bg-muted border border-border text-foreground font-medium">
                         {t}
                       </span>
                     ))}
                     {project.tech.length > 4 && (
-                      <span className="px-2 py-0.5 text-xs rounded bg-primary/10 text-primary border border-primary/20">
+                      <span className="px-2.5 py-1 text-xs rounded-lg bg-primary/10 text-primary border border-primary/20 font-medium">
                         +{project.tech.length - 4}
                       </span>
                     )}
@@ -252,44 +283,58 @@ export default function ProjectsPage() {
                   {/* Action Buttons */}
                   <div className="flex gap-2">
                     {project.links.live && (
-                      <a
-                        href={project.links.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-xs font-semibold">
-                        <ExternalLink className="w-3.5 h-3.5" />
-                        Live Demo
-                      </a>
+                      <Button asChild size="sm" className="flex-1">
+                        <a
+                          href={project.links.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-1.5">
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          Live Demo
+                        </a>
+                      </Button>
                     )}
-                    <Link
-                      href={`/projects/${project.id}`}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-card border-2 border-primary/30 hover:border-primary text-primary transition-colors text-xs font-semibold">
-                      View Details
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="flex-1">
+                      <Link
+                        href={`/projects/${project.id}`}
+                        className="flex items-center justify-center gap-1.5">
+                        View Details
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </Button>
                   </div>
                 </div>
               </motion.div>
             ))}
           </motion.div>
         ) : (
-          <div className="border-2 border-border rounded-2xl bg-card p-12 text-center">
-            <Search className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-foreground mb-2">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="border-2 border-border rounded-2xl bg-card p-16 text-center">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-muted/50 mb-6">
+              <Search className="w-10 h-10 text-muted-foreground" />
+            </div>
+            <h3 className="text-2xl font-bold text-foreground mb-3">
               No projects found
             </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Try adjusting your search or filter
+            <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
+              We couldn't find any projects matching your search criteria. Try
+              adjusting your filters.
             </p>
-            <button
+            <Button
               onClick={() => {
                 setSearchInput("");
                 setSelectedCategory("all");
               }}
-              className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm font-semibold">
-              Clear filters
-            </button>
-          </div>
+              size="lg">
+              Clear all filters
+            </Button>
+          </motion.div>
         )}
       </div>
     </section>
