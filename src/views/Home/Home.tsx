@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Navbar from "../shared/Navbar/Navbar";
 import HeroBanner from "../shared/HeroBanner/HeroBanner";
 import Responsive from "../Responsive/Responsive";
+import { GridBackground } from "@/components/GridBackground";
 
 const Home: React.FC = () => {
   const router = useRouter();
@@ -51,7 +52,9 @@ const Home: React.FC = () => {
     <div className="relative h-screen w-full overflow-hidden">
       <Navbar />
 
-      <main className="relative z-10 h-full flex md:items-end justify-center">
+      <GridBackground />
+
+      {/* <main className="relative z-10 h-full flex md:items-end justify-center">
         <div className="w-full">
           <Responsive>
             <div className="py-5 md:my-10">
@@ -59,7 +62,7 @@ const Home: React.FC = () => {
             </div>
           </Responsive>
         </div>
-      </main>
+      </main> */}
     </div>
   );
 };

@@ -18,6 +18,7 @@ import {
   Eye,
 } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
+import Responsive from "../Responsive/Responsive";
 
 interface Project {
   id: string;
@@ -112,8 +113,8 @@ export default function ProjectsPage() {
   }
 
   return (
-    <section className="bg-background py-16 md:py-24">
-      <div className="container mx-auto px-4">
+    <section className="bg-background">
+      <Responsive>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -197,7 +198,7 @@ export default function ProjectsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="border-2 border-border rounded-2xl bg-card overflow-hidden hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 group">
+                className="border-2 border-border rounded-xl bg-card overflow-hidden hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 group">
                 {/* Image */}
                 <div className="relative h-56 overflow-hidden bg-muted">
                   <Image
@@ -336,7 +337,7 @@ export default function ProjectsPage() {
             </Button>
           </motion.div>
         )}
-      </div>
+      </Responsive>
     </section>
   );
 }

@@ -195,8 +195,8 @@ export default function ProjectDetailsPage() {
         {/* Animated Gradient Border on Image */}
         <div
           className={cn(
-            "absolute inset-0 p-1",
-            "bg-gradient-to-br",
+            "absolute inset-0",
+            "bg-linear-to-br",
             categoryColors[project.category] || "from-primary to-secondary",
           )}>
           <div className="relative w-full h-full overflow-hidden">

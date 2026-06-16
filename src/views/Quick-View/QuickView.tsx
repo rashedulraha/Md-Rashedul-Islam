@@ -30,6 +30,7 @@ export default function QuickView() {
           <Skills />
           <ProjectsPage />
         </div>
+
         <NetworkVisualization />
         <GitHubStats />
         <Footer />
