@@ -28,7 +28,6 @@ import {
   Star,
   GitFork,
   Activity,
-  Github,
   BookOpen,
   Users,
   Calendar,
@@ -43,6 +42,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { FaGithub } from "react-icons/fa";
 
 // --- GitHub Data Types ---
 interface GitHubStats {
@@ -317,7 +317,7 @@ function MainStatCard({
                   src={`https://github.com/${GITHUB_USERNAME}.png`}
                 />
                 <AvatarFallback className="bg-linear-to-br from-primary/20 to-primary/5">
-                  <Github className="w-6 h-6" />
+                  <FaGithub className="w-6 h-6" />
                 </AvatarFallback>
               </Avatar>
               <div className="absolute -bottom-1 -right-1 p-0.5 rounded-full bg-green-500 border-2 border-background">
@@ -339,7 +339,7 @@ function MainStatCard({
             <Link
               href={`https://github.com/${GITHUB_USERNAME}`}
               target="_blank">
-              <Github className="w-3.5 h-3.5" />
+              <FaGithub className="w-3.5 h-3.5" />
               Profile
               <ExternalLink className="w-3 h-3" />
             </Link>
@@ -650,7 +650,7 @@ export default function GitHubStats() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted mb-4">
-              <Github className="w-3 h-3" />
+              <FaGithub className="w-3 h-3" />
               <span className="text-xs">GitHub Insights</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-3 bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -680,7 +680,7 @@ export default function GitHubStats() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 bg-gradient-to-r from-foreground via-foreground/80 to-muted-foreground bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 bg-linear-to-r from-foreground via-foreground/80 to-muted-foreground bg-clip-text text-transparent">
             GitHub <span className="text-primary">Activity</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-sm">
