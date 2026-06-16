@@ -438,7 +438,7 @@ const InfiniteDraggableGrid: React.FC<InfiniteDraggableGridProps> = ({
       {/* Centered "drag me" text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
         <h1 className="text-white text-6xl font-bold tracking-wider opacity-80 select-none drop-shadow-2xl">
-          drag me
+          Drag me
         </h1>
       </div>
     </div>

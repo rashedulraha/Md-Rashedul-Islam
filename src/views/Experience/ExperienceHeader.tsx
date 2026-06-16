@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { metricsData } from "@/Data/Experience/ExperienceData";
 import { WebcamPixelGridDemo } from "@/components/WebcamPixelGrid/WebcamPixelGrid";
+import Infinitegrid from "@/components/infinite-grid";
 
 export default function ExperienceHeader() {
   return (
@@ -41,9 +42,8 @@ export default function ExperienceHeader() {
         </motion.div>
       </header>
 
-      <div className="w-full h-full bg-whiter border rounded-sm">
-        {/* web cap feature */}
-        {/* <WebcamPixelGridDemo /> */}
+      <div className="w-full h-full bg-whiter border rounded-md overflow-hidden">
+        <Infinitegrid />
       </div>
     </div>
   );

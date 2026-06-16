@@ -26,7 +26,7 @@ export default function QuickView() {
           style={{ scaleX: scrollYProgress }}
         />
 
-        <div className="mt-5 md:mt-10 flex flex-col space-y-10 md:space-y-0">
+        <div className="mt-5 md:mt-10 flex flex-col space-y-10 md:space-y-20">
           <Skills />
           <ProjectsPage />
         </div>

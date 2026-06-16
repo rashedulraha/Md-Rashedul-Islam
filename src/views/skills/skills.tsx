@@ -30,35 +30,103 @@ const techStack = {
     "Framer Motion",
     "Shadcn/UI",
     "Zustand",
+    "Redux Toolkit",
+    "React Query / TanStack Query",
+    "Server Components",
+    "SSR / SSG / ISR",
+    "Responsive Design",
+    "Performance Optimization",
+    "Accessibility (a11y)",
   ],
-  backend: ["Node.js", "Express", "NestJS", "Prisma", "REST APIs", "GraphQL"],
-  tools: ["Git", "Docker", "Postman", "VS Code", "Figma", "Linux", "Vercel"],
+
+  backend: [
+    "Node.js",
+    "Express",
+    "NestJS",
+    "Prisma",
+    "Drizzle ORM",
+    "REST APIs",
+    "GraphQL",
+    "Authentication",
+    "Authorization",
+    "PostgreSQL",
+    "Database Design",
+    "Caching",
+    "API Architecture",
+  ],
+
+  tools: [
+    "Git",
+    "GitHub",
+    "Docker",
+    "Postman",
+    "VS Code",
+    "Figma",
+    "Linux",
+    "Vercel",
+    "CI/CD",
+    "GitHub Actions",
+    "Nginx",
+    "Docker Compose",
+    "Kubernetes",
+  ],
 };
 
 const projectImplementations = [
   {
     stack: "Next.js + Tailwind + Prisma",
-    outcome: "Full-stack SaaS & E-commerce",
+    outcome:
+      "Portfolio Websites, SaaS Platforms, Dashboards & E-commerce Applications",
   },
+
   {
     stack: "Node.js + Express + PostgreSQL",
-    outcome: "REST APIs & Auth Systems",
+    outcome: "REST APIs, Authentication Systems & Scalable Backend Services",
   },
+
   {
     stack: "React + Framer Motion + Zustand",
-    outcome: "Interactive SPAs",
+    outcome:
+      "Interactive Interfaces, Modern UI Systems & Smooth User Experiences",
+  },
+
+  {
+    stack: "OpenAI + LangChain + RAG",
+    outcome: "AI Integrations, Retrieval Systems & Intelligent Applications",
   },
 ];
 
 const currentlyLearning = [
-  { name: "Rust", focus: "Systems Programming" },
-  { name: "AWS", focus: "Cloud Deployment" },
-  { name: "System Design", focus: "Scalable Architecture" },
-];
+  {
+    name: "Rust",
+    focus: "Systems Programming",
+  },
 
-// =========================================================
-// 🎨 HELPER COMPONENTS
-// =========================================================
+  {
+    name: "RAG",
+    focus: "Retrieval-Augmented Generation",
+  },
+
+  {
+    name: "Semantic Search",
+    focus: "Embeddings & Vector Retrieval",
+  },
+
+  {
+    name: "Docker",
+    focus: "Containerization",
+  },
+
+  {
+    name: "AWS",
+    focus: "Cloud Deployment",
+  },
+
+  {
+    name: "DevOps",
+    focus: "CI/CD & Infrastructure",
+  },
+];
 
 function LevelBadge({ level }: { level: string }) {
   const styles: Record<string, string> = {
