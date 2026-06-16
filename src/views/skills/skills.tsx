@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Navbar from "../shared/Navbar/Navbar";
 import Responsive from "../Responsive/Responsive";
+import CommonBg from "@/components/CommonBg/CommonBg";
 
 const coreLanguages = [
   { name: "C/C++" },
@@ -147,8 +148,9 @@ function LevelBadge({ level }: { level: string }) {
 
 export default function Skills() {
   return (
-    <section className="relative bg-background">
+    <section className="relative">
       <Navbar />
+      <CommonBg />
 
       <Responsive>
         {/* Header */}

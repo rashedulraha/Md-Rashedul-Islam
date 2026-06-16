@@ -53,16 +53,6 @@ const Home: React.FC = () => {
       <Navbar />
 
       <GridBackground />
-
-      {/* <main className="relative z-10 h-full flex md:items-end justify-center">
-        <div className="w-full">
-          <Responsive>
-            <div className="py-5 md:my-10">
-              <HeroBanner />
-            </div>
-          </Responsive>
-        </div>
-      </main> */}
     </div>
   );
 };

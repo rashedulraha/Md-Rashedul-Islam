@@ -653,7 +653,7 @@ export default function GitHubStats() {
               <Github className="w-3 h-3" />
               <span className="text-xs">GitHub Insights</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl font-bold mb-3 bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
               GitHub Activity
             </h2>
             <p className="text-muted-foreground">

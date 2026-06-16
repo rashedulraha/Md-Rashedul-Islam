@@ -8,7 +8,7 @@ import { ThreeDMarqueeHome } from "./ThreeDMarqueeHome";
 import Skills from "../skills/skills";
 import NetworkVisualization from "@/components/network";
 import Footer from "./Footer.quick";
-import ProjectsPage from "../Projects/projectPage";
+// import ProjectsPage from "../Projects/projectPage";
 
 export default function QuickView() {
   const { scrollYProgress } = useScroll();
@@ -28,7 +28,7 @@ export default function QuickView() {
 
         <div className="mt-5 md:mt-10 flex flex-col space-y-10 md:space-y-20">
           <Skills />
-          <ProjectsPage />
+          {/* <ProjectsPage /> */}
           <NetworkVisualization />
           <GitHubStats />
         </div>

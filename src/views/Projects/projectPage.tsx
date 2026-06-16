@@ -19,6 +19,7 @@ import {
 import { useState, useEffect, useMemo, useRef } from "react";
 import Responsive from "../Responsive/Responsive";
 import { Input } from "@/components/ui/input";
+import CommonBg from "@/components/CommonBg/CommonBg";
 
 interface Project {
   id: string;
@@ -221,10 +222,11 @@ export default function ProjectsPage() {
   }
 
   return (
-    <section className="bg-background min-h-screen relative overflow-hidden">
+    <section className="min-h-screen relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] -z-10 animate-pulse" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] -z-10" />
 
+      <CommonBg />
       <Responsive>
         {/* Header */}
         <motion.div
