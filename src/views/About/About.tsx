@@ -1,345 +1,235 @@
 "use client";
 
-import { motion } from "framer-motion";
+import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  User,
-  MapPin,
-  Code2,
-  Briefcase,
-  GraduationCap,
-  Trophy,
-  Rocket,
-  Mail,
-  Sparkles,
-  Target,
-  Zap,
-} from "lucide-react";
+import { motion } from "framer-motion";
+import { MapPin, Mail, ArrowUpRight, Code2, Brain, Server } from "lucide-react";
 import Link from "next/link";
-import { FaGithub, FaLinkedin, FaStackOverflow } from "react-icons/fa";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import Responsive from "../Responsive/Responsive";
 import Navbar from "../shared/Navbar/Navbar";
 
-export default function AboutSection() {
-  const stats = [
-    {
-      label: "DSA Problems",
-      value: "500+",
-      icon: Trophy,
-    },
-    {
-      label: "Projects",
-      value: "15+",
-      icon: Briefcase,
-    },
-    {
-      label: "Technologies",
-      value: "20+",
-      icon: Code2,
-    },
-  ];
-
-  const expertise = [
-    { title: "Full-Stack Development", icon: Code2 },
-    { title: "System Design", icon: Target },
-    { title: "AI/RAG Systems", icon: Sparkles },
-    { title: "Cloud Architecture", icon: Zap },
-    { title: "Performance Optimization", icon: Rocket },
-    { title: "Database Design", icon: Briefcase },
-  ];
-
-  const interests = [
-    "System Design & Architecture",
-    "AI Integrations & RAG",
-    "Backend Scalability",
-    "Open Source Contribution",
-    "Competitive Programming",
-    "Cloud Native Development",
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
+const AboutPage = () => {
+  const fadeUp = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
   return (
     <Responsive>
       <Navbar />
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible">
-        {/* Profile Card */}
-        <motion.div variants={itemVariants}>
-          <Card className="border shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-            <CardContent className="p-6 sm:p-8 space-y-6">
-              {/* Profile Header */}
-              <motion.div
-                className="flex flex-col sm:flex-row items-center gap-4 pb-6 border-b"
-                variants={itemVariants}>
-                <div className="relative">
-                  <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center shrink-0 ring-4 ring-primary/10">
-                    <User className="w-12 h-12 text-primary" />
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full border-2 border-background flex items-center justify-center">
-                    <div className="w-2 h-2 bg-primary-foreground rounded-full" />
-                  </div>
-                </div>
-                <div className="flex-1 text-center sm:text-left">
-                  <h3 className="text-2xl font-bold text-foreground">
-                    Rashedul Islam
-                  </h3>
-                  <p className="text-sm text-muted-foreground mt-1 flex items-center justify-center sm:justify-start gap-2">
-                    <Sparkles className="w-4 h-4 text-primary" />
-                    Full-Stack Developer & AI/RAG Enthusiast
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-2 text-sm text-muted-foreground">
-                    <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted">
-                      <MapPin className="w-3.5 h-3.5" />
-                      Bangladesh
-                    </span>
-                    <a
-                      href="mailto:rashedulraha@gmail.com"
-                      className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-colors">
-                      <Mail className="w-3.5 h-3.5" />
-                      rashedulraha@gmail.com
-                    </a>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <Link href="https://github.com/rashedulraha" target="_blank">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-10 w-10 hover:bg-primary/10 hover:text-primary transition-all hover:scale-110">
-                      <FaGithub className="h-5 w-5" />
-                    </Button>
-                  </Link>
-                  <Link
-                    href="https://linkedin.com/in/rashedulraha"
-                    target="_blank">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-10 w-10 hover:bg-primary/10 hover:text-primary transition-all hover:scale-110">
-                      <FaLinkedin className="h-5 w-5" />
-                    </Button>
-                  </Link>
-                  <Link href="https://twitter.com/rashedulraha" target="_blank">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-10 w-10 hover:bg-primary/10 hover:text-primary transition-all hover:scale-110">
-                      <FaXTwitter className="h-5 w-5" />
-                    </Button>
-                  </Link>
-                  <Link
-                    href="https://stackoverflow.com/users/rashedulraha"
-                    target="_blank">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-10 w-10 hover:bg-primary/10 hover:text-primary transition-all hover:scale-110">
-                      <FaStackOverflow className="h-5 w-5" />
-                    </Button>
-                  </Link>
-                </div>
-              </motion.div>
 
-              {/* Stats Section */}
-              <motion.div
-                className="grid grid-cols-1 sm:grid-cols-3 gap-4"
-                variants={itemVariants}>
-                {stats.map((stat, index) => (
-                  <motion.div
-                    key={stat.label}
-                    className="relative group"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.2 }}>
-                    <div className="relative p-4 bg-muted/50 backdrop-blur-sm border rounded-lg hover:bg-primary/10 hover:border-primary/50 transition-all duration-300">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                          <stat.icon className="w-5 h-5 text-primary" />
-                        </div>
-                        <div>
-                          <p className="text-2xl font-bold text-foreground">
-                            {stat.value}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {stat.label}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
+      <main>
+        {/* MAIN SECTION: Image + Content with Consistent Height */}
+        <motion.div
+          className="grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch mb-20"
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}>
+          {/* Left: Image with Fixed Height */}
+          <div className="relative group flex">
+            <div className="w-full rounded-2xl overflow-hidden border border-border bg-muted/30 shadow-sm transition-all duration-500 group-hover:shadow-lg flex">
+              <img
+                src="/Rashedul.jpeg"
+                alt="Rashedul Islam"
+                className="w-full h-full object-cover min-h-125 transition-transform duration-700 group-hover:scale-105"
+              />
+            </div>
+            {/* Decorative glow */}
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-primary/10 rounded-full blur-3xl -z-10" />
+          </div>
 
-              {/* Bio */}
-              <motion.div
-                className="space-y-4 text-muted-foreground leading-relaxed"
-                variants={itemVariants}>
-                <p className="text-base">
-                  I'm{" "}
-                  <span className="text-foreground font-semibold">
-                    Rashedul Islam
-                  </span>
-                  , a{" "}
-                  <span className="text-primary font-semibold">
-                    Full-Stack Developer and AI/RAG enthusiast
-                  </span>{" "}
-                  based in Bangladesh. I build modern, scalable, and
-                  production-ready web applications using TypeScript,
-                  JavaScript, Python, C++, and Go.
-                </p>
+          {/* Right: Content with Same Height */}
+          <div className="flex flex-col justify-between space-y-6 min-h-[500px]">
+            {/* Header */}
+            <div className="space-y-3">
+              <Badge variant="secondary" className="mb-2">
+                Available for opportunities
+              </Badge>
+              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground leading-tight">
+                Rashedul Islam
+              </h1>
+              <p className="text-lg text-primary font-medium">
+                Full-Stack Developer & AI/RAG Enthusiast
+              </p>
+            </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 bg-muted/40 rounded-xl border">
-                  <div>
-                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <GraduationCap className="w-4 h-4 text-primary" />
-                      Training & Education
-                    </p>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                        <span className="font-medium text-foreground">
-                          Programming Hero
-                        </span>
-                        <Badge variant="secondary" className="text-xs">
-                          Level 1 & 2
-                        </Badge>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                        <span className="font-medium text-foreground">
-                          Phitron
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <Trophy className="w-4 h-4 text-primary" />
-                      Key Achievement
-                    </p>
-                    <p className="text-sm">
-                      Solved{" "}
-                      <span className="text-primary font-bold text-base">
-                        500+ DSA problems
-                      </span>{" "}
-                      strengthening problem-solving and system thinking
-                      abilities
-                    </p>
-                  </div>
-                </div>
+            {/* Bio with Highlighted Topics */}
+            <div className="space-y-4 text-muted-foreground leading-relaxed text-base flex-grow">
+              <p>
+                I'm a passionate developer based in{" "}
+                <span className="text-foreground font-semibold">
+                  Bangladesh
+                </span>
+                , building{" "}
+                <span className="text-primary font-semibold">
+                  modern, scalable, and production-ready web applications
+                </span>
+                using TypeScript, JavaScript, Python, C++, and Go.
+              </p>
 
-                <p className="text-base">
-                  I enjoy working across both frontend and backend—building
-                  clean, responsive user interfaces and designing efficient,
-                  scalable backend systems and APIs. I am particularly
-                  interested in{" "}
-                  <span className="text-foreground font-semibold">
-                    system design, backend architecture, and real-world software
-                    scalability
-                  </span>
-                  .
-                </p>
+              <p>
+                I specialize in both{" "}
+                <span className="text-foreground font-semibold">
+                  frontend and backend development
+                </span>
+                — crafting{" "}
+                <span className="text-primary font-semibold">
+                  clean, responsive user interfaces
+                </span>{" "}
+                and designing{" "}
+                <span className="text-primary font-semibold">
+                  efficient, scalable backend systems and APIs
+                </span>
+                .
+              </p>
 
-                <p className="text-base">
-                  Alongside full-stack development, I explore{" "}
-                  <span className="text-primary font-semibold">
-                    AI integrations and RAG-based systems
-                  </span>
-                  , focusing on building smarter and more intelligent
-                  applications.
-                </p>
+              <p>
+                Currently exploring{" "}
+                <span className="text-foreground font-semibold">
+                  AI integrations and RAG-based systems
+                </span>
+                , focusing on building{" "}
+                <span className="text-primary font-semibold">
+                  smarter and more intelligent applications
+                </span>
+                .
+              </p>
+            </div>
 
-                <motion.div
-                  className="p-5 bg-primary/5 border-l-4 border-primary rounded-r-xl"
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.2 }}>
-                  <p className="text-sm flex items-start gap-2">
-                    <Rocket className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                    <span>
-                      I'm continuously learning, building projects, and
-                      improving my engineering skills with the goal of becoming
-                      a{" "}
-                      <span className="text-foreground font-semibold">
-                        strong software engineer
-                      </span>{" "}
-                      who can design and develop impactful systems.
-                    </span>
-                  </p>
-                </motion.div>
-              </motion.div>
+            {/* Location & Email */}
+            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground pt-2">
+              <span className="flex items-center gap-1.5">
+                <MapPin className="w-4 h-4 text-primary" />
+                Bangladesh
+              </span>
+              <a
+                href="mailto:rashedulraha@gmail.com"
+                className="flex items-center gap-1.5 hover:text-primary transition-colors">
+                <Mail className="w-4 h-4 text-primary" />
+                rashedulraha@gmail.com
+              </a>
+            </div>
 
-              {/* Expertise Section */}
-              <motion.div className="space-y-4" variants={itemVariants}>
-                <h4 className="text-lg font-semibold flex items-center gap-2 text-foreground">
-                  <Target className="w-5 h-5 text-primary" />
-                  Core Expertise
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {expertise.map((item, index) => (
-                    <motion.div
-                      key={item.title}
-                      className="group p-3 bg-muted/30 hover:bg-primary/10 border rounded-lg transition-all duration-300 cursor-pointer"
-                      whileHover={{ scale: 1.02, y: -2 }}
-                      transition={{ duration: 0.2 }}>
-                      <div className="flex items-center gap-2">
-                        <item.icon className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
-                        <span className="text-sm font-medium text-foreground">
-                          {item.title}
-                        </span>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
+            {/* Social Links */}
+            <div className="flex items-center gap-3 pt-4">
+              <Link href="https://github.com/rashedulraha" target="_blank">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-10 w-10 hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <FaGithub className="h-4 w-4" />
+                </Button>
+              </Link>
+              <Link href="https://linkedin.com/in/rashedulraha" target="_blank">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-10 w-10 hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <FaLinkedin className="h-4 w-4" />
+                </Button>
+              </Link>
+              <Link href="https://twitter.com/rashedulraha" target="_blank">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-10 w-10 hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <FaXTwitter className="h-4 w-4" />
+                </Button>
+              </Link>
 
-              {/* Interests Section */}
-              <motion.div className="space-y-4" variants={itemVariants}>
-                <h4 className="text-lg font-semibold flex items-center gap-2 text-foreground">
-                  <Sparkles className="w-5 h-5 text-primary" />
-                  Interests & Focus Areas
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {interests.map((interest, index) => (
-                    <motion.div
-                      key={interest}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.05 }}>
-                      <Badge
-                        variant="secondary"
-                        className="px-3 py-1.5 text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer">
-                        {interest}
-                      </Badge>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            </CardContent>
-          </Card>
+              <Button variant="default" className="ml-2 gap-2">
+                Contact Me <ArrowUpRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
         </motion.div>
-      </motion.div>
+
+        {/* BOTTOM SECTION: 3 Column Info with Icons */}
+        <motion.div
+          className="border-t border-border pt-12 grid grid-cols-1 md:grid-cols-3 gap-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.6 }}>
+          {/* Column 1: Focus Areas */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Code2 className="w-4 h-4 text-primary" />
+              </div>
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+                Focus Areas
+              </h3>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {["Rag System Design", "AI/RAG", "Backend", "Cloud", "DSA"].map(
+                (tag) => (
+                  <Badge key={tag} variant="secondary" className="font-normal">
+                    {tag}
+                  </Badge>
+                ),
+              )}
+            </div>
+          </div>
+
+          {/* Column 2: Education */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Brain className="w-4 h-4 text-primary" />
+              </div>
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+                Education & Training
+              </h3>
+            </div>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                <span className="text-foreground font-medium">
+                  Programming Hero
+                </span>
+                <Badge variant="outline" className="text-[10px] h-5 px-1.5">
+                  L1 & L2
+                </Badge>
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                <span className="text-foreground font-medium">Phitron</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Key Stat */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Server className="w-4 h-4 text-primary" />
+              </div>
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+                Key Achievement
+              </h3>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Solved{" "}
+              <span className="text-primary font-bold text-lg">500+</span> DSA
+              problems, building strong{" "}
+              <span className="text-foreground font-medium">
+                problem-solving
+              </span>{" "}
+              and
+              <span className="text-foreground font-medium">
+                {" "}
+                system thinking abilities
+              </span>
+              .
+            </p>
+          </div>
+        </motion.div>
+      </main>
     </Responsive>
   );
-}
+};
+
+export default AboutPage;
