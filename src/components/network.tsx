@@ -252,7 +252,7 @@ function NetworkVisualization() {
   if (!mounted) {
     return (
       <div className="flex items-center justify-center p-2 sm:p-4 w-full h-full min-h-100">
-        <div className="animate-pulse bg-purple-400/10 rounded-full w-125 h-125" />
+        <div className="animate-pulse bg-primary/10 rounded-full w-125 h-125" />
       </div>
     );
   }
@@ -269,7 +269,7 @@ function NetworkVisualization() {
         }}>
         {/* Outer dashed circle */}
         <div
-          className="absolute border-2 border-dashed border-purple-400/50 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          className="absolute border-2 border-dashed border-primary/30 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           style={{
             width: `${dimensions.outerRadius * 2}px`,
             height: `${dimensions.outerRadius * 2}px`,
@@ -277,7 +277,7 @@ function NetworkVisualization() {
 
         {/* Inner dashed circle */}
         <div
-          className="absolute border-2 border-dashed border-purple-400/50 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          className="absolute border-2 border-dashed border-primary/30 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           style={{
             width: `${dimensions.innerRadius * 2}px`,
             height: `${dimensions.innerRadius * 2}px`,
@@ -291,27 +291,30 @@ function NetworkVisualization() {
             top: `${dimensions.centerY}px`,
             transform: `translate(-50%, -50%)`,
           }}>
-          <img
-            src="https://i.pinimg.com/736x/5c/62/7a/5c627a3458297ee0c587328e5f7061fc.jpg"
-            alt="Center Image"
-            className="rounded-full object-cover border-4 border-white"
+          <div
+            className="rounded-full border-4 border-background shadow-xl overflow-hidden"
             style={{
               width: `${dimensions.centerImageSize}px`,
               height: `${dimensions.centerImageSize}px`,
-            }}
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.style.display = "none";
-              const parent = target.parentElement;
-              if (parent) {
-                parent.innerHTML = `<span class="text-2xl text-white">⭐</span>`;
-              }
-            }}
-          />
+            }}>
+            <img
+              src="https://i.pinimg.com/736x/5c/62/7a/5c627a3458297ee0c587328e5f7061fc.jpg"
+              alt="Center Image"
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = "none";
+                const parent = target.parentElement;
+                if (parent) {
+                  parent.innerHTML = `<span class="text-2xl text-foreground">⭐</span>`;
+                }
+              }}
+            />
+          </div>
 
           {/* Tooltip for Center Image */}
           <div
-            className={`absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-gray-800 shadow-lg transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 ${dimensions.tooltipTextSize}
+            className={`absolute -top-10 left-1/2 transform -translate-x-1/2 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-card-foreground shadow-lg transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 border border-border ${dimensions.tooltipTextSize}
               ${
                 isCurrentlyConnected("center")
                   ? "opacity-100"
@@ -319,7 +322,7 @@ function NetworkVisualization() {
               }
           `}>
             Center Hub
-            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white/90"></div>
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-card/90"></div>
           </div>
         </div>
 
@@ -352,6 +355,22 @@ function NetworkVisualization() {
               const dy = toPos.cy - fromPos.cy;
               const lineLength = Math.sqrt(dx * dx + dy * dy);
 
+              // Theme-aware colors
+              const getColor = (colorName: string) => {
+                const colors: Record<string, string> = {
+                  blue: "hsl(var(--primary))",
+                  green: "hsl(142 76% 36%)",
+                  purple: "hsl(271 91% 65%)",
+                  yellow: "hsl(45 93% 47%)",
+                  red: "hsl(0 72% 51%)",
+                  orange: "hsl(24 94% 50%)",
+                  pink: "hsl(330 81% 60%)",
+                  cyan: "hsl(189 94% 43%)",
+                  white: "hsl(var(--foreground))",
+                };
+                return colors[colorName] || colors.blue;
+              };
+
               return (
                 <motion.line
                   key={`${conn.from}-${conn.to}`}
@@ -359,29 +378,9 @@ function NetworkVisualization() {
                   y1={fromPos.cy}
                   x2={toPos.cx}
                   y2={toPos.cy}
-                  stroke={
-                    conn.color.includes("blue")
-                      ? "#3b82f6"
-                      : conn.color.includes("green")
-                        ? "#10b981"
-                        : conn.color.includes("purple")
-                          ? "#8b5cf6"
-                          : conn.color.includes("yellow")
-                            ? "#f59e0b"
-                            : conn.color.includes("red")
-                              ? "#ef4444"
-                              : conn.color.includes("orange")
-                                ? "#f97316"
-                                : conn.color.includes("pink")
-                                  ? "#ec4899"
-                                  : conn.color.includes("cyan")
-                                    ? "#06b6d4"
-                                    : conn.color.includes("white")
-                                      ? "#ffffff"
-                                      : "#3b82f6"
-                  }
+                  stroke={getColor(conn.color)}
                   strokeWidth={dimensions.strokeWidth}
-                  strokeOpacity="0.8"
+                  strokeOpacity="0.6"
                   fill="none"
                   initial={{
                     strokeDasharray: lineLength,
@@ -411,7 +410,7 @@ function NetworkVisualization() {
                 transform: `translate(-50%, -50%)`,
               }}>
               <div
-                className="bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-200 cursor-pointer relative group"
+                className="bg-card rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-200 cursor-pointer relative group border border-border"
                 style={{
                   width: `${dimensions.outerAvatarSize}px`,
                   height: `${dimensions.outerAvatarSize}px`,
@@ -431,7 +430,7 @@ function NetworkVisualization() {
                       target.style.display = "none";
                       const parent = target.parentElement;
                       if (parent) {
-                        parent.innerHTML = `<span class="text-2xl">👤</span>`;
+                        parent.innerHTML = `<span class="text-2xl text-muted-foreground">👤</span>`;
                       }
                     }}
                   />
@@ -439,11 +438,11 @@ function NetworkVisualization() {
 
                 {/* Tooltip with avatar name */}
                 <div
-                  className={`absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-gray-800 shadow-lg transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 ${dimensions.tooltipTextSize}
+                  className={`absolute -top-10 left-1/2 transform -translate-x-1/2 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-card-foreground shadow-lg transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 border border-border ${dimensions.tooltipTextSize}
                     ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
                 `}>
                   {avatar.name}
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white/90"></div>
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-card/90"></div>
                 </div>
               </div>
             </div>
@@ -465,7 +464,7 @@ function NetworkVisualization() {
                 transform: `translate(-50%, -50%)`,
               }}>
               <div
-                className="bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-200 cursor-pointer relative group"
+                className="bg-card rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-200 cursor-pointer relative group border border-border"
                 style={{
                   width: `${dimensions.innerAvatarSize}px`,
                   height: `${dimensions.innerAvatarSize}px`,
@@ -485,7 +484,7 @@ function NetworkVisualization() {
                       target.style.display = "none";
                       const parent = target.parentElement;
                       if (parent) {
-                        parent.innerHTML = `<span class="text-2xl">👤</span>`;
+                        parent.innerHTML = `<span class="text-2xl text-muted-foreground">👤</span>`;
                       }
                     }}
                   />
@@ -493,11 +492,11 @@ function NetworkVisualization() {
 
                 {/* Tooltip with avatar name */}
                 <div
-                  className={`absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-gray-800 shadow-lg transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 ${dimensions.tooltipTextSize}
+                  className={`absolute -top-10 left-1/2 transform -translate-x-1/2 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-card-foreground shadow-lg transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 border border-border ${dimensions.tooltipTextSize}
                     ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
                 `}>
                   {avatar.name}
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white/90"></div>
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-card/90"></div>
                 </div>
               </div>
             </div>

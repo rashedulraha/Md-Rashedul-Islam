@@ -14,6 +14,7 @@ import {
   Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Responsive from "../Responsive/Responsive";
 
 interface Project {
   id: string;
@@ -60,11 +61,8 @@ export default function FeaturedProjects() {
   const featuredProjects = projects.slice(0, 3);
 
   return (
-    <section className="w-full  bg-background relative overflow-hidden">
-      {/* Subtle Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-primary/5 rounded-full blur-[100px] -z-10 pointer-events-none" />
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+    <section className="w-full relative overflow-hidden">
+      <Responsive>
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
@@ -231,7 +229,7 @@ export default function FeaturedProjects() {
             ))}
           </div>
         )}
-      </div>
+      </Responsive>
     </section>
   );
 }

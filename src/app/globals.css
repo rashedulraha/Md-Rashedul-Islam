@@ -107,53 +107,51 @@
 }
 
 .dark {
-  /* PREMIUM SOFT DARK MODE - Rich Charcoal & Soft White */
-  --background: oklch(0.145 0.004 250); /* Deep rich charcoal, not pure black */
-  --foreground: oklch(0.92 0.005 250); /* Soft off-white for less eye strain */
+  /* DEEPER DARK MODE - Rich Dark Slate */
+  --background: oklch(0.15 0.02 260); /* Deeper rich slate */
+  --foreground: oklch(0.95 0.01 250); /* Bright off-white for clarity */
 
-  --card: oklch(0.185 0.005 250); /* Clearly distinct from background */
-  --card-foreground: oklch(0.92 0.005 250);
+  --card: oklch(0.2 0.02 260); /* Elevated from background */
+  --card-foreground: oklch(0.95 0.01 250);
 
-  --popover: oklch(0.185 0.005 250);
-  --popover-foreground: oklch(0.92 0.005 250);
+  --popover: oklch(0.2 0.02 260);
+  --popover-foreground: oklch(0.95 0.01 250);
 
-  --primary: oklch(0.98 0 0); /* Crisp near-white for buttons */
-  --primary-foreground: oklch(0.145 0.004 250);
+  --primary: oklch(0.95 0.02 250); /* Soft white with slight blue tint */
+  --primary-foreground: oklch(0.15 0.02 260);
 
-  --secondary: oklch(0.22 0.005 250);
-  --secondary-foreground: oklch(0.92 0.005 250);
+  --secondary: oklch(0.25 0.02 260);
+  --secondary-foreground: oklch(0.95 0.01 250);
 
-  --muted: oklch(0.2 0.005 250);
-  --muted-foreground: oklch(
-    0.65 0.01 250
-  ); /* Better contrast for secondary text */
+  --muted: oklch(0.22 0.02 260);
+  --muted-foreground: oklch(0.75 0.01 250); /* Better readability */
 
-  --accent: oklch(0.24 0.005 250);
-  --accent-foreground: oklch(0.95 0 0);
+  --accent: oklch(0.28 0.03 260);
+  --accent-foreground: oklch(0.95 0.01 250);
 
   --destructive: oklch(0.55 0.19 25);
   --destructive-foreground: oklch(1 0 0);
 
-  --border: oklch(0.27 0.01 250); /* Subtle, elegant borders */
-  --input: oklch(0.27 0.01 250);
-  --ring: oklch(0.9 0 0 / 30%);
+  --border: oklch(0.3 0.02 260); /* Visible but subtle borders */
+  --input: oklch(0.3 0.02 260);
+  --ring: oklch(0.9 0.02 250 / 30%);
 
-  /* Monochrome Charts */
-  --chart-1: oklch(0.85 0 0);
-  --chart-2: oklch(0.7 0 0);
-  --chart-3: oklch(0.55 0 0);
-  --chart-4: oklch(0.4 0 0);
-  --chart-5: oklch(0.28 0 0);
+  /* Monochrome Charts with Better Contrast */
+  --chart-1: oklch(0.85 0.02 250);
+  --chart-2: oklch(0.75 0.02 250);
+  --chart-3: oklch(0.65 0.02 250);
+  --chart-4: oklch(0.55 0.02 250);
+  --chart-5: oklch(0.45 0.02 250);
 
-  /* Premium Sidebar */
-  --sidebar: oklch(0.12 0.004 250); /* Slightly darker than main bg */
-  --sidebar-foreground: oklch(0.92 0.005 250);
-  --sidebar-primary: oklch(0.98 0 0);
-  --sidebar-primary-foreground: oklch(0.145 0.004 250);
-  --sidebar-accent: oklch(0.2 0.005 250);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.25 0.01 250);
-  --sidebar-ring: oklch(0.9 0 0 / 25%);
+  /* Rich Sidebar */
+  --sidebar: oklch(0.12 0.02 260); /* Slightly darker than main bg */
+  --sidebar-foreground: oklch(0.95 0.01 250);
+  --sidebar-primary: oklch(0.95 0.02 250);
+  --sidebar-primary-foreground: oklch(0.15 0.02 260);
+  --sidebar-accent: oklch(0.22 0.02 260);
+  --sidebar-accent-foreground: oklch(0.95 0.01 250);
+  --sidebar-border: oklch(0.28 0.02 260);
+  --sidebar-ring: oklch(0.9 0.02 250 / 25%);
 }
 
 /* ── 3. BASE STYLES & SEO TYPOGRAPHY ── */
