@@ -1,11 +1,11 @@
 import HorizontalResponsive from "@/components/Responsive/HorizontalResponsive";
-import Skills from "@/views/skills/skills";
+import SkillsPage from "@/views/skills/skills";
 
 export default function Page() {
   return (
     <>
       <HorizontalResponsive>
-        <Skills />
+        <SkillsPage />
       </HorizontalResponsive>
     </>
   );
