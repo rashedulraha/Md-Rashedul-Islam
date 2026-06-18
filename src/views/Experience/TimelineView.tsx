@@ -15,7 +15,7 @@ export default function TimelineView({ timeline }: TimelineViewProps) {
       {timeline.map((item, idx) => (
         <div
           key={idx}
-          className="group p-6 sm:p-10 rounded-4xl border border-border/40 bg-card/10 hover:bg-card/30 hover:border-primary/30 transition-all duration-500 overflow-hidden">
+          className="group p-6 sm:p-10 rounded-4xl border border-border/40 bg-card/50/10 hover:bg-card/50/30 hover:border-primary/30 transition-all duration-500 overflow-hidden">
           <div className="flex flex-col md:flex-row justify-between gap-6">
             <div className="flex-1 space-y-4">
               <div className="flex items-center gap-3">

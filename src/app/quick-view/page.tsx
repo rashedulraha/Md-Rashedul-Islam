@@ -77,7 +77,7 @@ export default function Page() {
                 transition={{ delay: 0.2 }} // Reduced from 0.3 to 0.2
                 className="flex flex-col items-center gap-2">
                 <p className="font-mono text-xs text-muted-foreground tracking-widest">
-                  LOADING
+                  Please wait
                 </p>
 
                 {/* Animated Dots */}

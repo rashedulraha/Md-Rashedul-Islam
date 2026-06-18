@@ -17,7 +17,7 @@ export default function TestimonialsView({
       {testimonials.map((test) => (
         <div
           key={test.id}
-          className="p-8 sm:p-12 rounded-[2.5rem] sm:rounded-4xl border border-border/40 bg-card/10 relative overflow-hidden group">
+          className="p-8 sm:p-12 rounded-[2.5rem] sm:rounded-4xl border border-border/40 bg-card/50/10 relative overflow-hidden group">
           <Quote className="absolute -top-4 -right-4 w-24 h-24 text-primary opacity-5 group-hover:opacity-10 transition-opacity" />
           <div className="flex gap-1 mb-6">
             {[...Array(test.rating)].map((_, i) => (

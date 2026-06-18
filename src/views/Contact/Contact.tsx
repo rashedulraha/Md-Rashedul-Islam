@@ -148,7 +148,7 @@ export default function Contact() {
           <motion.div
             variants={itemVariants}
             className="col-span-1 lg:col-span-6 w-full">
-            <div className="relative p-6 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-lg hover:shadow-xl transition-all duration-500">
+            <div className="relative p-6 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl border border-border bg-card/50 shadow-lg hover:shadow-xl transition-all duration-500">
               {/* Success Message */}
               {isSubmitted && (
                 <motion.div

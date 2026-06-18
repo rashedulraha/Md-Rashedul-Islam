@@ -43,7 +43,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       whileHover={{ y: -5 }}
       onHoverStart={() => setActiveProject(project.id)}
       onHoverEnd={() => setActiveProject(null)}
-      className="group relative rounded-3xl border border-border/40 bg-card/10 hover:bg-card/30 hover:border-primary/30 transition-all duration-500 overflow-hidden p-6">
+      className="group relative rounded-3xl border border-border/40 bg-card/50/10 hover:bg-card/50/30 hover:border-primary/30 transition-all duration-500 overflow-hidden p-6">
       {/* Background Number */}
       <span className="absolute -right-4 -top-4 text-6xl font-black text-primary/5 italic select-none">
         0{index + 1}
@@ -55,7 +55,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <div className="flex items-center gap-2 mb-2">
             <Badge
               className={`text-[10px] px-2 py-1 ${getStatusColor(
-                project.status
+                project.status,
               )}`}>
               {project?.status?.toUpperCase()}
             </Badge>
@@ -117,7 +117,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
         <Badge
           className={`text-[10px] px-2 py-1 ${getComplexityColor(
-            project.complexity
+            project.complexity,
           )}`}>
           {project?.complexity?.toUpperCase()}
         </Badge>

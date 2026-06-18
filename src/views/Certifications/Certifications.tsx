@@ -114,6 +114,23 @@ interface PageCertificationsProps {
   certificates?: Certificate[];
 }
 
+// ===== CREATIVE BORDER STYLES (Theme-aware, no hardcode) =====
+// Top: more visible, Left/Right: medium, Bottom: almost invisible
+const creativeBorderStyle = {
+  borderTop: "1.5px solid var(--border)",
+  borderLeft: "1px solid var(--border)",
+  borderRight: "1px solid var(--border)",
+  borderBottom: "1px solid color-mix(in srgb, var(--border) 15%)",
+};
+
+// Featured card border with primary color
+const featuredBorderStyle = {
+  borderTop: "1.5px solid var(--primary)",
+  borderLeft: "1px solid color-mix(in srgb, var(--primary) 50%)",
+  borderRight: "1px solid color-mix(in srgb, var(--primary) 50%)",
+  borderBottom: "1px solid color-mix(in srgb, var(--primary) 15%)",
+};
+
 export default function PageCertifications({
   certificates = defaultCertificates,
 }: PageCertificationsProps) {
@@ -141,7 +158,7 @@ export default function PageCertifications({
         <CommonBg />
         <div className="relative z-10 w-full">
           {/* Header Section */}
-          <div className="text-center md:text-left md:flex md:items-end md:justify-between border-b border-border pb-8">
+          <div className="text-center md:text-left md:flex md:items-end md:justify-between border-b border-border/40 pb-8">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary mb-4">
                 <Award className="w-3.5 h-3.5" /> Verified Achievements
@@ -149,7 +166,7 @@ export default function PageCertifications({
               <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl bg-clip-text text-transparent bg-linear-to-r from-foreground to-muted-foreground">
                 Certifications
               </h1>
-              <p className="mt-3 text-base text-muted-foreground max-w-xl">
+              <p className="mt-3 text-base text-muted-foreground max-w-xl leading-relaxed">
                 A curated collection of my professional achievements, verified
                 skills, and industry-recognized credentials.
               </p>
@@ -157,19 +174,25 @@ export default function PageCertifications({
 
             {/* Quick Stats */}
             <div className="mt-6 md:mt-0 flex gap-4 justify-center md:justify-end">
-              <div className="bg-card hover:border-border rounded-xl px-5 py-3 text-center min-w-[110px] shadow-sm">
+              <div
+                className="relative overflow-hidden bg-card/50 rounded-xl px-5 py-3 text-center min-w-[110px] transition-all duration-500 hover:shadow-lg group"
+                style={creativeBorderStyle}>
+                {/* Top accent line */}
+                <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
                 <div className="text-2xl font-bold text-primary">
                   {certificates.length}+
                 </div>
-                <div className="text-xs text-muted-foreground">Total Certs</div>
+                <div className="text-xs text-foreground/75">Total Certs</div>
               </div>
-              <div className="bg-card hover:border-border rounded-xl px-5 py-3 text-center min-w-[110px] shadow-sm">
-                <div className="text-2xl font-bold text-secondary-foreground">
+              <div
+                className="relative overflow-hidden bg-card/50 rounded-xl px-5 py-3 text-center min-w-[110px] transition-all duration-500 hover:shadow-lg group"
+                style={creativeBorderStyle}>
+                {/* Top accent line */}
+                <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                <div className="text-2xl font-bold text-primary">
                   {certificates.filter((c) => c.featured).length}
                 </div>
-                <div className="text-xs text-muted-foreground">
-                  Expert Level
-                </div>
+                <div className="text-xs text-foreground/75">Expert Level</div>
               </div>
             </div>
           </div>
@@ -220,15 +243,24 @@ export default function PageCertifications({
                   exit={{ opacity: 0, scale: 0.92 }}
                   transition={{ duration: 0.3 }}
                   whileHover={{ y: -4 }}
-                  className="group relative flex flex-col justify-between rounded-xl bg-card text-card-foreground shadow-sm transition-all duration-300 overflow-hidden"
-                  style={{
-                    borderTop: cert.featured
-                      ? "1.5px solid var(--primary)"
-                      : "1.5px solid var(--border)",
-                    borderLeft: "1px solid var(--border)",
-                    borderRight: "1px solid var(--border)",
-                    borderBottom: "1px solid var(--border) / 0.2",
-                  }}>
+                  className="group relative flex flex-col justify-between rounded-xl bg-card/50 text-card-foreground transition-all duration-500 hover:shadow-lg overflow-hidden"
+                  style={
+                    cert.featured ? featuredBorderStyle : creativeBorderStyle
+                  }>
+                  {/* Top accent line - stronger for featured */}
+                  <div
+                    className={`absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent ${
+                      cert.featured ? "via-primary/70" : "via-primary/40"
+                    } to-transparent`}
+                  />
+
+                  {/* Subtle corner glow on hover */}
+                  <div
+                    className={`absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 ${
+                      cert.featured ? "bg-primary/10" : "bg-primary/5"
+                    }`}
+                  />
+
                   {/* Top Featured Gradient Tag */}
                   {cert.featured && (
                     <div className="absolute top-0 right-0 p-3">
@@ -238,20 +270,24 @@ export default function PageCertifications({
                     </div>
                   )}
 
-                  <div className="p-6">
+                  <div className="relative p-6">
                     {/* Institution Details */}
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3 font-medium">
-                      <Building2 className="w-3.5 h-3.5 group-hover:text-primary transition-colors" />
-                      <span>{cert.issuer}</span>
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
+                        <Building2 className="w-3.5 h-3.5 text-primary group-hover:text-primary transition-colors" />
+                      </div>
+                      <span className="text-xs text-foreground/75 font-medium">
+                        {cert.issuer}
+                      </span>
                     </div>
 
                     {/* Certificate Title */}
-                    <h3 className="text-lg font-bold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+                    <h3 className="text-lg font-bold leading-snug line-clamp-2 group-hover:text-primary transition-colors text-foreground">
                       {cert.title}
                     </h3>
 
                     {/* Date & ID Row */}
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-xs text-muted-foreground">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-xs text-foreground/75">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
                         <span>{cert.date}</span>
@@ -271,7 +307,7 @@ export default function PageCertifications({
                       {cert.skills.map((skill, i) => (
                         <span
                           key={i}
-                          className="inline-flex items-center rounded-md border border-transparent bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground transition-colors hover:bg-secondary/80">
+                          className="inline-flex items-center rounded-md border border-border bg-muted/40 px-2.5 py-0.5 text-xs font-semibold text-foreground transition-colors hover:border-primary/50 hover:text-primary">
                           {skill}
                         </span>
                       ))}
@@ -279,8 +315,8 @@ export default function PageCertifications({
                   </div>
 
                   {/* Bottom Action Button/Link */}
-                  <div className="mt-auto border-t border-border/30 p-4 bg-secondary/20 flex items-center justify-between">
-                    <span className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+                  <div className="relative mt-auto border-t border-border/30 p-4 bg-muted/20 flex items-center justify-between">
+                    <span className="text-[11px] uppercase tracking-wider font-semibold text-foreground/75">
                       {cert.category}
                     </span>
 
@@ -303,12 +339,16 @@ export default function PageCertifications({
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-center py-20 border border-dashed border-input rounded-xl bg-card/50">
+              className="relative overflow-hidden text-center py-20 rounded-xl bg-card/50/50"
+              style={creativeBorderStyle}>
+              {/* Top accent line */}
+              <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+
               <Award className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-foreground">
                 No Certificates Found
               </h3>
-              <p className="text-sm text-muted-foreground mt-2 max-w-xs mx-auto">
+              <p className="text-sm text-foreground/75 mt-2 max-w-xs mx-auto">
                 Try adjusting your search or filter to find what you're looking
                 for.
               </p>

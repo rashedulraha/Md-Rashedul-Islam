@@ -93,13 +93,25 @@ export default function Navbar() {
           {/* Main Container */}
           <div
             className={cn(
-              "relative flex h-16 items-center justify-between gap-2 md:gap-6 transition-all duration-500 overflow-hidden ",
+              "relative flex h-16 items-center justify-between gap-2 md:gap-6 transition-all duration-500 overflow-hidden",
               // State: NOT Scrolled (Room / Pill Mode)
               !scrolled
-                ? "max-w-5xl w-[90%] md:w-[95%] mt-0 rounded-full bg-background/60 backdrop-blur-md border border-foreground/10 shadow-lg px-4 sm:px-6"
+                ? "max-w-5xl w-[90%] md:w-[95%] mt-0 rounded-full bg-background/80 backdrop-blur-xl shadow-lg"
                 : // State: Scrolled (Full Width / Transparent)
-                  "w-full max-w-full mt-0 rounded-none bg-transparent backdrop-blur-2xl border-b border-foreground/10 shadow-none",
-            )}>
+                  "w-full max-w-full mt-0 rounded-none bg-background/60 backdrop-blur-2xl shadow-none",
+              // Creative border (theme-aware)
+            )}
+            style={{
+              borderTop: "1.5px solid var(--border)",
+              borderLeft: "1px solid var(--border)",
+              borderRight: "1px solid var(--border)",
+              borderBottom: scrolled
+                ? "1px solid color-mix(in srgb, var(--border) 15%)"
+                : "1px solid color-mix(in srgb, var(--border) 15%)",
+            }}>
+            {/* Top accent line */}
+            <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-primary/40 to-transparent pointer-events-none" />
+
             {/* Content Wrapper: Controls Max Width in Scroll Mode */}
             <div
               className={cn(
@@ -114,13 +126,13 @@ export default function Navbar() {
                 aria-label="Rashed Dev Home">
                 <div className="relative">
                   <div className="absolute inset-0 bg-primary/20 rounded-lg blur-md group-hover/logo:bg-primary/40 transition-colors duration-300" />
-                  <div className="relative p-1.5 rounded-lg bg-foreground/5 border border-foreground/10">
-                    <Terminal className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" />
+                  <div className="relative p-1.5 rounded-lg bg-primary/10 border border-primary/20">
+                    <Terminal className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                   </div>
                 </div>
                 <span className="text-lg sm:text-xl lg:text-2xl font-black tracking-tighter text-foreground">
                   Rashed<span className="text-primary">.</span>
-                  <span className="text-foreground/60">Dev</span>
+                  <span className="text-foreground/70">Dev</span>
                 </span>
               </Link>
 
@@ -135,8 +147,8 @@ export default function Navbar() {
                     className={cn(
                       "relative px-2.5 py-2 text-sm lg:text-[15px] font-medium transition-all duration-300 rounded-full whitespace-nowrap",
                       pathname === link.to
-                        ? "text-foreground bg-foreground/10 shadow-sm"
-                        : "text-muted-foreground hover:text-foreground hover:bg-foreground/5",
+                        ? "text-foreground bg-primary/10 border border-primary/20 shadow-sm"
+                        : "text-foreground/70 hover:text-foreground hover:bg-muted/50",
                     )}>
                     {link.title}
                   </Link>
@@ -149,8 +161,8 @@ export default function Navbar() {
                       className={cn(
                         "relative flex items-center gap-1.5 px-3 py-2 text-sm lg:text-[15px] font-medium transition-all duration-300 rounded-full cursor-pointer select-none outline-none group/trigger whitespace-nowrap",
                         isMoreLinkActive
-                          ? "text-foreground bg-foreground/10 shadow-sm"
-                          : "text-muted-foreground hover:text-foreground hover:bg-foreground/5",
+                          ? "text-foreground bg-primary/10 border border-primary/20 shadow-sm"
+                          : "text-foreground/70 hover:text-foreground hover:bg-muted/50",
                       )}>
                       <span>More</span>
                       <ChevronDown className="h-3.5 w-3.5 lg:h-4 lg:w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
@@ -159,7 +171,17 @@ export default function Navbar() {
                   <DropdownMenuContent
                     align="end"
                     sideOffset={12}
-                    className="w-64 p-2 rounded-2xl border border-foreground/10 bg-background/95 backdrop-blur-2xl shadow-2xl shadow-black/20">
+                    className="w-64 p-2 rounded-2xl bg-card/95 backdrop-blur-2xl shadow-2xl"
+                    style={{
+                      borderTop: "1.5px solid var(--border)",
+                      borderLeft: "1px solid var(--border)",
+                      borderRight: "1px solid var(--border)",
+                      borderBottom:
+                        "1px solid color-mix(in srgb, var(--border) 15%)",
+                    }}>
+                    {/* Top accent line for dropdown */}
+                    <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-primary/40 to-transparent pointer-events-none rounded-t-2xl" />
+
                     {moreLinks.map((link, index) => {
                       const Icon = link.icon;
                       const isActive = pathname === link.to;
@@ -172,14 +194,14 @@ export default function Navbar() {
                                 "flex items-start gap-3 p-3 rounded-xl cursor-pointer transition-all duration-300 group/item",
                                 isActive
                                   ? "bg-primary/10 text-foreground"
-                                  : "hover:bg-foreground/5",
+                                  : "hover:bg-muted/50",
                               )}>
                               <div
                                 className={cn(
                                   "p-2 rounded-lg transition-all duration-300 shrink-0",
                                   isActive
-                                    ? "bg-primary/20 text-primary"
-                                    : "bg-foreground/5 text-muted-foreground group-hover/item:bg-primary/10 group-hover/item:text-primary",
+                                    ? "bg-primary/20 text-primary border border-primary/30"
+                                    : "bg-muted/50 text-foreground/70 group-hover/item:bg-primary/10 group-hover/item:text-primary border border-border/50",
                                 )}>
                                 <Icon className="h-4 w-4" />
                               </div>
@@ -196,14 +218,14 @@ export default function Navbar() {
                                     />
                                   )}
                                 </div>
-                                <p className="text-xs text-muted-foreground mt-0.5">
+                                <p className="text-xs text-foreground/70 mt-0.5">
                                   {link.description}
                                 </p>
                               </div>
                             </Link>
                           </DropdownMenuItem>
                           {index < moreLinks.length - 1 && (
-                            <DropdownMenuSeparator className="my-1 bg-foreground/5" />
+                            <DropdownMenuSeparator className="my-1 bg-border/50" />
                           )}
                         </div>
                       );
@@ -215,12 +237,12 @@ export default function Navbar() {
               {/* Action Buttons */}
               <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                 {/* Status Badge */}
-                <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
+                <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
                   <div className="relative">
-                    <div className="w-2 h-2 rounded-full bg-green-500" />
-                    <div className="absolute inset-0 w-2 h-2 rounded-full bg-green-500 animate-ping" />
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                    <div className="absolute inset-0 w-2 h-2 rounded-full bg-primary animate-ping" />
                   </div>
-                  <span className="text-xs font-medium text-green-600 dark:text-green-400">
+                  <span className="text-xs font-medium text-primary">
                     Available
                   </span>
                 </div>
@@ -232,8 +254,9 @@ export default function Navbar() {
                   variant="outline"
                   className={cn(
                     "hidden md:flex rounded-full px-4 lg:px-5 h-9 lg:h-10 shrink-0",
-                    "border-foreground/20 bg-foreground/5 text-foreground",
+                    "border-border bg-muted/30 text-foreground",
                     "transition-all duration-300 gap-2 text-sm font-medium group",
+                    "hover:bg-primary hover:text-primary-foreground hover:border-primary",
                   )}>
                   <Link href="/contact">Hire Me</Link>
                 </Button>
@@ -246,7 +269,7 @@ export default function Navbar() {
                         variant="ghost"
                         size="icon"
                         aria-label="Toggle Menu"
-                        className="h-10 w-10 text-foreground hover:bg-foreground/5 hover:text-foreground transition-all rounded-full">
+                        className="h-10 w-10 text-foreground hover:bg-muted/50 hover:text-foreground transition-all rounded-full">
                         <AnimatePresence mode="wait">
                           {isOpen ? (
                             <motion.div
@@ -273,22 +296,25 @@ export default function Navbar() {
 
                     <SheetContent
                       side="right"
-                      className="w-[90vw] sm:w-100 bg-background/98 backdrop-blur-2xl border-l border-foreground/10 p-0 text-foreground mobile-menu-pattern">
+                      className="w-[90vw] sm:w-100 bg-background/98 backdrop-blur-2xl p-0 text-foreground mobile-menu-pattern"
+                      style={{
+                        borderLeft: "1.5px solid var(--border)",
+                      }}>
                       <div className="flex flex-col h-full p-6 sm:p-8">
                         <SheetHeader className="text-left mb-8">
                           <SheetTitle className="flex items-center gap-3">
-                            <div className="p-2.5 rounded-xl bg-foreground/5 border border-foreground/10">
-                              <Terminal className="h-5 w-5 sm:h-6 sm:w-6" />
+                            <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/20">
+                              <Terminal className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                             </div>
                             <span className="font-black tracking-tighter text-xl text-foreground">
                               Rashed<span className="text-primary">.</span>
-                              <span className="text-foreground/60">Dev</span>
+                              <span className="text-foreground/70">Dev</span>
                             </span>
                           </SheetTitle>
                         </SheetHeader>
 
                         <div className="mb-6">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3 px-4">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-foreground/70 mb-3 px-4">
                             Main Menu
                           </p>
                           <nav
@@ -306,8 +332,8 @@ export default function Navbar() {
                                   className={cn(
                                     "flex items-center px-4 py-3.5 text-base font-medium rounded-xl transition-all duration-300 active:scale-95",
                                     pathname === link.to
-                                      ? "bg-foreground/10 text-foreground border border-foreground/20 shadow-sm"
-                                      : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground border border-transparent",
+                                      ? "bg-primary/10 text-foreground border border-primary/20 shadow-sm"
+                                      : "text-foreground/70 hover:bg-muted/50 hover:text-foreground border border-transparent",
                                   )}>
                                   <span className="flex-1">{link.title}</span>
                                   {pathname === link.to && (
@@ -320,7 +346,7 @@ export default function Navbar() {
                         </div>
 
                         <div className="mb-6">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3 px-4">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-foreground/70 mb-3 px-4">
                             Explore More
                           </p>
                           <nav
@@ -343,14 +369,14 @@ export default function Navbar() {
                                       "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 active:scale-95",
                                       pathname === link.to
                                         ? "bg-primary/10 border border-primary/20"
-                                        : "hover:bg-foreground/5 border border-transparent",
+                                        : "hover:bg-muted/50 border border-transparent",
                                     )}>
                                     <div
                                       className={cn(
                                         "p-2 rounded-lg transition-colors",
                                         pathname === link.to
-                                          ? "bg-primary/20 text-primary"
-                                          : "bg-foreground/5 text-muted-foreground",
+                                          ? "bg-primary/20 text-primary border border-primary/30"
+                                          : "bg-muted/50 text-foreground/70 border border-border/50",
                                       )}>
                                       <Icon className="h-4 w-4" />
                                     </div>
@@ -361,7 +387,7 @@ export default function Navbar() {
                                             "font-medium",
                                             pathname === link.to
                                               ? "text-foreground"
-                                              : "text-muted-foreground",
+                                              : "text-foreground/70",
                                           )}>
                                           {link.title}
                                         </span>
@@ -369,7 +395,7 @@ export default function Navbar() {
                                           <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                                         )}
                                       </div>
-                                      <p className="text-xs text-muted-foreground mt-0.5">
+                                      <p className="text-xs text-foreground/70 mt-0.5">
                                         {link.description}
                                       </p>
                                     </div>
@@ -380,17 +406,17 @@ export default function Navbar() {
                           </nav>
                         </div>
 
-                        <div className="mt-auto p-4 rounded-xl bg-green-500/10 border border-green-500/20">
+                        <div className="mt-auto p-4 rounded-xl bg-primary/10 border border-primary/20">
                           <div className="flex items-center gap-3">
                             <div className="relative">
-                              <div className="w-3 h-3 rounded-full bg-green-500" />
-                              <div className="absolute inset-0 w-3 h-3 rounded-full bg-green-500 animate-ping" />
+                              <div className="w-3 h-3 rounded-full bg-primary" />
+                              <div className="absolute inset-0 w-3 h-3 rounded-full bg-primary animate-ping" />
                             </div>
                             <div>
-                              <p className="text-sm font-semibold text-green-600 dark:text-green-400">
+                              <p className="text-sm font-semibold text-primary">
                                 Available for work
                               </p>
-                              <p className="text-xs text-muted-foreground">
+                              <p className="text-xs text-foreground/70">
                                 Open to new opportunities
                               </p>
                             </div>
@@ -403,8 +429,8 @@ export default function Navbar() {
                             variant="outline"
                             className={cn(
                               "w-full h-12 rounded-xl",
-                              "border-foreground/20 bg-foreground/5 text-foreground",
-                              "hover:bg-foreground hover:text-background hover:border-foreground",
+                              "border-border bg-muted/30 text-foreground",
+                              "hover:bg-primary hover:text-primary-foreground hover:border-primary",
                               "transition-all duration-300 gap-2 font-medium group",
                             )}>
                             <Link
@@ -417,8 +443,8 @@ export default function Navbar() {
                           </Button>
                         </div>
 
-                        <div className="text-center mt-6 pt-4 border-t border-foreground/10">
-                          <p className="text-xs text-muted-foreground">
+                        <div className="text-center mt-6 pt-4 border-t border-border/50">
+                          <p className="text-xs text-foreground/70">
                             © {new Date().getFullYear()} Rashedul Islam. All
                             rights reserved.
                           </p>

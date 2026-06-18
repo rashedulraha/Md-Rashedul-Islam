@@ -87,6 +87,22 @@ const currentlyLearning = [
   { name: "DevOps", focus: "CI/CD & Infrastructure" },
 ];
 
+// ===== CREATIVE BORDER STYLES (Theme-aware) =====
+// Top: more visible, Left/Right: medium, Bottom: almost invisible
+const creativeBorderStyle = {
+  borderTop: "1.5px solid var(--border)",
+  borderLeft: "1px solid var(--border)",
+  borderRight: "1px solid var(--border)",
+  borderBottom: "1px solid color-mix(in srgb, var(--border) 15%)",
+};
+
+const innerCardBorderStyle = {
+  borderTop: "1px solid var(--border)",
+  borderLeft: "1px solid color-mix(in srgb, var(--border) 80%)",
+  borderRight: "1px solid color-mix(in srgb, var(--border) 80%)",
+  borderBottom: "1px solid color-mix(in srgb, var(--border) 10%)",
+};
+
 // ===== COMPONENTS =====
 function LevelBadge({ level }: { level: string }) {
   const styles: Record<string, string> = {
@@ -109,7 +125,7 @@ function LevelBadge({ level }: { level: string }) {
 
 function TechTag({ tech }: { tech: string }) {
   return (
-    <span className="px-3 py-1.5 text-sm rounded-md bg-muted border border-border text-foreground hover:border-primary/50 hover:text-primary transition-colors">
+    <span className="px-3 py-1.5 text-sm rounded-md bg-muted/40 border border-border text-foreground hover:border-primary/50 hover:text-primary transition-colors">
       {tech}
     </span>
   );
@@ -142,17 +158,26 @@ export default function Skills() {
           </p>
         </div>
 
-        {/* Master Card */}
+        {/* Master Card with Creative Border */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="border-2 border-border rounded-2xl bg-card overflow-hidden">
+          className="relative overflow-hidden rounded-xl bg-card/50 group"
+          style={creativeBorderStyle}>
+          {/* Top accent gradient line */}
+          <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+
+          {/* Subtle corner glow on hover */}
+          <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
           {/* Core Languages */}
-          <div className="p-6 border-b border-border">
+          <div className="relative p-6 border-b border-border/40">
             <div className="flex items-center gap-2 mb-4">
-              <Code2 className="w-5 h-5 text-primary" />
+              <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
+                <Code2 className="w-4 h-4 text-primary" />
+              </div>
               <h3 className="text-lg font-bold text-foreground">
                 Core Languages
               </h3>
@@ -165,9 +190,11 @@ export default function Skills() {
           </div>
 
           {/* Tech Stack - 3 columns */}
-          <div className="grid grid-cols-1 md:grid-cols-3 border-b border-border">
-            <div className="p-6 border-b md:border-b-0 md:border-r border-border">
-              <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-3">
+          <div className="grid grid-cols-1 md:grid-cols-3">
+            <div className="relative p-6 border-b md:border-b-0 md:border-r border-border/40">
+              {/* Top accent line */}
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+              <h4 className="text-sm font-bold uppercase tracking-wider text-foreground/80 mb-3">
                 Frontend
               </h4>
               <div className="flex flex-wrap gap-2">
@@ -177,8 +204,10 @@ export default function Skills() {
               </div>
             </div>
 
-            <div className="p-6 border-b md:border-b-0 md:border-r border-border">
-              <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-3">
+            <div className="relative p-6 border-b md:border-b-0 md:border-r border-border/40">
+              {/* Top accent line */}
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+              <h4 className="text-sm font-bold uppercase tracking-wider text-foreground/80 mb-3">
                 Backend
               </h4>
               <div className="flex flex-wrap gap-2">
@@ -188,8 +217,10 @@ export default function Skills() {
               </div>
             </div>
 
-            <div className="p-6">
-              <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-3">
+            <div className="relative p-6">
+              {/* Top accent line */}
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+              <h4 className="text-sm font-bold uppercase tracking-wider text-foreground/80 mb-3">
                 Tools & DevOps
               </h4>
               <div className="flex flex-wrap gap-2">
@@ -203,9 +234,13 @@ export default function Skills() {
           {/* Bottom: Projects + Learning */}
           <div className="grid grid-cols-1 md:grid-cols-2">
             {/* What I Build */}
-            <div className="p-6 border-b md:border-b-0 md:border-r border-border">
+            <div className="relative p-6 border-b md:border-b-0 md:border-r border-border/40">
+              {/* Top accent line */}
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
               <div className="flex items-center gap-2 mb-4">
-                <Server className="w-5 h-5 text-primary" />
+                <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
+                  <Server className="w-4 h-4 text-primary" />
+                </div>
                 <h3 className="text-lg font-bold text-foreground">
                   What I Build
                 </h3>
@@ -214,13 +249,13 @@ export default function Skills() {
                 {projectImplementations.map((item, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start gap-2.5 p-2.5 rounded-lg hover:bg-muted/30 transition-colors">
+                    className="flex items-start gap-2.5 p-2.5 rounded-lg hover:bg-primary/5 transition-all duration-300 hover:scale-[1.02]">
                     <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                     <div>
                       <div className="text-base font-medium text-foreground mb-0.5">
                         {item.stack}
                       </div>
-                      <div className="text-sm text-muted-foreground flex items-center gap-1">
+                      <div className="text-sm text-foreground/75 flex items-center gap-1">
                         <ArrowRight className="w-3 h-3" />
                         <span>{item.outcome}</span>
                       </div>
@@ -231,9 +266,13 @@ export default function Skills() {
             </div>
 
             {/* Currently Learning */}
-            <div className="p-6">
+            <div className="relative p-6">
+              {/* Top accent line */}
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
               <div className="flex items-center gap-2 mb-4">
-                <BookOpen className="w-5 h-5 text-primary" />
+                <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
+                  <BookOpen className="w-4 h-4 text-primary" />
+                </div>
                 <h3 className="text-lg font-bold text-foreground">
                   Currently Learning
                 </h3>
@@ -242,14 +281,15 @@ export default function Skills() {
                 {currentlyLearning.map((item, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-2.5 rounded-lg bg-muted/20 border border-border/50 hover:border-amber-500/30 transition-colors">
+                    className="flex items-center justify-between p-2.5 rounded-lg bg-muted/20 transition-all duration-300 hover:scale-[1.02]"
+                    style={innerCardBorderStyle}>
                     <div className="flex items-center gap-2.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
                       <div>
                         <div className="text-base font-medium text-foreground">
                           {item.name}
                         </div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-sm text-foreground/75">
                           {item.focus}
                         </div>
                       </div>

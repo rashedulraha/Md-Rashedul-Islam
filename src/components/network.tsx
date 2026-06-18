@@ -314,7 +314,7 @@ function NetworkVisualization() {
 
           {/* Tooltip for Center Image */}
           <div
-            className={`absolute -top-10 left-1/2 transform -translate-x-1/2 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-card-foreground shadow-lg transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 border border-border ${dimensions.tooltipTextSize}
+            className={`absolute -top-10 left-1/2 transform -translate-x-1/2 bg-card/50/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-card-foreground shadow-lg transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 border border-border ${dimensions.tooltipTextSize}
               ${
                 isCurrentlyConnected("center")
                   ? "opacity-100"
@@ -410,7 +410,7 @@ function NetworkVisualization() {
                 transform: `translate(-50%, -50%)`,
               }}>
               <div
-                className="bg-card rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-200 cursor-pointer relative group border border-border"
+                className="bg-card/50 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-200 cursor-pointer relative group border border-border"
                 style={{
                   width: `${dimensions.outerAvatarSize}px`,
                   height: `${dimensions.outerAvatarSize}px`,
@@ -438,7 +438,7 @@ function NetworkVisualization() {
 
                 {/* Tooltip with avatar name */}
                 <div
-                  className={`absolute -top-10 left-1/2 transform -translate-x-1/2 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-card-foreground shadow-lg transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 border border-border ${dimensions.tooltipTextSize}
+                  className={`absolute -top-10 left-1/2 transform -translate-x-1/2 bg-card/50/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-card-foreground shadow-lg transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 border border-border ${dimensions.tooltipTextSize}
                     ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
                 `}>
                   {avatar.name}
@@ -464,7 +464,7 @@ function NetworkVisualization() {
                 transform: `translate(-50%, -50%)`,
               }}>
               <div
-                className="bg-card rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-200 cursor-pointer relative group border border-border"
+                className="bg-card/50 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-200 cursor-pointer relative group border border-border"
                 style={{
                   width: `${dimensions.innerAvatarSize}px`,
                   height: `${dimensions.innerAvatarSize}px`,
@@ -492,7 +492,7 @@ function NetworkVisualization() {
 
                 {/* Tooltip with avatar name */}
                 <div
-                  className={`absolute -top-10 left-1/2 transform -translate-x-1/2 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-card-foreground shadow-lg transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 border border-border ${dimensions.tooltipTextSize}
+                  className={`absolute -top-10 left-1/2 transform -translate-x-1/2 bg-card/50/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-card-foreground shadow-lg transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20 border border-border ${dimensions.tooltipTextSize}
                     ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
                 `}>
                   {avatar.name}

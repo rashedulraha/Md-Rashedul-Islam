@@ -81,7 +81,7 @@ export default function FeaturedProjects() {
           {/* View All Button */}
           <Link
             href="/projects"
-            className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors border border-border hover:border-primary rounded-full px-6 py-2.5 bg-card shadow-sm hover:shadow-md w-fit">
+            className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors border border-border hover:border-primary rounded-full px-6 py-2.5 bg-card/50 shadow-sm hover:shadow-md w-fit">
             View All Projects
             <ArrowRight className="w-4 h-4" />
           </Link>
@@ -93,7 +93,7 @@ export default function FeaturedProjects() {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="h-[450px] border-2 border-border rounded-2xl bg-card overflow-hidden relative animate-pulse">
+                className="h-[450px] border-2 border-border rounded-2xl bg-card/50 overflow-hidden relative animate-pulse">
                 <div className="h-64 bg-muted w-full" />
                 <div className="p-6 space-y-4">
                   <div className="h-8 bg-muted rounded w-3/4" />
@@ -111,7 +111,7 @@ export default function FeaturedProjects() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group relative rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden h-full flex flex-col">
+                className="group relative rounded-2xl bg-card/50 border border-border hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden h-full flex flex-col">
                 {/* Card Wrapper (Link to Details) */}
                 <Link
                   href={`/projects/${project.id}`}

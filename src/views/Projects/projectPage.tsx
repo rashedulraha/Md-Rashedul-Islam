@@ -54,7 +54,7 @@ function SpotlightCard({ children, className, ...props }: any) {
     <div
       ref={divRef}
       className={cn(
-        "group relative rounded-xl bg-card border-2 border-border overflow-hidden",
+        "group relative rounded-xl bg-card/50 border-2 border-border overflow-hidden",
         "hover:border-primary/30 transition-colors duration-300",
         className,
       )}
@@ -189,7 +189,7 @@ export default function ProjectsPage() {
             {[1, 2, 3, 4, 5].map((i) => (
               <div
                 key={i}
-                className="border-2 border-border rounded-2xl bg-card overflow-hidden h-[500px] relative">
+                className="border-2 border-border rounded-2xl bg-card/50 overflow-hidden h-[500px] relative">
                 <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent z-10" />
                 <div className="h-64 bg-muted/50 w-full" />
                 <div className="p-6 space-y-4">
@@ -248,7 +248,7 @@ export default function ProjectsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="backdrop-blur-xl bg-card/50 border-2 border-border rounded-3xl p-2 mb-12 shadow-2xl shadow-black/5">
+          className="backdrop-blur-xl bg-card/50/50 border-2 border-border rounded-3xl p-2 mb-12 shadow-2xl shadow-black/5">
           <div className="p-4">
             <div className="relative mb-6">
               <Input

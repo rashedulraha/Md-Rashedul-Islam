@@ -30,7 +30,7 @@ const AboutPage = () => {
           variants={fadeUp}>
           {/* Left: Image with Fixed Height */}
           <div className="relative group flex">
-            <div className="w-full rounded-2xl overflow-hidden border border-border bg-card shadow-lg transition-all duration-500 group-hover:shadow-xl flex">
+            <div className="w-full rounded-2xl overflow-hidden border border-border bg-card/50 shadow-lg transition-all duration-500 group-hover:shadow-xl flex">
               <img
                 src="/Rashedul.jpeg"
                 alt="Rashedul Islam"

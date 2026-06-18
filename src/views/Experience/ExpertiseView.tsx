@@ -14,7 +14,7 @@ export default function ExpertiseView({ skillCategories }: ExpertiseViewProps) {
       {skillCategories.map((cat, idx) => (
         <div
           key={idx}
-          className="group p-6 sm:p-8 rounded-4xl border border-border/40 bg-card/10 hover:bg-card/30 hover:border-primary/30 transition-all duration-500 flex flex-col justify-between min-h-60">
+          className="group p-6 sm:p-8 rounded-4xl border border-border/40 bg-card/50/10 hover:bg-card/50/30 hover:border-primary/30 transition-all duration-500 flex flex-col justify-between min-h-60">
           <div className="flex justify-between items-start">
             <div
               className={`p-4 rounded-2xl bg-background border border-border group-hover:border-primary/50 transition-all ${cat.color}`}>

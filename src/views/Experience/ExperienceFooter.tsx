@@ -17,7 +17,7 @@ export default function ExperienceFooter() {
     <motion.div
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
-      className="mt-20 overflow-hidden rounded-lg sm:rounded-lg border border-border/50 bg-card/5 backdrop-blur-xl flex flex-col items-center text-center space-y-8">
+      className="mt-20 overflow-hidden rounded-lg sm:rounded-lg border border-border/50 bg-card/50/5 backdrop-blur-xl flex flex-col items-center text-center space-y-8">
       <SpotlightPreview data={data} />
     </motion.div>
   );

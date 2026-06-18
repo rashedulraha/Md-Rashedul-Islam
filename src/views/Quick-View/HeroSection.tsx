@@ -521,7 +521,7 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
                       aria-label={label}
                       whileHover={{ scale: 1.15, y: -3 }}
                       whileTap={{ scale: 0.95 }}
-                      className={`p-2 rounded-full bg-card hover:bg-primary/10 transition-all duration-300 group ${color}`}>
+                      className={`p-2 rounded-full bg-card/50 hover:bg-primary/10 transition-all duration-300 group ${color}`}>
                       <Icon className="w-4 h-4 text-muted-foreground group-hover:text-current transition-colors" />
                     </motion.a>
                   ))}
@@ -535,7 +535,7 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="space-y-6">
                 {/* Skills */}
-                <div className="bg-card rounded-2xl p-6 border border-border shadow-lg">
+                <div className="bg-card/50 rounded-2xl p-6 border border-border shadow-lg">
                   <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
                     <Code className="w-5 h-5 text-primary" />
                     Core expertise
@@ -616,7 +616,7 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
 
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-card rounded-2xl p-4 border border-border shadow-lg text-center">
+                  <div className="bg-card/50 rounded-2xl p-4 border border-border shadow-lg text-center">
                     <TrendingUp className="w-6 h-6 text-primary mx-auto mb-2" />
                     <div className="text-2xl font-bold text-foreground">
                       50+
@@ -625,7 +625,7 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
                       Projects completed
                     </div>
                   </div>
-                  <div className="bg-card rounded-2xl p-4 border border-border shadow-lg text-center">
+                  <div className="bg-card/50 rounded-2xl p-4 border border-border shadow-lg text-center">
                     <Clock className="w-6 h-6 text-secondary mx-auto mb-2" />
                     <div className="text-2xl font-bold text-foreground">4+</div>
                     <div className="text-xs text-muted-foreground">
@@ -635,7 +635,7 @@ export default function HeroSection({ name, title, bio }: HeroSectionProps) {
                 </div>
 
                 {/* Fun fact */}
-                <div className="flex items-center gap-3 px-5 py-3 bg-card rounded-full border border-border shadow-md">
+                <div className="flex items-center gap-3 px-5 py-3 bg-card/50 rounded-full border border-border shadow-md">
                   <Coffee className="w-4 h-4 text-primary animate-pulse" />
                   <span className="text-sm text-muted-foreground font-medium">
                     Fueled by chai and clean code

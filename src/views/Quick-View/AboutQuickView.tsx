@@ -61,7 +61,7 @@ const AboutQuickView = () => {
         {/* ── MAIN CARD WITH CREATIVE BORDER ── */}
         <motion.div
           variants={itemVariants}
-          className="relative overflow-hidden rounded-xl bg-card p-6 md:p-8 transition-all duration-500 hover:shadow-lg group"
+          className="relative overflow-hidden rounded-xl bg-card/50 p-6 md:p-8 transition-all duration-500 hover:shadow-lg group"
           style={creativeBorderStyle}>
           {/* Top accent line - creative touch */}
           <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
@@ -185,7 +185,7 @@ const AboutQuickView = () => {
         {/* ── SECONDARY CARD ── */}
         <motion.div
           variants={itemVariants}
-          className="relative overflow-hidden rounded-xl bg-card p-6 md:p-8 transition-all duration-500 hover:shadow-lg group"
+          className="relative overflow-hidden rounded-xl bg-card/50 p-6 md:p-8 transition-all duration-500 hover:shadow-lg group"
           style={creativeBorderStyle}>
           {/* Top accent line */}
           <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />

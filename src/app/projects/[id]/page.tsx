@@ -69,7 +69,7 @@ function LoadingSkeleton() {
     <div className="min-h-screen bg-background animate-pulse">
       <div className="h-[85vh] w-full bg-muted" />
       <div className="container mx-auto px-4 -mt-5 relative z-10 pb-20">
-        <div className="bg-card border border-border rounded-3xl overflow-hidden">
+        <div className="bg-card/50 border border-border rounded-3xl overflow-hidden">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="space-y-2">

@@ -175,7 +175,7 @@ export default function OrbitCarousel() {
               duration: 0.3,
               ease: "easeInOut",
             }}
-            className="z-10 bg-card backdrop-blur-sm shadow-xl border border-border rounded-xl p-3 md:p-4 w-48 md:w-52 text-center">
+            className="z-10 bg-card/50 backdrop-blur-sm shadow-xl border border-border rounded-xl p-3 md:p-4 w-48 md:w-52 text-center">
             {/* Active Image Box with Shadcn Ring/Border */}
             <motion.img
               initial={{ opacity: 0, scale: 0.8 }}
@@ -269,7 +269,7 @@ export default function OrbitCarousel() {
                   onClick={() => handleProfileClick(i)}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`w-full h-full object-contain rounded-full cursor-pointer transition-all duration-300 p-2 bg-card ${
+                  className={`w-full h-full object-contain rounded-full cursor-pointer transition-all duration-300 p-2 bg-card/50 ${
                     i === activeIndex
                       ? "border-4 border-primary shadow-lg bg-white "
                       : "border-2 border-border hover:border-primary/70 bg-white"

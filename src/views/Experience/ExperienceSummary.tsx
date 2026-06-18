@@ -48,7 +48,7 @@ export default function ExperienceSummary({
           {certificationsData.map((cert) => (
             <div
               key={cert.id}
-              className="p-4 rounded-2xl border border-border/50 bg-card/10 flex gap-4 items-center group">
+              className="p-4 rounded-2xl border border-border/50 bg-card/50/10 flex gap-4 items-center group">
               <div className="text-primary group-hover:scale-110 transition-transform">
                 <Award size={18} />
               </div>
