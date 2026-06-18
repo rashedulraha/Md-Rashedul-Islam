@@ -1,11 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* ── 1. THEME DEFINITIONS ── */
 @theme {
   --breakpoint-tablet: 900px;
 }
-
-/* ── 1. THEME DEFINITIONS (Tailwind v4 Configuration) ── */
 
 @layer base {
   .dark {
@@ -13,15 +12,18 @@
     --color-primary: #60a5fa;
   }
 }
+
 @variant dark (&:where(.dark, .dark *));
 @custom-variant xs (&:where(.xs, .xs *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans), "Inter", system-ui, sans-serif;
+  --font-sans:
+    var(--font-geist-sans), "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono), "JetBrains Mono", "Fira Code", monospace;
 
+  /* ── ALL COLOR VARIABLES ── */
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -65,108 +67,185 @@
   --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
 }
 
-/* ── 2. GLOBAL VARIABLES (Pure Gray / Minimal Luxury Theme) ── */
+/* ── 2. ROOT & DARK THEME ── */
 :root {
   --radius: 0.75rem;
 
-  /* LIGHT MODE - Enhanced Contrast */
-  --background: oklch(0.99 0.003 250);
-  --foreground: oklch(0.12 0.03 250);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0 0 0);
-  --primary: oklch(0 0 0);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.96 0 0);
-  --secondary-foreground: oklch(0.2 0 0);
-  --muted: oklch(0.96 0 0);
-  --muted-foreground: oklch(0.4 0 0);
-  --accent: oklch(0.95 0 0);
-  --accent-foreground: oklch(0.1 0 0);
-  --destructive: oklch(0.58 0.2 25);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.85 0.005 250);
-  --input: oklch(0.85 0.005 250);
-  --ring: oklch(0 0 0 / 20%);
+  --background: #fcfcfd;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #333333;
+  --muted: #f5f5f5;
+  --muted-foreground: #666666;
+  --accent: #f2f2f2;
+  --accent-foreground: #1a1a1a;
+  --destructive: #e11d48;
+  --destructive-foreground: #ffffff;
+  --border: #d4d4d8;
+  --input: #d4d4d8;
+  --ring: #00000033;
 
-  --chart-1: oklch(0.5 0.2 250);
-  --chart-2: oklch(0.65 0.18 195);
-  --chart-3: oklch(0.65 0.22 340);
-  --chart-4: oklch(0.78 0.16 80);
-  --chart-5: oklch(0.72 0.18 155);
+  --chart-1: #2563eb;
+  --chart-2: #06b6d4;
+  --chart-3: #db2777;
+  --chart-4: #eab308;
+  --chart-5: #10b981;
 
-  --sidebar: oklch(0.98 0 0);
-  --sidebar-foreground: oklch(0 0 0);
-  --sidebar-primary: oklch(0 0 0);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.95 0 0);
-  --sidebar-accent-foreground: oklch(0.1 0 0);
-  --sidebar-border: oklch(0.85 0.005 250);
-  --sidebar-ring: oklch(0 0 0 / 15%);
+  --sidebar: #fafafa;
+  --sidebar-foreground: #000000;
+  --sidebar-primary: #000000;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f2f2f2;
+  --sidebar-accent-foreground: #1a1a1a;
+  --sidebar-border: #d4d4d8;
+  --sidebar-ring: #00000026;
 }
 
 .dark {
-  /* DEEPER DARK MODE - Rich Dark Slate */
-  --background: oklch(0.15 0.02 260); /* Deeper rich slate */
-  --foreground: oklch(0.95 0.01 250); /* Bright off-white for clarity */
-
-  --card: oklch(0.2 0.02 260); /* Elevated from background */
-  --card-foreground: oklch(0.95 0.01 250);
-
-  --popover: oklch(0.2 0.02 260);
-  --popover-foreground: oklch(0.95 0.01 250);
-
-  --primary: oklch(0.95 0.02 250); /* Soft white with slight blue tint */
-  --primary-foreground: oklch(0.15 0.02 260);
-
-  --secondary: oklch(0.25 0.02 260);
-  --secondary-foreground: oklch(0.95 0.01 250);
-
-  --muted: oklch(0.22 0.02 260);
-  --muted-foreground: oklch(0.75 0.01 250); /* Better readability */
-
-  --accent: oklch(0.28 0.03 260);
-  --accent-foreground: oklch(0.95 0.01 250);
-
-  --destructive: oklch(0.55 0.19 25);
-  --destructive-foreground: oklch(1 0 0);
-
-  --border: oklch(0.3 0.02 260); /* Visible but subtle borders */
-  --input: oklch(0.3 0.02 260);
-  --ring: oklch(0.9 0.02 250 / 30%);
-
-  /* Monochrome Charts with Better Contrast */
-  --chart-1: oklch(0.85 0.02 250);
-  --chart-2: oklch(0.75 0.02 250);
-  --chart-3: oklch(0.65 0.02 250);
-  --chart-4: oklch(0.55 0.02 250);
-  --chart-5: oklch(0.45 0.02 250);
-
-  /* Rich Sidebar */
-  --sidebar: oklch(0.12 0.02 260); /* Slightly darker than main bg */
-  --sidebar-foreground: oklch(0.95 0.01 250);
-  --sidebar-primary: oklch(0.95 0.02 250);
-  --sidebar-primary-foreground: oklch(0.15 0.02 260);
-  --sidebar-accent: oklch(0.22 0.02 260);
-  --sidebar-accent-foreground: oklch(0.95 0.01 250);
-  --sidebar-border: oklch(0.28 0.02 260);
-  --sidebar-ring: oklch(0.9 0.02 250 / 25%);
+  --background: #131420;
+  --foreground: #f7fafc;
+  --card: #1a202c;
+  --card-foreground: #f7fafc;
+  --popover: #1a202c;
+  --popover-foreground: #f7fafc;
+  --primary: #16a394;
+  --primary-foreground: #fff;
+  --secondary: #1d242f;
+  --secondary-foreground: #f7fafc;
+  --muted: #1d242f;
+  --muted-foreground: #a0aec0;
+  --accent: #0d3a38;
+  --accent-foreground: #71e8df;
+  --destructive: #e53e3e;
+  --destructive-foreground: #fff;
+  --border: #1d242f;
+  --input: #1d242f;
+  --ring: #16a394;
+  --chart-1: #71e8df;
+  --chart-2: #7f9cf5;
+  --chart-3: #319795;
+  --chart-4: #805ad5;
+  --chart-5: #d69e2e;
+  --sidebar: #131420;
+  --sidebar-foreground: #f7fafc;
+  --sidebar-primary: #16a394;
+  --sidebar-primary-foreground: #fff;
+  --sidebar-accent: #0d3a38;
+  --sidebar-accent-foreground: #71e8df;
+  --sidebar-border: #1d242f;
+  --sidebar-ring: #16a394;
 }
 
-/* ── 3. BASE STYLES & SEO TYPOGRAPHY ── */
+/* ── 3. TYPOGRAPHY SYSTEM (Responsive & Readable) ── */
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-    transition-property:
-      color, background-color, border-color, text-decoration-color, fill, stroke;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
+  /* ── Typography Scale ── */
+  :root {
+    --text-xs: 0.75rem;
+    --text-xs-line-height: 1rem;
+    --text-sm: 0.875rem;
+    --text-sm-line-height: 1.25rem;
+    --text-base: 1rem;
+    --text-base-line-height: 1.5rem;
+    --text-lg: 1.125rem;
+    --text-lg-line-height: 1.75rem;
+    --text-xl: 1.25rem;
+    --text-xl-line-height: 1.75rem;
+    --text-2xl: 1.5rem;
+    --text-2xl-line-height: 2rem;
+    --text-3xl: 1.875rem;
+    --text-3xl-line-height: 2.25rem;
+    --text-4xl: 2.25rem;
+    --text-4xl-line-height: 2.5rem;
+    --text-5xl: 3rem;
+    --text-5xl-line-height: 1;
+    --text-6xl: 3.75rem;
+    --text-6xl-line-height: 1;
+    --text-7xl: 4.5rem;
+    --text-7xl-line-height: 1;
+    --text-8xl: 6rem;
+    --text-8xl-line-height: 1;
+    --text-9xl: 8rem;
+    --text-9xl-line-height: 1;
+  }
+
+  /* ── Desktop Typography (min-width: 1024px) ── */
+  @media (min-width: 1024px) {
+    :root {
+      --text-xs: 0.75rem;
+      --text-sm: 0.875rem;
+      --text-base: 1rem;
+      --text-lg: 1.125rem;
+      --text-xl: 1.25rem;
+      --text-2xl: 1.5rem;
+      --text-3xl: 2rem;
+      --text-4xl: 2.5rem;
+      --text-5xl: 3.5rem;
+      --text-6xl: 4.5rem;
+      --text-7xl: 5.5rem;
+      --text-8xl: 7rem;
+      --text-9xl: 9rem;
+    }
+  }
+
+  /* ── Base Typography ── */
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--text-base-line-height);
     text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── Heading Styles ── */
+  h1 {
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl-line-height);
+    letter-spacing: -0.025em;
+  }
+
+  h2 {
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl-line-height);
+    letter-spacing: -0.025em;
+  }
+
+  h3 {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl-line-height);
+    letter-spacing: -0.02em;
+  }
+
+  h4 {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl-line-height);
+    letter-spacing: -0.015em;
+  }
+
+  h5 {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg-line-height);
+    letter-spacing: -0.01em;
+  }
+
+  h6 {
+    font-size: var(--text-base);
+    line-height: var(--text-base-line-height);
+    letter-spacing: -0.005em;
   }
 
   h1,
@@ -178,14 +257,81 @@
     @apply font-bold tracking-tight text-foreground;
   }
 
-  p,
-  span,
-  li,
-  a {
-    @apply tracking-normal leading-relaxed;
+  /* ── Paragraph & Body Text ── */
+  p {
+    font-size: var(--text-base);
+    line-height: var(--text-base-line-height);
+    margin-bottom: 1rem;
   }
 
-  /* Universal Selection Style (Cleaned Duplications) */
+  /* ── Small Text ── */
+  small,
+  .text-small {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm-line-height);
+  }
+
+  /* ── Lead / Larger Body Text ── */
+  .text-lead {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg-line-height);
+  }
+
+  /* ── Utility Text Sizes ── */
+  .text-xs {
+    font-size: var(--text-xs);
+    line-height: var(--text-xs-line-height);
+  }
+  .text-sm {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm-line-height);
+  }
+  .text-base {
+    font-size: var(--text-base);
+    line-height: var(--text-base-line-height);
+  }
+  .text-lg {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg-line-height);
+  }
+  .text-xl {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl-line-height);
+  }
+  .text-2xl {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl-line-height);
+  }
+  .text-3xl {
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl-line-height);
+  }
+  .text-4xl {
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl-line-height);
+  }
+  .text-5xl {
+    font-size: var(--text-5xl);
+    line-height: var(--text-5xl-line-height);
+  }
+  .text-6xl {
+    font-size: var(--text-6xl);
+    line-height: var(--text-6xl-line-height);
+  }
+  .text-7xl {
+    font-size: var(--text-7xl);
+    line-height: var(--text-7xl-line-height);
+  }
+  .text-8xl {
+    font-size: var(--text-8xl);
+    line-height: var(--text-8xl-line-height);
+  }
+  .text-9xl {
+    font-size: var(--text-9xl);
+    line-height: var(--text-9xl-line-height);
+  }
+
+  /* ── Selection & Focus ── */
   ::selection {
     background: var(--primary);
     color: var(--primary-foreground);
@@ -195,9 +341,18 @@
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
+
+  /* ── All Elements Border & Transition ── */
+  * {
+    @apply border-border outline-ring/50;
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
 }
 
-/* ── 4. GLOBAL SCROLLBAR ARCHITECTURE ── */
+/* ── 4. SCROLLBAR ── */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -218,7 +373,7 @@
   overscroll-behavior: contain;
 }
 
-/* ── 5. CORE UI CORE UTILITIES ── */
+/* ── 5. CORE UTILITIES ── */
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -245,7 +400,7 @@
     overflow: hidden;
   }
 
-  /* Luxury Soft Glow Effects */
+  /* ── Neon Glow Effects ── */
   .neon-green {
     color: oklch(0.82 0.18 155);
     text-shadow: 0 0 15px oklch(0.82 0.18 155 / 40%);
@@ -262,9 +417,139 @@
     color: oklch(0.85 0.15 190);
     text-shadow: 0 0 15px oklch(0.85 0.15 190 / 45%);
   }
+
+  /* ── CUSTOM BORDER: Diagonal Pattern (exactly like your screenshot) ── */
+  .diagonal-border {
+    border: 1px solid;
+    border-image: repeating-linear-gradient(
+        45deg,
+        var(--border) 0px,
+        var(--border) 8px,
+        transparent 8px,
+        transparent 16px
+      )
+      1;
+    border-image-slice: 1;
+  }
+
+  /* ── Diagonal Border with Glow ── */
+  .diagonal-border-glow {
+    border: 1px solid;
+    border-image: repeating-linear-gradient(
+        45deg,
+        var(--primary) 0px,
+        var(--primary) 6px,
+        var(--border) 6px,
+        var(--border) 12px,
+        transparent 12px,
+        transparent 18px
+      )
+      1;
+    border-image-slice: 1;
+    box-shadow: 0 0 20px var(--primary) / 0.15;
+  }
+
+  /* ── Diagonal Border Variation (Darker) ── */
+  .diagonal-border-dark {
+    border: 2px solid;
+    border-image: repeating-linear-gradient(
+        45deg,
+        var(--muted-foreground) 0px,
+        var(--muted-foreground) 4px,
+        var(--border) 4px,
+        var(--border) 8px,
+        transparent 8px,
+        transparent 12px
+      )
+      1;
+    border-image-slice: 1;
+  }
+
+  /* ── Diagonal Border with Color (Like Screenshot) ── */
+  .diagonal-border-color {
+    border: 1px solid;
+    border-image: repeating-linear-gradient(
+        45deg,
+        #16a394 0px,
+        #16a394 8px,
+        transparent 8px,
+        transparent 16px
+      )
+      1;
+    border-image-slice: 1;
+  }
+
+  /* ── Border with Diagonal Pattern and Hover Effect ── */
+  .diagonal-border-hover {
+    border: 1px solid;
+    border-image: repeating-linear-gradient(
+        45deg,
+        var(--border) 0px,
+        var(--border) 6px,
+        transparent 6px,
+        transparent 12px
+      )
+      1;
+    border-image-slice: 1;
+    transition: all 0.3s ease;
+  }
+
+  .diagonal-border-hover:hover {
+    border-image: repeating-linear-gradient(
+        45deg,
+        var(--primary) 0px,
+        var(--primary) 6px,
+        transparent 6px,
+        transparent 12px
+      )
+      1;
+    border-image-slice: 1;
+    transform: scale(1.01);
+  }
+
+  /* ── Box with Diagonal Border and Corner Accent ── */
+  .diagonal-box {
+    border: 1px solid;
+    border-image: repeating-linear-gradient(
+        45deg,
+        var(--border) 0px,
+        var(--border) 4px,
+        transparent 4px,
+        transparent 8px
+      )
+      1;
+    border-image-slice: 1;
+    position: relative;
+  }
+
+  .diagonal-box::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border: 1px solid;
+    border-image: repeating-linear-gradient(
+        45deg,
+        var(--primary) 0px,
+        var(--primary) 4px,
+        transparent 4px,
+        transparent 8px
+      )
+      1;
+    border-image-slice: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .diagonal-box:hover::before {
+    opacity: 1;
+  }
 }
 
-/* ── 6. ANIMATIONS & PERFORMANCES ── */
+/* ── 6. ANIMATIONS ── */
 @keyframes grid-move {
   0% {
     background-position: 0 0;
@@ -346,7 +631,6 @@
   animation: skeleton-loading 1.5s ease-in-out infinite;
 }
 
-/* Fixed HSL Conflicts into Premium OKLCH Borders */
 .navbar-gradient-border,
 .project-border-glow {
   background: linear-gradient(
@@ -383,7 +667,6 @@
   animation: neon-blink 1.1s step-end infinite;
 }
 
-/* Stagger Delay Utility Generators */
 .hero-enter-d1 {
   animation-delay: 0.08s;
 }
@@ -400,7 +683,7 @@
   animation-delay: 0.4s;
 }
 
-/* ── 7. RESPONSIVE & MOBILE OPTIMIZATIONS (SEO Meta-Friendly) ── */
+/* ── 7. RESPONSIVE & MOBILE ── */
 .mobile-menu-pattern {
   background-image: radial-gradient(
     circle at 1px 1px,
@@ -415,6 +698,7 @@
   transition: transform 0.3s cubic-bezier(0.2, 1, 0.2, 1);
 }
 
+/* ── Extra Small Devices (xs) ── */
 @media (min-width: 480px) {
   .xs\:inline {
     display: inline;
@@ -424,35 +708,154 @@
   }
 }
 
+/* ── Mobile (max-width: 640px) ── */
 @media (max-width: 640px) {
   .backdrop-blur-2xl {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
+
   .dev-scanlines {
     display: none;
   }
+
   .container {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
   }
+
   button,
   a {
     white-space: normal;
     word-break: keep-all;
   }
+
+  /* ── Smaller Headings on Mobile ── */
+  h1 {
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl-line-height);
+  }
+  h2 {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl-line-height);
+  }
+  h3 {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl-line-height);
+  }
+  h4 {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg-line-height);
+  }
+  h5 {
+    font-size: var(--text-base);
+    line-height: var(--text-base-line-height);
+  }
+  h6 {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm-line-height);
+  }
+
+  /* ── Diagonal Borders become subtle on mobile ── */
+  .diagonal-border,
+  .diagonal-border-glow,
+  .diagonal-border-dark,
+  .diagonal-border-color,
+  .diagonal-border-hover,
+  .diagonal-box {
+    border-image: none !important;
+    border: 1px solid var(--border) !important;
+  }
 }
 
+/* ── Tablet (641px - 1023px) ── */
+@media (min-width: 641px) and (max-width: 1023px) {
+  h1 {
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl-line-height);
+  }
+  h2 {
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl-line-height);
+  }
+  h3 {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl-line-height);
+  }
+  h4 {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl-line-height);
+  }
+}
+
+/* ── Large Screens (min-width: 1536px) ── */
 @media (min-width: 1536px) {
   .container {
     max-width: 1440px;
   }
+
+  h1 {
+    font-size: var(--text-5xl);
+    line-height: var(--text-5xl-line-height);
+  }
+  h2 {
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl-line-height);
+  }
+  h3 {
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl-line-height);
+  }
+  h4 {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl-line-height);
+  }
 }
 
+/* ── Reduced Motion ── */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ── Dark Mode Overrides for Diagonal Borders ── */
+.dark .diagonal-border {
+  border-image: repeating-linear-gradient(
+      45deg,
+      var(--border) 0px,
+      var(--border) 8px,
+      transparent 8px,
+      transparent 16px
+    )
+    1;
+  border-image-slice: 1;
+}
+
+.dark .diagonal-border-glow {
+  border-image: repeating-linear-gradient(
+      45deg,
+      #16a394 0px,
+      #16a394 6px,
+      var(--border) 6px,
+      var(--border) 12px,
+      transparent 12px,
+      transparent 18px
+    )
+    1;
+  border-image-slice: 1;
+}
+
+.dark .diagonal-border-color {
+  border-image: repeating-linear-gradient(
+      45deg,
+      #16a394 0px,
+      #16a394 8px,
+      transparent 8px,
+      transparent 16px
+    )
+    1;
+  border-image-slice: 1;
 }

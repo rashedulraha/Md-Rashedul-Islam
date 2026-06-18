@@ -121,7 +121,7 @@ export function ThreeDMarqueeHome() {
   ];
 
   return (
-    <div className="relative flex min-h-screen h-full  w-full flex-col items-center justify-end overflow-hidden bg-background">
+    <div className="relative flex min-h-screen h-full  w-full flex-col items-center justify-center md:justify-end overflow-hidden">
       {/* Background: 3D Marquee */}
       <div className="absolute inset-0 z-0">
         <ThreeDMarquee
