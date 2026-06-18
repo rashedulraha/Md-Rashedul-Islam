@@ -70,21 +70,20 @@
 :root {
   --radius: 0.75rem;
 
-  /* Premium Minimalist Light Mode */
-  --background: #fafafa; /* Pure, clean clean light background */
-  --foreground: #09090b; /* Deep Zinc - পিউর ব্ল্যাকের চেয়ে মডার্ন */
+  /* Seamless & Soft Light Mode */
+  --background: #fcfcfd; /* Very soft off-white */
+  --card: #ffffff; /* Blends seamlessly with the background, almost indistinguishable */
+  --foreground: #09090b;
 
-  --card: #ffffff; /* ব্যাকগ্রাউন্ডের সাথে পারফেক্ট ব্লেন্ড */
   --card-foreground: #09090b;
-
   --popover: #ffffff;
   --popover-foreground: #09090b;
 
-  --primary: #4f46e5; /* Deep Indigo - লাইট মোডে চমৎকার কন্ট্রাস্ট দেয় */
+  --primary: #4f46e5; /* Indigo */
   --primary-foreground: #ffffff;
 
-  --secondary: #f4f4f5; /* Zinc 100 */
-  --secondary-foreground: #71717a;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #52525b;
 
   --muted: #f4f4f5;
   --muted-foreground: #71717a;
@@ -95,10 +94,10 @@
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  /* Borders & Inputs - একদম হালকা ও ইনভিজিবল প্রাইস */
-  --border: #e4e4e7; /* Zinc 200 - খুবই সফট, কালো হয়ে থাকবে না */
-  --input: #e4e4e7;
-  --ring: #4f46e533;
+  /* Borders - Light mode borders should be subtle, like a faint watermark */
+  --border: #f1f5f9;
+  --input: #f1f5f9;
+  --ring: #4f46e511;
 
   --chart-1: #4f46e5;
   --chart-2: #06b6d4;
@@ -106,47 +105,40 @@
   --chart-4: #ec4899;
   --chart-5: #10b981;
 
-  /* Sidebar Settings */
-  --sidebar: #fafafa;
+  --sidebar: #fcfcfd;
   --sidebar-foreground: #52525b;
-  --sidebar-primary: #4f46e5;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f4f4f5;
-  --sidebar-accent-foreground: #09090b;
-  --sidebar-border: #e4e4e7;
-  --sidebar-ring: #4f46e533;
+  --sidebar-border: #f1f5f9;
 }
 
 .dark {
-  /* Ultra Deep & Rich Carbon Dark Mode */
-  --background: #030303; /* Deep Jet Black - আপনার পছন্দমতো অনেক বেশি ডার্ক */
-  --foreground: #f4f4f5; /* Zinc 100 - চোখে না লাগা সফট হোয়াইট টেক্সট */
+  /* Ultra-Similar Deep Carbon Dark Mode */
+  --background: #070709; /* Deep charcoal-black */
+  --card: #0b0b0e; /* Only 1-2% lighter than the background for a seamless look */
+  --foreground: #f4f4f5;
 
-  --card: #09090b; /* Zinc 950 - ব্যাকগ্রাউন্ডের সাথে খুব সূক্ষ্ম তফাৎ, যা প্রিমিয়াম দেখায় */
   --card-foreground: #f4f4f5;
-
-  --popover: #09090b;
+  --popover: #0b0b0e;
   --popover-foreground: #f4f4f5;
 
-  --primary: #6366f1; /* Glowing Indigo/Violet - এই ডার্ক ব্যাকগ্রাউন্ডে দারুন ফুটবে */
+  --primary: #6366f1; /* Glowing Indigo */
   --primary-foreground: #ffffff;
 
-  --secondary: #18181b; /* Zinc 900 */
+  --secondary: #121216;
   --secondary-foreground: #a1a1aa;
 
-  --muted: #18181b;
+  --muted: #121216;
   --muted-foreground: #71717a;
 
-  --accent: #18181b;
+  --accent: #121216;
   --accent-foreground: #f4f4f5;
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  /* Borders & Inputs - ডার্ক মোডেও যেন বর্ডার ভেসে না ওঠে */
-  --border: #131316; /* অত্যন্ত সূক্ষ্ম ও ডার্ক বর্ডার, যা লেআউটকে ক্লিন রাখে */
-  --input: #131316;
-  --ring: #6366f166;
+  /* Borders - Dark mode borders should blend with the background, avoiding a boxed look */
+  --border: #14141a;
+  --input: #14141a;
+  --ring: #6366f133;
 
   --chart-1: #6366f1;
   --chart-2: #2dd4bf;
@@ -154,15 +146,9 @@
   --chart-4: #f472b6;
   --chart-5: #60a5fa;
 
-  /* Sidebar Settings */
-  --sidebar: #030303;
+  --sidebar: #070709;
   --sidebar-foreground: #a1a1aa;
-  --sidebar-primary: #6366f1;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #09090b;
-  --sidebar-accent-foreground: #f4f4f5;
-  --sidebar-border: #131316;
-  --sidebar-ring: #6366f166;
+  --sidebar-border: #14141a;
 }
 
 /* ── 3. TYPOGRAPHY SYSTEM (Responsive & Readable) ── */

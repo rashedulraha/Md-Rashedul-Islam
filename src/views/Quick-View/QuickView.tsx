@@ -21,9 +21,6 @@ export default function QuickView() {
 
   return (
     <>
-      {/* <ThreeDMarqueeHome /> */}
-      {/* <SentientSphere /> */}
-
       <Hero />
       <Navbar />
       <div className="min-h-screen border-t">

@@ -18,7 +18,7 @@ export function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen min-h-screen w-full overflow-hidden bg-background">
+      className="relative h-screen min-h-screen w-full overflow-hidden  ">
       {/* 3D Sphere Background */}
       <div className="absolute inset-0 opacity-60">
         <SentientSphere />
@@ -57,7 +57,7 @@ export function Hero() {
             ease: [0.25, 0.46, 0.45, 0.94],
           }}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-          <Link href="#projects">
+          <Link href="/projects">
             <motion.button
               data-cursor-hover
               whileHover={{ scale: 1.05 }}
