@@ -30,11 +30,11 @@ const AboutPage = () => {
           variants={fadeUp}>
           {/* Left: Image with Fixed Height */}
           <div className="relative group flex">
-            <div className="w-full rounded-2xl overflow-hidden border border-border bg-muted/30 shadow-sm transition-all duration-500 group-hover:shadow-lg flex">
+            <div className="w-full rounded-2xl overflow-hidden border border-border bg-card shadow-lg transition-all duration-500 group-hover:shadow-xl flex">
               <img
                 src="/Rashedul.jpeg"
                 alt="Rashedul Islam"
-                className="w-full h-full object-cover min-h-125 transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-full object-cover min-h-[500px] transition-transform duration-700 group-hover:scale-105"
               />
             </div>
             {/* Decorative glow */}
@@ -44,37 +44,37 @@ const AboutPage = () => {
           {/* Right: Content with Same Height */}
           <div className="flex flex-col justify-between space-y-6 min-h-[500px]">
             {/* Header */}
-            <div className="space-y-3">
-              <Badge variant="secondary" className="mb-2">
+            <div className="space-y-4">
+              <Badge variant="secondary" className="mb-2 text-sm px-3 py-1">
                 Available for opportunities
               </Badge>
               <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground leading-tight">
                 Rashedul Islam
               </h1>
-              <p className="text-lg text-primary font-medium">
+              <p className="text-xl text-primary font-semibold">
                 Full-Stack Developer & AI/RAG Enthusiast
               </p>
             </div>
 
-            {/* Bio with Highlighted Topics */}
-            <div className="space-y-4 text-muted-foreground leading-relaxed text-base flex-grow">
-              <p>
+            {/* Bio with Highlighted Topics - Improved Readability */}
+            <div className="space-y-5 text-base leading-relaxed flex-grow">
+              <p className="text-foreground/90">
                 I'm a passionate developer based in{" "}
-                <span className="text-foreground font-semibold">
+                <span className="text-foreground font-semibold border-b-2 border-primary/30">
                   Bangladesh
                 </span>
                 , building{" "}
                 <span className="text-primary font-semibold">
                   modern, scalable, and production-ready web applications
-                </span>
+                </span>{" "}
                 using TypeScript, JavaScript, Python, C++, and Go.
               </p>
 
-              <p>
+              <p className="text-foreground/90">
                 I specialize in both{" "}
                 <span className="text-foreground font-semibold">
                   frontend and backend development
-                </span>
+                </span>{" "}
                 — crafting{" "}
                 <span className="text-primary font-semibold">
                   clean, responsive user interfaces
@@ -86,7 +86,7 @@ const AboutPage = () => {
                 .
               </p>
 
-              <p>
+              <p className="text-foreground/90">
                 Currently exploring{" "}
                 <span className="text-foreground font-semibold">
                   AI integrations and RAG-based systems
@@ -100,16 +100,16 @@ const AboutPage = () => {
             </div>
 
             {/* Location & Email */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground pt-2">
-              <span className="flex items-center gap-1.5">
-                <MapPin className="w-4 h-4 text-primary" />
-                Bangladesh
+            <div className="flex flex-wrap items-center gap-6 text-base">
+              <span className="flex items-center gap-2 text-muted-foreground">
+                <MapPin className="w-5 h-5 text-primary" />
+                <span className="font-medium">Bangladesh</span>
               </span>
               <a
                 href="mailto:rashedulraha@gmail.com"
-                className="flex items-center gap-1.5 hover:text-primary transition-colors">
-                <Mail className="w-4 h-4 text-primary" />
-                rashedulraha@gmail.com
+                className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+                <Mail className="w-5 h-5 text-primary" />
+                <span className="font-medium">rashedulraha@gmail.com</span>
               </a>
             </div>
 
@@ -119,28 +119,28 @@ const AboutPage = () => {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-10 w-10 hover:bg-primary hover:text-primary-foreground transition-colors">
-                  <FaGithub className="h-4 w-4" />
+                  className="h-11 w-11 hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <FaGithub className="h-5 w-5" />
                 </Button>
               </Link>
               <Link href="https://linkedin.com/in/rashedulraha" target="_blank">
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-10 w-10 hover:bg-primary hover:text-primary-foreground transition-colors">
-                  <FaLinkedin className="h-4 w-4" />
+                  className="h-11 w-11 hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <FaLinkedin className="h-5 w-5" />
                 </Button>
               </Link>
               <Link href="https://twitter.com/rashedulraha" target="_blank">
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-10 w-10 hover:bg-primary hover:text-primary-foreground transition-colors">
-                  <FaXTwitter className="h-4 w-4" />
+                  className="h-11 w-11 hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <FaXTwitter className="h-5 w-5" />
                 </Button>
               </Link>
 
-              <Button variant="default" className="ml-2 gap-2">
+              <Button variant="default" className="ml-2 gap-2 h-11 px-5">
                 Contact Me <ArrowUpRight className="w-4 h-4" />
               </Button>
             </div>
@@ -156,17 +156,20 @@ const AboutPage = () => {
           {/* Column 1: Focus Areas */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <Code2 className="w-4 h-4 text-primary" />
+              <div className="p-2.5 rounded-lg bg-primary/10">
+                <Code2 className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+              <h3 className="text-sm font-bold text-foreground uppercase tracking-wider">
                 Focus Areas
               </h3>
             </div>
             <div className="flex flex-wrap gap-2">
               {["Rag System Design", "AI/RAG", "Backend", "Cloud", "DSA"].map(
                 (tag) => (
-                  <Badge key={tag} variant="secondary" className="font-normal">
+                  <Badge
+                    key={tag}
+                    variant="secondary"
+                    className="font-medium text-sm px-3 py-1">
                     {tag}
                   </Badge>
                 ),
@@ -177,26 +180,26 @@ const AboutPage = () => {
           {/* Column 2: Education */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <Brain className="w-4 h-4 text-primary" />
+              <div className="p-2.5 rounded-lg bg-primary/10">
+                <Brain className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+              <h3 className="text-sm font-bold text-foreground uppercase tracking-wider">
                 Education & Training
               </h3>
             </div>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                <span className="text-foreground font-medium">
+            <ul className="space-y-3 text-base">
+              <li className="flex items-center gap-3">
+                <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
+                <span className="text-foreground font-semibold">
                   Programming Hero
                 </span>
-                <Badge variant="outline" className="text-[10px] h-5 px-1.5">
+                <Badge variant="outline" className="text-xs h-6 px-2 ml-auto">
                   L1 & L2
                 </Badge>
               </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                <span className="text-foreground font-medium">Phitron</span>
+              <li className="flex items-center gap-3">
+                <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
+                <span className="text-foreground font-semibold">Phitron</span>
               </li>
             </ul>
           </div>
@@ -204,22 +207,23 @@ const AboutPage = () => {
           {/* Column 3: Key Stat */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <Server className="w-4 h-4 text-primary" />
+              <div className="p-2.5 rounded-lg bg-primary/10">
+                <Server className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+              <h3 className="text-sm font-bold text-foreground uppercase tracking-wider">
                 Key Achievement
               </h3>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-base leading-relaxed">
               Solved{" "}
-              <span className="text-primary font-bold text-lg">500+</span> DSA
-              problems, building strong{" "}
-              <span className="text-foreground font-medium">
+              <span className="text-primary font-bold text-2xl">500+</span>{" "}
+              <span className="text-foreground">DSA problems</span>, building
+              strong{" "}
+              <span className="text-foreground font-semibold">
                 problem-solving
               </span>{" "}
               and
-              <span className="text-foreground font-medium">
+              <span className="text-foreground font-semibold">
                 {" "}
                 system thinking abilities
               </span>
