@@ -40,68 +40,70 @@ export function Hero() {
   // ── DESKTOP VERSION ──
   const DesktopHero = () => (
     <div className="relative z-10 h-full w-full">
-      <Responsive>
-        <motion.div
-          style={{ opacity, scale }}
-          className="h-full flex min-h-screen max-w-7xl mx-auto flex-col justify-around py-16 lg:py-24">
-          {/* Top Section */}
+      <div className=" my-5 md:my-10">
+        <Responsive>
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-left space-y-4 lg:space-y-6">
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="inline-flex items-center gap-2 font-mono text-xs lg:text-sm tracking-[0.3em] text-muted-foreground bg-primary/5 px-4 py-1.5 rounded-full border border-primary/10">
-              01 — PASSION
-            </motion.p>
+            style={{ opacity, scale }}
+            className="h-full flex min-h-screen max-w-7xl mx-auto flex-col justify-around py-16 lg:py-24">
+            {/* Top Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-left space-y-4 lg:space-y-6">
+              <motion.p
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="inline-flex items-center gap-2 font-mono text-xs lg:text-sm tracking-[0.3em] text-muted-foreground bg-primary/5 px-4 py-1.5 rounded-full border border-primary/10">
+                01 — PASSION
+              </motion.p>
 
-            <h2 className="text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight text-foreground leading-[1.1]">
-              <span className="relative inline-block">
-                FULL-STACK
-                <span className="absolute -bottom-2 left-0 w-full h-1 bg-linear-to-r from-primary/50 to-transparent rounded-full" />
-              </span>
-              <br />
-              <span className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                DEVELOPER
-              </span>
-            </h2>
-          </motion.div>
+              <h2 className="text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight text-foreground leading-[1.1]">
+                <span className="relative inline-block">
+                  FULL-STACK
+                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-linear-to-r from-primary/50 to-transparent rounded-full" />
+                </span>
+                <br />
+                <span className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                  DEVELOPER
+                </span>
+              </h2>
+            </motion.div>
 
-          {/* Bottom Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-right space-y-4 lg:space-y-6">
-            <motion.p
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="inline-flex items-center gap-2 font-mono text-xs lg:text-sm tracking-[0.3em] text-muted-foreground bg-primary/5 px-4 py-1.5 rounded-full border border-primary/10">
-              02 — FOCUS
-            </motion.p>
-            <h2 className="text-5xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold tracking-tight text-foreground leading-[1.1]">
-              <span className="relative inline-block">
-                AI & RAG
-                <span className="absolute -bottom-2 right-0 w-full h-1 bg-linear-to-l from-primary/50 to-transparent rounded-full" />
-              </span>
-              <br />
-              <span className="bg-linear-to-r from-primary/60 to-primary bg-clip-text text-transparent">
-                ENGINEER
-              </span>
-            </h2>
+            {/* Bottom Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-right space-y-4 lg:space-y-6">
+              <motion.p
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="inline-flex items-center gap-2 font-mono text-xs lg:text-sm tracking-[0.3em] text-muted-foreground bg-primary/5 px-4 py-1.5 rounded-full border border-primary/10">
+                02 — FOCUS
+              </motion.p>
+              <h2 className="text-5xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold tracking-tight text-foreground leading-[1.1]">
+                <span className="relative inline-block">
+                  AI & RAG
+                  <span className="absolute -bottom-2 right-0 w-full h-1 bg-linear-to-l from-primary/50 to-transparent rounded-full" />
+                </span>
+                <br />
+                <span className="bg-linear-to-r from-primary/60 to-primary bg-clip-text text-transparent">
+                  ENGINEER
+                </span>
+              </h2>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      </Responsive>
+        </Responsive>
+      </div>
     </div>
   );
 
   // ── MOBILE VERSION (Fully Centered) ──
   const MobileHero = () => (
-    <div className="relative z-10 h-full w-full flex items-center justify-center">
+    <div className="relative z-10 h-full w-full flex items-center justify-center  ">
       <Responsive>
         <motion.div
           style={{ opacity, scale }}

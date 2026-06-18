@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
   Mail,
   ArrowUp,
-  Sparkles,
   ExternalLink,
   MapPin,
   Clock,
@@ -13,22 +12,35 @@ import {
   Layout,
   BookOpen,
   Users,
-  Star,
-  Compass,
   Server,
   Braces,
   Figma,
-  Terminal,
   GitBranch,
+  Compass,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+
 import { FaXTwitter } from "react-icons/fa6";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+
+// ===== CREATIVE BORDER STYLES (Theme-aware) =====
+const creativeBorderStyle = {
+  borderTop: "1.5px solid var(--border)",
+  borderLeft: "1px solid var(--border)",
+  borderRight: "1px solid var(--border)",
+  borderBottom: "1px solid color-mix(in srgb, var(--border) 15%)",
+};
+
+const innerCardBorderStyle = {
+  borderTop: "1px solid var(--border)",
+  borderLeft: "1px solid color-mix(in srgb, var(--border) 80%)",
+  borderRight: "1px solid color-mix(in srgb, var(--border) 80%)",
+  borderBottom: "1px solid color-mix(in srgb, var(--border) 10%)",
+};
 
 // Footer Links Data
 const footerLinks = {
@@ -66,85 +78,41 @@ const footerLinks = {
     },
     {
       name: "Email",
-      href: "mailto:rashedul@example.com",
+      href: "mailto:rashedulraha.bd@gmail.com",
       icon: Mail,
       external: true,
     },
   ],
   techStack: [
-    { name: "React/Next.js", icon: Braces, color: "text-blue-500" },
-    { name: "TypeScript", icon: FileCode, color: "text-blue-600" },
-    { name: "Node.js", icon: Server, color: "text-green-500" },
-    { name: "TailwindCSS", icon: Layout, color: "text-cyan-500" },
-    { name: "Figma", icon: Figma, color: "text-purple-500" },
-    { name: "Git", icon: GitBranch, color: "text-orange-500" },
+    { name: "React/Next.js", icon: Braces },
+    { name: "TypeScript", icon: FileCode },
+    { name: "Node.js", icon: Server },
+    { name: "TailwindCSS", icon: Layout },
+    { name: "Figma", icon: Figma },
+    { name: "Git", icon: GitBranch },
   ],
   contact: {
-    email: "rashedul@example.com",
+    email: "rashedulraha.bd@gmail.com",
     location: "Dhaka, Bangladesh",
     timezone: "GMT+6",
   },
 };
 
-// Social Links with colors
+// Social Links (theme-aware)
 const socialLinks = [
-  {
-    name: "GitHub",
-    icon: FaGithub,
-    href: "https://github.com/rashedulraha",
-    color: "hover:text-white hover:bg-[#333]",
-  },
+  { name: "GitHub", icon: FaGithub, href: "https://github.com/rashedulraha" },
   {
     name: "LinkedIn",
     icon: FaLinkedin,
     href: "https://linkedin.com/in/rashedulraha",
-    color: "hover:text-white hover:bg-[#0077b5]",
   },
   {
     name: "Twitter",
     icon: FaXTwitter,
     href: "https://twitter.com/rashedulraha",
-    color: "hover:text-white hover:bg-[#1da1f2]",
   },
-  {
-    name: "Email",
-    icon: Mail,
-    href: "mailto:rashedul@example.com",
-    color: "hover:text-white hover:bg-[#ea4335]",
-  },
+  { name: "Email", icon: Mail, href: "mailto:rashedulraha.bd@gmail.com" },
 ];
-
-// Animated Counter Component
-function AnimatedCounter({ value, label }: { value: number; label: string }) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    let start = 0;
-    const duration = 2000;
-    const increment = value / (duration / 16);
-
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= value) {
-        setCount(value);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-
-    return () => clearInterval(timer);
-  }, [value]);
-
-  return (
-    <div className="text-center">
-      <div className="text-3xl md:text-4xl font-bold bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent  border-t-2">
-        {count}+
-      </div>
-      <p className="text-xs text-muted-foreground mt-1">{label}</p>
-    </div>
-  );
-}
 
 // Newsletter Signup Component
 function NewsletterSignup() {
@@ -161,38 +129,43 @@ function NewsletterSignup() {
   };
 
   return (
-    <Card className="bg-linear-to-br from-primary/5 to-primary/2 border-border/50 overflow-hidden">
-      <CardContent className="p-5">
-        <div className="flex items-center gap-2 mb-2">
-          <h4 className="font-semibold text-sm">Stay Updated</h4>
-        </div>
-        <p className="text-xs text-muted-foreground mb-3">
-          Get the latest updates about my projects and blog posts.
-        </p>
-        <form onSubmit={handleSubmit} className="flex gap-2">
-          <Input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="h-9 text-sm"
-            required
-          />
-          <Button type="submit" size="sm" className="h-9 px-4">
-            {subscribed ? "Subscribed!" : "Subscribe"}
-          </Button>
-        </form>
-        <p className="text-[10px] text-muted-foreground mt-2">
-          No spam, unsubscribe anytime.
-        </p>
-      </CardContent>
-    </Card>
+    <div
+      className="relative overflow-hidden rounded-xl bg-card p-5 transition-all duration-500 hover:shadow-lg group"
+      style={innerCardBorderStyle}>
+      {/* Top accent line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+
+      <div className="flex items-center gap-2 mb-2">
+        <h4 className="font-semibold text-sm text-foreground">Stay Updated</h4>
+      </div>
+      <p className="text-xs text-foreground/70 mb-3">
+        Get the latest updates about my projects and blog posts.
+      </p>
+      <form onSubmit={handleSubmit} className="flex gap-2">
+        <Input
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="h-9 text-sm bg-background border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+          required
+        />
+        <Button
+          type="submit"
+          size="sm"
+          className="h-9 px-4 bg-primary hover:bg-primary/90 text-primary-foreground transition-all">
+          {subscribed ? "Subscribed!" : "Subscribe"}
+        </Button>
+      </form>
+      <p className="text-[10px] text-foreground/50 mt-2">
+        No spam, unsubscribe anytime.
+      </p>
+    </div>
   );
 }
 
 // Main Footer Component
 export default function Footer() {
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
@@ -207,174 +180,218 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const stats = [
-    { value: 48, label: "Projects" },
-    { value: 5, label: "Years Exp" },
-    { value: 127, label: "Followers" },
-    { value: 324, label: "Stars" },
-  ];
-
   return (
-    <footer className="relative bg-background border-t border-border/50 overflow-hidden">
-      {/* Background Decorations */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+    <footer className="relative bg-background overflow-hidden">
+      {/* Top Border with Creative Style */}
+      <div
+        className="relative"
+        style={{
+          borderTop: "1.5px solid var(--border)",
+        }}>
+        {/* Top accent line */}
+        <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-primary/40 to-transparent pointer-events-none" />
 
-      {/* Scroll to Top Button */}
-      {showScrollTop && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110">
-          <ArrowUp className="w-5 h-5" />
-        </motion.button>
-      )}
+        {/* Subtle background glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          {/* Brand Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div>
-                <h3 className="text-xl font-bold bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-                  Rashedul Islam
-                </h3>
-                <p className="text-[10px] text-muted-foreground">
-                  Full Stack Developer
-                </p>
+        {/* Scroll to Top Button */}
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 hover:scale-110">
+            <ArrowUp className="w-5 h-5" />
+          </motion.button>
+        )}
+
+        <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
+          {/* Main Footer Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            {/* Brand Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="space-y-4">
+              <div className="flex items-center gap-2">
+                <div>
+                  <h3 className="text-xl font-bold text-foreground">
+                    Rashedul Islam
+                  </h3>
+                  <p className="text-[10px] text-foreground/70 font-mono tracking-wider uppercase">
+                    Full Stack Developer
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Building scalable web applications with modern technologies.
-              Passionate about clean code and great user experiences.
-            </p>
+              <p className="text-sm text-foreground/70 leading-relaxed">
+                Building scalable web applications with modern technologies.
+                Passionate about clean code and great user experiences.
+              </p>
 
-            {/* Social Links */}
-            <div className="flex gap-2">
-              {socialLinks.map((social) => (
-                <Link
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    "p-2 rounded-lg bg-muted/50 text-muted-foreground transition-all duration-300 hover:scale-110",
-                    social.color,
-                  )}>
-                  <social.icon className="w-4 h-4" />
-                </Link>
-              ))}
-            </div>
-
-            {/* Contact Info */}
-            <div className="space-y-2 pt-2">
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <MapPin className="w-3 h-3" />
-                <span>{footerLinks.contact.location}</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <Clock className="w-3 h-3" />
-                <span>{footerLinks.contact.timezone}</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <Mail className="w-3 h-3" />
-                <a
-                  href={`mailto:${footerLinks.contact.email}`}
-                  className="hover:text-primary transition-colors">
-                  {footerLinks.contact.email}
-                </a>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Explore Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}>
-            <h4 className="font-semibold text-sm mb-4 flex items-center gap-2">
-              Explore
-            </h4>
-            <ul className="space-y-2">
-              {footerLinks.explore.map((link) => (
-                <li key={link.name}>
+              {/* Social Links */}
+              <div className="flex gap-2">
+                {socialLinks.map((social) => (
                   <Link
-                    href={link.href}
-                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group">
-                    <link.icon className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <span>{link.name}</span>
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.name}
+                    className="p-2 rounded-lg bg-muted/30 border border-border/50 text-foreground/70 transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:border-primary/30 hover:text-primary">
+                    <social.icon className="w-4 h-4" />
                   </Link>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Resources Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}>
-            <h4 className="font-semibold text-sm mb-4 flex items-center gap-2">
-              Resources
-            </h4>
-            <ul className="space-y-2">
-              {footerLinks.resources.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    target={link.external ? "_blank" : undefined}
-                    rel={link.external ? "noopener noreferrer" : undefined}
-                    className="flex items-center justify-between group text-sm text-muted-foreground hover:text-primary transition-colors">
-                    <span className="flex items-center gap-2">
-                      <link.icon className="w-3 h-3" />
-                      {link.name}
-                    </span>
-                    {link.external && (
-                      <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    )}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Tech Stack & Newsletter */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="space-y-6">
-            {/* Tech Stack */}
-            <div>
-              <h4 className="font-semibold text-sm mb-3 flex items-center gap-2">
-                Tech Stack
-              </h4>
-              <div className="flex flex-wrap gap-1.5">
-                {footerLinks.techStack.map((tech) => (
-                  <Badge
-                    key={tech.name}
-                    variant="outline"
-                    className="text-[10px] gap-1">
-                    {tech.name}
-                  </Badge>
                 ))}
               </div>
-            </div>
 
-            {/* Newsletter */}
-            <NewsletterSignup />
-          </motion.div>
+              {/* Contact Info */}
+              <div className="space-y-2 pt-2">
+                <div className="flex items-center gap-2 text-xs text-foreground/70">
+                  <div className="p-1 rounded bg-primary/10 border border-primary/20">
+                    <MapPin className="w-2.5 h-2.5 text-primary" />
+                  </div>
+                  <span>{footerLinks.contact.location}</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-foreground/70">
+                  <div className="p-1 rounded bg-primary/10 border border-primary/20">
+                    <Clock className="w-2.5 h-2.5 text-primary" />
+                  </div>
+                  <span>{footerLinks.contact.timezone}</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="p-1 rounded bg-primary/10 border border-primary/20">
+                    <Mail className="w-2.5 h-2.5 text-primary" />
+                  </div>
+                  <a
+                    href={`mailto:${footerLinks.contact.email}`}
+                    className="text-foreground/70 hover:text-primary transition-colors">
+                    {footerLinks.contact.email}
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Explore Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}>
+              <h4 className="font-semibold text-sm mb-4 flex items-center gap-2">
+                <div className="p-1.5 rounded-md bg-primary/10 border border-primary/20">
+                  <Compass className="w-3 h-3 text-primary" />
+                </div>
+                Explore
+              </h4>
+              <ul className="space-y-2">
+                {footerLinks.explore.map((link) => {
+                  const Icon = link.icon;
+                  return (
+                    <li key={link.name}>
+                      <Link
+                        href={link.href}
+                        className="flex items-center gap-2 text-sm text-foreground/70 hover:text-primary transition-colors group">
+                        <Icon className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <span>{link.name}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </motion.div>
+
+            {/* Resources Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}>
+              <h4 className="font-semibold text-sm mb-4 flex items-center gap-2">
+                <div className="p-1.5 rounded-md bg-primary/10 border border-primary/20">
+                  <FileCode className="w-3 h-3 text-primary" />
+                </div>
+                Resources
+              </h4>
+              <ul className="space-y-2">
+                {footerLinks.resources.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      target={link.external ? "_blank" : undefined}
+                      rel={link.external ? "noopener noreferrer" : undefined}
+                      className="flex items-center justify-between group text-sm text-foreground/70 hover:text-primary transition-colors">
+                      <span className="flex items-center gap-2">
+                        <link.icon className="w-3 h-3" />
+                        {link.name}
+                      </span>
+                      {link.external && (
+                        <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Tech Stack & Newsletter */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="space-y-6">
+              {/* Tech Stack */}
+              <div>
+                <h4 className="font-semibold text-sm mb-3 flex items-center gap-2">
+                  <div className="p-1.5 rounded-md bg-primary/10 border border-primary/20">
+                    <Braces className="w-3 h-3 text-primary" />
+                  </div>
+                  Tech Stack
+                </h4>
+                <div className="flex flex-wrap gap-1.5">
+                  {footerLinks.techStack.map((tech) => (
+                    <Badge
+                      key={tech.name}
+                      variant="outline"
+                      className="text-[10px] gap-1 bg-muted/30 border-border/50 text-foreground/80 hover:border-primary/50 hover:text-primary transition-all duration-300">
+                      <tech.icon className="w-2.5 h-2.5" />
+                      {tech.name}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+
+              {/* Newsletter */}
+              <NewsletterSignup />
+            </motion.div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div
+            className="relative pt-6 mt-6 flex flex-col md:flex-row items-center justify-between gap-4"
+            style={{
+              borderTop: "1px solid color-mix(in srgb, var(--border) 40%)",
+            }}>
+            {/* Top accent line */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+
+            <p className="text-xs text-foreground/60 text-center md:text-left">
+              © {new Date().getFullYear()}{" "}
+              <span className="text-foreground font-medium">
+                Rashedul Islam
+              </span>
+              . All rights reserved.
+            </p>
+
+            <p className="text-xs text-foreground/60 flex items-center gap-1.5">
+              Built with
+              <span className="text-primary font-semibold">Next.js</span>
+              <span className="text-foreground/40">&</span>
+              <span className="text-primary font-semibold">TypeScript</span>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
