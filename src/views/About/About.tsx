@@ -57,7 +57,7 @@ const AboutPage = () => {
             </div>
             {/* Bio with Highlighted Topics */}
 
-            <div className="space-y-5 text-base leading-relaxed flex-grow">
+            <div className="space-y-5 text-base leading-relaxed grow">
               <p className="text-foreground/90">
                 I am a passionate developer from{" "}
                 <span className="text-foreground font-semibold border-b border-primary/40">

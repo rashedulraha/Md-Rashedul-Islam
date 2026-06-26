@@ -86,12 +86,95 @@ const RealTimeChatWidget = () => {
   const [activeTab, setActiveTab] = useState<"chat" | "files" | "settings">(
     "chat",
   );
+  const [sessionId, setSessionId] = useState<string | null>(null);
 
   const chatHistoryRef = useRef<{ role: string; parts: { text: string }[] }[]>(
     [],
   );
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Initialize Session ID from LocalStorage
+  useEffect(() => {
+    let id = localStorage.getItem("chat_session_id");
+    if (!id) {
+      id = "sess_" + Math.random().toString(36).substring(2, 11) + Math.random().toString(36).substring(2, 11);
+      localStorage.setItem("chat_session_id", id);
+    }
+    setSessionId(id);
+  }, []);
+
+  // Fetch Session History on load
+  useEffect(() => {
+    if (!sessionId) return;
+    const loadHistory = async () => {
+      try {
+        const res = await fetch(`/api/chat/messages?sessionId=${sessionId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.messages && data.messages.length > 0) {
+            const formatted = data.messages.map((m: any) => ({
+              ...m,
+              timestamp: new Date(m.timestamp),
+            }));
+            setMessages(formatted);
+
+            chatHistoryRef.current = data.messages.map((m: any) => ({
+              role: m.sender === "user" ? "user" : "model",
+              parts: [{ text: m.content }],
+            }));
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load chat history:", err);
+      }
+    };
+    loadHistory();
+  }, [sessionId]);
+
+  // Connect to SSE for real-time messages (Admin replies)
+  useEffect(() => {
+    if (!sessionId) return;
+    const eventSource = new EventSource(`/api/chat/sse?sessionId=${sessionId}`);
+
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === "message" && data.message.sender !== "user") {
+          const newMsg = {
+            ...data.message,
+            timestamp: new Date(data.message.timestamp),
+          };
+
+          setMessages((prev) => {
+            if (prev.some((m) => m.id === newMsg.id)) return prev;
+            return [...prev, newMsg];
+          });
+
+          chatHistoryRef.current.push({
+            role: "model",
+            parts: [{ text: newMsg.content }],
+          });
+
+          setIsTyping(false);
+
+          if (notificationSound && !isOpen) {
+            playNotificationSound();
+          }
+
+          if (!isOpen) {
+            setUnreadCount((prev) => prev + 1);
+          }
+        }
+      } catch (err) {
+        console.error("SSE parse error in widget:", err);
+      }
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, [sessionId, isOpen, notificationSound]);
 
   useEffect(() => {
     scrollToBottom();
@@ -108,27 +191,67 @@ const RealTimeChatWidget = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const sendMessage = () => {
-    if (!inputMessage.trim() || isTyping) return;
+  const sendMessage = async () => {
+    if (!inputMessage.trim() || isTyping || !sessionId) return;
 
-    const newMessage: Message = {
+    const text = inputMessage;
+    setInputMessage("");
+
+    const clientMsg: Message = {
       id: Date.now().toString(),
-      content: inputMessage,
+      content: text,
       sender: "user",
       timestamp: new Date(),
       read: true,
     };
 
-    setMessages((prev) => [...prev, newMessage]);
-
+    setMessages((prev) => [...prev, clientMsg]);
     chatHistoryRef.current.push({
       role: "user",
-      parts: [{ text: inputMessage }],
+      parts: [{ text }],
     });
 
-    setInputMessage("");
     setIsTyping(true);
-    sendBotResponse();
+
+    try {
+      // 1. Post message to server database
+      const response = await fetch("/api/chat/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          content: text,
+          sender: "user",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to persist message");
+      }
+
+      // 2. Wait 5 seconds for admin to respond. If no response, let AI respond
+      setTimeout(() => {
+        triggerBotResponseIfNeeded(text);
+      }, 5000);
+
+    } catch (err) {
+      console.error("Failed to send message:", err);
+      setIsTyping(false);
+    }
+  };
+
+  const triggerBotResponseIfNeeded = (userQuery: string) => {
+    setMessages((currentMessages) => {
+      const lastMessage = currentMessages[currentMessages.length - 1];
+      if (lastMessage && lastMessage.sender !== "user") {
+        // Admin or bot already responded
+        setIsTyping(false);
+        return currentMessages;
+      }
+      // Trigger bot response
+      sendBotResponse();
+      return currentMessages;
+    });
   };
 
   const sendBotResponse = async () => {
@@ -156,6 +279,21 @@ const RealTimeChatWidget = () => {
         data.candidates?.[0]?.content?.parts?.[0]?.text ||
         "Sorry, I couldn't process that. Please try again.";
 
+      // 1. Post bot response to the chat database so the admin sees it
+      const persistResponse = await fetch("/api/chat/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          content: botText,
+          sender: "bot",
+        }),
+      });
+
+      if (!persistResponse.ok) {
+        console.error("Failed to persist bot response");
+      }
+
       chatHistoryRef.current.push({
         role: "model",
         parts: [{ text: botText }],
@@ -174,7 +312,11 @@ const RealTimeChatWidget = () => {
         reactions: { thumbsUp: 0, thumbsDown: 0 },
       };
 
-      setMessages((prev) => [...prev, botMessage]);
+      setMessages((prev) => {
+        // If SSE already delivered it (because we posted to backend), don't duplicate
+        if (prev.some((m) => m.content === botText)) return prev;
+        return [...prev, botMessage];
+      });
       setIsTyping(false);
 
       if (notificationSound && !isMinimized) {
@@ -189,7 +331,7 @@ const RealTimeChatWidget = () => {
 
       const errorMessage: Message = {
         id: Date.now().toString(),
-        content: `Sorry, I'm having trouble responding right now.  You can also contact me via WhatsApp SMS or send email.
+        content: `Sorry, I'm having trouble responding right now. You can also contact me via WhatsApp SMS or send email.
         Phone: 01992284845
         Email: rashedulraha.bd@gmail.com`,
         sender: "bot",

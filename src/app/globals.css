@@ -20,7 +20,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans:
-    var(--font-geist-sans), "Inter", system-ui, -apple-system, sans-serif;
+    var(--font-inter), var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono), "JetBrains Mono", "Fira Code", monospace;
 
   /* ── ALL COLOR VARIABLES ── */
@@ -70,85 +70,85 @@
 :root {
   --radius: 0.75rem;
 
-  /* Seamless & Soft Light Mode */
-  --background: #fcfcfd; /* Very soft off-white */
-  --card: #ffffff; /* Blends seamlessly with the background, almost indistinguishable */
-  --foreground: #09090b;
+  /* Premium Apple/Linear Light Mode */
+  --background: #f5f5f7; /* Apple neutral gray */
+  --card: #ffffff; /* Pure white card surface */
+  --foreground: #1d1d1f; /* Apple charcoal */
 
-  --card-foreground: #09090b;
+  --card-foreground: #1d1d1f;
   --popover: #ffffff;
-  --popover-foreground: #09090b;
+  --popover-foreground: #1d1d1f;
 
-  --primary: #4f46e5; /* Indigo */
+  --primary: #1d1d1f; /* Monochrome primary black */
   --primary-foreground: #ffffff;
 
-  --secondary: #f4f4f5;
-  --secondary-foreground: #52525b;
+  --secondary: #e8e8ed;
+  --secondary-foreground: #6e6e73;
 
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
+  --muted: #f2f2f7;
+  --muted-foreground: #6e6e73;
 
-  --accent: #f4f4f5;
-  --accent-foreground: #09090b;
+  --accent: #e5e5ea;
+  --accent-foreground: #1d1d1f;
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  /* Borders - Light mode borders should be subtle, like a faint watermark */
-  --border: #f1f5f9;
-  --input: #f1f5f9;
-  --ring: #4f46e511;
+  /* Borders - Subtle and sharp */
+  --border: #e5e5ea;
+  --input: #e5e5ea;
+  --ring: #1d1d1f11;
 
-  --chart-1: #4f46e5;
-  --chart-2: #06b6d4;
-  --chart-3: #f59e0b;
-  --chart-4: #ec4899;
-  --chart-5: #10b981;
+  --chart-1: #0066cc; /* Apple Blue */
+  --chart-2: #34c759; /* Apple Green */
+  --chart-3: #ff9500;
+  --chart-4: #ff2d55;
+  --chart-5: #64d2ff;
 
-  --sidebar: #fcfcfd;
-  --sidebar-foreground: #52525b;
-  --sidebar-border: #f1f5f9;
+  --sidebar: #f5f5f7;
+  --sidebar-foreground: #6e6e73;
+  --sidebar-border: #e5e5ea;
 }
 
 .dark {
-  /* Ultra-Similar Deep Carbon Dark Mode */
-  --background: #070709; /* Deep charcoal-black */
-  --card: #0b0b0e; /* Only 1-2% lighter than the background for a seamless look */
-  --foreground: #f4f4f5;
+  /* Design System Specifications */
+  --background: #030303; /* Obsidian Canvas */
+  --card: #0c0c0e; /* Card surface color */
+  --foreground: #f4f4f5; /* Silver Mist text */
 
   --card-foreground: #f4f4f5;
-  --popover: #0b0b0e;
+  --popover: #0c0c0e;
   --popover-foreground: #f4f4f5;
 
-  --primary: #6366f1; /* Glowing Indigo */
-  --primary-foreground: #ffffff;
+  --primary: #06b6d4; /* Clean system accent cyan */
+  --primary-foreground: #030303;
 
-  --secondary: #121216;
-  --secondary-foreground: #a1a1aa;
+  --secondary: #121214;
+  --secondary-foreground: #a1a1aa; /* Secondary text */
 
-  --muted: #121216;
-  --muted-foreground: #71717a;
+  --muted: #121214;
+  --muted-foreground: #a1a1aa;
 
-  --accent: #121216;
+  --accent: #121214;
   --accent-foreground: #f4f4f5;
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  /* Borders - Dark mode borders should blend with the background, avoiding a boxed look */
-  --border: #14141a;
-  --input: #14141a;
-  --ring: #6366f133;
+  /* Borders - Razor-sharp 1px subtle borders */
+  --border: #1f1f23;
+  --input: #1f1f23;
+  --ring: #06b6d433;
 
-  --chart-1: #6366f1;
-  --chart-2: #2dd4bf;
+  --chart-1: #06b6d4;
+  --chart-2: #4ade80; /* Clean system green status indicator */
   --chart-3: #fbbf24;
   --chart-4: #f472b6;
   --chart-5: #60a5fa;
 
-  --sidebar: #070709;
+  --sidebar: #030303;
   --sidebar-foreground: #a1a1aa;
-  --sidebar-border: #14141a;
+  --sidebar-border: #1f1f23;
 }
 
 /* ── 3. TYPOGRAPHY SYSTEM (Responsive & Readable) ── */

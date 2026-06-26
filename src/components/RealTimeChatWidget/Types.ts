@@ -1,7 +1,7 @@
 export interface Message {
   id: string;
   content: string;
-  sender: "user" | "bot";
+  sender: "user" | "bot" | "admin";
   timestamp: Date;
   read: boolean;
   reactions?: {

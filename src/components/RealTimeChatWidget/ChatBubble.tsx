@@ -24,17 +24,7 @@ import {
   ThumbsDown,
 } from "lucide-react";
 
-interface Message {
-  id: string;
-  content: string;
-  sender: "user" | "bot";
-  timestamp: Date;
-  read: boolean;
-  reactions?: {
-    thumbsUp: number;
-    thumbsDown: number;
-  };
-}
+import type { Message } from "./Types";
 
 interface ChatBubbleProps {
   message: Message;
@@ -71,6 +61,13 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
                 <AvatarImage src="/bot-avatar.png" />
                 <AvatarFallback className="bg-linear-to-br from-primary to-primary/70">
                   <Bot className="h-4 w-4 text-primary-foreground" />
+                </AvatarFallback>
+              </>
+            ) : message.sender === "admin" ? (
+              <>
+                <AvatarImage src="/Rashed_Hossen.svg" />
+                <AvatarFallback className="bg-linear-to-br from-emerald-500 to-emerald-600">
+                  <User className="h-4 w-4 text-primary-foreground" />
                 </AvatarFallback>
               </>
             ) : (
