@@ -19,8 +19,10 @@ import { ModeToggle } from "@/components/ui/modeToggle";
 // Navigation links targeting sections on the single homepage
 const primaryLinks = [
   { title: "Home", to: "/#hero" },
-  { title: "Production Pipeline", to: "/#pipeline" },
+  { title: "Pipeline", to: "/#pipeline" },
+  { title: "Stack", to: "/#skills" },
   { title: "Experience", to: "/#experience" },
+  { title: "Blog Log", to: "/#blog" },
   { title: "Connect", to: "/#connect" },
 ];
 
@@ -41,7 +43,7 @@ export default function Navbar() {
       setIsAdmin(!!isClientAdmin);
     };
     checkAdmin();
-    const interval = setInterval(checkAdmin, 2500);
+    const interval = setInterval(checkAdmin, 2000);
     return () => clearInterval(interval);
   }, [pathname]);
 
@@ -85,13 +87,16 @@ export default function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, type: "spring", bounce: 0.2 }}
         className={cn(
-          "fixed left-0 right-0 z-50 flex justify-center transition-all duration-500",
-          scrolled ? "top-0" : "top-5",
+          "fixed left-0 right-0 z-50 flex justify-center transition-all duration-500 px-6",
+          scrolled ? "top-0 px-0" : "top-5",
         )}>
-        <div className="relative group w-full flex justify-center">
+        <div className={cn(
+          "relative group flex justify-center transition-all duration-500",
+          scrolled ? "w-full" : "max-w-5xl w-full"
+        )}>
           {/* Subtle Outer Glow Border: Only show in Pill Mode (!scrolled) */}
           {!scrolled && (
-            <div className="absolute -inset-[1px] rounded-full bg-border/40 opacity-70 group-hover:opacity-100 transition-opacity duration-500 blur-[1px] px-4" />
+            <div className="absolute -inset-[1px] rounded-full border border-border/30 opacity-70 group-hover:opacity-100 transition-opacity duration-500 blur-[1px] pointer-events-none" />
           )}
 
           {/* Main Container */}
@@ -99,8 +104,8 @@ export default function Navbar() {
             className={cn(
               "relative flex h-16 items-center justify-between gap-2 md:gap-4 transition-all duration-500 overflow-hidden",
               !scrolled
-                ? "max-w-5xl w-full mt-0 rounded-full bg-background/80 backdrop-blur-xl shadow-lg px-6"
-                : "w-full max-w-full mt-0 rounded-none bg-background/60 backdrop-blur-2xl shadow-none px-6",
+                ? "max-w-5xl w-full mt-0 rounded-full bg-background/85 backdrop-blur-xl shadow-lg px-6"
+                : "w-full max-w-full mt-0 rounded-none bg-background/70 backdrop-blur-2xl shadow-none px-6",
             )}
             style={{
               borderTop: "1px solid var(--border)",
@@ -192,7 +197,7 @@ export default function Navbar() {
                       >
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                         <span className="text-emerald-400 font-mono font-bold tracking-wider">[ VERIFIED ]</span>
-                        <Link href="/admin" className="text-zinc-300 hover:text-white font-mono underline ml-1">
+                        <Link href="/#admin-uplink" className="text-zinc-300 hover:text-white font-mono underline ml-1">
                           PANEL
                         </Link>
                         <button
@@ -207,7 +212,7 @@ export default function Navbar() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         onClick={() => setShowGateway(true)}
-                        className="text-[10px] text-muted-foreground hover:text-foreground font-mono transition-colors flex items-center gap-1"
+                        className="text-[10px] text-muted-foreground hover:text-foreground font-mono transition-colors flex items-center gap-1 cursor-pointer"
                         title="Admin Session Access"
                       >
                         <Key className="w-3.5 h-3.5" />
@@ -306,7 +311,7 @@ export default function Navbar() {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: primaryLinks.length * 0.05 }}>
                                 <Link
-                                  href="/admin"
+                                  href="/#admin-uplink"
                                   onClick={() => setIsOpen(false)}
                                   className="flex items-center px-4 py-3 text-sm font-mono font-bold text-emerald-400 bg-emerald-500/5 border border-emerald-500/10 hover:bg-emerald-500/10 rounded-xl">
                                   <span className="flex-1">Admin Panel</span>
