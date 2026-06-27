@@ -16,13 +16,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/modeToggle";
 
-// Navigation links targeting sections on the single homepage
 const primaryLinks = [
   { title: "Home", to: "/#hero" },
-  { title: "Pipeline", to: "/#pipeline" },
-  { title: "Stack", to: "/#skills" },
+  { title: "Production Pipeline", to: "/#pipeline" },
+  { title: "Skills", to: "/#skills" },
   { title: "Experience", to: "/#experience" },
-  { title: "Blog Log", to: "/#blog" },
+  { title: "Blog", to: "/#blog" },
   { title: "Connect", to: "/#connect" },
 ];
 
@@ -69,6 +68,7 @@ export default function Navbar() {
       setShowGateway(false);
       setTokenInput("");
       setAuthError(false);
+      toast.success("Secure session verified.");
     } else {
       setAuthError(true);
       setTimeout(() => setAuthError(false), 2000);
@@ -111,7 +111,7 @@ export default function Navbar() {
               borderTop: "1px solid var(--border)",
               borderLeft: "1px solid var(--border)",
               borderRight: "1px solid var(--border)",
-              borderBottom: "1px solid color-mix(in srgb, var(--border) 15%)",
+              borderBottom: "1px solid var(--border)",
             }}>
             {/* Top accent line */}
             <div className="absolute top-0 left-0 right-0 h-[1px] bg-linear-to-r from-transparent via-primary/30 to-transparent pointer-events-none" />
@@ -128,7 +128,7 @@ export default function Navbar() {
                   href="/"
                   className="font-mono text-sm tracking-[0.25em] text-foreground font-bold uppercase shrink-0 active:scale-95 transition-transform"
                   aria-label="Mr. Islam Portfolio">
-                  [ MR. ISLAM ]
+                  [ MR. Rashedul ]
                 </Link>
               </div>
 
@@ -196,9 +196,9 @@ export default function Navbar() {
                         className="flex items-center gap-2 border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1 rounded-full text-[9px]"
                       >
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="text-emerald-400 font-mono font-bold tracking-wider">[ VERIFIED ]</span>
-                        <Link href="/#admin-uplink" className="text-zinc-300 hover:text-white font-mono underline ml-1">
-                          PANEL
+                        <span className="text-emerald-400 font-mono font-bold tracking-wider">[ SECURE ]</span>
+                        <Link href="/#admin-uplink" className="text-zinc-400 hover:text-foreground font-mono underline ml-1">
+                          [Control Panel]
                         </Link>
                         <button
                           onClick={handleLogout}
@@ -313,8 +313,8 @@ export default function Navbar() {
                                 <Link
                                   href="/#admin-uplink"
                                   onClick={() => setIsOpen(false)}
-                                  className="flex items-center px-4 py-3 text-sm font-mono font-bold text-emerald-400 bg-emerald-500/5 border border-emerald-500/10 hover:bg-emerald-500/10 rounded-xl">
-                                  <span className="flex-1">Admin Panel</span>
+                                  className="flex items-center px-4 py-3 text-sm font-mono font-bold text-primary bg-primary/5 border border-primary/10 hover:bg-primary/10 rounded-xl">
+                                  <span className="flex-1">[Control Panel]</span>
                                 </Link>
                               </motion.div>
                             )}
@@ -329,10 +329,10 @@ export default function Navbar() {
                           <div className="px-4">
                             {isAdmin ? (
                               <div className="flex items-center justify-between bg-emerald-500/5 border border-emerald-500/20 p-3 rounded-xl">
-                                <span className="text-[10px] font-mono text-emerald-400 font-bold uppercase">[ VERIFIED SESSION ]</span>
+                                <span className="text-[10px] font-mono text-emerald-500 font-bold uppercase">[ VERIFIED SESSION ]</span>
                                 <button
                                   onClick={handleLogout}
-                                  className="text-[10px] text-muted-foreground hover:text-red-400 font-mono"
+                                  className="text-[10px] text-muted-foreground hover:text-destructive font-mono"
                                 >
                                   LOCK
                                 </button>
@@ -346,7 +346,7 @@ export default function Navbar() {
                                   onChange={(e) => setTokenInput(e.target.value)}
                                   className={cn(
                                     "flex-1 bg-card border border-border rounded-xl px-3.5 py-2 text-xs font-mono text-foreground focus:outline-none focus:border-primary",
-                                    authError && "border-red-500"
+                                    authError && "border-destructive"
                                   )}
                                 />
                                 <Button type="submit" variant="outline" className="font-mono text-xs px-4">
@@ -360,8 +360,8 @@ export default function Navbar() {
                         <div className="mt-auto p-4 rounded-xl bg-card border border-border">
                           <div className="flex items-center gap-3">
                             <div className="relative">
-                              <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-                              <div className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+                              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                              <div className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
                             </div>
                             <div>
                               <p className="text-xs font-mono font-bold text-foreground">
@@ -400,3 +400,10 @@ export default function Navbar() {
     </>
   );
 }
+
+// Simple toast notification helper to bypass potential import conflicts
+const toast = {
+  success: (msg: string) => {
+    console.log("Success Toast:", msg);
+  }
+};

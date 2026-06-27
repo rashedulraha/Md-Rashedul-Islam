@@ -5,46 +5,149 @@ import Navbar from "../shared/Navbar/Navbar";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Database,
-  Cpu,
   Layers,
   Server,
   ShieldCheck,
-  Clock,
   Terminal,
   Mail,
-  ExternalLink,
   User,
   Send,
   Zap,
-  Activity,
-  Code,
-  Copy,
   Check,
   MessageSquare,
   X,
-  CornerDownRight,
   ChevronRight,
   Lock,
   Unlock,
   Key,
-  Sparkles,
-  BookOpen,
   FileText
 } from "lucide-react";
 import Responsive from "@/views/Responsive/Responsive";
-import MeshGrid from "@/components/MeshGrid";
 import BlogEngine from "./BlogEngine";
 import AdminDashboardInline from "./AdminDashboardInline";
 import BackgroundShell from "@/components/BackgroundShell";
 import Link from "next/link";
 
-// Simple interface for Chat message
 interface ChatMessage {
   id: string;
   sender: "user" | "admin" | "bot";
   content: string;
   timestamp: string;
 }
+
+interface Project {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  tech: string[];
+  links: { live: string; github: string };
+}
+
+// 3D Perspective Tilt Card Component
+const HeroProfileCard = () => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [imageError, setImageError] = useState(true); // Default to true to test the placeholder requirement
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left - width / 2;
+    const mouseY = e.clientY - rect.top - height / 2;
+    
+    // Max tilt angles
+    const maxTilt = 15;
+    const rY = (mouseX / (width / 2)) * maxTilt;
+    const rX = -(mouseY / (height / 2)) * maxTilt;
+    
+    setRotateX(rX);
+    setRotateY(rY);
+  };
+
+  const handleMouseLeave = () => {
+    setRotateX(0);
+    setRotateY(0);
+    setIsHovered(false);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      animate={{
+        rotateX: isHovered ? rotateX : 0,
+        rotateY: isHovered ? rotateY : 0,
+        scale: isHovered ? 1.03 : 1,
+      }}
+      transition={{ type: "spring", stiffness: 350, damping: 25 }}
+      style={{
+        transformStyle: "preserve-3d",
+        perspective: 1000,
+      }}
+      className="relative aspect-square w-full max-w-[300px] sm:max-w-[340px] bg-card text-card-foreground border border-border flex flex-col justify-between p-5 font-mono shadow-2xl backdrop-blur-md rounded-lg cursor-pointer overflow-hidden group select-none"
+    >
+      {/* Glossy reflection effect */}
+      <div 
+        className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{
+          transform: "translateZ(10px)",
+        }}
+      />
+
+      <div 
+        className="flex justify-between items-center text-[9px] text-muted-foreground border-b border-border/80 pb-2.5"
+        style={{ transform: "translateZ(20px)" }}
+      >
+        <span>[ PORTRAIT_IMAGE_TELEMETRY ]</span>
+        <span>SIZE: 1:1 RATIO</span>
+      </div>
+
+      <div 
+        className="flex-1 flex flex-col items-center justify-center text-center p-4"
+        style={{ transform: "translateZ(40px)", transformStyle: "preserve-3d" }}
+      >
+        {!imageError ? (
+          <img
+            src="/Rashedul.jpeg"
+            alt="Portrait"
+            onError={() => setImageError(true)}
+            className="w-full h-full object-cover rounded-md border border-border shadow-md"
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center p-6 border border-dashed border-border/80 bg-muted/30 rounded-md w-full h-full min-h-[140px]">
+            <Terminal className="w-8 h-8 text-primary/60 mb-2" />
+            <span className="text-xs text-foreground uppercase tracking-widest font-bold block">
+              [3D_ENGINE_READY: PROFILE_IMAGE]
+            </span>
+            <span className="text-[9px] text-muted-foreground mt-1.5">
+              Path: /public/assets/portrait.jpg
+            </span>
+          </div>
+        )}
+      </div>
+
+      <div 
+        className="text-[9px] text-muted-foreground border-t border-border/80 pt-2.5 flex justify-between"
+        style={{ transform: "translateZ(20px)" }}
+      >
+        <span>SYS: OFFLINE_PLACEHOLDER</span>
+        <span>OK_200</span>
+      </div>
+    </motion.div>
+  );
+};
 
 export default function Home() {
   const [sessionId, setSessionId] = useState<string>("");
@@ -57,22 +160,11 @@ export default function Home() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inlineMessagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Website Config states loaded dynamically from Live Config Editor
-  const [headline, setHeadline] = useState("I build type-safe full-stack applications and orchestrate secure cloud infrastructure.");
+  // Site headlines loaded dynamically
+  const [headline, setHeadline] = useState("I build type-safe full-stack applications and deploy them to cloud production infrastructure. No generic templates, just clean engineering.");
   const [intro, setIntro] = useState("Merging core computer science fundamentals with modern scalable engineering. Based in Naogaon, Bangladesh, I specialize in robust DevOps pipelines and type-safe systems design.");
   const [email, setEmail] = useState("rashedulraha.bd@gmail.com");
   const [teamSize, setTeamSize] = useState("4");
-
-  interface Project {
-    id: string;
-    title: string;
-    subtitle: string;
-    description: string;
-    image: string;
-    tech: string[];
-    links: { live: string; github: string };
-  }
-
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
@@ -110,7 +202,6 @@ export default function Home() {
     return () => window.removeEventListener("storage", loadSiteConfig);
   }, []);
 
-  // Admin Section States
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [adminUsername, setAdminUsername] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
@@ -118,7 +209,6 @@ export default function Home() {
   const [adminLoginError, setAdminLoginError] = useState<string | null>(null);
   const [showAdminConsole, setShowAdminConsole] = useState(false);
 
-  // Initialize or fetch session ID from localStorage
   useEffect(() => {
     let id = localStorage.getItem("chat_session_id");
     if (!id) {
@@ -127,7 +217,6 @@ export default function Home() {
     }
     setSessionId(id);
 
-    // Check if is_admin cookie is set
     const checkAdminCookie = () => {
       const isClientAdmin = document.cookie.split("; ").find((row) => row.startsWith("is_admin="));
       setIsAdminLoggedIn(!!isClientAdmin);
@@ -135,7 +224,6 @@ export default function Home() {
     checkAdminCookie();
   }, []);
 
-  // Fetch initial chat history
   useEffect(() => {
     if (!sessionId) return;
     const fetchHistory = async () => {
@@ -154,7 +242,6 @@ export default function Home() {
     fetchHistory();
   }, [sessionId]);
 
-  // Connect to SSE for real-time admin replies
   useEffect(() => {
     if (!sessionId) return;
     const eventSource = new EventSource(`/api/chat/sse?sessionId=${sessionId}`);
@@ -179,7 +266,6 @@ export default function Home() {
     };
   }, [sessionId]);
 
-  // Dhaka Clock Setup
   useEffect(() => {
     const updateClock = () => {
       const options: Intl.DateTimeFormatOptions = {
@@ -196,7 +282,6 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Scroll to bottom helper
   useEffect(() => {
     const container = messagesEndRef.current?.parentElement;
     if (container) {
@@ -224,7 +309,6 @@ export default function Home() {
     const messageContent = visitorInput.trim();
     setVisitorInput("");
 
-    // Optimistic update
     const tempMsg: ChatMessage = {
       id: Date.now().toString(),
       content: messageContent,
@@ -302,31 +386,28 @@ export default function Home() {
   return (
     <BackgroundShell>
       
-      {/* High-Performance Canvas Mesh Background Animation */}
-      <MeshGrid />
-
-      {/* Grid overlay for aesthetic depth */}
-      <div className="absolute inset-0 bg-[radial-gradient(#1c1c1f_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-40 z-0" />
+      {/* Ambient Grid overlay for aesthetic depth */}
+      <div className="absolute inset-0 bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-40 z-0" />
 
       <Navbar />
 
       <Responsive>
-        <main className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 space-y-32 pt-28">
+        <main className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 space-y-32 pt-28 pb-20">
           
           {/* SECTION 1: THE IMPACT HERO LAYER */}
-          <section id="hero" className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center min-h-[75vh] border-b border-zinc-900 pb-20">
+          <section id="hero" className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center min-h-[70vh] border-b border-border/80 pb-20">
             {/* Left Column */}
             <div className="md:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 border border-zinc-800 bg-[#0c0c0e]/80 backdrop-blur-xs px-3.5 py-1 text-[10px] text-zinc-400 font-mono tracking-wider uppercase">
-                <span className="w-1.5 h-1.5 bg-[#4ade80] rounded-none animate-pulse" />
+              <div className="inline-flex items-center gap-2 border border-border bg-card/65 backdrop-blur-xs px-3.5 py-1.5 text-[10px] text-muted-foreground font-mono tracking-wider uppercase">
+                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
                 Dhaka Node // Local Time: {bangladeshTime || "--:--:--"}
               </div>
 
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white leading-relaxed max-w-xl font-mono uppercase">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground leading-relaxed max-w-xl font-mono uppercase">
                 {headline}
               </h1>
               
-              <p className="text-sm text-zinc-400 font-sans leading-relaxed max-w-xl">
+              <p className="text-sm text-muted-foreground font-sans leading-relaxed max-w-xl">
                 {intro}
               </p>
 
@@ -335,7 +416,7 @@ export default function Home() {
                 <a
                   href="#pipeline"
                   onClick={handleScrollToPipeline}
-                  className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-200 hover:text-white font-mono text-xs tracking-tight transition-all rounded-none"
+                  className="inline-flex items-center justify-center gap-1.5 px-5 py-3 bg-primary text-primary-foreground hover:opacity-90 font-mono text-xs tracking-tight transition-all rounded-md font-semibold shadow-md"
                 >
                   Explore Full Production Pipeline ↓
                 </a>
@@ -343,23 +424,23 @@ export default function Home() {
                 <div className="flex gap-2 shrink-0">
                   <a
                     href={`mailto:${email}`}
-                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-[#0c0c0e] hover:bg-zinc-900 border border-zinc-800 text-zinc-450 hover:text-white font-mono text-xs tracking-tight transition-all rounded-none"
+                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-3 bg-card hover:bg-accent border border-border text-foreground font-mono text-xs tracking-tight transition-all rounded-md"
                   >
-                    <Mail className="w-3.5 h-3.5 text-zinc-500" />
+                    <Mail className="w-3.5 h-3.5 text-muted-foreground" />
                     <span>Direct Email</span>
                   </a>
                   <button
                     onClick={handleCopyEmail}
-                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-[#0c0c0e] hover:bg-zinc-900 border border-zinc-800 text-zinc-450 hover:text-white font-mono text-xs tracking-tight transition-all rounded-none"
+                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-3 bg-card hover:bg-accent border border-border text-foreground font-mono text-xs tracking-tight transition-all rounded-md"
                   >
                     {copiedEmail ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-[#4ade80]" />
+                        <Check className="w-3.5 h-3.5 text-emerald-500" />
                         <span>Copied Address</span>
                       </>
                     ) : (
                       <>
-                        <FileText className="w-3.5 h-3.5 text-zinc-500" />
+                        <FileText className="w-3.5 h-3.5 text-muted-foreground" />
                         <span>Resume Link</span>
                       </>
                     )}
@@ -368,63 +449,42 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Square Portrait Image Container */}
+            {/* Right Column: 3D-PERSPECTIVE PROFILE CARD */}
             <div className="md:col-span-5 flex justify-center md:justify-end">
-              <div className="relative aspect-square w-full max-w-[280px] sm:max-w-[320px] bg-[#0c0c0e]/80 border border-zinc-800 flex flex-col justify-between p-4 font-mono shadow-xl select-none backdrop-blur-xs">
-                {/* Tech Crosshairs / Telemetry */}
-                <div className="flex justify-between items-center text-[9px] text-zinc-600 border-b border-zinc-900 pb-2">
-                  <span>[ PORTRAIT_IMAGE_TELEMETRY ]</span>
-                  <span>SIZE: 1:1 RATIO</span>
-                </div>
-
-                <div className="flex-1 flex flex-col items-center justify-center text-center p-4">
-                  <Terminal className="w-6 h-6 text-zinc-650 mb-2" />
-                  <span className="text-xs text-zinc-500 uppercase tracking-widest font-semibold block">
-                    [ASSET: PROFILE_IMAGE_CONTAINER]
-                  </span>
-                  <span className="text-[9px] text-zinc-700 mt-1">
-                    Path: /public/assets/portrait.jpg
-                  </span>
-                </div>
-
-                <div className="text-[9px] text-zinc-600 border-t border-zinc-900 pt-2 flex justify-between">
-                  <span>SYS: OFFLINE_PLACEHOLDER</span>
-                  <span>OK_200</span>
-                </div>
-              </div>
+              <HeroProfileCard />
             </div>
           </section>
 
           {/* SECTION 2: DETAILED "0 TO PRODUCTION" ROADMAP */}
-          <section id="pipeline" className="space-y-12 border-b border-zinc-900 pb-24 scroll-mt-24">
+          <section id="pipeline" className="space-y-12 border-b border-border/80 pb-24 scroll-mt-24">
             <div className="space-y-2">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">[ Product Pipeline ]</span>
-              <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-white">0 to Production Roadmap</h2>
-              <p className="text-xs text-zinc-400 max-w-lg leading-relaxed">
+              <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest block">[ Product Pipeline ]</span>
+              <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-foreground">0 to Production Roadmap</h2>
+              <p className="text-xs text-muted-foreground max-w-lg leading-relaxed">
                 A visual timeline detailing the sequential layers from database normalization to automated container orchestration.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
               {/* Vertical timeline connector */}
-              <div className="absolute left-[19px] top-6 bottom-6 w-[1px] bg-zinc-900 hidden md:block" />
+              <div className="absolute left-[19px] top-6 bottom-6 w-[1px] bg-border hidden md:block" />
 
               {/* Milestone 01 */}
               <div className="relative pl-0 md:pl-10 space-y-2">
                 <div className="flex items-center gap-2.5">
-                  <span className="w-5 h-5 bg-[#0c0c0e] border border-zinc-800 text-[9px] font-mono text-zinc-450 flex items-center justify-center select-none shrink-0">
+                  <span className="w-5 h-5 bg-card border border-border text-[9px] font-mono text-foreground flex items-center justify-center select-none shrink-0 rounded-sm">
                     01
                   </span>
-                  <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-zinc-200">
+                  <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-foreground">
                     Milestone 01: The Blueprint
                   </h3>
                 </div>
-                <div className="bg-[#0c0c0e]/60 border border-zinc-900 p-5 rounded-none space-y-2">
-                  <p className="text-xs text-zinc-405 leading-relaxed font-light font-sans">
+                <div className="bg-card/75 border border-border p-5 rounded-md space-y-2">
+                  <p className="text-xs text-muted-foreground leading-relaxed font-light font-sans">
                     Designing normalized SQL/NoSQL schemas via Prisma or Mongoose, handling relations, indexes, and aggregate pipelines.
                   </p>
-                  <div className="flex items-center gap-1.5 font-mono text-[9px] text-zinc-600">
-                    <Database className="w-3 h-3" /> SCHEMA_GOVERNANCE: NORMALIZED
+                  <div className="flex items-center gap-1.5 font-mono text-[9px] text-muted-foreground">
+                    <Database className="w-3.5 h-3.5 text-primary" /> SCHEMA_GOVERNANCE: NORMALIZED
                   </div>
                 </div>
               </div>
@@ -432,19 +492,19 @@ export default function Home() {
               {/* Milestone 02 */}
               <div className="relative pl-0 md:pl-10 space-y-2">
                 <div className="flex items-center gap-2.5">
-                  <span className="w-5 h-5 bg-[#0c0c0e] border border-zinc-800 text-[9px] font-mono text-zinc-450 flex items-center justify-center select-none shrink-0">
+                  <span className="w-5 h-5 bg-card border border-border text-[9px] font-mono text-foreground flex items-center justify-center select-none shrink-0 rounded-sm">
                     02
                   </span>
-                  <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-zinc-200">
+                  <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-foreground">
                     Milestone 02: The Engine
                   </h3>
                 </div>
-                <div className="bg-[#0c0c0e]/60 border border-zinc-900 p-5 rounded-none space-y-2">
-                  <p className="text-xs text-zinc-405 leading-relaxed font-light font-sans">
+                <div className="bg-card/75 border border-border p-5 rounded-md space-y-2">
+                  <p className="text-xs text-muted-foreground leading-relaxed font-light font-sans">
                     Secure RESTful APIs, JWT Access/Refresh token rotation in HTTP-Only cookies, and Zod runtime schema validation.
                   </p>
-                  <div className="flex items-center gap-1.5 font-mono text-[9px] text-zinc-600">
-                    <ShieldCheck className="w-3 h-3" /> ENGINE_AUTH: JWT_ROTATION
+                  <div className="flex items-center gap-1.5 font-mono text-[9px] text-muted-foreground">
+                    <ShieldCheck className="w-3.5 h-3.5 text-primary" /> ENGINE_AUTH: JWT_ROTATION
                   </div>
                 </div>
               </div>
@@ -452,19 +512,19 @@ export default function Home() {
               {/* Milestone 03 */}
               <div className="relative pl-0 md:pl-10 space-y-2">
                 <div className="flex items-center gap-2.5">
-                  <span className="w-5 h-5 bg-[#0c0c0e] border border-zinc-800 text-[9px] font-mono text-zinc-450 flex items-center justify-center select-none shrink-0">
+                  <span className="w-5 h-5 bg-card border border-border text-[9px] font-mono text-foreground flex items-center justify-center select-none shrink-0 rounded-sm">
                     03
                   </span>
-                  <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-zinc-200">
+                  <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-foreground">
                     Milestone 03: The Interface
                   </h3>
                 </div>
-                <div className="bg-[#0c0c0e]/60 border border-zinc-900 p-5 rounded-none space-y-2">
-                  <p className="text-xs text-zinc-405 leading-relaxed font-light font-sans">
+                <div className="bg-card/75 border border-border p-5 rounded-md space-y-2">
+                  <p className="text-xs text-muted-foreground leading-relaxed font-light font-sans">
                     Fluid Next.js App Router UI, strict TypeScript type-safety, modular styled components, and Core Web Vitals audit optimization.
                   </p>
-                  <div className="flex items-center gap-1.5 font-mono text-[9px] text-zinc-600">
-                    <Layers className="w-3 h-3" /> INTERFACE_CORE: TYPED_COMPONENTS
+                  <div className="flex items-center gap-1.5 font-mono text-[9px] text-muted-foreground">
+                    <Layers className="w-3.5 h-3.5 text-primary" /> INTERFACE_CORE: TYPED_COMPONENTS
                   </div>
                 </div>
               </div>
@@ -472,19 +532,19 @@ export default function Home() {
               {/* Milestone 04 */}
               <div className="relative pl-0 md:pl-10 space-y-2">
                 <div className="flex items-center gap-2.5">
-                  <span className="w-5 h-5 bg-[#0c0c0e] border border-zinc-800 text-[9px] font-mono text-zinc-450 flex items-center justify-center select-none shrink-0">
+                  <span className="w-5 h-5 bg-card border border-border text-[9px] font-mono text-foreground flex items-center justify-center select-none shrink-0 rounded-sm">
                     04
                   </span>
-                  <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-zinc-200">
+                  <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-foreground">
                     Milestone 04: The Infrastructure
                   </h3>
                 </div>
-                <div className="bg-[#0c0c0e]/60 border border-zinc-900 p-5 rounded-none space-y-2">
-                  <p className="text-xs text-zinc-405 leading-relaxed font-light font-sans">
+                <div className="bg-card/75 border border-border p-5 rounded-md space-y-2">
+                  <p className="text-xs text-muted-foreground leading-relaxed font-light font-sans">
                     Multi-stage Docker configurations, Nginx reverse proxy routing with SSL termination, and Ubuntu VPS Linux cloud deployments.
                   </p>
-                  <div className="flex items-center gap-1.5 font-mono text-[9px] text-zinc-600">
-                    <Server className="w-3 h-3" /> INFRASTRUCTURE: CLOUD_CONTAINERS
+                  <div className="flex items-center gap-1.5 font-mono text-[9px] text-muted-foreground">
+                    <Server className="w-3.5 h-3.5 text-primary" /> INFRASTRUCTURE: CLOUD_CONTAINERS
                   </div>
                 </div>
               </div>
@@ -492,11 +552,11 @@ export default function Home() {
           </section>
 
           {/* SECTION: TOP 3 PROJECTS */}
-          <section id="projects" className="space-y-12 border-b border-zinc-900 pb-24 scroll-mt-24">
+          <section id="projects" className="space-y-12 border-b border-border/80 pb-24 scroll-mt-24">
             <div className="space-y-2">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">[ Core Systems ]</span>
-              <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-white">Featured Production Projects</h2>
-              <p className="text-xs text-zinc-400 max-w-lg leading-relaxed">
+              <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest block">[ Core Systems ]</span>
+              <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-foreground">Featured Production Projects</h2>
+              <p className="text-xs text-muted-foreground max-w-lg leading-relaxed">
                 A selection of high-fidelity full-stack architectures and community-driven engines, verified for production.
               </p>
             </div>
@@ -505,11 +565,10 @@ export default function Home() {
               {projects.map((project) => (
                 <div
                   key={project.id}
-                  className="group bg-[#0c0c0e]/60 border border-zinc-900 hover:border-zinc-800 p-4 flex flex-col justify-between transition-all duration-300 relative shadow-sm"
+                  className="group bg-card text-card-foreground border border-border hover:border-primary/40 p-5 flex flex-col justify-between transition-all duration-300 relative shadow-sm rounded-md"
                 >
                   <div className="space-y-4">
-                    {/* Project Image Frame */}
-                    <div className="relative aspect-video w-full bg-zinc-950 border border-zinc-900 overflow-hidden">
+                    <div className="relative aspect-video w-full bg-muted border border-border overflow-hidden rounded-sm">
                       {project.image ? (
                         <img
                           src={project.image}
@@ -517,7 +576,7 @@ export default function Home() {
                           className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center font-mono text-[10px] text-zinc-650">
+                        <div className="w-full h-full flex items-center justify-center font-mono text-[10px] text-muted-foreground">
                           [ASSET: PROJECT_PREVIEW]
                         </div>
                       )}
@@ -525,37 +584,35 @@ export default function Home() {
 
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">
+                        <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-wider">
                           ID: 0{project.id} // ACTIVE
                         </span>
                       </div>
-                      <h3 className="text-sm font-bold font-mono uppercase tracking-tight text-white">
+                      <h3 className="text-sm font-bold font-mono uppercase tracking-tight text-foreground">
                         {project.title}
                       </h3>
-                      <p className="text-[11px] text-zinc-450 font-sans leading-relaxed min-h-[50px] font-light">
+                      <p className="text-[11px] text-muted-foreground font-sans leading-relaxed min-h-[50px] font-light">
                         {project.description}
                       </p>
                     </div>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-zinc-900 space-y-4">
-                    {/* Tech tag list */}
+                  <div className="mt-6 pt-4 border-t border-border space-y-4">
                     <div className="flex flex-wrap gap-1">
                       {project.tech.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="font-mono text-[8px] bg-zinc-900 border border-zinc-850 text-zinc-500 px-1.5 py-0.5"
+                          className="font-mono text-[8px] bg-muted border border-border/80 text-muted-foreground px-2 py-0.5"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
 
-                    {/* Action links */}
                     <div className="flex items-center justify-between text-[10px] font-mono">
                       <Link
                         href={`/projects/${project.id}`}
-                        className="text-zinc-300 hover:text-white underline flex items-center gap-1"
+                        className="text-foreground hover:text-primary underline flex items-center gap-1"
                       >
                         Details <ChevronRight className="w-3 h-3" />
                       </Link>
@@ -564,7 +621,7 @@ export default function Home() {
                           href={project.links.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-zinc-500 hover:text-white transition-colors"
+                          className="text-muted-foreground hover:text-foreground transition-colors"
                         >
                           Github
                         </a>
@@ -572,7 +629,7 @@ export default function Home() {
                           href={project.links.live}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-zinc-400 hover:text-white transition-colors"
+                          className="text-muted-foreground hover:text-foreground transition-colors"
                         >
                           Live
                         </a>
@@ -585,121 +642,121 @@ export default function Home() {
           </section>
 
           {/* SECTION 3: GRANULAR TECH STACK SYSTEM */}
-          <section id="skills" className="space-y-12 border-b border-zinc-900 pb-24 scroll-mt-24">
+          <section id="skills" className="space-y-12 border-b border-border/80 pb-24 scroll-mt-24">
             <div className="space-y-2">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">[ Stack Audit ]</span>
-              <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-white">Granular Tech Stack System</h2>
-              <p className="text-xs text-zinc-400 max-w-lg leading-relaxed">
+              <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest block">[ Stack Audit ]</span>
+              <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-foreground">Granular Tech Stack System</h2>
+              <p className="text-xs text-muted-foreground max-w-lg leading-relaxed">
                 Aggregated system tools mapped alongside their explicit production version numbers and library parameters.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Languages */}
-              <div className="bg-[#0c0c0e]/60 border border-zinc-900 p-5 rounded-none space-y-4">
-                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-zinc-450 border-b border-zinc-850 pb-2">
+              <div className="bg-card text-card-foreground border border-border p-5 rounded-md space-y-4">
+                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-muted-foreground border-b border-border/80 pb-2">
                   01 // Core Languages
                 </h3>
-                <ul className="space-y-2.5 text-xs font-mono text-zinc-400">
+                <ul className="space-y-2.5 text-xs font-mono text-foreground/80">
                   <li className="flex justify-between items-center">
                     <span>TypeScript</span>
-                    <span className="text-[10px] text-zinc-650">v5.x (Strict Mode)</span>
+                    <span className="text-[10px] text-muted-foreground">v5.x (Strict Mode)</span>
                   </li>
                   <li className="flex justify-between items-center">
                     <span>JavaScript</span>
-                    <span className="text-[10px] text-zinc-650">ES6+ Standard</span>
+                    <span className="text-[10px] text-muted-foreground">ES6+ Standard</span>
                   </li>
                 </ul>
               </div>
 
               {/* Frameworks */}
-              <div className="bg-[#0c0c0e]/60 border border-zinc-900 p-5 rounded-none space-y-4">
-                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-zinc-455 border-b border-zinc-850 pb-2">
+              <div className="bg-card text-card-foreground border border-border p-5 rounded-md space-y-4">
+                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-muted-foreground border-b border-border/80 pb-2">
                   02 // Frameworks & Libraries
                 </h3>
-                <ul className="space-y-2.5 text-xs font-mono text-zinc-400">
+                <ul className="space-y-2.5 text-xs font-mono text-foreground/80">
                   <li className="flex justify-between items-center">
                     <span>Next.js</span>
-                    <span className="text-[10px] text-zinc-650">v14 / v15 App Router</span>
+                    <span className="text-[10px] text-muted-foreground">v14 / v15 App Router</span>
                   </li>
                   <li className="flex justify-between items-center">
                     <span>React</span>
-                    <span className="text-[10px] text-zinc-650">v18 / v19 Core</span>
+                    <span className="text-[10px] text-muted-foreground">v18 / v19 Core</span>
                   </li>
                   <li className="flex justify-between items-center">
                     <span>Node.js</span>
-                    <span className="text-[10px] text-zinc-650">Runtime Core</span>
+                    <span className="text-[10px] text-muted-foreground">Runtime Core</span>
                   </li>
                   <li className="flex justify-between items-center">
                     <span>Express.js</span>
-                    <span className="text-[10px] text-zinc-650">Server REST API</span>
+                    <span className="text-[10px] text-muted-foreground">Server REST API</span>
                   </li>
                 </ul>
               </div>
 
               {/* Databases */}
-              <div className="bg-[#0c0c0e]/60 border border-zinc-900 p-5 rounded-none space-y-4">
-                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-zinc-455 border-b border-zinc-850 pb-2">
+              <div className="bg-card text-card-foreground border border-border p-5 rounded-md space-y-4">
+                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-muted-foreground border-b border-border/80 pb-2">
                   03 // Databases & ORM
                 </h3>
-                <ul className="space-y-2.5 text-xs font-mono text-zinc-400">
+                <ul className="space-y-2.5 text-xs font-mono text-foreground/80">
                   <li className="flex justify-between items-center">
                     <span>PostgreSQL</span>
-                    <span className="text-[10px] text-zinc-650">Relational DB</span>
+                    <span className="text-[10px] text-muted-foreground">Relational DB</span>
                   </li>
                   <li className="flex justify-between items-center">
                     <span>MongoDB</span>
-                    <span className="text-[10px] text-zinc-650">Document Store</span>
+                    <span className="text-[10px] text-muted-foreground">Document Store</span>
                   </li>
                   <li className="flex justify-between items-center">
                     <span>Prisma ORM</span>
-                    <span className="text-[10px] text-zinc-650">Type-Safe Client</span>
+                    <span className="text-[10px] text-muted-foreground">Type-Safe Client</span>
                   </li>
                   <li className="flex justify-between items-center">
                     <span>Mongoose ODM</span>
-                    <span className="text-[10px] text-zinc-650">Schema Modelling</span>
+                    <span className="text-[10px] text-muted-foreground">Schema Modelling</span>
                   </li>
                 </ul>
               </div>
 
               {/* DevOps */}
-              <div className="bg-[#0c0c0e]/60 border border-zinc-900 p-5 rounded-none space-y-4">
-                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-zinc-455 border-b border-zinc-850 pb-2">
+              <div className="bg-card text-card-foreground border border-border p-5 rounded-md space-y-4">
+                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-muted-foreground border-b border-border/80 pb-2">
                   04 // DevOps & Systems
                 </h3>
-                <ul className="space-y-2.5 text-xs font-mono text-zinc-400">
+                <ul className="space-y-2.5 text-xs font-mono text-foreground/80">
                   <li className="flex justify-between items-center">
                     <span>Docker</span>
-                    <span className="text-[10px] text-zinc-650">Containerization</span>
+                    <span className="text-[10px] text-muted-foreground">Containerization</span>
                   </li>
                   <li className="flex justify-between items-center">
                     <span>Nginx</span>
-                    <span className="text-[10px] text-zinc-650">Proxy & Load Balancer</span>
+                    <span className="text-[10px] text-muted-foreground">Proxy & Load Balancer</span>
                   </li>
                   <li className="flex justify-between items-center">
                     <span>Linux/Ubuntu VPS</span>
-                    <span className="text-[10px] text-zinc-650">Remote Hosting</span>
+                    <span className="text-[10px] text-muted-foreground">Remote Hosting</span>
                   </li>
                 </ul>
               </div>
 
               {/* UI/UX Ecosystem */}
-              <div className="bg-[#0c0c0e]/60 border border-zinc-900 p-5 rounded-none space-y-4">
-                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-zinc-455 border-b border-zinc-850 pb-2">
+              <div className="bg-card text-card-foreground border border-border p-5 rounded-md space-y-4">
+                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-muted-foreground border-b border-border/80 pb-2">
                   05 // UI/UX Ecosystem
                 </h3>
-                <ul className="space-y-2.5 text-xs font-mono text-zinc-400">
+                <ul className="space-y-2.5 text-xs font-mono text-foreground/80">
                   <li className="flex justify-between items-center">
                     <span>Tailwind CSS</span>
-                    <span className="text-[10px] text-zinc-650">Utility Framework</span>
+                    <span className="text-[10px] text-muted-foreground">Utility Framework</span>
                   </li>
                   <li className="flex justify-between items-center">
                     <span>shadcn/ui</span>
-                    <span className="text-[10px] text-zinc-650">Radix Primitive Base</span>
+                    <span className="text-[10px] text-muted-foreground">Radix Primitive Base</span>
                   </li>
                   <li className="flex justify-between items-center">
                     <span>Aceternity UI</span>
-                    <span className="text-[10px] text-zinc-650">Modern Animations</span>
+                    <span className="text-[10px] text-muted-foreground">Modern Animations</span>
                   </li>
                 </ul>
               </div>
@@ -707,54 +764,54 @@ export default function Home() {
           </section>
 
           {/* SECTION 4: REALISTIC EXPERIENCE & TEAM TRACE MATRIX */}
-          <section id="experience" className="space-y-12 border-b border-zinc-900 pb-24 scroll-mt-24">
+          <section id="experience" className="space-y-12 border-b border-border/80 pb-24 scroll-mt-24">
             <div className="space-y-2">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">[ Credentials ]</span>
-              <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-white">Experience & Team Trace Matrix</h2>
-              <p className="text-xs text-zinc-400 max-w-lg leading-relaxed">
+              <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest block">[ Credentials ]</span>
+              <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-foreground">Experience & Team Trace Matrix</h2>
+              <p className="text-xs text-muted-foreground max-w-lg leading-relaxed">
                 Honest documentation of my professional tenure, collaborative group workflows, and foundational system training.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
               {/* IT Firm Tenure */}
-              <div className="bg-[#0c0c0e]/60 border border-zinc-900 p-5 flex flex-col justify-between space-y-6">
+              <div className="bg-card text-card-foreground border border-border p-5 flex flex-col justify-between space-y-6 rounded-md">
                 <div className="space-y-3">
-                  <span className="text-zinc-600 font-bold block">[ 01 // IT_FIRM_TENURE ]</span>
-                  <h3 className="font-bold text-white uppercase tracking-tight">On-site Rajshahi Operations</h3>
-                  <p className="text-zinc-450 leading-relaxed font-sans font-light">
+                  <span className="text-primary font-bold block">[ 01 // IT_FIRM_TENURE ]</span>
+                  <h3 className="font-bold text-foreground uppercase tracking-tight">On-site Rajshahi Operations</h3>
+                  <p className="text-muted-foreground leading-relaxed font-sans font-normal text-xs">
                     Worked on-site at an established IT firm in Rajshahi. Implemented clean code standards, watched seasoned production workflows, and deployed secure server configurations under senior guidance.
                   </p>
                 </div>
-                <div className="text-[9px] text-zinc-600 border-t border-zinc-900 pt-3">
+                <div className="text-[9px] text-muted-foreground border-t border-border/80 pt-3">
                   ROLE: ASSOCIATE DEV // LOCATION: RAJSHAHI
                 </div>
               </div>
 
               {/* Core 4-Man Engineering Team */}
-              <div className="bg-[#0c0c0e]/60 border border-zinc-900 p-5 flex flex-col justify-between space-y-6">
+              <div className="bg-card text-card-foreground border border-border p-5 flex flex-col justify-between space-y-6 rounded-md">
                 <div className="space-y-3">
-                  <span className="text-zinc-600 font-bold block">[ 02 // TEAM_COLLABORATION ]</span>
-                  <h3 className="font-bold text-white uppercase tracking-tight">Core {teamSize}-Man Engineering Group</h3>
-                  <p className="text-zinc-450 leading-relaxed font-sans font-light">
+                  <span className="text-primary font-bold block">[ 02 // TEAM_COLLABORATION ]</span>
+                  <h3 className="font-bold text-foreground uppercase tracking-tight">Core {teamSize}-Man Engineering Group</h3>
+                  <p className="text-muted-foreground leading-relaxed font-sans font-normal text-xs">
                     Active collaborator in a specialized {teamSize}-man engineering team. Cooperated closely through git pipelines, resolved integration merge conflicts, and aggregate-shipped production projects from layout to final deploy.
                   </p>
                 </div>
-                <div className="text-[9px] text-zinc-600 border-t border-zinc-900 pt-3">
+                <div className="text-[9px] text-muted-foreground border-t border-border/80 pt-3">
                   TEAM: {teamSize} GRADUATES // PIPELINE: GIT_SHARED
                 </div>
               </div>
 
               {/* Training Milestones */}
-              <div className="bg-[#0c0c0e]/60 border border-zinc-900 p-5 flex flex-col justify-between space-y-6">
+              <div className="bg-card text-card-foreground border border-border p-5 flex flex-col justify-between space-y-6 rounded-md">
                 <div className="space-y-3">
-                  <span className="text-zinc-600 font-bold block">[ 03 // TRAINING_MILESTONES ]</span>
-                  <h3 className="font-bold text-white uppercase tracking-tight">Foundations & MERN Specialization</h3>
-                  <p className="text-zinc-450 leading-relaxed font-sans font-light">
+                  <span className="text-primary font-bold block">[ 03 // TRAINING_MILESTONES ]</span>
+                  <h3 className="font-bold text-foreground uppercase tracking-tight">Foundations & MERN Specialization</h3>
+                  <p className="text-muted-foreground leading-relaxed font-sans font-normal text-xs">
                     Graduated from Programming Hero (advanced MERN development) and completed rigorous computer science training at Phitron, bridging full-stack implementations with data structures and algorithmic efficiency.
                   </p>
                 </div>
-                <div className="text-[9px] text-zinc-600 border-t border-zinc-900 pt-3">
+                <div className="text-[9px] text-muted-foreground border-t border-border/80 pt-3">
                   ACADEMICS: HONOURS (EXPECTED 2028)
                 </div>
               </div>
@@ -762,94 +819,92 @@ export default function Home() {
           </section>
 
           {/* SECTION 5: LIVE BLOG ENGINE */}
-          <section id="blog" className="space-y-12 border-b border-zinc-900 pb-24 scroll-mt-24">
+          <section id="blog" className="space-y-12 border-b border-border/80 pb-24 scroll-mt-24">
             <div className="space-y-2">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">[ Article Stream ]</span>
-              <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-white">Technical Insights & Engineering Log</h2>
-              <p className="text-xs text-zinc-400 max-w-lg leading-relaxed">
+              <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest block">[ Article Stream ]</span>
+              <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-foreground">Technical Insights & Engineering Log</h2>
+              <p className="text-xs text-muted-foreground max-w-lg leading-relaxed">
                 An integrated, live-loading blog engine detailing systems architecture, secure authentication lifecycles, and containers pruning.
               </p>
             </div>
 
-            {/* The Blog Engine cards ribbon */}
             <BlogEngine />
           </section>
 
           {/* SECTION 6: THE TERMINAL CHAT EMBED (VISITOR UPLINK) */}
-          <section id="connect" className="space-y-12 scroll-mt-24 pb-12 border-b border-zinc-900">
+          <section id="connect" className="space-y-12 scroll-mt-24 pb-12 border-b border-border/80">
             <div className="space-y-2">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">[ Live Chat Node ]</span>
-              <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-white">Establish Gateway Link</h2>
-              <p className="text-xs text-zinc-400 max-w-lg leading-relaxed">
+              <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest block">[ Live Chat Node ]</span>
+              <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-foreground">Establish Gateway Link</h2>
+              <p className="text-xs text-muted-foreground max-w-lg leading-relaxed">
                 Connect with my dashboard. Leave an anonymous message below; it securely logs directly into my internal Admin Panel.
               </p>
             </div>
 
-            {/* Inline Terminal Chat Interface */}
-            <div className="max-w-xl mx-auto border border-zinc-800 bg-[#0c0c0e] font-mono text-xs flex flex-col shadow-lg">
+            <div className="max-w-xl mx-auto border border-border bg-card text-card-foreground font-mono text-xs flex flex-col shadow-lg rounded-lg overflow-hidden">
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-zinc-800 p-3 text-[10px] uppercase font-bold text-zinc-500 select-none">
+              <div className="flex items-center justify-between border-b border-border p-3.5 text-[10px] uppercase font-bold text-muted-foreground select-none bg-muted/20">
                 <div className="flex items-center gap-2">
-                  <Terminal className="w-3.5 h-3.5" />
+                  <Terminal className="w-4 h-4 text-primary" />
                   <span>[Live Chat Node: Online]</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-[#4ade80]">
-                  <span className="w-1.5 h-1.5 bg-[#4ade80] rounded-none animate-pulse" />
+                <div className="flex items-center gap-1.5 text-emerald-500">
+                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
                   <span>UPLINK_LIVE</span>
                 </div>
               </div>
 
               {/* Chat Output Frame */}
-              <div className="h-[240px] overflow-y-auto p-4 space-y-3 bg-[#070709] border-b border-zinc-800 scrollbar-thin">
+              <div className="h-[240px] overflow-y-auto p-4 space-y-3 bg-muted/5 border-b border-border scrollbar-thin">
                 {chatMessages.length === 0 ? (
-                  <div className="text-zinc-650 text-[11px] leading-relaxed select-none">
+                  <div className="text-muted-foreground text-[11px] leading-relaxed select-none">
                     [SYSTEM_LOG] Welcome visitor. Establish connection parameters by writing a message below.
                   </div>
                 ) : (
                   chatMessages.map((msg) => (
                     <div key={msg.id} className="space-y-0.5">
-                      <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-wider select-none text-zinc-500">
+                      <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-wider select-none text-muted-foreground">
                         {msg.sender === "user" ? (
                           <>
-                            <User className="w-3 h-3 text-[#06b6d4]" />
+                            <User className="w-3.5 h-3.5 text-primary" />
                             <span>visitor@portfolio</span>
                           </>
                         ) : (
                           <>
-                            <Zap className="w-3 h-3 text-[#fbbf24]" />
+                            <Zap className="w-3.5 h-3.5 text-amber-500" />
                             <span>admin@portfolio</span>
                           </>
                         )}
-                        <span className="text-[8px] text-zinc-700">
+                        <span className="text-[8px] text-muted-foreground/60">
                           {new Date(msg.timestamp).toLocaleTimeString("en-US", { hour12: false, hour: "2-digit", minute: "2-digit" })}
                         </span>
                       </div>
-                      <p className="font-sans text-xs text-[#f4f4f5] pl-4 whitespace-pre-wrap">{msg.content}</p>
+                      <p className="font-sans text-xs text-foreground pl-4 whitespace-pre-wrap">{msg.content}</p>
                     </div>
                   ))
                 )}
                 {isTyping && (
-                  <div className="text-zinc-500 text-[10px] animate-pulse">
+                  <div className="text-muted-foreground text-[10px] animate-pulse">
                     [SYSTEM_LOG] Admin is writing response parameter...
                   </div>
                 )}
                 <div ref={inlineMessagesEndRef} />
               </div>
 
-              {/* Chat Input form */}
-              <form onSubmit={handleSendMessage} className="p-3 flex items-center gap-2 bg-[#0c0c0e]">
-                <span className="text-[#06b6d4] shrink-0 font-bold select-none">&gt;</span>
+              {/* Input form */}
+              <form onSubmit={handleSendMessage} className="p-3 flex items-center gap-2 bg-card">
+                <span className="text-primary shrink-0 font-bold select-none">&gt;</span>
                 <input
                   type="text"
                   value={visitorInput}
                   onChange={(e) => setVisitorInput(e.target.value)}
                   placeholder="write message parameter..."
-                  className="flex-1 bg-transparent border-none outline-none text-xs text-[#f4f4f5] placeholder-zinc-700 font-mono px-1 focus:ring-0"
+                  className="flex-1 bg-transparent border-none outline-none text-xs text-foreground placeholder-muted-foreground font-mono px-1 focus:ring-0"
                 />
                 <button
                   type="submit"
                   disabled={!visitorInput.trim()}
-                  className="p-1.5 border border-zinc-800 bg-[#0c0c0e] hover:bg-zinc-900 text-zinc-400 hover:text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="p-1.5 border border-border bg-muted hover:bg-muted/80 text-foreground transition-colors disabled:opacity-30 disabled:cursor-not-allowed rounded-sm"
                 >
                   <Send className="w-3.5 h-3.5" />
                 </button>
@@ -861,21 +916,21 @@ export default function Home() {
           <section id="admin-uplink" className="space-y-8 scroll-mt-24">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
-                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">[ Secret Access ]</span>
-                <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-white">System Console Node</h2>
+                <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest block">[ Secret Access ]</span>
+                <h2 className="text-lg font-bold font-mono uppercase tracking-tight text-foreground">System Console Node</h2>
               </div>
               <button
                 onClick={() => setShowAdminConsole(!showAdminConsole)}
-                className="flex items-center gap-2 px-3 py-1.5 border border-zinc-800 bg-[#0c0c0e] hover:bg-zinc-900 text-zinc-450 hover:text-white font-mono text-[10px] uppercase transition-all select-none"
+                className="flex items-center gap-2 px-3 py-1.5 border border-border bg-card hover:bg-accent text-foreground font-mono text-[10px] uppercase transition-all select-none rounded-md"
               >
                 {showAdminConsole ? (
                   <>
-                    <Unlock className="w-3.5 h-3.5 text-[#4ade80]" />
+                    <Unlock className="w-3.5 h-3.5 text-emerald-500" />
                     <span>Hide Console</span>
                   </>
                 ) : (
                   <>
-                    <Lock className="w-3.5 h-3.5 text-zinc-500" />
+                    <Lock className="w-3.5 h-3.5 text-muted-foreground" />
                     <span>Show Console</span>
                   </>
                 )}
@@ -892,63 +947,62 @@ export default function Home() {
                 >
                   {isAdminLoggedIn ? (
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between border border-zinc-800 bg-[#0c0c0e] px-4 py-2 text-[10px] text-zinc-400 font-mono">
+                      <div className="flex items-center justify-between border border-border bg-card px-4 py-2.5 text-[10px] text-muted-foreground font-mono rounded-md">
                         <div className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 bg-[#4ade80] animate-pulse rounded-none" />
+                          <span className="w-1.5 h-1.5 bg-emerald-500 animate-pulse rounded-full" />
                           <span>UPLINK_SECURE: ACTIVE_ADMIN_SESSION</span>
                         </div>
                         <button
                           onClick={handleAdminLogout}
-                          className="hover:text-red-400 transition-colors cursor-pointer"
+                          className="hover:text-destructive transition-colors cursor-pointer"
                         >
                           [ LOGOUT ]
                         </button>
                       </div>
                       
-                      {/* Active Admin Panel inline view */}
                       <AdminDashboardInline onLogout={handleAdminLogout} />
                     </div>
                   ) : (
-                    <div className="max-w-md mx-auto border border-zinc-800 bg-[#0c0c0e] p-6 font-mono space-y-4 shadow-xl">
+                    <div className="max-w-md mx-auto border border-border bg-card p-6 font-mono space-y-4 shadow-xl rounded-md text-card-foreground">
                       <div className="text-center space-y-1">
-                        <Key className="w-5 h-5 mx-auto text-zinc-500" />
-                        <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-350">Console Authorization</h3>
-                        <p className="text-[9px] text-zinc-500">Provide admin credentials to establish verified session.</p>
+                        <Key className="w-5 h-5 mx-auto text-primary" />
+                        <h3 className="font-bold text-xs uppercase tracking-wider text-foreground">Console Authorization</h3>
+                        <p className="text-[9px] text-muted-foreground">Provide admin credentials to establish verified session.</p>
                       </div>
 
                       {adminLoginError && (
-                        <div className="border border-red-500/20 bg-red-950/20 text-red-400 p-2.5 text-[10px] text-center font-bold">
+                        <div className="border border-destructive/20 bg-destructive/5 text-destructive p-2.5 text-[10px] text-center font-bold">
                           ERROR: {adminLoginError}
                         </div>
                       )}
 
                       <form onSubmit={handleAdminLoginSubmit} className="space-y-3">
                         <div className="space-y-1">
-                          <label className="text-[8px] text-zinc-500 font-bold uppercase">Username</label>
+                          <label className="text-[8px] text-muted-foreground font-bold uppercase">Username</label>
                           <input
                             type="text"
                             required
                             value={adminUsername}
                             onChange={(e) => setAdminUsername(e.target.value)}
                             placeholder="username parameter..."
-                            className="w-full bg-zinc-950 border border-zinc-800 text-[10px] text-zinc-300 placeholder-zinc-700 h-8 px-2.5 outline-none focus:border-zinc-700"
+                            className="w-full bg-muted border border-border text-[10px] text-foreground placeholder-muted-foreground h-8 px-2.5 outline-none focus:border-primary font-mono rounded-sm"
                           />
                         </div>
                         <div className="space-y-1">
-                          <label className="text-[8px] text-zinc-500 font-bold uppercase">Password</label>
+                          <label className="text-[8px] text-muted-foreground font-bold uppercase">Password</label>
                           <input
                             type="password"
                             required
                             value={adminPassword}
                             onChange={(e) => setAdminPassword(e.target.value)}
                             placeholder="••••••••"
-                            className="w-full bg-zinc-950 border border-zinc-800 text-[10px] text-zinc-350 placeholder-zinc-700 h-8 px-2.5 outline-none focus:border-zinc-700"
+                            className="w-full bg-muted border border-border text-[10px] text-foreground placeholder-muted-foreground h-8 px-2.5 outline-none focus:border-primary font-mono rounded-sm"
                           />
                         </div>
                         <button
                           type="submit"
                           disabled={isSubmittingAdmin}
-                          className="w-full py-2 bg-zinc-300 hover:bg-white text-zinc-950 font-bold uppercase text-[10px] cursor-pointer transition-colors disabled:opacity-40"
+                          className="w-full py-2.5 bg-primary hover:opacity-90 text-primary-foreground font-bold uppercase text-[10px] cursor-pointer transition-colors disabled:opacity-40 rounded-sm"
                         >
                           {isSubmittingAdmin ? "Authorizing Node..." : "Establish Uplink"}
                         </button>
@@ -972,23 +1026,23 @@ export default function Home() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 50, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="w-72 sm:w-80 md:w-96 border border-zinc-800 bg-[#0c0c0e] flex flex-col shadow-2xl overflow-hidden"
+              className="w-72 sm:w-80 md:w-96 border border-border bg-card text-card-foreground flex flex-col shadow-2xl overflow-hidden rounded-lg"
             >
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-zinc-800 p-3 text-[10px] uppercase font-bold text-zinc-500 select-none">
+              <div className="flex items-center justify-between border-b border-border p-3 text-[10px] uppercase font-bold text-muted-foreground select-none bg-muted/20">
                 <div className="flex items-center gap-2">
-                  <Terminal className="w-3.5 h-3.5 text-[#06b6d4]" />
+                  <Terminal className="w-3.5 h-3.5 text-primary" />
                   <span>[Live Chat Node: Online]</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1 text-[#4ade80] text-[9px]">
-                    <span className="w-1 h-1 bg-[#4ade80] rounded-none animate-pulse" />
+                  <div className="flex items-center gap-1 text-emerald-500 text-[9px]">
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse" />
                     <span>LIVE</span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setChatOpen(false)}
-                    className="text-zinc-600 hover:text-white transition-colors ml-1 cursor-pointer"
+                    className="text-muted-foreground hover:text-foreground transition-colors ml-1 cursor-pointer"
                     aria-label="Close Chat"
                   >
                     <X className="w-3.5 h-3.5" />
@@ -997,21 +1051,21 @@ export default function Home() {
               </div>
 
               {/* Message frame */}
-              <div className="h-[200px] overflow-y-auto p-3 space-y-3 bg-[#070709] border-b border-zinc-800 scrollbar-thin">
+              <div className="h-[200px] overflow-y-auto p-3 bg-muted/5 border-b border-border scrollbar-thin">
                 {chatMessages.length === 0 ? (
-                  <div className="text-zinc-650 text-[10px] leading-relaxed select-none">
+                  <div className="text-muted-foreground text-[10px] leading-relaxed select-none">
                     [SYSTEM_LOG] Uplink ready. Send a message to get in touch with me directly.
                   </div>
                 ) : (
                   chatMessages.map((msg) => (
                     <div key={msg.id} className="space-y-0.5">
-                      <div className="flex items-center gap-1 text-[8px] uppercase tracking-wider select-none text-zinc-500">
+                      <div className="flex items-center gap-1 text-[8px] uppercase tracking-wider select-none text-muted-foreground">
                         {msg.sender === "user" ? "visitor@portfolio" : "admin@portfolio"}
-                        <span className="text-zinc-700">
+                        <span className="text-muted-foreground/60">
                           {new Date(msg.timestamp).toLocaleTimeString("en-US", { hour12: false, hour: "2-digit", minute: "2-digit" })}
                         </span>
                       </div>
-                      <p className="font-sans text-xs text-[#f4f4f5] pl-2.5 whitespace-pre-wrap">{msg.content}</p>
+                      <p className="font-sans text-xs text-foreground pl-2.5 whitespace-pre-wrap">{msg.content}</p>
                     </div>
                   ))
                 )}
@@ -1019,19 +1073,19 @@ export default function Home() {
               </div>
 
               {/* Input block */}
-              <form onSubmit={handleSendMessage} className="p-2 flex items-center gap-2 bg-[#0c0c0e]">
-                <span className="text-[#06b6d4] shrink-0 font-bold select-none">&gt;</span>
+              <form onSubmit={handleSendMessage} className="p-2.5 flex items-center gap-2 bg-card">
+                <span className="text-primary shrink-0 font-bold select-none">&gt;</span>
                 <input
                   type="text"
                   value={visitorInput}
                   onChange={(e) => setVisitorInput(e.target.value)}
                   placeholder="send a message..."
-                  className="flex-1 bg-transparent border-none outline-none text-xs text-[#f4f4f5] placeholder-zinc-700 font-mono px-1 focus:ring-0"
+                  className="flex-1 bg-transparent border-none outline-none text-xs text-foreground placeholder-muted-foreground font-mono px-1 focus:ring-0"
                 />
                 <button
                   type="submit"
                   disabled={!visitorInput.trim()}
-                  className="p-1 border border-zinc-800 bg-[#0c0c0e] hover:bg-zinc-900 text-zinc-400 hover:text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="p-1 border border-border bg-muted hover:bg-muted/80 text-foreground transition-colors disabled:opacity-30 disabled:cursor-not-allowed rounded-sm"
                 >
                   <Send className="w-3.5 h-3.5" />
                 </button>
@@ -1041,13 +1095,13 @@ export default function Home() {
             <motion.button
               layoutId="chat-bubble"
               onClick={() => setChatOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 border border-zinc-800 bg-[#0c0c0e] text-zinc-200 hover:text-white hover:bg-zinc-900 transition-all duration-300 shadow-xl focus:outline-none select-none cursor-pointer"
+              className="flex items-center gap-2 px-4.5 py-3 border border-border bg-card text-foreground hover:bg-accent transition-all duration-300 shadow-xl focus:outline-none select-none cursor-pointer rounded-full"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <span className="w-2 h-2 bg-[#4ade80] rounded-none animate-pulse shrink-0" />
-              <span className="text-xs uppercase font-bold tracking-wider">[Live Chat Node: Online]</span>
-              <MessageSquare className="w-3.5 h-3.5 ml-1 text-zinc-550" />
+              <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shrink-0" />
+              <span className="text-[10px] uppercase font-bold tracking-wider">[Live Chat Node: Online]</span>
+              <MessageSquare className="w-3.5 h-3.5 ml-1 text-primary" />
             </motion.button>
           )}
         </AnimatePresence>

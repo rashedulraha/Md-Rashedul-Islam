@@ -449,16 +449,23 @@ export default function ProjectsPage() {
                         </p>
                       </div>
 
-                      {/* Launch log */}
-                      <div className="pt-2">
+                      {/* Launch log & Project Details Route */}
+                      <div className="pt-2 flex flex-wrap items-center gap-4">
                         <a 
                           href={project.liveUrl} 
                           target="_blank" 
                           rel="noopener noreferrer" 
                           className="inline-flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 font-mono font-semibold transition-colors"
                         >
-                          Launch Production Service <ExternalLink className="w-3 h-3" />
+                          Launch Service <ExternalLink className="w-3 h-3" />
                         </a>
+                        <span className="text-muted-foreground/40 font-mono">|</span>
+                        <Link 
+                          href={`/projects/${project.id === "blood-bridge" ? "1" : project.id === "sharebite" ? "2" : "3"}`}
+                          className="inline-flex items-center gap-1 text-xs text-primary hover:text-primary/80 font-mono font-semibold transition-colors"
+                        >
+                          Inspect Details →
+                        </Link>
                       </div>
 
                     </div>

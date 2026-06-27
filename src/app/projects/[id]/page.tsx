@@ -28,13 +28,14 @@ import {
   GitBranch,
   Globe,
   Smartphone,
+  Palette,
+  Server
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Responsive from "@/views/Responsive/Responsive";
 
 interface Project {
   id: string;
@@ -63,25 +64,21 @@ interface Project {
   metric: string;
 }
 
-// ─── LOADING SKELETON ───
 function LoadingSkeleton() {
   return (
-    <div className="min-h-screen bg-background animate-pulse">
-      <div className="h-[85vh] w-full bg-muted" />
-      <div className="container mx-auto px-4 -mt-5 relative z-10 pb-20">
-        <div className="bg-card/50 border border-border rounded-3xl overflow-hidden">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="space-y-2">
-                <div className="h-4 w-20 bg-muted rounded" />
-                <div className="h-8 w-24 bg-muted rounded" />
-              </div>
-            ))}
-          </div>
-          <div className="p-6 space-y-4">
-            <div className="h-6 w-32 bg-muted rounded" />
-            <div className="h-20 w-full bg-muted rounded" />
-          </div>
+    <div className="min-h-screen bg-[var(--background)] animate-pulse py-12">
+      <div className="max-w-5xl mx-auto px-4 space-y-8">
+        <div className="h-10 w-24 bg-muted rounded-full" />
+        <div className="space-y-4">
+          <div className="h-6 w-32 bg-muted rounded" />
+          <div className="h-12 w-3/4 bg-muted rounded" />
+          <div className="h-6 w-1/2 bg-muted rounded font-mono" />
+        </div>
+        <div className="aspect-video w-full bg-muted rounded-2xl" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-20 bg-muted rounded-xl" />
+          ))}
         </div>
       </div>
     </div>
@@ -112,20 +109,20 @@ export default function ProjectDetailsPage() {
   if (loading) return <LoadingSkeleton />;
   if (!project) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-muted">
-            <AlertCircle className="w-10 h-10 text-muted-foreground" />
+      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center py-12">
+        <div className="text-center space-y-4 max-w-md px-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[var(--accent)] text-destructive">
+            <AlertCircle className="w-8 h-8" />
           </div>
-          <h1 className="text-2xl font-bold text-foreground">
+          <h1 className="text-2xl font-bold text-[var(--text-primary)]">
             Project Not Found
           </h1>
-          <p className="text-muted-foreground">
-            The project you're looking for doesn't exist.
+          <p className="text-base text-[var(--text-secondary)]">
+            The telemetry logs cannot find the requested project node.
           </p>
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary text-primary-foreground hover:opacity-95 transition-all text-sm font-semibold">
             <ArrowLeft className="w-4 h-4" />
             Back to Projects
           </Link>
@@ -134,7 +131,6 @@ export default function ProjectDetailsPage() {
     );
   }
 
-  // ─── TECH ICON MAP ───
   const techIcons: Record<string, any> = {
     React: Smartphone,
     "Next.js": Layers,
@@ -156,412 +152,286 @@ export default function ProjectDetailsPage() {
     Prisma: Database,
   };
 
-  // ─── CATEGORY COLORS ───
   const categoryColors: Record<string, string> = {
-    "Web App": "from-blue-500 to-cyan-500",
-    "E-Commerce": "from-emerald-500 to-teal-500",
-    Productivity: "from-amber-500 to-orange-500",
-    Portfolio: "from-purple-500 to-pink-500",
-    Education: "from-rose-500 to-red-500",
-    Dashboard: "from-indigo-500 to-blue-500",
-  };
-
-  const categoryBorderColors: Record<string, string> = {
-    "Web App": "hover:border-blue-500/40",
-    "E-Commerce": "hover:border-emerald-500/40",
-    Productivity: "hover:border-amber-500/40",
-    Portfolio: "hover:border-purple-500/40",
-    Education: "hover:border-rose-500/40",
-    Dashboard: "hover:border-indigo-500/40",
+    "Web App": "bg-blue-500/10 text-blue-500 border-blue-500/20",
+    "E-Commerce": "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+    Productivity: "bg-amber-500/10 text-amber-500 border-amber-500/20",
+    Portfolio: "bg-purple-500/10 text-purple-500 border-purple-500/20",
+    Education: "bg-rose-500/10 text-rose-500 border-rose-500/20",
+    Dashboard: "bg-indigo-500/10 text-indigo-500 border-indigo-500/20",
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* ═══════════════════════════════════════════════════════════
-          NAV / BACK BUTTON (Floating)
-          ═══════════════════════════════════════════════════════════ */}
-      <div className="fixed top-6 left-6 z-50">
-        <Link
-          href="/projects"
-          className="group flex items-center gap-2 px-4 py-2.5 rounded-full bg-background/80 backdrop-blur-xl border border-border/50 text-foreground hover:bg-muted transition-all duration-300 shadow-lg shadow-black/5 hover:shadow-black/10 hover:scale-105">
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm font-medium">Back</span>
-        </Link>
-      </div>
+    <div className="min-h-screen bg-[var(--background)] py-12 md:py-16" style={{ color: "var(--text-primary)" }}>
+      <div className="max-w-5xl mx-auto px-4 space-y-8">
+        
+        {/* Header Breadcrumb & Back button */}
+        <div className="flex items-center justify-between">
+          <Link
+            href="/projects"
+            className="group inline-flex items-center gap-2 px-4 py-2 rounded-md bg-[var(--accent)] border border-[var(--border)] text-[var(--text-primary)] hover:bg-[var(--accent)]/80 transition-all">
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+            <span className="text-sm font-semibold">Back to Projects</span>
+          </Link>
+          <span className="text-xs font-mono text-[var(--text-secondary)] uppercase">
+            [ ID: 0{project.id} // ACTIVE_NODE ]
+          </span>
+        </div>
 
-      {/* ═══════════════════════════════════════════════════════════
-          HERO SECTION - MODERN GRADIENT BORDER
-          ═══════════════════════════════════════════════════════════ */}
-      <div className="relative h-[85vh] w-full overflow-hidden">
-        {/* Animated Gradient Border on Image */}
-        <div
-          className={cn(
-            "absolute inset-0",
-            "bg-linear-to-br",
-            categoryColors[project.category] || "from-primary to-secondary",
-          )}>
-          <div className="relative w-full h-full overflow-hidden">
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              className="object-cover"
-              priority
-            />
+        {/* Title and Subtitle Block */}
+        <div className="space-y-4 text-left">
+          <div className="flex flex-wrap gap-2">
+            <Badge className={cn("border px-2.5 py-0.5 text-xs font-mono rounded", categoryColors[project.category] || "bg-[var(--accent)] text-[var(--text-secondary)]")}>
+              {project.category}
+            </Badge>
+            {parseInt(project.id) === 1 && (
+              <Badge className="bg-amber-500/10 text-amber-600 border border-amber-500/20 font-mono text-xs px-2.5 py-0.5 rounded">
+                <Sparkles className="w-3 h-3 mr-1 inline" /> Featured
+              </Badge>
+            )}
+            <Badge className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs px-2.5 py-0.5 rounded font-mono">
+              {project.status}
+            </Badge>
+          </div>
+
+          <h1 className="text-3xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight">
+            {project.title}
+          </h1>
+
+          <p className="text-lg font-mono text-[var(--text-secondary)] leading-relaxed">
+            {project.subtitle}
+          </p>
+        </div>
+
+        {/* Fixed Width Featured Image Card */}
+        <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--accent)] shadow-md">
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            className="object-cover"
+            priority
+            sizes="(max-width: 1024px) 100vw, 1024px"
+          />
+        </div>
+
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-card border border-[var(--border)] rounded-xl p-5 shadow-sm text-center md:text-left">
+          <div className="space-y-1">
+            <div className="flex items-center justify-center md:justify-start gap-1.5 text-[var(--text-secondary)]">
+              <Star className="w-4 h-4 text-amber-500 fill-amber-500 shrink-0" />
+              <span className="text-xs font-mono uppercase tracking-wider">Rating</span>
+            </div>
+            <p className="text-xl font-bold text-[var(--text-primary)]">
+              {project.rating} <span className="text-xs font-normal text-[var(--text-secondary)]">/ 5</span>
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center justify-center md:justify-start gap-1.5 text-[var(--text-secondary)]">
+              <Eye className="w-4 h-4 text-blue-500 shrink-0" />
+              <span className="text-xs font-mono uppercase tracking-wider">Views</span>
+            </div>
+            <p className="text-xl font-bold text-[var(--text-primary)]">
+              {project.views.toLocaleString()}
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center justify-center md:justify-start gap-1.5 text-[var(--text-secondary)]">
+              <Clock className="w-4 h-4 text-emerald-500 shrink-0" />
+              <span className="text-xs font-mono uppercase tracking-wider">Duration</span>
+            </div>
+            <p className="text-xl font-bold text-[var(--text-primary)]">
+              {project.duration}
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center justify-center md:justify-start gap-1.5 text-[var(--text-secondary)]">
+              <Users className="w-4 h-4 text-purple-500 shrink-0" />
+              <span className="text-xs font-mono uppercase tracking-wider">Team Size</span>
+            </div>
+            <p className="text-xl font-bold text-[var(--text-primary)]">
+              {project.teamSize} <span className="text-xs font-normal text-[var(--text-secondary)]">members</span>
+            </p>
           </div>
         </div>
 
-        {/* Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-background dark:from-black/30 dark:via-background/60 dark:to-background" />
-
-        {/* Content */}
-        <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 pb-20">
-          <div className="container mx-auto max-w-6xl">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="space-y-4">
-              <div className="flex flex-wrap gap-2">
-                <Badge className="bg-background/80 backdrop-blur-xl border border-border/50 text-foreground text-xs px-3 py-1 font-medium shadow-lg">
-                  {project.category}
-                </Badge>
-                {parseInt(project.id) === 1 && (
-                  <Badge className="bg-gradient-to-r from-yellow-400 to-amber-500 text-black border-0 font-bold text-xs px-3 py-1 shadow-lg">
-                    <Sparkles className="w-3 h-3 mr-1" /> Featured
-                  </Badge>
-                )}
-                <Badge className="bg-emerald-500/20 backdrop-blur-xl border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs px-3 py-1 font-medium shadow-lg">
-                  {project.status}
-                </Badge>
+        {/* Detailed Info Columns */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left">
+          
+          {/* Main Left Columns */}
+          <div className="lg:col-span-8 space-y-8">
+            
+            {/* About Section */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 border-b border-[var(--border)]/60 pb-2">
+                <Code2 className="w-4.5 h-4.5 text-primary" />
+                <h3 className="text-sm font-bold font-mono uppercase tracking-wider text-[var(--text-primary)]">
+                  Project Architecture & Overview
+                </h3>
               </div>
-
-              <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight drop-shadow-2xl">
-                {project.title}
-              </h1>
-
-              <p className="text-xl text-white/90 font-mono max-w-2xl drop-shadow-lg">
-                {project.subtitle}
+              <p className="text-base text-[var(--text-secondary)] leading-relaxed font-sans">
+                {project.longDesc}
               </p>
-            </motion.div>
+            </div>
+
+            {/* Challenges Section */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 border-b border-[var(--border)]/60 pb-2">
+                <AlertCircle className="w-4.5 h-4.5 text-amber-500" />
+                <h3 className="text-sm font-bold font-mono uppercase tracking-wider text-[var(--text-primary)]">
+                  Technical Challenges
+                </h3>
+              </div>
+              <p className="text-base text-[var(--text-secondary)] leading-relaxed font-sans">
+                {project.challenges}
+              </p>
+            </div>
+
+            {/* Outcome Section */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 border-b border-[var(--border)]/60 pb-2">
+                <Award className="w-4.5 h-4.5 text-emerald-500" />
+                <h3 className="text-sm font-bold font-mono uppercase tracking-wider text-[var(--text-primary)]">
+                  System Outcome & Metrics
+                </h3>
+              </div>
+              <p className="text-base text-[var(--text-secondary)] leading-relaxed font-sans">
+                {project.outcome}
+              </p>
+            </div>
+
           </div>
-        </div>
-      </div>
 
-      {/* ═══════════════════════════════════════════════════════════
-          MAIN CONTENT - MODERN GRADIENT BORDER CARD
-          ═══════════════════════════════════════════════════════════ */}
-      <Responsive>
-        <div className="-mt-5 relative z-10 pb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className={cn(
-              "relative overflow-hidden",
-              categoryColors[project.category] ||
-                "from-primary/50 to-secondary/50",
-            )}>
-            {/* Inner Card */}
-            <div className=" bg-background overflow-hidden">
-              {/* PARTITION 1: STATS - MODERN GRID */}
-              <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-border">
-                <div className="p-6 text-center md:text-left">
-                  <div className="flex items-center justify-center md:justify-start gap-2 mb-1">
-                    <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                    <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">
-                      Rating
-                    </p>
-                  </div>
-                  <span className="text-2xl font-bold text-foreground">
-                    {project.rating}
-                    <span className="text-sm text-muted-foreground font-normal ml-1">
-                      /5
+          {/* Sidebar Right Column */}
+          <div className="lg:col-span-4 space-y-6">
+            
+            {/* My Role Box */}
+            <div className="bg-card border border-[var(--border)] rounded-xl p-5 shadow-sm space-y-2">
+              <div className="flex items-center gap-2 text-[var(--text-secondary)]">
+                <Briefcase className="w-4 h-4 text-blue-500" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider">My Contribution</span>
+              </div>
+              <p className="text-base font-semibold text-[var(--text-primary)]">
+                {project.role}
+              </p>
+            </div>
+
+            {/* Key Metric Box */}
+            <div className="bg-card border border-[var(--border)] rounded-xl p-5 shadow-sm space-y-2">
+              <div className="flex items-center gap-2 text-[var(--text-secondary)]">
+                <TrendingUp className="w-4 h-4 text-emerald-500" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider">Target Performance</span>
+              </div>
+              <p className="text-base font-semibold text-[var(--text-primary)]">
+                {project.metric}
+              </p>
+            </div>
+
+            {/* Tech Stack List */}
+            <div className="bg-card border border-[var(--border)] rounded-xl p-5 shadow-sm space-y-3">
+              <div className="flex items-center gap-2 text-[var(--text-secondary)]">
+                <Zap className="w-4 h-4 text-purple-500" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider">Tech Stack Stack</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {project.tech.map((t) => {
+                  const Icon = techIcons[t] || Terminal;
+                  return (
+                    <span
+                      key={t}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-md bg-[var(--accent)] border border-[var(--border)] text-[var(--text-primary)] hover:border-primary/45 transition-colors font-mono">
+                      <Icon className="w-3.5 h-3.5 text-primary shrink-0" />
+                      {t}
                     </span>
-                  </span>
-                </div>
-
-                <div className="p-6 text-center md:text-left">
-                  <div className="flex items-center justify-center md:justify-start gap-2 mb-1">
-                    <Eye className="w-4 h-4 text-blue-500" />
-                    <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">
-                      Views
-                    </p>
-                  </div>
-                  <span className="text-2xl font-bold text-foreground">
-                    {project.views.toLocaleString()}
-                  </span>
-                </div>
-
-                <div className="p-6 text-center md:text-left">
-                  <div className="flex items-center justify-center md:justify-start gap-2 mb-1">
-                    <Clock className="w-4 h-4 text-emerald-500" />
-                    <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">
-                      Duration
-                    </p>
-                  </div>
-                  <span className="text-2xl font-bold text-foreground">
-                    {project.duration}
-                  </span>
-                </div>
-
-                <div className="p-6 text-center md:text-left">
-                  <div className="flex items-center justify-center md:justify-start gap-2 mb-1">
-                    <Users className="w-4 h-4 text-purple-500" />
-                    <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">
-                      Team
-                    </p>
-                  </div>
-                  <span className="text-2xl font-bold text-foreground">
-                    {project.teamSize}
-                    <span className="text-sm text-muted-foreground font-normal ml-1">
-                      people
-                    </span>
-                  </span>
-                </div>
-              </div>
-
-              {/* PARTITION 2: ABOUT + ROLE */}
-              <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-border">
-                <div className="p-6 md:p-8">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
-                      <Code2 className="w-5 h-5" />
-                    </div>
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                      About Project
-                    </h3>
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {project.longDesc}
-                  </p>
-                </div>
-
-                <div className="p-6 md:p-8 space-y-6">
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-500">
-                        <Briefcase className="w-5 h-5" />
-                      </div>
-                      <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                        My Role
-                      </h3>
-                    </div>
-                    <p className="text-base font-medium text-foreground">
-                      {project.role}
-                    </p>
-                  </div>
-
-                  <div className="pt-6 border-t border-border">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500">
-                        <TrendingUp className="w-5 h-5" />
-                      </div>
-                      <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                        Key Metric
-                      </h3>
-                    </div>
-                    <p className="text-base font-medium text-foreground">
-                      {project.metric}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* PARTITION 3: TECH STACK */}
-              <div className="p-6 md:p-8 border-t border-border">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="p-1.5 rounded-lg bg-purple-500/10 text-purple-500">
-                    <Zap className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                    Tech Stack
-                  </h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((t) => {
-                    const Icon = techIcons[t] || Terminal;
-                    return (
-                      <span
-                        key={t}
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm rounded-xl bg-muted border border-border/50 text-foreground hover:border-primary/50 hover:text-primary hover:bg-primary/5 transition-all duration-300">
-                        <Icon className="w-4 h-4" />
-                        {t}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* PARTITION 4: CHALLENGES + OUTCOME */}
-              <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-border border-t border-border">
-                <div className="p-6 md:p-8">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="p-1.5 rounded-lg bg-orange-500/10 text-orange-500">
-                      <AlertCircle className="w-5 h-5" />
-                    </div>
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                      Challenges
-                    </h3>
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {project.challenges}
-                  </p>
-                </div>
-
-                <div className="p-6 md:p-8">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500">
-                      <Award className="w-5 h-5" />
-                    </div>
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                      Outcome
-                    </h3>
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {project.outcome}
-                  </p>
-                </div>
-              </div>
-
-              {/* PARTITION 5: ARCHITECTURE */}
-              <div className="p-6 md:p-8 border-t border-border">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-500">
-                    <Box className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                    Architecture
-                  </h3>
-                </div>
-                <div className="p-5 rounded-xl bg-muted/30 border border-border/50 hover:border-primary/30 transition-colors duration-300">
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10 text-primary mt-1">
-                      <Database className="w-5 h-5" />
-                    </div>
-                    <p className="text-sm font-mono text-muted-foreground leading-relaxed flex-1">
-                      {project.architecture}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* PARTITION 6: SCREENSHOTS */}
-              {project.screenshots && project.screenshots.length > 0 && (
-                <div className="p-6 md:p-8 border-t border-border">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-500">
-                      <Layers className="w-5 h-5" />
-                    </div>
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                      Screenshots
-                    </h3>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {project.screenshots.map((img, i) => (
-                      <div
-                        key={i}
-                        className="relative rounded-xl overflow-hidden border border-border/50 aspect-video group hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5">
-                        <Image
-                          src={img}
-                          alt={`Screenshot ${i + 1}`}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-110"
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <div className="absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <Badge className="bg-black/50 backdrop-blur-sm text-white border-0 text-xs">
-                            Screenshot {i + 1}
-                          </Badge>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* PARTITION 7: ACTION BUTTONS */}
-              <div className="p-6 md:p-8 flex flex-col sm:flex-row gap-3 justify-center border-t border-border bg-muted/20">
-                {project.links.live && (
-                  <Button
-                    asChild
-                    size="lg"
-                    className={cn(
-                      "rounded-xl font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:scale-105 active:scale-95",
-                      "bg-gradient-to-r",
-                      categoryColors[project.category] ||
-                        "from-primary to-primary/80",
-                    )}>
-                    <a
-                      href={project.links.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2">
-                      <ExternalLink className="w-5 h-5" />
-                      Live Demo
-                    </a>
-                  </Button>
-                )}
-                {project.links.github && (
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="lg"
-                    className="rounded-xl font-semibold border-2 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-105 active:scale-95">
-                    <a
-                      href={project.links.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2">
-                      <FaGithub className="w-5 h-5" />
-                      GitHub Repo
-                    </a>
-                  </Button>
-                )}
+                  );
+                })}
               </div>
             </div>
-          </motion.div>
+
+            {/* Micro Architecture Blueprint */}
+            <div className="bg-card border border-[var(--border)] rounded-xl p-5 shadow-sm space-y-3">
+              <div className="flex items-center gap-2 text-[var(--text-secondary)]">
+                <Box className="w-4 h-4 text-cyan-500" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider">Architecture Blueprints</span>
+              </div>
+              <div className="p-3.5 bg-[var(--accent)] border border-[var(--border)]/60 rounded-lg text-xs font-mono text-[var(--text-secondary)] leading-relaxed break-all">
+                {project.architecture}
+              </div>
+            </div>
+
+          </div>
         </div>
-      </Responsive>
+
+        {/* Screenshots Section */}
+        {project.screenshots && project.screenshots.length > 0 && (
+          <div className="space-y-4 text-left border-t border-[var(--border)]/65 pt-8">
+            <div className="flex items-center gap-2">
+              <Layers className="w-4.5 h-4.5 text-primary" />
+              <h3 className="text-sm font-bold font-mono uppercase tracking-wider text-[var(--text-primary)]">
+                System Interface & Telemetry Screens
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {project.screenshots.map((img, i) => (
+                <div
+                  key={i}
+                  className="relative rounded-xl overflow-hidden border border-[var(--border)] aspect-video group hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md">
+                  <Image
+                    src={img}
+                    alt={`Screenshot ${i + 1}`}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-101"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[10px] font-mono text-white bg-black/40 px-2 py-0.5 rounded border border-white/10">
+                      Viewscreen 0{i + 1}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Bottom Actions Row */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center border-t border-[var(--border)]/65 pt-8 bg-card/40 p-6 rounded-xl">
+          {project.links.live && (
+            <Button
+              asChild
+              className="px-6 py-2.5 rounded-md font-mono text-xs font-bold uppercase bg-primary text-primary-foreground hover:opacity-95 shadow-md transition-all cursor-pointer">
+              <a
+                href={project.links.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2">
+                <ExternalLink className="w-4 h-4" />
+                Establish Uplink Link
+              </a>
+            </Button>
+          )}
+          {project.links.github && (
+            <Button
+              asChild
+              variant="outline"
+              className="px-6 py-2.5 rounded-md font-mono text-xs font-bold uppercase border border-[var(--border)] text-[var(--text-primary)] hover:bg-[var(--accent)] transition-all cursor-pointer">
+              <a
+                href={project.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2">
+                <FaGithub className="w-4 h-4" />
+                Repository Node
+              </a>
+            </Button>
+          )}
+        </div>
+
+      </div>
     </div>
-  );
-}
-
-// ─── MISSING ICON ───
-function Palette({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-      />
-    </svg>
-  );
-}
-
-function Server({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"
-      />
-    </svg>
   );
 }

@@ -8,7 +8,6 @@ import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Bot, Zap, Copy, Trash2, Download, Paperclip, X } from "lucide-react";
-import { useLenis } from "@/Hooks/useLenis";
 
 import { ChatBubble } from "./ChatBubble";
 import { ChatHeader } from "./ChatHeader";
@@ -72,8 +71,6 @@ const GEMINI_API_KEY = "AIzaSyADzRMvuIMjGLav-ORSBALLfdtrbFUcQtQ";
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 const RealTimeChatWidget = () => {
-  useLenis();
-
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>(MESSAGES);

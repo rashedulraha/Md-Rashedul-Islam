@@ -14,9 +14,14 @@ import {
   Clock, 
   Terminal, 
   Play,
-  Settings,
   Save,
-  Check
+  Check,
+  Plus,
+  Trash2,
+  Database,
+  Cpu,
+  Layers,
+  Settings
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -40,15 +45,26 @@ interface ChatSession {
 
 interface AIProfile {
   userIntent: string;
-  technicalDepth: string;
+  coreStack: string;
   actionPlan: string[];
   suggestedNextReply: string;
 }
 
-interface CleanupLog {
+interface PipelineLog {
   timestamp: string;
-  level: "INFO" | "SCAN" | "PRUNE" | "SUCCESS";
+  level: "INFO" | "SUCCESS" | "WARN" | "PIPELINE";
   message: string;
+}
+
+interface Article {
+  id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  readTime: string;
+  date: string;
+  tags: string[];
+  status: "draft" | "published";
 }
 
 interface AdminDashboardInlineProps {
@@ -56,7 +72,7 @@ interface AdminDashboardInlineProps {
 }
 
 export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineProps) {
-  const [activeTab, setActiveTab] = useState<"chat" | "cleanup" | "config">("chat");
+  const [activeTab, setActiveTab] = useState<"pipeline" | "blog" | "chat">("chat");
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
   const [selectedSession, setSelectedSession] = useState<ChatSession | null>(null);
@@ -65,54 +81,42 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
   const [loadingSessions, setLoadingSessions] = useState(true);
   const [sendingReply, setSendingReply] = useState(false);
   
-  // AI summary states
+  // AI Telemetry Profile State
   const [aiProfile, setAiProfile] = useState<AIProfile | null>(null);
   const [loadingProfile, setLoadingProfile] = useState(false);
 
-  // Cleanup simulation states
-  const [cleanupLogs, setCleanupLogs] = useState<CleanupLog[]>([
-    { timestamp: "18:41:48", level: "INFO", message: "System cleanup daemon initialised successfully." },
-    { timestamp: "18:41:49", level: "INFO", message: "Awaiting next scheduled trigger (in 12 hours)." }
+  // Module 01: System Pipeline Control States
+  const [pipelineLogs, setPipelineLogs] = useState<PipelineLog[]>([
+    { timestamp: "16:43:00", level: "INFO", message: "Deployment pipeline supervisor initialized." },
+    { timestamp: "16:43:02", level: "SUCCESS", message: "All local compilation caches verified." }
   ]);
-  const [isCleaning, setIsCleaning] = useState(false);
-  const [cleanStats, setCleanStats] = useState({
-    staleFolders: { total: 14, pruned: 12 },
-    unusedCode: { lines: 4210, blocks: 89 },
-    unusedAssets: { files: 28, size: "3.8 MB" },
-    bundleReduction: "-18.4%"
-  });
+  const [isSimulatingDeployment, setIsSimulatingDeployment] = useState(false);
+  const [isClearingMemory, setIsClearingMemory] = useState(false);
+  const [virtualMemorySize, setVirtualMemorySize] = useState("142 MB");
+  const logIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Website Config Editor States (Mocked backend storage integration via LocalStorage)
-  const [heroHeadline, setHeroHeadline] = useState("");
-  const [heroIntro, setHeroIntro] = useState("");
-  const [contactEmail, setContactEmail] = useState("");
-  const [teamSize, setTeamSize] = useState("4");
-  const [isSavingConfig, setIsSavingConfig] = useState(false);
-  const [configSaved, setConfigSaved] = useState(false);
+  // Module 02: Blog Management Deck States
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [editingArticleId, setEditingArticleId] = useState<string | null>(null);
+  const [newTitle, setNewTitle] = useState("");
+  const [newExcerpt, setNewExcerpt] = useState("");
+  const [newContent, setNewContent] = useState("");
+  const [newTags, setNewTags] = useState("");
+  const [newStatus, setNewStatus] = useState<"draft" | "published">("published");
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const logEndRef = useRef<HTMLDivElement>(null);
 
-  // Load website configs on mount
-  useEffect(() => {
-    setHeroHeadline(localStorage.getItem("site_hero_headline") || "I build type-safe full-stack applications and orchestrate secure cloud infrastructure.");
-    setHeroIntro(localStorage.getItem("site_hero_intro") || "Merging core computer science fundamentals with modern scalable engineering. Based in Naogaon, Bangladesh, I specialize in robust DevOps pipelines and type-safe systems design.");
-    setContactEmail(localStorage.getItem("site_contact_email") || "rashedulraha.bd@gmail.com");
-    setTeamSize(localStorage.getItem("site_team_size") || "4");
-  }, []);
-
-  // Fetch initial sessions
+  // Fetch initial chat sessions
   const fetchSessions = async () => {
     try {
       const res = await fetch("/api/chat/messages");
-      if (!res.ok) {
-        throw new Error("Failed to load sessions");
-      }
+      if (!res.ok) throw new Error("Failed to load sessions");
       const data = await res.json();
       setSessions(data.sessions || []);
     } catch (err: any) {
       console.error(err);
-      toast.error("Failed to fetch sessions. Ensure you are authorized.");
+      toast.error("Failed to fetch messaging sessions.");
     } finally {
       setLoadingSessions(false);
     }
@@ -120,7 +124,6 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
 
   useEffect(() => {
     fetchSessions();
-
     const eventSource = new EventSource("/api/chat/sse?sessionId=admin");
 
     eventSource.onmessage = (event) => {
@@ -146,7 +149,7 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
           });
 
           if (message.sender === "user") {
-            toast.info(`New message from ${sessionId.substring(0, 6)}...`);
+            toast.info(`New stream packet from ${sessionId.substring(0, 6)}...`);
           }
         } else if (data.type === "status_change") {
           const { sessionId, online } = data;
@@ -156,10 +159,10 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
         } else if (data.type === "session_created") {
           const { session } = data;
           setSessions((prev) => [session, ...prev]);
-          toast.success("New chat visitor session established!");
+          toast.success("Visitor Uplink Port active!");
         }
       } catch (err) {
-        console.error("Error parsing SSE:", err);
+        console.error("SSE parse error:", err);
       }
     };
 
@@ -168,7 +171,7 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
     };
   }, []);
 
-  // Update selected session details when sessions list or selectedSessionId changes
+  // Sync selected session details
   useEffect(() => {
     if (selectedSessionId) {
       const active = sessions.find((s) => s.sessionId === selectedSessionId);
@@ -181,22 +184,247 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
     }
   }, [selectedSessionId, sessions]);
 
+  // Load articles from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem("site_blog_articles");
+    if (stored) {
+      try {
+        setArticles(JSON.parse(stored));
+      } catch (e) {
+        console.error("Parse error on blog load", e);
+      }
+    }
+  }, []);
+
   // Scroll to bottom of chat
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [selectedSession?.messages]);
 
-  // Scroll to bottom of cleanup logs
+  // Scroll to bottom of pipeline logs
   useEffect(() => {
     logEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [cleanupLogs]);
+  }, [pipelineLogs]);
 
-  const handleSelectSession = async (sessionId: string) => {
+  // Module 01: Toggle simulated deployment logs
+  const handleToggleDeploymentLogs = () => {
+    if (isSimulatingDeployment) {
+      if (logIntervalRef.current) clearInterval(logIntervalRef.current);
+      setIsSimulatingDeployment(false);
+      setPipelineLogs(prev => [
+        ...prev,
+        { timestamp: new Date().toTimeString().split(" ")[0], level: "INFO", message: "Deployment monitor simulation suspended." }
+      ]);
+    } else {
+      setIsSimulatingDeployment(true);
+      setPipelineLogs(prev => [
+        ...prev,
+        { timestamp: new Date().toTimeString().split(" ")[0], level: "PIPELINE", message: "Triggering production build deployment pipeline..." }
+      ]);
+
+      const steps = [
+        "Resolving environment lock variables...",
+        "Compiling production TypeScript targets...",
+        "Static code optimization analysis passed.",
+        "Hardening Docker layers for multi-stage export...",
+        "Uploading builds: [====================] 100% complete",
+        "Nginx load-balancer endpoints synced.",
+        "Uplink verification successful. Service is live on production VPS."
+      ];
+      
+      let stepIndex = 0;
+      logIntervalRef.current = setInterval(() => {
+        if (stepIndex < steps.length) {
+          setPipelineLogs(prev => [
+            ...prev,
+            {
+              timestamp: new Date().toTimeString().split(" ")[0],
+              level: stepIndex === steps.length - 1 ? "SUCCESS" : "PIPELINE",
+              message: steps[stepIndex]
+            }
+          ]);
+          stepIndex++;
+        } else {
+          if (logIntervalRef.current) clearInterval(logIntervalRef.current);
+          setIsSimulatingDeployment(false);
+        }
+      }, 1500);
+    }
+  };
+
+  // Module 01: Clear server virtual memory cache simulation
+  const handleClearVirtualMemoryCache = () => {
+    setIsClearingMemory(true);
+    setPipelineLogs(prev => [
+      ...prev,
+      { timestamp: new Date().toTimeString().split(" ")[0], level: "INFO", message: "Initiating virtual memory page-cache purge..." }
+    ]);
+
+    setTimeout(() => {
+      setVirtualMemorySize("12.4 MB");
+      setIsClearingMemory(false);
+      setPipelineLogs(prev => [
+        ...prev,
+        { timestamp: new Date().toTimeString().split(" ")[0], level: "SUCCESS", message: "Virtual memory cache purged. Reclaimed 129.6 MB of inactive memory tables." }
+      ]);
+      toast.success("Cache database cleaned successfully!");
+    }, 1500);
+  };
+
+  // Module 02: Blog management deck actions
+  const saveArticlesToDisk = (updatedList: Article[]) => {
+    localStorage.setItem("site_blog_articles", JSON.stringify(updatedList));
+    setArticles(updatedList);
+    // Dispatch events so components on the page update instantly
+    window.dispatchEvent(new Event("storage"));
+    window.dispatchEvent(new Event("blog-updated"));
+  };
+
+  const handleCreateOrUpdateArticle = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTitle.trim()) {
+      toast.error("Title cannot be empty");
+      return;
+    }
+
+    const tagsArray = newTags
+      .split(",")
+      .map(t => t.trim())
+      .filter(t => t.length > 0);
+
+    const calculatedReadTime = `${Math.max(1, Math.ceil(newContent.split(/\s+/).length / 200))} min read`;
+
+    if (editingArticleId) {
+      // Edit mode
+      const updated = articles.map(art => {
+        if (art.id === editingArticleId) {
+          return {
+            ...art,
+            title: newTitle,
+            excerpt: newExcerpt,
+            content: newContent,
+            tags: tagsArray,
+            status: newStatus,
+            readTime: calculatedReadTime,
+            date: new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+          };
+        }
+        return art;
+      });
+      saveArticlesToDisk(updated);
+      toast.success("Article details updated!");
+      setEditingArticleId(null);
+    } else {
+      // Create mode
+      const id = newTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      const exists = articles.some(art => art.id === id);
+      if (exists) {
+        toast.error("Article with a matching slug/title already exists.");
+        return;
+      }
+
+      const newArt: Article = {
+        id,
+        title: newTitle,
+        excerpt: newExcerpt,
+        content: newContent,
+        readTime: calculatedReadTime,
+        date: new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
+        tags: tagsArray,
+        status: newStatus
+      };
+
+      saveArticlesToDisk([newArt, ...articles]);
+      toast.success("Article successfully aggregated to stream!");
+    }
+
+    // Reset inputs
+    setNewTitle("");
+    setNewExcerpt("");
+    setNewContent("");
+    setNewTags("");
+    setNewStatus("published");
+  };
+
+  const handleEditArticle = (art: Article) => {
+    setEditingArticleId(art.id);
+    setNewTitle(art.title);
+    setNewExcerpt(art.excerpt || "");
+    setNewContent(art.content || "");
+    setNewTags(art.tags.join(", "));
+    setNewStatus(art.status || "published");
+  };
+
+  const handleDeleteArticle = (id: string) => {
+    const confirm = window.confirm("Are you sure you want to remove this article from the stream?");
+    if (confirm) {
+      const updated = articles.filter(art => art.id !== id);
+      saveArticlesToDisk(updated);
+      toast.success("Article deleted.");
+      if (editingArticleId === id) {
+        setEditingArticleId(null);
+        setNewTitle("");
+        setNewExcerpt("");
+        setNewContent("");
+        setNewTags("");
+        setNewStatus("published");
+      }
+    }
+  };
+
+  // Module 03: Process AI-Driven Telemetry
+  const handleGenerateProfile = async () => {
+    if (!selectedSessionId || loadingProfile) return;
+
+    setLoadingProfile(true);
+    setAiProfile(null);
+
+    try {
+      const res = await fetch(`/api/admin/user-summary?sessionId=${selectedSessionId}`);
+      if (!res.ok) throw new Error("Failed to generate profile");
+      const data = await res.json();
+      
+      const summary = data.summary;
+      
+      // Analyze core tech stacks mentioned in messages
+      const fullText = selectedSession?.messages.map(m => m.content).join(" ").toLowerCase() || "";
+      const stacks = [];
+      if (fullText.includes("next")) stacks.push("Next.js");
+      if (fullText.includes("docker") || fullText.includes("container")) stacks.push("Docker");
+      if (fullText.includes("nginx")) stacks.push("Nginx");
+      if (fullText.includes("postgres") || fullText.includes("sql")) stacks.push("PostgreSQL");
+      if (fullText.includes("mongo")) stacks.push("MongoDB");
+      if (fullText.includes("ts") || fullText.includes("typescript")) stacks.push("TypeScript");
+      if (stacks.length === 0) stacks.push("MERN Stack Core");
+
+      setAiProfile({
+        userIntent: summary.userIntent || summary.visitorIntent || "Production Architect Inquiries",
+        coreStack: stacks.join(", "),
+        actionPlan: Array.isArray(summary.actionPlan) 
+          ? summary.actionPlan 
+          : ["Recommend immediate infrastructure timeline review", "Deliver complete CI/CD Docker orchestration schema"],
+        suggestedNextReply: summary.suggestedNextReply || "I have analyzed the infrastructure telemetry logs. I can configure this VPS server in 12 hours."
+      });
+    } catch (err) {
+      // Fallback telemetry if AI API endpoint isn't fully set up
+      setAiProfile({
+        userIntent: "Recruitment / Project Technical Assessment",
+        coreStack: "Docker, Nginx, Next.js",
+        actionPlan: [
+          "Validate production pipeline milestone configurations",
+          "Provide code repository links for assessment verification"
+        ],
+        suggestedNextReply: "Thanks for checking out my portfolio pipeline. Let's schedule a session to verify production scalability."
+      });
+      toast.info("Generated local fallback telemetry metrics.");
+    } finally {
+      setLoadingProfile(false);
+    }
+  };
+
+  const handleSelectSession = (sessionId: string) => {
     setSelectedSessionId(sessionId);
     setAiProfile(null);
-    try {
-      await fetch(`/api/chat/messages?sessionId=${sessionId}`);
-    } catch (e) {}
   };
 
   const handleSendReply = async (e: React.FormEvent) => {
@@ -218,106 +446,13 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to send reply");
-      }
+      if (!response.ok) throw new Error("Failed to send reply");
     } catch (err) {
-      toast.error("Failed to send message. Please try again.");
+      toast.error("Failed to transmit reply packet.");
       setReplyText(content);
     } finally {
       setSendingReply(false);
     }
-  };
-
-  const handleGenerateProfile = async () => {
-    if (!selectedSessionId || loadingProfile) return;
-
-    setLoadingProfile(true);
-    setAiProfile(null);
-
-    try {
-      const res = await fetch(`/api/admin/user-summary?sessionId=${selectedSessionId}`);
-      if (!res.ok) throw new Error("Failed to generate profile");
-      const data = await res.json();
-      
-      const summary = data.summary;
-      setAiProfile({
-        userIntent: summary.userIntent || summary.visitorIntent || "General Inquiry",
-        technicalDepth: summary.technicalDepth || "N/A",
-        actionPlan: Array.isArray(summary.actionPlan) 
-          ? summary.actionPlan 
-          : [summary.suggestedNextReply ? "Respond using the suggested AI draft" : "Schedule a 15-minute call"],
-        suggestedNextReply: summary.suggestedNextReply || "Thank you for the message. I would be happy to discuss details."
-      });
-    } catch (err) {
-      toast.error("Failed to generate user telemetry profile");
-    } finally {
-      setLoadingProfile(false);
-    }
-  };
-
-  const handleTriggerCleanup = () => {
-    if (isCleaning) return;
-    setIsCleaning(true);
-    
-    const logs = [
-      { level: "INFO" as const, msg: "Initializing system cleaning daemon..." },
-      { level: "SCAN" as const, msg: "Scanning workspace root directory for unused code and components..." },
-      { level: "SCAN" as const, msg: "Found 12 stale components inside '/src/components/legacy-v1'" },
-      { level: "PRUNE" as const, msg: "Pruning unused module: old-card-matrix.tsx (-512 lines)" },
-      { level: "PRUNE" as const, msg: "Deleting redundant image asset: /public/koda.png (143KB)" },
-      { level: "PRUNE" as const, msg: "Pruning unused style module: AOS animation directives" },
-      { level: "SCAN" as const, msg: "Scanning unused dependencies in package.json..." },
-      { level: "SUCCESS" as const, msg: "Cleanup complete: Pruned 12 stale folders, 89 dead code blocks." },
-      { level: "SUCCESS" as const, msg: "Total space reclaimed: 3.8 MB. Compilation bundle size reduced by 18.4%." }
-    ];
-
-    setCleanupLogs(prev => [
-      ...prev,
-      { timestamp: new Date().toTimeString().split(" ")[0], level: "INFO", message: "Manual cleanup execution triggered by Admin." }
-    ]);
-
-    logs.forEach((log, index) => {
-      setTimeout(() => {
-        setCleanupLogs(prev => [
-          ...prev,
-          {
-            timestamp: new Date().toTimeString().split(" ")[0],
-            level: log.level,
-            message: log.msg
-          }
-        ]);
-        
-        if (index === logs.length - 1) {
-          setIsCleaning(false);
-          setCleanStats(prev => ({
-            ...prev,
-            staleFolders: { total: prev.staleFolders.total + 2, pruned: prev.staleFolders.pruned + 2 },
-            unusedCode: { lines: prev.unusedCode.lines + 140, blocks: prev.unusedCode.blocks + 3 }
-          }));
-          toast.success("Workspace cleanup simulation completed!");
-        }
-      }, (index + 1) * 1000);
-    });
-  };
-
-  const handleSaveConfigSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSavingConfig(true);
-    setTimeout(() => {
-      localStorage.setItem("site_hero_headline", heroHeadline);
-      localStorage.setItem("site_hero_intro", heroIntro);
-      localStorage.setItem("site_contact_email", contactEmail);
-      localStorage.setItem("site_team_size", teamSize);
-      setIsSavingConfig(false);
-      setConfigSaved(true);
-      toast.success("Website configuration aggregate committed successfully!");
-      
-      // Dispatch storage event so Home.tsx can update live
-      window.dispatchEvent(new Event("storage"));
-      
-      setTimeout(() => setConfigSaved(false), 2000);
-    }, 1000);
   };
 
   const filteredSessions = sessions.filter((s) => {
@@ -330,95 +465,96 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
   });
 
   return (
-    <div className="flex flex-col md:flex-row h-[600px] border border-zinc-800 bg-zinc-950 font-mono text-xs text-zinc-300 overflow-hidden shadow-2xl relative z-10">
+    <div className="flex flex-col md:flex-row h-[680px] border border-border bg-card font-mono text-xs text-card-foreground overflow-hidden shadow-2xl relative z-10 select-text">
       
-      {/* LEFT PANEL: CONVERSATION LIST & NAV */}
-      <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-zinc-800 flex flex-col shrink-0 bg-zinc-900/30">
-        {/* Header */}
-        <div className="p-3 border-b border-zinc-800 flex items-center justify-between">
+      {/* LEFT PANEL: NAVIGATION & TABS */}
+      <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-border flex flex-col shrink-0 bg-muted/20">
+        
+        {/* Panel Header */}
+        <div className="p-4 border-b border-border flex items-center justify-between bg-muted/40">
           <div className="flex items-center gap-2">
-            <div className="p-1 bg-zinc-800/80 text-zinc-300 border border-zinc-700">
-              <ShieldCheck className="h-3.5 w-3.5 text-zinc-400" />
+            <div className="p-1.5 bg-card text-foreground border border-border">
+              <ShieldCheck className="h-4 w-4 text-primary" />
             </div>
             <div>
-              <h1 className="font-bold text-[10px] uppercase tracking-wider">Secure Gateway</h1>
-              <p className="text-[8px] text-zinc-500 font-mono">RESTRICTED_NODE</p>
+              <h1 className="font-bold text-[10px] uppercase tracking-wider text-foreground">Console Uplink</h1>
+              <p className="text-[8px] text-muted-foreground">MD_RASHEDUL_ISLAM</p>
             </div>
           </div>
           <button 
             onClick={onLogout} 
-            className="p-1.5 text-zinc-500 hover:text-red-400 hover:bg-zinc-880/65 transition-colors cursor-pointer"
-            title="Log Out"
+            className="p-1.5 text-muted-foreground hover:text-destructive hover:bg-muted transition-colors cursor-pointer"
+            title="Terminate Session"
           >
             <LogOut className="h-3.5 w-3.5" />
           </button>
         </div>
 
-        {/* Tab Selector */}
-        <div className="p-2 border-b border-zinc-800 flex gap-1 bg-zinc-950/40 text-[9px]">
+        {/* Tab Selection buttons */}
+        <div className="p-2 border-b border-border flex gap-1 bg-muted/30 text-[9px]">
           <button 
             onClick={() => setActiveTab("chat")}
             className={cn(
-              "flex-1 py-1 text-center font-bold uppercase transition-all border cursor-pointer",
+              "flex-1 py-1.5 text-center font-bold uppercase transition-all border cursor-pointer",
               activeTab === "chat" 
-                ? "bg-zinc-800 border-zinc-700 text-zinc-200" 
-                : "border-transparent text-zinc-500 hover:text-zinc-300"
+                ? "bg-card border-border text-foreground" 
+                : "border-transparent text-muted-foreground hover:text-foreground"
             )}
           >
-            Chat Hub
+            Messaging
           </button>
           <button 
-            onClick={() => setActiveTab("cleanup")}
+            onClick={() => setActiveTab("blog")}
             className={cn(
-              "flex-1 py-1 text-center font-bold uppercase transition-all border cursor-pointer",
-              activeTab === "cleanup" 
-                ? "bg-zinc-800 border-zinc-700 text-zinc-200" 
-                : "border-transparent text-zinc-500 hover:text-zinc-300"
+              "flex-1 py-1.5 text-center font-bold uppercase transition-all border cursor-pointer",
+              activeTab === "blog" 
+                ? "bg-card border-border text-foreground" 
+                : "border-transparent text-muted-foreground hover:text-foreground"
             )}
           >
-            Pruner
+            Blog Deck
           </button>
           <button 
-            onClick={() => setActiveTab("config")}
+            onClick={() => setActiveTab("pipeline")}
             className={cn(
-              "flex-1 py-1 text-center font-bold uppercase transition-all border cursor-pointer",
-              activeTab === "config" 
-                ? "bg-zinc-800 border-zinc-700 text-zinc-200" 
-                : "border-transparent text-zinc-500 hover:text-zinc-300"
+              "flex-1 py-1.5 text-center font-bold uppercase transition-all border cursor-pointer",
+              activeTab === "pipeline" 
+                ? "bg-card border-border text-foreground" 
+                : "border-transparent text-muted-foreground hover:text-foreground"
             )}
           >
-            Live Config
+            Pipeline Control
           </button>
         </div>
 
-        {/* Search / Context */}
+        {/* Search bar */}
         {activeTab === "chat" && (
-          <div className="p-2 border-b border-zinc-800">
-            <div className="relative flex items-center bg-zinc-950 px-2 py-1.5 border border-zinc-800">
-              <Search className="h-3 w-3 text-zinc-600 mr-2 shrink-0" />
+          <div className="p-2 border-b border-border">
+            <div className="relative flex items-center bg-card px-2 py-1.5 border border-border">
+              <Search className="h-3 w-3 text-muted-foreground mr-2 shrink-0" />
               <input
-                placeholder="Search logs..."
+                placeholder="Search visitor logs..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent border-none outline-none text-[10px] text-zinc-300 placeholder-zinc-600 w-full focus:ring-0"
+                className="bg-transparent border-none outline-none text-[10px] text-foreground placeholder-muted-foreground w-full focus:ring-0 font-mono"
               />
             </div>
           </div>
         )}
 
-        {/* List scroll / Sidebar Metadata */}
-        <div className="flex-1 overflow-y-auto bg-zinc-950/20">
-          <div className="p-1.5 space-y-1">
-            {activeTab === "chat" && (
-              loadingSessions ? (
-                <div className="flex flex-col items-center justify-center py-8 gap-1.5">
-                  <Loader2 className="h-3.5 w-3.5 animate-spin text-zinc-500" />
-                  <p className="text-[8px] text-zinc-600 uppercase">SYNCHRONISING...</p>
+        {/* Dynamic Sidebar Content */}
+        <div className="flex-1 overflow-y-auto">
+          {activeTab === "chat" && (
+            <div className="p-1.5 space-y-1">
+              {loadingSessions ? (
+                <div className="flex flex-col items-center justify-center py-8 gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  <p className="text-[8px] text-muted-foreground uppercase">SYNC_CHANNELS...</p>
                 </div>
               ) : filteredSessions.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-10 text-zinc-600 text-[10px] uppercase">
-                  <MessageSquare className="h-5 w-5 mb-1.5 stroke-[1.2]" />
-                  <span>No active Feeds</span>
+                <div className="flex flex-col items-center justify-center py-10 text-muted-foreground text-[10px] uppercase">
+                  <MessageSquare className="h-5 w-5 mb-2 stroke-[1.2]" />
+                  <span>No message pipelines</span>
                 </div>
               ) : (
                 filteredSessions.map((session) => {
@@ -433,31 +569,30 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
                       className={cn(
                         "w-full text-left p-2.5 transition-all flex flex-col gap-1 border outline-none cursor-pointer",
                         isSelected 
-                          ? "bg-zinc-900 border-zinc-800 text-zinc-200" 
-                          : "border-transparent hover:bg-zinc-900/40 text-zinc-500 hover:text-zinc-400"
+                          ? "bg-card border-border text-foreground shadow-xs" 
+                          : "border-transparent hover:bg-muted/30 text-muted-foreground hover:text-foreground"
                       )}
                     >
                       <div className="flex items-center justify-between w-full">
                         <div className="flex items-center gap-1.5">
-                          <span className="font-bold text-[11px] truncate max-w-[100px] text-zinc-300">
-                            {session.userName === "Anonymous Visitor" ? `PORT_${session.sessionId.substring(0, 4)}` : session.userName}
+                          <span className="font-bold text-[11px] truncate max-w-[100px] text-foreground">
+                            {session.userName === "Anonymous Visitor" ? `VISITOR_${session.sessionId.substring(0, 4)}` : session.userName}
                           </span>
                           <Circle className={cn(
                             "h-1.5 w-1.5 fill-current",
-                            session.online ? "text-[#4ade80]" : "text-zinc-700"
+                            session.online ? "text-emerald-500" : "text-muted-foreground/40"
                           )} />
                         </div>
-                        <span className="text-[8px] text-zinc-600">
+                        <span className="text-[8px] text-muted-foreground">
                           {lastMsg ? new Date(lastMsg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) : "NEW"}
                         </span>
                       </div>
-
-                      <div className="flex items-center justify-between gap-1.5 mt-0.5">
-                        <p className="text-[10px] truncate max-w-[150px] font-sans">
-                          {lastMsg ? lastMsg.content : "Secure channel established..."}
+                      <div className="flex items-center justify-between gap-1.5">
+                        <p className="text-[10px] truncate max-w-[155px] text-muted-foreground font-sans">
+                          {lastMsg ? lastMsg.content : "Secure stream opened..."}
                         </p>
                         {unreadCount > 0 && (
-                          <span className="bg-zinc-300 text-zinc-900 font-black text-[8px] px-1 rounded-full shrink-0 min-w-3.5 h-3.5 flex items-center justify-center">
+                          <span className="bg-primary text-primary-foreground font-bold text-[8px] px-1.5 py-0.5 rounded-full shrink-0">
                             {unreadCount}
                           </span>
                         )}
@@ -465,108 +600,84 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
                     </button>
                   );
                 })
-              )
-            )}
+              )}
+            </div>
+          )}
 
-            {activeTab === "cleanup" && (
-              <div className="p-2 space-y-3 text-[10px] text-zinc-500">
-                <div className="bg-zinc-950/80 border border-zinc-800 p-2.5 space-y-1.5 text-zinc-400">
-                  <span className="text-[8px] font-bold text-zinc-500 block uppercase tracking-wider">CLEANUP TARGETS</span>
-                  <div className="space-y-1">
-                    <div className="flex justify-between">
-                      <span>Stale Folders:</span>
-                      <span>{cleanStats.staleFolders.total} found</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Dead Code Blocks:</span>
-                      <span>{cleanStats.unusedCode.blocks} nodes</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Orphan Assets:</span>
-                      <span>{cleanStats.unusedAssets.files} files</span>
-                    </div>
+          {activeTab === "pipeline" && (
+            <div className="p-3 space-y-4">
+              <div className="bg-card border border-border p-3 space-y-2">
+                <span className="text-[8px] font-bold text-muted-foreground block uppercase">TELEMETRY_STATS</span>
+                <div className="space-y-1.5 text-[10px] text-foreground/80">
+                  <div className="flex justify-between">
+                    <span>Virtual Memory:</span>
+                    <span className="font-bold text-foreground">{virtualMemorySize}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Pipeline Status:</span>
+                    <span className={cn("font-bold", isSimulatingDeployment ? "text-primary animate-pulse" : "text-emerald-500")}>
+                      {isSimulatingDeployment ? "PROCESSING" : "IDLE"}
+                    </span>
                   </div>
                 </div>
-
-                <div className="bg-zinc-900 border border-zinc-800 p-2.5 space-y-0.5">
-                  <span className="text-[8px] font-bold text-zinc-400 block uppercase tracking-wider">COMPILATION DAEMON</span>
-                  <p className="text-zinc-300 text-xs font-bold">{cleanStats.bundleReduction}</p>
-                  <p className="text-[9px] text-zinc-500 leading-tight">
-                    Calculated size reduction since last deployment scan.
-                  </p>
-                </div>
-
-                <button 
-                  onClick={handleTriggerCleanup}
-                  disabled={isCleaning}
-                  className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 hover:bg-zinc-800 hover:text-white text-[10px] font-bold py-1.5 transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-md disabled:opacity-40"
-                >
-                  {isCleaning ? (
-                    <>
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                      Pruning...
-                    </>
-                  ) : (
-                    <>
-                      <Play className="w-2.5 h-2.5 text-[#4ade80]" />
-                      Trigger Prune
-                    </>
-                  )}
-                </button>
               </div>
-            )}
+            </div>
+          )}
 
-            {activeTab === "config" && (
-              <div className="p-2 text-[10px] text-zinc-500 space-y-3">
-                <div className="bg-zinc-900 border border-zinc-800 p-2.5 space-y-1.5 text-zinc-400">
-                  <span className="text-[8px] font-bold text-zinc-500 block uppercase tracking-wider">Site Telemetry</span>
-                  <p className="leading-relaxed">
-                    Changes made in the configuration form will immediately update variables across the single-page layout system.
-                  </p>
-                </div>
-                <div className="bg-zinc-950/80 border border-zinc-800 p-2.5 text-[8.5px] leading-relaxed text-zinc-500">
-                  <span>CONFIGURATION_NODE: CONNECTED</span>
-                  <br />
-                  <span>TARGET: /src/views/Home/Home.tsx</span>
+          {activeTab === "blog" && (
+            <div className="p-3 space-y-4">
+              <div className="bg-card border border-border p-3 space-y-2">
+                <span className="text-[8px] font-bold text-muted-foreground block uppercase">STREAM SUMMARY</span>
+                <div className="space-y-1 text-[10px] text-foreground/80">
+                  <div className="flex justify-between">
+                    <span>Published Articles:</span>
+                    <span className="font-bold">{articles.filter(a => a.status === "published").length}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Draft Modules:</span>
+                    <span className="font-bold">{articles.filter(a => a.status === "draft").length}</span>
+                  </div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* CENTER PANEL: ACTIVE CHAT SCREEN / CLEANUP LOGGER / CONFIG FORM */}
-      <div className="flex-1 flex flex-col bg-zinc-950 border-r border-zinc-800 min-w-0">
+      {/* CENTER PANEL: INTERACTIVE CONTENT ZONE */}
+      <div className="flex-1 flex flex-col bg-card border-r border-border min-w-0">
+        
+        {/* Module 03: Real-Time Active Messaging Monitor */}
         {activeTab === "chat" && (
           selectedSession ? (
             <>
-              {/* Session Header */}
-              <div className="p-3 border-b border-zinc-800 flex items-center justify-between bg-zinc-900/20">
+              {/* Active Chat Header */}
+              <div className="p-3 border-b border-border flex items-center justify-between bg-muted/20">
                 <div className="flex items-center gap-2">
-                  <div className="h-7 w-7 bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500">
-                    <User className="h-3.5 w-3.5" />
+                  <div className="h-8 w-8 bg-muted border border-border flex items-center justify-center text-muted-foreground">
+                    <User className="h-4 w-4" />
                   </div>
                   <div>
-                    <h2 className="font-bold text-[11px] uppercase tracking-wider text-zinc-300">
+                    <h2 className="font-bold text-[11px] uppercase tracking-wider text-foreground">
                       {selectedSession.userName === "Anonymous Visitor" ? `VISITOR_PORT_${selectedSession.sessionId.substring(0, 4)}` : selectedSession.userName}
                     </h2>
-                    <div className="flex items-center gap-1 text-[9px] mt-0.5 text-zinc-500">
-                      <span className={cn("font-bold", selectedSession.online ? "text-[#4ade80]" : "text-zinc-600")}>
-                        {selectedSession.online ? "ONLINE" : "OFFLINE"}
+                    <div className="flex items-center gap-1.5 text-[9px] mt-0.5 text-muted-foreground">
+                      <span className={cn("font-bold", selectedSession.online ? "text-emerald-500" : "text-muted-foreground")}>
+                        {selectedSession.online ? "CONNECTED" : "DISCONNECTED"}
                       </span>
                       <span>&bull;</span>
-                      <span>ID: {selectedSession.sessionId.substring(0, 8)}</span>
+                      <span>ID: {selectedSession.sessionId.substring(0, 12)}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Messages Screen */}
-              <div className="flex-1 p-3 overflow-y-auto space-y-3 bg-zinc-950/40">
+              {/* Chat Logs Screen */}
+              <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-muted/5">
                 {selectedSession.messages.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-16 text-zinc-600 text-[10px] uppercase">
-                    <MessageSquare className="h-6 w-6 mb-1.5 stroke-[1.2]" />
-                    <span>No message logs</span>
+                  <div className="flex flex-col items-center justify-center py-20 text-muted-foreground text-[10px] uppercase">
+                    <MessageSquare className="h-7 w-7 mb-2 stroke-[1.2]" />
+                    <span>No logs recorded</span>
                   </div>
                 ) : (
                   selectedSession.messages.map((message) => {
@@ -582,19 +693,18 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
                       >
                         <div
                           className={cn(
-                            "max-w-[85%] px-3 py-1.5 text-xs",
+                            "max-w-[85%] px-3.5 py-2 text-xs",
                             isAdmin 
-                              ? "bg-zinc-200 text-zinc-950 font-medium font-sans" 
+                              ? "bg-primary text-primary-foreground font-sans rounded-none" 
                               : isBot
-                                ? "bg-zinc-900/60 border border-zinc-800 text-zinc-400 italic"
-                                : "bg-zinc-900 border border-zinc-800 text-zinc-200 font-sans"
+                                ? "bg-muted text-muted-foreground italic rounded-none border border-border"
+                                : "bg-card text-foreground rounded-none border border-border font-sans"
                           )}
                         >
                           {message.content}
                         </div>
-                        <span className="text-[7px] text-zinc-600 px-1 font-bold flex items-center gap-1 uppercase">
-                          {isBot && "AI_AGENT • "}
-                          {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}
+                        <span className="text-[8px] text-muted-foreground px-1 font-bold">
+                          {isBot ? "AI_ASSIST • " : ""}{new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}
                         </span>
                       </div>
                     );
@@ -603,201 +713,308 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Input Bar */}
-              <div className="p-2.5 border-t border-zinc-800 bg-zinc-900/20">
+              {/* Chat Input */}
+              <div className="p-3 border-t border-border bg-muted/10">
                 <form onSubmit={handleSendReply} className="flex gap-2 items-center">
                   <input
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
                     placeholder="Enter reply parameters to client stream..."
-                    className="bg-zinc-950 border border-zinc-800 text-[10px] text-zinc-300 placeholder-zinc-600 h-8 px-2.5 w-full outline-none focus:border-zinc-700 font-mono"
+                    className="bg-card border border-border text-[10px] text-foreground placeholder-muted-foreground h-9 px-3 w-full outline-none focus:border-primary font-mono"
                   />
                   <button 
                     type="submit" 
                     disabled={!replyText.trim() || sendingReply}
-                    className="h-8 w-8 shrink-0 bg-zinc-300 hover:bg-white text-zinc-950 flex items-center justify-center cursor-pointer transition-colors disabled:opacity-40"
+                    className="h-9 w-9 shrink-0 bg-primary text-primary-foreground flex items-center justify-center cursor-pointer transition-colors disabled:opacity-40"
                   >
                     {sendingReply ? (
-                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
-                      <Send className="h-3.5 w-3.5" />
+                      <Send className="h-4 w-4" />
                     )}
                   </button>
                 </form>
               </div>
             </>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center text-zinc-600 select-none p-4 text-center">
-              <MessageSquare className="h-8 w-8 mb-2 stroke-[1.2]" />
-              <h2 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">No feeds connected</h2>
-              <p className="text-[8px] mt-1 max-w-[180px] text-zinc-600 uppercase tracking-wider">
-                Select an active client session port in the sidebar to stream logs.
+            <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground select-none p-4 text-center">
+              <MessageSquare className="h-8 w-8 mb-3 text-muted-foreground/60 stroke-[1.2]" />
+              <h2 className="text-[10px] font-bold text-foreground uppercase tracking-widest">No Active Telemetry channels</h2>
+              <p className="text-[9px] mt-1 max-w-[200px] text-muted-foreground uppercase tracking-wider leading-relaxed">
+                Select an active visitor session port in the sidebar to stream logs.
               </p>
             </div>
           )
         )}
 
-        {activeTab === "cleanup" && (
-          // Infrastructure Cleanup Daemon Logger View
-          <div className="flex-1 flex flex-col h-full overflow-hidden bg-zinc-950">
+        {/* Module 01: System Pipeline Control */}
+        {activeTab === "pipeline" && (
+          <div className="flex-1 flex flex-col h-full overflow-hidden bg-card">
+            
             {/* Header */}
-            <div className="p-3 border-b border-zinc-800 flex items-center justify-between bg-zinc-900/10">
+            <div className="p-3 border-b border-border flex items-center justify-between bg-muted/20">
               <div className="flex items-center gap-2">
-                <Terminal className="h-4 w-4 text-zinc-400" />
-                <h2 className="font-bold text-[10px] uppercase tracking-wider text-zinc-300">
-                  Automated Cleanup Logger
+                <Terminal className="h-4 w-4 text-primary" />
+                <h2 className="font-bold text-[10px] uppercase tracking-wider text-foreground">
+                  System Pipeline Controller
                 </h2>
               </div>
-              <span className="bg-zinc-900 border border-zinc-800 text-[#4ade80] font-bold text-[8px] px-2 py-0.5 uppercase tracking-widest">
-                DAEMON_ACTIVE
-              </span>
             </div>
 
-            {/* Logs console */}
-            <div className="flex-1 p-4 text-[10px] overflow-y-auto space-y-1.5 select-text bg-black leading-relaxed font-mono">
-              <div className="text-zinc-650 select-none pb-1.5 border-b border-zinc-900 mb-3">
-                MD_RASHEDUL_ISLAM PORTFOLIO CLEANUP LOGGER v2.4.1
-                <br />
-                LOGSTREAM SYNCHRONISED. PIPELINES IDLE.
+            {/* Toggle dashboard */}
+            <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 border-b border-border bg-muted/10">
+              {/* Simulated build system */}
+              <div className="bg-card border border-border p-4 flex flex-col justify-between space-y-3 shadow-xs">
+                <div>
+                  <h3 className="font-bold text-xs text-foreground uppercase flex items-center gap-1.5">
+                    <Layers className="w-3.5 h-3.5 text-primary" />
+                    Deployment Output
+                  </h3>
+                  <p className="text-[9px] text-muted-foreground mt-1 leading-normal">
+                    Toggle deployment stream to simulate build operations and Nginx syncing.
+                  </p>
+                </div>
+                <button
+                  onClick={handleToggleDeploymentLogs}
+                  className={cn(
+                    "w-full py-2 border font-bold uppercase transition-all text-[9px] cursor-pointer flex items-center justify-center gap-1.5",
+                    isSimulatingDeployment
+                      ? "bg-destructive text-destructive-foreground border-destructive"
+                      : "bg-muted hover:bg-muted/80 text-foreground border-border"
+                  )}
+                >
+                  {isSimulatingDeployment ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      Suspend Deployment
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-2.5 h-2.5 text-emerald-500 fill-emerald-500" />
+                      Simulate Deployment
+                    </>
+                  )}
+                </button>
               </div>
-              {cleanupLogs.map((log, index) => {
-                let lvlColor = "text-[#06b6d4]";
-                if (log.level === "PRUNE") lvlColor = "text-red-500";
-                if (log.level === "SCAN") lvlColor = "text-amber-500";
-                if (log.level === "SUCCESS") lvlColor = "text-[#4ade80]";
+
+              {/* Memory purge */}
+              <div className="bg-card border border-border p-4 flex flex-col justify-between space-y-3 shadow-xs">
+                <div>
+                  <h3 className="font-bold text-xs text-foreground uppercase flex items-center gap-1.5">
+                    <Database className="w-3.5 h-3.5 text-primary" />
+                    Virtual Memory Cache
+                  </h3>
+                  <p className="text-[9px] text-muted-foreground mt-1 leading-normal">
+                    Purge stale cache systems to retrieve system inactive memory indexes.
+                  </p>
+                </div>
+                <button
+                  onClick={handleClearVirtualMemoryCache}
+                  disabled={isClearingMemory}
+                  className="w-full bg-muted hover:bg-muted/80 text-foreground border border-border py-2 font-bold uppercase transition-all text-[9px] cursor-pointer flex items-center justify-center gap-1.5 disabled:opacity-40"
+                >
+                  {isClearingMemory ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      Purging Database cache...
+                    </>
+                  ) : (
+                    <>
+                      <Cpu className="w-3 h-3 text-primary" />
+                      Purge Memory Cache
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Logging window */}
+            <div className="flex-1 p-4 bg-muted/10 font-mono text-[10px] overflow-y-auto space-y-1 select-text">
+              <div className="text-muted-foreground select-none pb-2 border-b border-border/60 mb-3 uppercase tracking-wider text-[8px] font-bold">
+                Uplink monitor live diagnostics log stream
+              </div>
+              {pipelineLogs.map((log, idx) => {
+                let lvlColor = "text-primary";
+                if (log.level === "SUCCESS") lvlColor = "text-emerald-500";
+                if (log.level === "WARN") lvlColor = "text-amber-500";
+                if (log.level === "PIPELINE") lvlColor = "text-indigo-400";
                 
                 return (
-                  <div key={index} className="flex gap-3 items-start">
-                    <span className="text-zinc-700 select-none">[{log.timestamp}]</span>
-                    <span className={cn("font-bold uppercase shrink-0 min-w-[50px]", lvlColor)}>
+                  <div key={idx} className="flex gap-3 items-start py-0.5 border-b border-border/10">
+                    <span className="text-muted-foreground select-none">[{log.timestamp}]</span>
+                    <span className={cn("font-bold uppercase shrink-0 min-w-[55px]", lvlColor)}>
                       {log.level}
                     </span>
-                    <span className="text-zinc-400">{log.message}</span>
+                    <span className="text-foreground/90 font-mono">{log.message}</span>
                   </div>
                 );
               })}
               <div ref={logEndRef} />
             </div>
-
-            {/* Footer */}
-            <div className="p-3 border-t border-zinc-800 bg-zinc-900/10 flex items-center justify-between text-[9px] text-zinc-500">
-              <div className="flex items-center gap-3">
-                <span>STALE: {cleanStats.staleFolders.pruned}/{cleanStats.staleFolders.total}</span>
-                <span>DELETED: {cleanStats.unusedCode.lines} L</span>
-                <span>SPACE: {cleanStats.unusedAssets.size}</span>
-              </div>
-              <span>COMPRESSION: {cleanStats.bundleReduction}</span>
-            </div>
           </div>
         )}
 
-        {activeTab === "config" && (
-          // Website config editor form
-          <div className="flex-1 flex flex-col h-full bg-zinc-950 overflow-y-auto p-4 space-y-4">
-            <div className="border-b border-zinc-800 pb-2">
-              <h2 className="font-bold text-[10px] text-zinc-200 uppercase tracking-widest flex items-center gap-1.5">
-                <Settings className="w-3.5 h-3.5 text-zinc-400" />
-                <span>Website Configuration Engine</span>
-              </h2>
+        {/* Module 02: Blog Management Deck */}
+        {activeTab === "blog" && (
+          <div className="flex-1 flex flex-col h-full bg-card overflow-hidden">
+            <div className="p-3 border-b border-border bg-muted/20 flex items-center justify-between">
+              <span className="font-bold text-[10px] text-foreground uppercase tracking-wider">
+                {editingArticleId ? "Modify Existing Article" : "Create New Stream Article"}
+              </span>
+              {editingArticleId && (
+                <button
+                  onClick={() => {
+                    setEditingArticleId(null);
+                    setNewTitle("");
+                    setNewExcerpt("");
+                    setNewContent("");
+                    setNewTags("");
+                    setNewStatus("published");
+                  }}
+                  className="text-[9px] text-muted-foreground hover:text-foreground underline"
+                >
+                  Cancel Edit
+                </button>
+              )}
             </div>
 
-            <form onSubmit={handleSaveConfigSubmit} className="space-y-4 font-mono text-[10px]">
-              <div className="space-y-1">
-                <label className="text-zinc-500 font-bold uppercase text-[8px] block">Hero Headline</label>
-                <textarea
-                  value={heroHeadline}
-                  onChange={(e) => setHeroHeadline(e.target.value)}
-                  rows={2}
-                  className="w-full bg-zinc-900 border border-zinc-800 text-[10px] text-zinc-300 p-2 outline-none focus:border-zinc-700 resize-none font-mono"
-                  placeholder="Headline copy..."
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-zinc-500 font-bold uppercase text-[8px] block">Hero Intro Description</label>
-                <textarea
-                  value={heroIntro}
-                  onChange={(e) => setHeroIntro(e.target.value)}
-                  rows={3}
-                  className="w-full bg-zinc-900 border border-zinc-800 text-[10px] text-zinc-300 p-2 outline-none focus:border-zinc-700 resize-none font-mono"
-                  placeholder="Introduction paragraph..."
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <form onSubmit={handleCreateOrUpdateArticle} className="space-y-3 text-[10px]">
                 <div className="space-y-1">
-                  <label className="text-zinc-500 font-bold uppercase text-[8px] block">Primary Email</label>
+                  <label className="text-muted-foreground font-bold uppercase text-[8px] block">Title</label>
                   <input
-                    type="email"
-                    value={contactEmail}
-                    onChange={(e) => setContactEmail(e.target.value)}
-                    className="w-full bg-zinc-900 border border-zinc-800 text-[10px] text-zinc-300 h-8 px-2 outline-none focus:border-zinc-700 font-mono"
-                    placeholder="email address..."
+                    type="text"
+                    required
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    className="w-full bg-card border border-border text-[10px] text-foreground h-8 px-2.5 outline-none focus:border-primary font-mono"
+                    placeholder="Article title copy..."
                   />
                 </div>
+
                 <div className="space-y-1">
-                  <label className="text-zinc-500 font-bold uppercase text-[8px] block">Engineering Collaborators</label>
+                  <label className="text-muted-foreground font-bold uppercase text-[8px] block">Excerpt / Summary</label>
                   <input
-                    type="number"
-                    value={teamSize}
-                    onChange={(e) => setTeamSize(e.target.value)}
-                    className="w-full bg-zinc-900 border border-zinc-800 text-[10px] text-zinc-300 h-8 px-2 outline-none focus:border-zinc-700 font-mono"
-                    placeholder="4"
+                    type="text"
+                    required
+                    value={newExcerpt}
+                    onChange={(e) => setNewExcerpt(e.target.value)}
+                    className="w-full bg-card border border-border text-[10px] text-foreground h-8 px-2.5 outline-none focus:border-primary font-mono"
+                    placeholder="Brief description preview..."
                   />
                 </div>
-              </div>
 
-              <button
-                type="submit"
-                disabled={isSavingConfig}
-                className="w-full bg-zinc-300 hover:bg-white text-zinc-950 py-2 font-bold uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5 transition-colors disabled:opacity-40 text-[9px]"
-              >
-                {isSavingConfig ? (
-                  <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    Committing Changes...
-                  </>
-                ) : configSaved ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-600" />
-                    Committed to Store
-                  </>
+                <div className="space-y-1">
+                  <label className="text-muted-foreground font-bold uppercase text-[8px] block">Tags (Comma Separated)</label>
+                  <input
+                    type="text"
+                    value={newTags}
+                    onChange={(e) => setNewTags(e.target.value)}
+                    className="w-full bg-card border border-border text-[10px] text-foreground h-8 px-2.5 outline-none focus:border-primary font-mono"
+                    placeholder="Docker, Security, Next.js"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-muted-foreground font-bold uppercase text-[8px] block">Publish Status</label>
+                    <select
+                      value={newStatus}
+                      onChange={(e) => setNewStatus(e.target.value as "draft" | "published")}
+                      className="w-full bg-card border border-border text-[10px] text-foreground h-8 px-2 outline-none focus:border-primary font-mono"
+                    >
+                      <option value="published">Published</option>
+                      <option value="draft">Draft</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-muted-foreground font-bold uppercase text-[8px] block">Content (Markdown format)</label>
+                  <textarea
+                    required
+                    value={newContent}
+                    onChange={(e) => setNewContent(e.target.value)}
+                    rows={6}
+                    className="w-full bg-card border border-border text-[10px] text-foreground p-2.5 outline-none focus:border-primary font-mono resize-y min-h-[120px]"
+                    placeholder="### Heading 3&#10;&#10;Content paragraph copy here..."
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-primary text-primary-foreground py-2 font-bold uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5 transition-colors text-[9px]"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>{editingArticleId ? "Apply Modifications" : "Aggregate to Home Feed"}</span>
+                </button>
+              </form>
+
+              {/* Management List */}
+              <div className="space-y-2 pt-4 border-t border-border/80">
+                <span className="font-bold text-[8px] text-muted-foreground uppercase tracking-widest block">Existing Articles Deck</span>
+                
+                {articles.length === 0 ? (
+                  <p className="text-[10px] text-muted-foreground italic text-center py-4">No articles saved.</p>
                 ) : (
-                  <>
-                    <Save className="w-3.5 h-3.5" />
-                    Commit Configuration
-                  </>
+                  <div className="space-y-1.5">
+                    {articles.map((art) => (
+                      <div key={art.id} className="flex items-center justify-between border border-border bg-muted/10 p-2 text-[10px]">
+                        <div className="truncate max-w-[170px] pr-2">
+                          <span className="font-bold text-foreground truncate block">{art.title}</span>
+                          <span className="text-[8px] text-muted-foreground font-mono uppercase tracking-wider block mt-0.5">
+                            Status: {art.status || "published"}
+                          </span>
+                        </div>
+                        <div className="flex gap-1.5 shrink-0">
+                          <button
+                            onClick={() => handleEditArticle(art)}
+                            className="px-2 py-1 bg-muted hover:bg-muted-foreground/20 text-foreground border border-border transition-colors font-bold uppercase tracking-wider text-[8px]"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteArticle(art.id)}
+                            className="p-1 bg-destructive text-destructive-foreground border border-transparent hover:bg-destructive/90 transition-colors"
+                            title="Delete"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 )}
-              </button>
-            </form>
+              </div>
+            </div>
           </div>
         )}
       </div>
 
-      {/* RIGHT PANEL: AI CLIENT PROFILER */}
-      <div className="w-full md:w-64 bg-zinc-900/30 flex flex-col shrink-0">
-        <div className="p-3 border-b border-zinc-800 flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-zinc-400" />
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-zinc-300">Client Profiler</h3>
+      {/* RIGHT PANEL: AI-DRIVEN TELEMETRY PROFILER */}
+      <div className="w-full md:w-64 bg-muted/20 flex flex-col shrink-0">
+        <div className="p-4 border-b border-border flex items-center gap-2 bg-muted/40">
+          <Sparkles className="h-4 w-4 text-primary" />
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-foreground">AI Telemetry</h3>
         </div>
 
         {selectedSessionId && activeTab === "chat" ? (
-          <div className="flex-1 overflow-y-auto p-3 space-y-4">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
             <div className="flex flex-col gap-1.5">
-              <p className="text-[8px] text-zinc-500 font-bold uppercase tracking-widest">Inference engine</p>
+              <p className="text-[8px] text-muted-foreground font-bold uppercase tracking-widest">Inference engine</p>
               <button 
                 onClick={handleGenerateProfile}
                 disabled={loadingProfile}
-                className="w-full bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-[10px] text-zinc-350 hover:text-white font-bold py-1.5 transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-md disabled:opacity-40"
+                className="w-full bg-card hover:bg-muted border border-border text-[10px] text-foreground font-bold py-2 transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-40"
               >
                 {loadingProfile ? (
                   <>
-                    <Loader2 className="h-3 w-3 animate-spin text-zinc-500" />
-                    ANALYSING LOGS...
+                    <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
+                    Extracting metrics...
                   </>
                 ) : (
                   <>
-                    <Sparkles className="h-3.5 w-3.5 text-zinc-500" />
+                    <Sparkles className="h-3.5 w-3.5 text-primary" />
                     Extract Telemetry
                   </>
                 )}
@@ -805,72 +1022,72 @@ export default function AdminDashboardInline({ onLogout }: AdminDashboardInlineP
             </div>
 
             {aiProfile ? (
-              <div className="space-y-3.5 border border-zinc-800 p-3 bg-zinc-950/40 text-[10px] leading-relaxed shadow-sm">
+              <div className="space-y-4 border border-border p-3 bg-card text-[10px] leading-relaxed shadow-xs">
                 
                 {/* User Intent */}
                 <div className="space-y-1">
-                  <span className="text-[8px] text-zinc-500 font-bold uppercase tracking-wider block">USER INTENT</span>
-                  <p className="text-zinc-300 text-xs font-bold leading-normal font-sans">
+                  <span className="text-[8px] text-muted-foreground font-bold uppercase tracking-wider block">User Intent</span>
+                  <p className="text-foreground text-xs font-bold font-sans">
                     {aiProfile.userIntent}
                   </p>
                 </div>
 
-                <div className="h-[1px] bg-zinc-900" />
+                <div className="h-[1px] bg-border/60" />
 
-                {/* Technical Depth */}
+                {/* Core Stack Mentioned */}
                 <div className="space-y-1">
-                  <span className="text-[8px] text-zinc-500 font-bold uppercase tracking-wider block">TECHNICAL DEPTH</span>
-                  <div className="text-zinc-300 text-xs font-bold leading-normal font-sans">
-                    {aiProfile.technicalDepth}
-                  </div>
+                  <span className="text-[8px] text-muted-foreground font-bold uppercase tracking-wider block">Core Stack Mentioned</span>
+                  <p className="text-foreground text-xs font-bold font-sans">
+                    {aiProfile.coreStack}
+                  </p>
                 </div>
 
-                <div className="h-[1px] bg-zinc-900" />
+                <div className="h-[1px] bg-border/60" />
 
                 {/* Action Plan */}
                 <div className="space-y-1.5">
-                  <span className="text-[8px] text-zinc-500 font-bold uppercase tracking-wider block">ACTION PLAN</span>
-                  <div className="space-y-1 text-zinc-400 font-sans">
+                  <span className="text-[8px] text-muted-foreground font-bold uppercase tracking-wider block">Action Recommendations</span>
+                  <div className="space-y-1 text-muted-foreground font-sans">
                     {aiProfile.actionPlan.map((step, idx) => (
                       <div key={idx} className="flex gap-1.5 items-start">
-                        <span className="text-zinc-500 font-bold shrink-0 font-mono">{idx + 1}.</span>
+                        <span className="text-primary font-bold shrink-0 font-mono">{idx + 1}.</span>
                         <span>{step}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="h-[1px] bg-zinc-900" />
+                <div className="h-[1px] bg-border/60" />
 
                 {/* Suggested Reply */}
-                <div className="space-y-1.5 bg-zinc-950 border border-zinc-900 p-2 text-[10px]">
+                <div className="space-y-1.5 bg-muted/50 border border-border p-2 text-[10px]">
                   <div className="flex items-center justify-between">
-                    <span className="text-[8px] text-zinc-400 font-bold uppercase tracking-wider">SUGGESTED NEXT REPLY</span>
-                    <span className="text-[7px] text-zinc-500 font-bold uppercase">AI_DRAFT</span>
+                    <span className="text-[8px] text-muted-foreground font-bold uppercase tracking-wider">Suggested Reply</span>
+                    <span className="text-[7px] text-primary font-bold uppercase">AI_DRAFT</span>
                   </div>
-                  <p className="text-zinc-350 leading-relaxed font-sans italic">
+                  <p className="text-foreground/90 leading-relaxed font-sans italic">
                     "{aiProfile.suggestedNextReply}"
                   </p>
                 </div>
               </div>
             ) : !loadingProfile && (
-              <div className="flex flex-col items-center justify-center py-16 text-zinc-700 border border-dashed border-zinc-800 p-3">
-                <Sparkles className="h-5 w-5 mb-1.5 stroke-[1.2]" />
-                <p className="text-[9px] font-bold text-center uppercase tracking-wider">
-                  Awaiting telemetry trigger
+              <div className="flex flex-col items-center justify-center py-16 text-muted-foreground border border-dashed border-border p-4 text-center">
+                <Sparkles className="h-5 w-5 mb-2 stroke-[1.2] text-muted-foreground/60" />
+                <p className="text-[9px] font-bold uppercase tracking-wider">
+                  Awaiting telemetry request
                 </p>
               </div>
             )}
           </div>
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center text-zinc-700 select-none p-4 text-center font-mono">
-            <Clock className="h-5 w-5 mb-1.5 stroke-[1.2]" />
-            <p className="text-[8px] uppercase tracking-wider leading-relaxed">
-              {activeTab === "config" 
-                ? "Live Editor console loaded" 
-                : activeTab === "cleanup" 
-                  ? "Daemon process logs running" 
-                  : "Select active channel port to analyze context"
+          <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground select-none p-4 text-center">
+            <Clock className="h-5 w-5 mb-2 stroke-[1.2] text-muted-foreground/60" />
+            <p className="text-[9px] uppercase tracking-wider leading-relaxed">
+              {activeTab === "pipeline" 
+                ? "Simulated log streams running" 
+                : activeTab === "blog" 
+                  ? "Blog management deck loaded" 
+                  : "Select messaging log session to analyze telemetry"
               }
             </p>
           </div>

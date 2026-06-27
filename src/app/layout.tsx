@@ -3,7 +3,6 @@ import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "../components/theme-provider";
 import RealTimeChatWidget from "@/components/RealTimeChatWidget/RealTimeChatWidget";
 import { Inter } from "next/font/google";
-import Responsive from "@/views/Responsive/Responsive";
 
 const inter = Inter({
   subsets: ["latin"],
