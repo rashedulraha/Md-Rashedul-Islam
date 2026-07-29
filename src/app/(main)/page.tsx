@@ -2,6 +2,7 @@
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import Work from "@/components/Work";
+import SkillsSection from "@/components/SkillsSection";
 import Blog from "@/components/Blog";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
@@ -40,6 +41,7 @@ export default function Home() {
               <div className="relative col-span-1 min-w-0">
                 <Features />
                 <AboutSection />
+                <SkillsSection />
                 <Work />
                 <Blog />
                 <CertificatesSection />
