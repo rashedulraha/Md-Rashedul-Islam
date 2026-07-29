@@ -14,8 +14,63 @@ import {
   Cloud,
   Sparkles,
   User,
+  Code2,
+  Palette,
+  GitBranch,
+  Shield,
 } from "lucide-react";
-
+export const SKILLS = [
+  {
+    name: "Next.js 16",
+    icon: Server,
+    desc: "App Router, Server Actions & RSC",
+  },
+  {
+    name: "React 19",
+    icon: Layers,
+    desc: "Server Components & Modern Hooks",
+  },
+  {
+    name: "TypeScript 5.7",
+    icon: Code2,
+    desc: "Type-Safe Application Development",
+  },
+  {
+    name: "Tailwind CSS v4",
+    icon: Palette,
+    desc: "Modern UI & Design Systems",
+  },
+  {
+    name: "Backend Engineering",
+    icon: Terminal,
+    desc: "Node.js 24, Express 5 & REST APIs",
+  },
+  {
+    name: "Database Engineering",
+    icon: Database,
+    desc: "PostgreSQL 18, Prisma ORM & SQL",
+  },
+  {
+    name: "Authentication",
+    icon: Shield,
+    desc: "Better Auth, JWT, OAuth & RBAC",
+  },
+  {
+    name: "DevOps",
+    icon: Cloud,
+    desc: "Docker, Linux, Nginx & Deployment",
+  },
+  {
+    name: "AI Engineering",
+    icon: Sparkles,
+    desc: "Claude Code, Ollama & AI Workflows",
+  },
+  {
+    name: "Developer Tools",
+    icon: GitBranch,
+    desc: "Git, GitHub, VS Code & Postman",
+  },
+];
 const TextTooltip = ({
   children,
   title,
@@ -65,50 +120,15 @@ const TextTooltip = ({
   );
 };
 
-const SKILLS = [
-  { name: "Next.js 16", icon: Server, desc: "App Router & Server Actions" },
-  { name: "React 19", icon: Layers, desc: "Server Components & Hooks" },
-  {
-    name: "TypeScript 5.7",
-    icon: Code,
-    desc: "Strict Typing & Type Inference",
-  },
-  {
-    name: "Tailwind CSS v4",
-    icon: MonitorSmartphone,
-    desc: "Modern Utility-First Styling",
-  },
-  {
-    name: "Node.js 22 & Express 5",
-    icon: Terminal,
-    desc: "Scalable REST APIs & Microservices",
-  },
-  {
-    name: "PostgreSQL 16 & Prisma 6",
-    icon: Database,
-    desc: "Relational DB & Type-Safe ORM",
-  },
-  {
-    name: "Docker & Linux",
-    icon: Cloud,
-    desc: "Containerization & Server Admin",
-  },
-  {
-    name: "AI Engineering",
-    icon: Sparkles,
-    desc: "Claude Code Workflows, Ollama & n8n",
-  },
-];
-
 export default function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
 
   const stats = [
-    { label: "Years Experience", value: "2+" },
-    { label: "Completed Projects", value: "10+" },
-    { label: "Satisfied Clients", value: "8+" },
-    { label: "Code Commits", value: "3k+" },
+    { label: "Years Experience", value: "3+" },
+    { label: "Projects Delivered", value: "15+" },
+    { label: "System Reliability", value: "99.9%" },
+    { label: "Users Impacted", value: "50k+" },
   ];
 
   const containerVariants: Variants = {
@@ -268,8 +288,9 @@ export default function AboutSection() {
               className="space-y-8"
             >
               <motion.div variants={itemVariants}>
-                <h3 className="text-2xl md:text-3xl font-bold text-foreground leading-tight">
-                  Passionate Full-Stack Developer crafting digital experiences.
+                <h3 className="text-2xl md:text-3xl font-normal text-foreground leading-tight">
+                  Passionate Software Engineer dedicated to performance, clean
+                  architecture, and scale.
                 </h3>
               </motion.div>
 
@@ -278,44 +299,47 @@ export default function AboutSection() {
                 className="space-y-5 text-muted-foreground text-base leading-relaxed"
               >
                 <p>
-                  I specialize in building scalable web applications and
-                  high-performance digital systems using modern technologies.
-                  With 2+ years of experience, I focus on clean architecture,
-                  smooth UI/UX, and robust API design.
+                  Over the past <strong>3 years</strong>, I have engineered
+                  full-stack web applications and backend microservices that
+                  solve complex business challenges. I specialize in building
+                  maintainable TypeScript codebases, optimizing database query
+                  speed, and delivering intuitive, pixel-perfect user
+                  interfaces.
                 </p>
 
                 <p>
-                  I build web apps with{" "}
+                  My core stack centres around{" "}
                   <TextTooltip
                     title="Next.js & React"
-                    description="Server-side rendering, App router & reactive UI"
+                    description="Server-side rendering, App Router & reactive UI components"
                     icon={Server}
                   >
                     Next.js & React
                   </TextTooltip>
-                  , using{" "}
+                  , leveraging{" "}
                   <TextTooltip
                     title="TypeScript"
-                    description="Strict static typing for scalable codebases"
+                    description="Strict static typing for scalable and bug-resistant codebases"
                     icon={Code}
                   >
                     TypeScript
                   </TextTooltip>{" "}
                   and{" "}
                   <TextTooltip
-                    title="Tailwind CSS"
-                    description="Modern utility-first styling system"
+                    title="Tailwind CSS v4"
+                    description="Modern utility-first styling for fast, responsive UIs"
                     icon={MonitorSmartphone}
                   >
                     Tailwind CSS
                   </TextTooltip>{" "}
-                  for responsive designs. For backend systems, I utilize{" "}
+                  on the frontend. On the backend, I design robust RESTful APIs
+                  using{" "}
                   <TextTooltip
                     title="Node.js & Express"
-                    description="Scalable REST APIs & backend services"
+                    description="Scalable backend architectures, Prisma ORM & PostgreSQL"
                     icon={Cloud}
                   >
-                    Node.js & Cloud Services
+                    Node.js & PostgreSQL
                   </TextTooltip>
                   .
                 </p>
@@ -323,8 +347,9 @@ export default function AboutSection() {
                 <div className="flex items-start gap-4 p-4 rounded-2xl bg-muted/30 border border-border mt-6">
                   <div className="mt-1 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                   <p className="text-foreground font-medium text-sm leading-relaxed">
-                    Focusing on modern web standards, performance optimization,
-                    and responsive design across all devices.
+                    Focused on high code quality, automated workflows,
+                    responsive design, and fast load times across all client and
+                    server layers.
                   </p>
                 </div>
               </motion.div>

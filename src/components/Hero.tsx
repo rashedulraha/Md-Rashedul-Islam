@@ -9,7 +9,6 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Grid3x3,
   Maximize2,
   Minimize2,
   MapPin,
@@ -412,39 +411,25 @@ export default function Hero() {
         />
 
         <div className="container relative z-20 mx-auto mb-8 flex w-full flex-col items-center justify-center gap-y-4 md:mb-14 md:gap-y-6">
-          {/* New badge */}
+          {/* Recruiter Status Pill */}
           <motion.a
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="group flex cursor-pointer items-center rounded-full border border-black/5 bg-black/5 px-1 py-0.5 text-sm backdrop-blur-xs transition-all duration-300 ease-in hover:bg-black/10 hover:border-black/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.99] lg:text-base dark:border-white/5 dark:bg-white/5 dark:hover:border-white/15 dark:hover:bg-white/10"
-            href="https://zopshop.vercel.app"
-            referrerPolicy="no-referrer"
-            rel="noreferrer"
-            target="_blank"
+            className="group flex cursor-pointer items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs backdrop-blur-md transition-all duration-300 hover:border-emerald-500/40 hover:bg-emerald-500/15 active:scale-[0.99] sm:text-sm text-foreground"
+            href="#contact"
           >
-            <span className="mx-1 rounded-full bg-linear-to-r from-blue-600 to-indigo-600 px-2 py-0.5 text-xs font-medium text-white shadow-sm">
-              Zopshop 2026
+            <span className="relative flex size-2 mr-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
             </span>
-            <span className="relative px-2 py-0.5 text-sm text-black/70 transition-colors duration-300 group-hover:text-black dark:text-white/70 dark:group-hover:text-white">
-              One POS System. For Every Business.
+            <span className="font-medium text-emerald-600 dark:text-emerald-400 mr-1">
+              Available:
             </span>
-            <motion.svg
-              fill="none"
-              height={24}
-              viewBox="0 0 24 24"
-              width={24}
-              xmlns="http://www.w3.org/2000/svg"
-              className="mr-2 size-4 text-black/50 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-black dark:text-white/50 dark:group-hover:text-white"
-            >
-              <path
-                d="M9.00005 6C9.00005 6 15 10.4189 15 12C15 13.5812 9 18 9 18"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-              />
-            </motion.svg>
+            <span className="text-muted-foreground group-hover:text-foreground transition-colors">
+              Open for Full-Time Roles & Projects
+            </span>
+            <ChevronRight className="ml-1 size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
           </motion.a>
 
           {/* Main heading */}
@@ -452,21 +437,22 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="w-full max-w-5xl text-balance text-center font-sans font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight text-foreground"
+            className="w-full max-w-7xl text-balance text-center font-sans font-normal text-3xl sm:text-5xl md:text-6xl tracking-tight text-foreground"
           >
             Building bridges between design and code
           </motion.h1>
 
-          {/* Subtitle */}
+          {/* Subtitle - Personal Brand Statement */}
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.35 }}
-            className="w-full max-w-2xl text-center text-sm sm:text-base md:text-lg text-muted-foreground font-normal leading-relaxed mt-3"
+            className="w-full max-w-2xl text-center text-sm sm:text-base md:text-lg text-muted-foreground font-normal leading-relaxed mt-2"
           >
-            Full-Stack Web Developer specializing in building high-performance
-            web systems, robust APIs, and modern user experiences using Next.js,
-            TypeScript, and Node.js.
+            Full-Stack Software Developer with{" "}
+            <strong>3 years of experience</strong> engineering high-performance
+            web applications, robust REST APIs, and responsive UI systems using{" "}
+            <strong>Next.js, TypeScript, Node.js & PostgreSQL</strong>.
           </motion.p>
 
           {/* Avatar Greeting Bar */}
@@ -474,7 +460,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.45 }}
-            className="relative z-20 flex flex-wrap items-center justify-center text-center font-medium text-xs sm:text-sm text-foreground/90 gap-2 mt-4"
+            className="relative z-20 flex flex-wrap items-center justify-center text-center font-medium text-xs sm:text-sm text-foreground/90 gap-2 mt-2"
           >
             <span>Hello! I'm Rashedul Islam</span>
             <span
@@ -485,19 +471,19 @@ export default function Hero() {
               <motion.span
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="mx-1 inline-block w-16 sm:w-20 overflow-hidden rounded border border-primary/30 shadow-md transition-shadow"
+                className="mx-1 inline-block w-14 sm:w-18 overflow-hidden rounded-full border-2 border-primary/40 shadow-md transition-shadow"
               >
                 <Image
-                  alt="Rashedul Islam — Full Stack Developer"
+                  alt="Rashedul Islam — Software Developer"
                   width={100}
                   height={100}
-                  className="object-cover w-full h-full"
+                  className="object-cover w-full h-full aspect-square"
                   src="/personal_img/rashedul-2.jpeg"
                 />
               </motion.span>
             </span>
-            <span className="text-muted-foreground">
-              • Full-Stack Web & Software Engineer
+            <span className="text-muted-foreground font-medium">
+              • 3 Years Exp Full-Stack Developer
             </span>
           </motion.div>
 

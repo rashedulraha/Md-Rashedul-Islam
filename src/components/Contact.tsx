@@ -1,17 +1,28 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { Mail, Copy, Send } from "lucide-react";
+import { toast } from "sonner";
+import { FaGithub, FaLinkedin } from "react-icons/fa6";
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   // Floating particles for background (client-side only to prevent hydration mismatch)
-  const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; size: number; duration: number; delay: number }>>([]);
+  const [particles, setParticles] = useState<
+    Array<{
+      id: number;
+      x: number;
+      y: number;
+      size: number;
+      duration: number;
+      delay: number;
+    }>
+  >([]);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setParticles(
       Array.from({ length: 15 }, (_, i) => ({
         id: i,
@@ -20,11 +31,22 @@ export default function Contact() {
         size: Math.random() * 2 + 1,
         duration: Math.random() * 15 + 10,
         delay: Math.random() * 8,
-      }))
+      })),
     );
   }, []);
 
-  const tags = ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"];
+  const copyEmail = async () => {
+    await navigator.clipboard.writeText("rashedulraha.bd@gmail.com");
+    toast.success("Email address copied to clipboard!");
+  };
+
+  const tags = [
+    "Next.js 16",
+    "TypeScript",
+    "Node.js",
+    "PostgreSQL",
+    "Full-Stack Dev",
+  ];
 
   return (
     <>
@@ -60,7 +82,10 @@ export default function Contact() {
           ))}
         </div>
 
-        <div aria-hidden="true" className="w-full border-t border-foreground/12" />
+        <div
+          aria-hidden="true"
+          className="w-full border-t border-foreground/12"
+        />
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -73,12 +98,12 @@ export default function Contact() {
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={isInView ? { scale: 1, opacity: 1 } : {}}
-              transition={{ 
-                duration: 0.5, 
+              transition={{
+                duration: 0.5,
                 delay: 0.2,
                 type: "spring",
                 stiffness: 200,
-                damping: 20
+                damping: 20,
               }}
               className="absolute z-50 cursor-grab overflow-hidden rounded-full top-4 left-1/2 -translate-x-1/2 lg:top-1/2 lg:left-1/2 lg:translate-x-[280px] lg:-translate-y-[70px]"
               tabIndex={0}
@@ -86,7 +111,7 @@ export default function Contact() {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative rounded-full bg-gradient-to-r from-primary to-primary/80 p-1.5 font-medium leading-none shadow-lg shadow-primary/20"
+                className="relative rounded-full bg-gradient-to-r from-primary to-primary/80 p-1.5 font-medium leading-none shadow-lg shadow-primary/20 hidden md:flex"
               >
                 <div className="relative size-23.75 rounded-full bg-background p-2 text-foreground">
                   <div className="absolute top-1/2 left-1/2 size-20 -translate-x-1/2 -translate-y-1/2 rounded-full">
@@ -120,7 +145,11 @@ export default function Contact() {
                   </div>
                   <motion.svg
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 8,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
                     height={24}
                     viewBox="0 0 24 24"
                     width={24}
@@ -147,7 +176,7 @@ export default function Contact() {
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={isInView ? { scale: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.5 }}
-                  className="font-extrabold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent"
+                  className="font-extrabold bg-gradient-to-r from-primary to-primary/80 font-bold bg-clip-text text-transparent"
                 >
                   in mind?
                 </motion.span>
@@ -158,107 +187,96 @@ export default function Contact() {
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={isInView ? { scale: 1, opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.6 }}
-                  className="font-extrabold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent"
+                  className="font-extrabold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent font-bold"
                 >
                   happen.
                 </motion.span>
               </h3>
             </motion.div>
 
-            {/* CTA Button */}
+            {/* Recruiter Action Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.7 }}
+              className="flex flex-wrap items-center justify-center gap-3 my-8"
             >
+              {/* Primary Contact Modal Trigger */}
               <motion.button
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={() =>
                   window.dispatchEvent(
                     new CustomEvent("open-modal", {
                       detail: { view: "contact" },
-                    })
+                    }),
                   )
                 }
-                className="group relative inline-flex w-fit cursor-pointer items-center justify-between overflow-hidden rounded-full border border-border bg-muted/50 py-1 pr-1 pl-4 font-medium text-base backdrop-blur-xl transition-all duration-300 ease-out hover:border-primary/30 hover:bg-accent active:scale-[0.98] my-10"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground text-sm font-semibold shadow-lg shadow-primary/25 hover:opacity-95 transition-all duration-300 cursor-pointer"
               >
-                <span className="z-10 px-3 text-foreground transition-colors duration-450 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:text-primary-foreground">
-                  Get In Touch
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-y-1 right-1 w-10 rounded-full bg-primary transition-[width] duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:w-[calc(100%-8px)]"
-                />
-                <span className="z-10 flex items-center justify-center overflow-hidden rounded-full bg-primary p-2.5 transition-colors duration-400 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:bg-transparent">
-                  <svg
-                    fill="none"
-                    height={24}
-                    viewBox="0 0 24 24"
-                    width={24}
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-[18px] text-primary-foreground transition-all duration-400 group-hover:translate-x-6 group-hover:opacity-0 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
-                  >
-                    <path
-                      d="M18.5 12L4.99997 12"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M13 18C13 18 19 13.5811 19 12C19 10.4188 13 6 13 6"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
-                  <svg
-                    fill="none"
-                    height={24}
-                    viewBox="0 0 24 24"
-                    width={24}
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="absolute size-[18px] -translate-x-6 text-primary-foreground opacity-0 transition-all delay-75 duration-400 group-hover:translate-x-0 group-hover:opacity-100 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
-                  >
-                    <path
-                      d="M18.5 12L4.99997 12"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M13 18C13 18 19 13.5811 19 12C19 10.4188 13 6 13 6"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
-                </span>
+                <Send className="w-4 h-4" />
+                Send Message
               </motion.button>
+
+              {/* Direct Mailto link */}
+              <a
+                href="mailto:rashedulraha.bd@gmail.com"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-muted border border-border hover:border-primary/40 hover:bg-accent text-sm font-medium text-foreground transition-all duration-300"
+              >
+                <Mail className="w-4 h-4 text-primary" />
+                Direct Email
+              </a>
+
+              {/* Copy Email Button */}
+              <button
+                onClick={copyEmail}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-muted border border-border hover:border-primary/40 hover:bg-accent text-sm font-medium text-foreground transition-all duration-300 cursor-pointer"
+              >
+                <Copy className="w-4 h-4 text-primary" />
+                Copy Email
+              </button>
+            </motion.div>
+
+            {/* Social Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              className="flex items-center justify-center gap-4 mb-6"
+            >
+              <a
+                href="https://github.com/RashedulRaha"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-full bg-muted border border-border text-foreground/80 hover:text-foreground hover:border-primary/50 transition-all duration-300"
+                title="GitHub Profile"
+              >
+                <FaGithub className="w-5 h-5" />
+              </a>
+              <a
+                href="https://linkedin.com/in/rashedulraha"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-full bg-muted border border-border text-foreground/80 hover:text-foreground hover:border-primary/50 transition-all duration-300"
+                title="LinkedIn Profile"
+              >
+                <FaLinkedin className="w-5 h-5" />
+              </a>
             </motion.div>
 
             {/* Availability Text */}
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.8 }}
+              transition={{ duration: 0.5, delay: 0.85 }}
               className="font-semibold text-base sm:text-xl lg:text-2xl text-foreground"
             >
-              Available for{" "}
+              Currently Available for{" "}
               <span className="text-primary font-bold">
-                Full-Time Roles
-              </span>
-              {" "}and{" "}
-              <span className="text-primary font-bold">
-                Freelance Projects
-              </span>
-              .
+                Full-Time Engineering Roles
+              </span>{" "}
+              and{" "}
+              <span className="text-primary font-bold">Contract Projects</span>.
             </motion.p>
 
             {/* Description */}
@@ -266,29 +284,35 @@ export default function Contact() {
               initial={{ opacity: 0, y: 10 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.9 }}
-              className="my-2 text-balance font-extralight text-sm tracking-wide opacity-75 lg:text-xl text-muted-foreground"
+              className="my-2 text-balance font-extralight text-sm tracking-wide opacity-75 lg:text-base text-muted-foreground max-w-xl mx-auto"
             >
-              I'm always open to discussing new web/software engineering projects,
-              <br className="hidden sm:block" />
-              creative ideas, or opportunities to be part of your vision.
+              I am open to discussing full-time software developer
+              opportunities, technical systems architecture, or freelance
+              Web/SaaS engineering.
             </motion.p>
 
-            {/* Decorative Elements */}
+            {/* Tags */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: 1 }}
-              className="flex gap-2 mt-4"
+              className="flex flex-wrap justify-center gap-2 mt-4"
             >
               {tags.map((tag: string) => (
-                <span key={tag} className="px-3 py-1 rounded-full bg-muted border border-border text-foreground text-xs font-medium glass">
+                <span
+                  key={tag}
+                  className="px-3 py-1 rounded-full bg-muted border border-border text-foreground text-xs font-semibold glass"
+                >
                   {tag}
                 </span>
               ))}
             </motion.div>
           </div>
         </motion.div>
-        <div aria-hidden="true" className="w-full border-t border-foreground/12" />
+        <div
+          aria-hidden="true"
+          className="w-full border-t border-foreground/12"
+        />
       </section>
     </>
   );
