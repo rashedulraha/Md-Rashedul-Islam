@@ -12,7 +12,8 @@ import {
   Search, 
   LayoutGrid, 
   List, 
-  Image as ImageIcon 
+  Image as ImageIcon,
+  ArrowLeft
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa6";
 import { getProjects, createProject, updateProject, deleteProject } from "@/services/apiService";
@@ -33,6 +34,7 @@ export interface IProject {
   tags: string[];
   liveUrl?: string;
   githubUrl?: string;
+  readmeContent?: string;
   createdAt?: string;
 }
 
@@ -40,7 +42,7 @@ export function ProjectsTab() {
   const [projects, setProjects] = useState<IProject[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentView, setCurrentView] = useState<"list" | "editor">("list");
   const [editingProject, setEditingProject] = useState<IProject | null>(null);
   
   // View Mode: grid, list, image
@@ -68,6 +70,7 @@ export function ProjectsTab() {
     tags: "",
     liveUrl: "",
     githubUrl: "",
+    readmeContent: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -108,8 +111,9 @@ export function ProjectsTab() {
       tags: "Next.js, React, TypeScript, Tailwind CSS",
       liveUrl: "",
       githubUrl: "",
+      readmeContent: "",
     });
-    setIsModalOpen(true);
+    setCurrentView("editor");
   };
 
   const openEditModal = (project: IProject) => {
@@ -127,8 +131,9 @@ export function ProjectsTab() {
       tags: Array.isArray(project.tags) ? project.tags.join(", ") : "",
       liveUrl: project.liveUrl || "",
       githubUrl: project.githubUrl || "",
+      readmeContent: project.readmeContent || "",
     });
-    setIsModalOpen(true);
+    setCurrentView("editor");
   };
 
   const confirmDelete = (id: string) => {
@@ -170,6 +175,7 @@ export function ProjectsTab() {
       tags: formData.tags.split(",").map((s) => s.trim()).filter(Boolean),
       liveUrl: formData.liveUrl,
       githubUrl: formData.githubUrl,
+      readmeContent: formData.readmeContent,
     };
 
     try {
@@ -179,7 +185,7 @@ export function ProjectsTab() {
 
       const data = res.data;
       if (data.success) {
-        setIsModalOpen(false);
+        setCurrentView("list");
         fetchProjects();
       } else {
         alert(data.message || "Operation failed.");
@@ -201,6 +207,207 @@ export function ProjectsTab() {
       return matchesSearch && matchesType;
     });
   }, [projects, searchQuery, activeType]);
+
+  if (currentView === "editor") {
+    return (
+      <div className="space-y-6">
+        <div className="flex justify-between items-center border-b border-border pb-4">
+          <button 
+            onClick={() => setCurrentView("list")}
+            className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Projects
+          </button>
+        </div>
+        
+        <div className="bg-background border border-border rounded-2xl p-6 shadow-sm">
+          <h3 className="text-xl font-bold text-foreground mb-6">
+            {editingProject ? "Edit Project" : "Add New Project"}
+          </h3>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-semibold text-foreground">Title *</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-foreground">Subtitle (Optional)</label>
+                <input
+                  type="text"
+                  value={formData.subtitle}
+                  onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
+                  placeholder="e.g. AI Powered Platform"
+                  className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="text-xs font-semibold text-foreground">Type</label>
+                <select
+                  value={formData.type}
+                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                  className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
+                >
+                  <option value="Web App">Web App</option>
+                  <option value="Mobile App">Mobile App</option>
+                  <option value="UI Kit">UI Kit</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-foreground">Badge</label>
+                <input
+                  type="text"
+                  value={formData.badge}
+                  onChange={(e) => setFormData({ ...formData, badge: e.target.value })}
+                  placeholder="Q1 2026"
+                  className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-foreground">Stats Badge</label>
+                <input
+                  type="text"
+                  value={formData.stats}
+                  onChange={(e) => setFormData({ ...formData, stats: e.target.value })}
+                  placeholder="4.3k checks"
+                  className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-foreground">Image URL *</label>
+              <input
+                type="text"
+                required
+                value={formData.image}
+                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                placeholder="https://images.unsplash.com/..."
+                className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
+              />
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-foreground">Description *</label>
+              <textarea
+                required
+                rows={3}
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-semibold text-foreground">Tags (comma-separated)</label>
+                <input
+                  type="text"
+                  value={formData.tags}
+                  onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                  placeholder="Next.js, React, Tailwind CSS"
+                  className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-foreground">Features (comma-separated)</label>
+                <input
+                  type="text"
+                  value={formData.features}
+                  onChange={(e) => setFormData({ ...formData, features: e.target.value })}
+                  placeholder="Feature 1, Feature 2"
+                  className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-semibold text-foreground">Live Demo URL</label>
+                <input
+                  type="text"
+                  value={formData.liveUrl}
+                  onChange={(e) => setFormData({ ...formData, liveUrl: e.target.value })}
+                  placeholder="https://..."
+                  className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-foreground">GitHub Repo URL</label>
+                <input
+                  type="text"
+                  value={formData.githubUrl}
+                  onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
+                  placeholder="https://github.com/..."
+                  className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between items-center mb-1.5">
+                <label className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+                  <span>Documentation (Raw README.md Content)</span>
+                  <span className="text-[10px] text-indigo-400 font-normal">(Renders dynamic GitHub-style markdown)</span>
+                </label>
+                <label className="cursor-pointer text-[11px] font-semibold text-primary hover:underline flex items-center gap-1">
+                  <span>Upload .md file</span>
+                  <input
+                    type="file"
+                    accept=".md,.markdown,text/plain"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                          setFormData({ ...formData, readmeContent: (event.target?.result as string) || "" });
+                        };
+                        reader.readAsText(file);
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+              <textarea
+                rows={12}
+                value={formData.readmeContent}
+                onChange={(e) => setFormData({ ...formData, readmeContent: e.target.value })}
+                placeholder="# Project Title&#10;&#10;Paste raw README.md content here... Supports headers, code blocks, lists, badges, and images."
+                className="w-full bg-muted/60 border border-border rounded-xl p-3 text-xs font-mono text-foreground focus:outline-none focus:border-primary/50 leading-relaxed"
+              />
+            </div>
+
+            <div className="flex justify-end gap-3 pt-4 border-t border-border mt-4">
+              <button
+                type="button"
+                onClick={() => setCurrentView("list")}
+                className="px-4 py-2 bg-muted hover:bg-accent text-xs font-semibold rounded-xl transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-6 py-2 bg-primary text-primary-foreground text-xs font-bold rounded-xl hover:opacity-90 transition-opacity"
+              >
+                {isSubmitting ? "Saving..." : editingProject ? "Update Project" : "Create Project"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -547,175 +754,6 @@ export function ProjectsTab() {
         onConfirm={handleConfirmDelete}
         onClose={() => setDeletingId(null)}
       />
-
-      {/* Add / Edit Modal */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-background border border-border rounded-2xl p-6 w-full max-w-2xl shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto"
-            >
-              <div className="flex justify-between items-center border-b border-border pb-3">
-                <h3 className="text-xl font-bold text-foreground">
-                  {editingProject ? "Edit Project" : "Add New Project"}
-                </h3>
-                <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-muted rounded-lg text-muted-foreground">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-semibold text-foreground">Title *</label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.title}
-                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                      className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-semibold text-foreground">Subtitle (Optional)</label>
-                    <input
-                      type="text"
-                      value={formData.subtitle}
-                      onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
-                      placeholder="e.g. AI Powered Platform"
-                      className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="text-xs font-semibold text-foreground">Type</label>
-                    <select
-                      value={formData.type}
-                      onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                      className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
-                    >
-                      <option value="Web App">Web App</option>
-                      <option value="Mobile App">Mobile App</option>
-                      <option value="UI Kit">UI Kit</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-xs font-semibold text-foreground">Badge</label>
-                    <input
-                      type="text"
-                      value={formData.badge}
-                      onChange={(e) => setFormData({ ...formData, badge: e.target.value })}
-                      placeholder="Q1 2026"
-                      className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-semibold text-foreground">Stats Badge</label>
-                    <input
-                      type="text"
-                      value={formData.stats}
-                      onChange={(e) => setFormData({ ...formData, stats: e.target.value })}
-                      placeholder="4.3k checks"
-                      className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold text-foreground">Image URL *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.image}
-                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                    placeholder="https://images.unsplash.com/..."
-                    className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold text-foreground">Description *</label>
-                  <textarea
-                    required
-                    rows={3}
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-semibold text-foreground">Tags (comma-separated)</label>
-                    <input
-                      type="text"
-                      value={formData.tags}
-                      onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                      placeholder="Next.js, React, Tailwind CSS"
-                      className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-semibold text-foreground">Features (comma-separated)</label>
-                    <input
-                      type="text"
-                      value={formData.features}
-                      onChange={(e) => setFormData({ ...formData, features: e.target.value })}
-                      placeholder="Feature 1, Feature 2"
-                      className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-semibold text-foreground">Live Demo URL</label>
-                    <input
-                      type="text"
-                      value={formData.liveUrl}
-                      onChange={(e) => setFormData({ ...formData, liveUrl: e.target.value })}
-                      placeholder="https://..."
-                      className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-semibold text-foreground">GitHub Repo URL</label>
-                    <input
-                      type="text"
-                      value={formData.githubUrl}
-                      onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
-                      placeholder="https://github.com/..."
-                      className="w-full bg-muted border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex justify-end gap-3 pt-4 border-t border-border">
-                  <button
-                    type="button"
-                    onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2 bg-muted hover:bg-accent text-xs font-semibold rounded-xl"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="px-6 py-2 bg-primary text-primary-foreground text-xs font-bold rounded-xl hover:opacity-90"
-                  >
-                    {isSubmitting ? "Saving..." : editingProject ? "Update Project" : "Create Project"}
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

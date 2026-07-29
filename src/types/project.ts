@@ -23,6 +23,7 @@ export interface ProjectData {
     business_impact?: string;
     client_testimonial?: string;
   };
+  readmeContent?: string;
 }
 
 export function getProjectBanner(project: ProjectData): string {

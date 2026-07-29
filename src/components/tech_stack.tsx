@@ -79,69 +79,76 @@ function TechModal({
 
   const categories = [
     {
-      title: "Frontend",
-      desc: "Modern and responsive UIs",
+      title: "Frontend & UI Architecture",
+      matchKeys: ["frontend", "ui"],
+      desc: "Modern, responsive & interactive interfaces",
       icon: Layout,
       defaultItems: [
-        { name: "Next.js 16", desc: "React framework with SSR & SSG" },
-        { name: "React 19", desc: "UI library with hooks & concurrent features" },
-        { name: "TypeScript", desc: "Type-safe JavaScript" },
-        { name: "Tailwind CSS", desc: "Utility-first CSS framework" },
-        { name: "shadcn/ui", desc: "Beautiful & accessible components" },
-        { name: "Framer Motion", desc: "Production-ready animations" },
+        { name: "Next.js 15", desc: "App Router, Server Actions & Edge Runtime" },
+        { name: "React 19", desc: "Server Components, Hooks & Concurrent Mode" },
+        { name: "TypeScript 5.7", desc: "Strict Typing, Generics & Type Safety" },
+        { name: "Tailwind CSS v4", desc: "Utility-First CSS & Design Systems" },
+        { name: "Framer Motion", desc: "Production-Ready Micro Animations" },
+        { name: "Vue.js 3 & Svelte 5", desc: "Reactive Component Frameworks" },
       ],
     },
     {
-      title: "Backend",
-      desc: "Secure and scalable APIs",
+      title: "Backend & API Architecture",
+      matchKeys: ["backend", "api", "programming languages"],
+      desc: "Scalable microservices, REST & GraphQL APIs",
       icon: Server,
       defaultItems: [
-        { name: "Node.js 24", desc: "JavaScript runtime" },
-        { name: "Express.js 5", desc: "Web framework for Node.js" },
-        { name: "GraphQL 16", desc: "API query language" },
-        { name: "MongoDB 8", desc: "NoSQL database" },
-        { name: "Redis 8", desc: "In-memory data store" },
-        { name: "PostgreSQL 17", desc: "Relational database" },
+        { name: "Node.js 22", desc: "Event-Driven Asynchronous Runtime" },
+        { name: "Express.js 5", desc: "Web Middleware Framework" },
+        { name: "Hono", desc: "Ultrafast Edge Web Framework" },
+        { name: "Python 3.12 & Go 1.23", desc: "AI Scripting & Concurrent Services" },
+        { name: "REST & GraphQL", desc: "Query Schemas & HTTP Protocols" },
       ],
     },
     {
-      title: "DevOps & Tools",
-      desc: "Efficient workflows",
-      icon: Terminal,
+      title: "Databases & Security",
+      matchKeys: ["database", "authentication", "security", "storage"],
+      desc: "Relational DBs, NoSQL & Auth Frameworks",
+      icon: Database,
       defaultItems: [
-        { name: "Docker 28", desc: "Containerization platform" },
-        { name: "Nginx 1.28", desc: "Web server & reverse proxy" },
-        { name: "AWS", desc: "Cloud computing services" },
-        { name: "Vercel", desc: "Frontend deployment platform" },
-        { name: "Git 2.50", desc: "Version control system" },
-        { name: "Linux Kernel 6.15", desc: "Development environment" },
+        { name: "PostgreSQL 16 & MySQL", desc: "Relational DB, SQL & Indexing" },
+        { name: "MongoDB 8 & Mongoose", desc: "NoSQL Document Aggregations" },
+        { name: "Prisma 6 & Drizzle ORM", desc: "Type-Safe DB Access Layers" },
+        { name: "Redis 7 & Supabase", desc: "In-Memory Caching & Realtime DB" },
+        { name: "BetterAuth & JWT", desc: "Session Auth, OAuth 2.0 & RBAC" },
       ],
     },
     {
-      title: "Operating Systems",
-      desc: "My coding environments",
-      icon: Monitor,
+      title: "DevOps & AI Engineering",
+      matchKeys: ["devops", "ai engineering", "developer tools", "testing"],
+      desc: "Containerization, Cloud Deployments & AI Tooling",
+      icon: Sparkles,
       defaultItems: [
-        { name: "macOS 26 Tahoe", desc: "Primary development OS" },
-        { name: "Ubuntu 24.04 LTS", desc: "Server & development" },
-        { name: "Windows 11 24H2", desc: "Testing & compatibility" },
+        { name: "Docker", desc: "Containerization & Compose Pipelines" },
+        { name: "Linux & Nginx", desc: "Server Admin & Reverse Proxy" },
+        { name: "Vercel & Render", desc: "Continuous Cloud Deployment" },
+        { name: "AI Workflows", desc: "Claude Code CLI, Ollama & n8n" },
+        { name: "Git & GitHub", desc: "Version Control & CI/CD Pipelines" },
+        { name: "Jest Testing", desc: "Unit & Integration Test Assurance" },
       ],
     },
   ];
 
   const categoryBlocks = categories.map((cat) => {
-    const backendItems = skills.filter(
-      (s) =>
-        s.category?.toLowerCase() === cat.title.toLowerCase() ||
-        s.category?.toLowerCase().includes(cat.title.toLowerCase())
-    );
+    const matchedItems = skills.filter((s) => {
+      const catLower = s.category?.toLowerCase() || "";
+      return cat.matchKeys.some((key) => catLower.includes(key));
+    });
+
     const itemsToDisplay =
-      backendItems.length > 0
-        ? backendItems.map((s) => ({ name: s.name, desc: s.description || "Production tool" }))
+      matchedItems.length > 0
+        ? matchedItems.map((s) => ({ name: s.name, desc: s.description || "Production tool" }))
         : cat.defaultItems;
 
     return {
-      ...cat,
+      title: cat.title,
+      desc: cat.desc,
+      icon: cat.icon,
       items: itemsToDisplay,
     };
   });

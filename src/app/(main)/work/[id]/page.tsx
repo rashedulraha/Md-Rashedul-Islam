@@ -2,37 +2,95 @@ import { getProjectBanner, ProjectData } from "@/types/project";
 import { getProjectById } from "@/services/apiService";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { ArrowLeft, ExternalLink, Code, CheckCircle, Database, Server, Layout } from "lucide-react";
+import { ArrowLeft, ExternalLink, Code } from "lucide-react";
 import { Link } from "@/routing";
 import PageWrapper from "@/components/PageWrapper";
 import Footer from "@/components/Footer";
+import ProjectMarkdownRenderer from "@/components/ProjectMarkdownRenderer";
+import TableOfContents from "@/components/TableOfContents";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  try {
+    const res = await getProjectById(resolvedParams.id);
+    if (res.data?.success && res.data?.data) {
+      const item = res.data.data;
+      const title = `${item.title} | Rashedul Raha Portfolio`;
+      const description = item.subtitle || item.description?.slice(0, 160) || "Project overview and dynamic documentation.";
+      const imageUrl = item.image || "/images/og-default.jpg";
+
+      return {
+        title,
+        description,
+        openGraph: {
+          title,
+          description,
+          url: `https://rashedulraha.com/work/${item.slug || item.id}`,
+          siteName: "Rashedul Raha Portfolio",
+          images: [
+            {
+              url: imageUrl,
+              width: 1200,
+              height: 630,
+              alt: item.title,
+            },
+          ],
+          type: "article",
+        },
+        twitter: {
+          card: "summary_large_image",
+          title,
+          description,
+          images: [imageUrl],
+        },
+        alternates: {
+          canonical: `https://rashedulraha.com/work/${item.slug || item.id}`,
+        },
+      };
+    }
+  } catch (e) {
+    // fallback
+  }
+
+  return {
+    title: "Project Details | Rashedul Raha",
+    description: "View project details, tech stack, and documentation.",
+  };
+}
 
 export default async function ProjectDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
   
   let project: ProjectData | null = null;
+  let rawItem: any = null;
+
   try {
     const res = await getProjectById(resolvedParams.id);
     if (res.data?.success && res.data?.data) {
-      const item = res.data.data;
+      rawItem = res.data.data;
       project = {
-        id: item.id || item.slug,
-        name: item.title,
-        tagline: item.subtitle || item.type || "Web App",
-        overview: item.description,
-        live_demo: item.liveUrl || undefined,
-        github_repo: item.githubUrl || undefined,
-        silicon_img_banner: item.image || undefined,
+        id: rawItem.id || rawItem.slug,
+        name: rawItem.title,
+        tagline: rawItem.subtitle || rawItem.type || "Web App",
+        overview: rawItem.description,
+        live_demo: rawItem.liveUrl || undefined,
+        github_repo: rawItem.githubUrl || undefined,
+        silicon_img_banner: rawItem.image || undefined,
+        readmeContent: rawItem.readmeContent || undefined,
         screenshots: [],
         tech_stack: {
-          frameworks_libraries: item.tags || [],
-          languages: item.tags || [],
+          frameworks_libraries: rawItem.tags || [],
+          languages: rawItem.tags || [],
         },
-        key_features: item.features || [],
+        key_features: rawItem.features || [],
       } as ProjectData;
       
-      // Merge additional fields if present in db (like architecture, etc.)
-      Object.assign(project, item);
+      Object.assign(project, rawItem);
     }
   } catch (err) {
     console.error("Failed to fetch project details", err);
@@ -42,236 +100,140 @@ export default async function ProjectDetailsPage({ params }: { params: Promise<{
     notFound();
   }
 
-  const renderList = (items: string[]) => (
-    <ul className="space-y-3 mt-4">
-      {items.map((item, index) => (
-        <li key={index} className="flex items-start gap-3">
-          <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-          <span className="text-muted-foreground text-base">{item}</span>
-        </li>
-      ))}
-    </ul>
-  );
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: project.name,
+    description: project.overview,
+    applicationCategory: project.tagline || "DeveloperApplication",
+    operatingSystem: "Web",
+    author: {
+      "@type": "Person",
+      name: "Rashedul Raha",
+      url: "https://rashedulraha.com",
+    },
+    url: `https://rashedulraha.com/work/${project.id}`,
+    image: getProjectBanner(project),
+  };
 
   return (
     <PageWrapper>
-      <article className="max-w-6xl mx-auto px-4 md:px-6 py-10 md:py-16">
+      {/* JSON-LD Rich Snippet for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <article className="max-w-[1400px] mx-auto px-4 md:px-8 py-10 md:py-16">
         
         {/* Back Link */}
-        <Link 
-          href="/work"
-          className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors mb-10"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to all projects
-        </Link>
+        <div className="mb-10">
+          <Link 
+            href="/work"
+            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to all projects
+          </Link>
+        </div>
 
-        {/* Header Section */}
-        <header className="mb-16">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-            <div className="max-w-3xl">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-3">
+        {/* Documentation Layout Grid */}
+        <div className="flex flex-col lg:flex-row gap-12 xl:gap-16 items-start relative">
+          
+          {/* Main Content Area */}
+          <div className="flex-1 min-w-0 w-full lg:max-w-[850px] xl:max-w-[950px]">
+            {/* Header Section */}
+            <header className="mb-12">
+              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground mb-4">
                 {project.name}
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground font-medium">
+              <p className="text-lg md:text-xl text-muted-foreground font-medium mb-8">
                 {project.tagline}
               </p>
-            </div>
-            
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
-              {project.live_demo && (
-                <a 
-                  href={project.live_demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90"
-                >
-                  Visit Live Site
-                  <ExternalLink className="w-4 h-4" />
-                </a>
-              )}
-              {project.github_repo && (
-                <a 
-                  href={project.github_repo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground transition-all hover:bg-accent"
-                >
-                  <Code className="w-4 h-4" />
-                  Source Code
-                </a>
-              )}
-            </div>
-          </div>
-
-          {/* Banner Image - Aspect Video so it fits perfectly without cropping */}
-          <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-muted/30 border border-border/50 shadow-md">
-            <Image
-              src={getProjectBanner(project)}
-              alt={`${project.name} Banner`}
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-        </header>
-
-        {/* Main Content Grid (Document Style) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-          
-          {/* Main Content Column */}
-          <div className="lg:col-span-8 space-y-12">
-            
-            {/* Overview */}
-            <section>
-              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2 text-foreground">
-                <Layout className="w-5 h-5 text-primary" />
-                Project Overview
-              </h2>
-              <div className="prose prose-neutral dark:prose-invert max-w-none">
-                <p className="text-base leading-7 text-muted-foreground">
-                  {project.overview}
-                </p>
-              </div>
-            </section>
-
-            {/* Architecture (if exists) */}
-            {project.architecture && (
-              <section>
-                <h2 className="text-2xl font-bold mb-5 flex items-center gap-2 text-foreground">
-                  <Server className="w-5 h-5 text-primary" />
-                  System Architecture
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {Object.entries(project.architecture).map(([key, value]) => {
-                    if (Array.isArray(value)) return null; 
-                    return (
-                      <div key={key} className="p-4 rounded-xl border border-border/50 bg-muted/10">
-                        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
-                          {key.replace(/_/g, ' ')}
-                        </h3>
-                        <p className="text-foreground text-sm font-medium">{String(value)}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
-            )}
-
-            {/* Responsibilities or Features */}
-            {project.responsibilities && project.responsibilities.length > 0 && (
-              <section>
-                <h2 className="text-2xl font-bold mb-2 text-foreground">Key Responsibilities & Features</h2>
-                {renderList(project.responsibilities)}
-              </section>
-            )}
-
-            {/* Challenges */}
-            {project.challenges && project.challenges.length > 0 && (
-              <section>
-                <h2 className="text-2xl font-bold mb-4 text-foreground">Challenges Overcome</h2>
-                <ul className="space-y-4">
-                  {project.challenges.map((challenge, idx) => (
-                    <li key={idx} className="flex items-start gap-3">
-                      <span className="flex items-center justify-center w-6 h-6 rounded-md bg-muted text-foreground text-xs font-bold shrink-0 mt-0.5 border border-border/50">
-                        {idx + 1}
-                      </span>
-                      <span className="text-muted-foreground text-base leading-7">{challenge}</span>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            )}
-
-            {/* Database Schema (if exists) */}
-            {project.database_schema && project.database_schema.tables && (
-              <section>
-                <h2 className="text-2xl font-bold mb-5 flex items-center gap-2 text-foreground">
-                  <Database className="w-5 h-5 text-primary" />
-                  Database Schema
-                </h2>
-                <div className="overflow-x-auto rounded-xl border border-border/50 shadow-sm">
-                  <table className="w-full text-left border-collapse text-sm">
-                    <thead>
-                      <tr className="bg-muted/30">
-                        <th className="p-3 font-semibold text-foreground border-b border-border/50">Table Name</th>
-                        <th className="p-3 font-semibold text-foreground border-b border-border/50">Fields</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-border/50">
-                      {project.database_schema.tables.map((table: any, idx: number) => (
-                        <tr key={idx} className="bg-transparent hover:bg-muted/10 transition-colors">
-                          <td className="p-3 font-medium text-foreground whitespace-nowrap align-top">
-                            {table.name}
-                          </td>
-                          <td className="p-3 text-muted-foreground leading-relaxed">
-                            {table.fields.join(', ')}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            )}
-            
-          </div>
-
-          {/* Sidebar Column */}
-          <div className="lg:col-span-4 space-y-8">
-            
-            {/* Role & Outcome */}
-            <div className="bg-muted/10 border border-border/50 rounded-2xl p-6 space-y-6">
-              {project.role && (
-                <div>
-                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">My Role</h3>
-                  <p className="font-medium text-foreground text-sm">{project.role}</p>
-                </div>
-              )}
               
-              {project.outcome_profit && project.outcome_profit.business_impact && (
-                <div>
-                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Business Impact</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{project.outcome_profit.business_impact}</p>
-                </div>
-              )}
+              <div className="flex flex-wrap items-center gap-3">
+                {project.live_demo && (
+                  <a 
+                    href={project.live_demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 shadow-md"
+                  >
+                    Visit Live Site
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                )}
+                {project.github_repo && (
+                  <a 
+                    href={project.github_repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground transition-all hover:bg-accent"
+                  >
+                    <Code className="w-4 h-4" />
+                    Source Code
+                  </a>
+                )}
+              </div>
+            </header>
 
-              {project.outcome_profit && project.outcome_profit.client_testimonial && (
-                <div className="pt-4 border-t border-border/50">
-                  <blockquote className="italic text-sm text-foreground relative pl-4 border-l-2 border-primary">
-                    {project.outcome_profit.client_testimonial}
-                  </blockquote>
+            {/* Banner Image */}
+            <div className="relative aspect-[21/9] w-full overflow-hidden rounded-2xl bg-muted/30 border border-border/50 shadow-md mb-12">
+              <Image
+                src={getProjectBanner(project)}
+                alt={`${project.name} Banner`}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+
+            {/* Markdown Content */}
+            <div className="pb-16 border-b border-border/50">
+              {project.readmeContent ? (
+                <ProjectMarkdownRenderer content={project.readmeContent} />
+              ) : (
+                <div className="prose prose-neutral dark:prose-invert max-w-none">
+                  <h2 id="overview">Overview</h2>
+                  <p>{project.overview}</p>
+                  
+                  {project.key_features && project.key_features.length > 0 && (
+                    <>
+                      <h2 id="features">Key Features</h2>
+                      <ul>
+                        {project.key_features.map((f: string, i: number) => <li key={i}>{f}</li>)}
+                      </ul>
+                    </>
+                  )}
+                  
+                  {/* Fallback for projects not yet using full markdown */}
+                  <div className="p-6 bg-muted/20 border border-border/50 rounded-xl mt-8">
+                    <p className="text-sm text-muted-foreground mb-0">
+                      <strong>Note:</strong> This project is currently using legacy data fields. To upgrade it to the new documentation format, add content to the <code>readmeContent</code> field in your database.
+                    </p>
+                  </div>
                 </div>
               )}
             </div>
-
-            {/* Tech Stack */}
-            {project.tech_stack && (
-              <div className="bg-muted/10 border border-border/50 rounded-2xl p-6">
-                <h3 className="font-bold text-base mb-4 pb-2 border-b border-border/50 text-foreground">Tech Stack</h3>
-                <div className="space-y-5">
-                  {Object.entries(project.tech_stack).map(([category, items]) => {
-                    if (!Array.isArray(items)) return null;
-                    return (
-                      <div key={category}>
-                        <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
-                          {category.replace(/_/g, ' ')}
-                        </h4>
-                        <div className="flex flex-wrap gap-1.5">
-                          {items.map((item, idx) => (
-                            <span key={idx} className="px-2.5 py-1 rounded-md bg-muted/50 text-foreground text-xs font-medium border border-border/50">
-                              {item}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
           </div>
+
+          {/* Right Sidebar (Table of Contents) */}
+          <aside className="hidden lg:block w-[250px] shrink-0 sticky top-24 pt-2">
+            {project.readmeContent ? (
+              <TableOfContents content={project.readmeContent} />
+            ) : (
+              <nav className="space-y-4">
+                <h3 className="font-semibold text-sm text-foreground">On this page</h3>
+                <ul className="space-y-2.5 text-sm text-muted-foreground">
+                  <li><a href="#overview" className="hover:text-foreground">Overview</a></li>
+                  {project.key_features && project.key_features.length > 0 && (
+                    <li><a href="#features" className="hover:text-foreground">Key Features</a></li>
+                  )}
+                </ul>
+              </nav>
+            )}
+          </aside>
+          
         </div>
       </article>
       <Footer />

@@ -5,6 +5,15 @@ export const getProjects = async () => {
   return apiClient.get("/projects");
 };
 
+// Auth API Calls
+export const forgotPassword = async (email: string) => {
+  return apiClient.post("/auth/forgot-password", { email });
+};
+
+export const resetPassword = async (data: { email: string; token: string; newPassword: string }) => {
+  return apiClient.post("/auth/reset-password", data);
+};
+
 export const getProjectById = async (id: string) => {
   return apiClient.get(`/projects/${id}`);
 };

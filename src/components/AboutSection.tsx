@@ -66,14 +66,38 @@ const TextTooltip = ({
 };
 
 const SKILLS = [
-  { name: "Next.js 16", icon: Server },
-  { name: "React 19", icon: Layers },
-  { name: "TypeScript", icon: Code },
-  { name: "Tailwind CSS", icon: MonitorSmartphone },
-  { name: "Prisma & SQL", icon: Database },
-  { name: "Node.js", icon: Terminal },
-  { name: "Docker & Cloud", icon: Cloud },
-  { name: "AI Integration", icon: Sparkles },
+  { name: "Next.js 16", icon: Server, desc: "App Router & Server Actions" },
+  { name: "React 19", icon: Layers, desc: "Server Components & Hooks" },
+  {
+    name: "TypeScript 5.7",
+    icon: Code,
+    desc: "Strict Typing & Type Inference",
+  },
+  {
+    name: "Tailwind CSS v4",
+    icon: MonitorSmartphone,
+    desc: "Modern Utility-First Styling",
+  },
+  {
+    name: "Node.js 22 & Express 5",
+    icon: Terminal,
+    desc: "Scalable REST APIs & Microservices",
+  },
+  {
+    name: "PostgreSQL 16 & Prisma 6",
+    icon: Database,
+    desc: "Relational DB & Type-Safe ORM",
+  },
+  {
+    name: "Docker & Linux",
+    icon: Cloud,
+    desc: "Containerization & Server Admin",
+  },
+  {
+    name: "AI Engineering",
+    icon: Sparkles,
+    desc: "Claude Code Workflows, Ollama & n8n",
+  },
 ];
 
 export default function AboutSection() {
@@ -81,10 +105,10 @@ export default function AboutSection() {
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
 
   const stats = [
-    { label: "Years Experience", value: "3+" },
-    { label: "Completed Projects", value: "25+" },
-    { label: "Satisfied Clients", value: "15+" },
-    { label: "Code Commits", value: "1.5k+" },
+    { label: "Years Experience", value: "2+" },
+    { label: "Completed Projects", value: "10+" },
+    { label: "Satisfied Clients", value: "8+" },
+    { label: "Code Commits", value: "3k+" },
   ];
 
   const containerVariants: Variants = {
@@ -255,9 +279,9 @@ export default function AboutSection() {
               >
                 <p>
                   I specialize in building scalable web applications and
-                  high-performance digital systems using modern technologies. With
-                  3+ years of experience, I focus on clean architecture, smooth
-                  UI/UX, and robust API design.
+                  high-performance digital systems using modern technologies.
+                  With 2+ years of experience, I focus on clean architecture,
+                  smooth UI/UX, and robust API design.
                 </p>
 
                 <p>
@@ -314,15 +338,19 @@ export default function AboutSection() {
                   {SKILLS.map((skill, index) => {
                     const Icon = skill.icon;
                     return (
-                      <div
+                      <TextTooltip
                         key={index}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/50 border border-border hover:border-primary/50 hover:bg-primary/5 transition-colors cursor-default"
+                        title={skill.name}
+                        description={skill.desc}
+                        icon={Icon}
                       >
-                        <Icon className="w-3.5 h-3.5 text-primary" />
-                        <span className="text-xs font-medium text-foreground">
-                          {skill.name}
-                        </span>
-                      </div>
+                        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-background/60 border border-border hover:border-primary/50 hover:bg-primary/10 transition-colors">
+                          <Icon className="w-3.5 h-3.5 text-primary" />
+                          <span className="text-xs font-semibold text-foreground">
+                            {skill.name}
+                          </span>
+                        </div>
+                      </TextTooltip>
                     );
                   })}
                 </div>
