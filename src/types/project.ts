@@ -19,6 +19,9 @@ export interface ProjectData {
     tables?: { name: string; fields: string[] }[];
   };
   role?: string;
+  problem?: string;
+  solution?: string;
+  result?: string;
   outcome_profit?: {
     business_impact?: string;
     client_testimonial?: string;
