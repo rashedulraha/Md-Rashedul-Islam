@@ -131,15 +131,15 @@ export default async function ProjectDetailsPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <article className="max-w-[1400px] mx-auto px-4 md:px-8 py-10 md:py-16">
+      <article className="max-w-[1400px] mx-auto px-4 md:px-8 py-8 md:py-14">
         {/* Back Link */}
-        <div className="mb-10">
+        <div className="mb-8">
           <Link
             href="/work"
-            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors group"
           >
-            <ArrowLeft className="w-4 h-4" />
-            Back to all projects
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+            Back to Projects
           </Link>
         </div>
 
@@ -148,23 +148,30 @@ export default async function ProjectDetailsPage({
           {/* Main Content Area */}
           <div className="flex-1 min-w-0 w-full lg:max-w-[850px] xl:max-w-[950px]">
             {/* Header Section */}
-            <header className="mb-12">
-              <h1 className="text-3xl md:text-5xl font-normal tracking-tight text-foreground mb-4">
+            <header className="mb-10 pb-8 border-b border-border/50">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="inline-flex items-center rounded-md bg-primary/10 border border-primary/20 px-2.5 py-0.5 text-xs font-medium text-primary">
+                  {project.tagline || "Project Specs"}
+                </span>
+              </div>
+              <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
                 {project.name}
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground font-normal mb-8">
-                {project.tagline}
-              </p>
+              {project.overview && (
+                <p className="text-base md:text-lg text-muted-foreground font-normal leading-relaxed mb-6">
+                  {project.overview}
+                </p>
+              )}
 
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3 pt-2">
                 {project.live_demo && (
                   <a
                     href={project.live_demo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 shadow-md"
+                    className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90 shadow-sm"
                   >
-                    Visit Live Site
+                    Visit Live Project
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 )}
@@ -173,7 +180,7 @@ export default async function ProjectDetailsPage({
                     href={project.github_repo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground transition-all hover:bg-accent"
+                    className="inline-flex items-center gap-2 rounded-lg border border-border/80 bg-card px-5 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-accent"
                   >
                     <Code className="w-4 h-4" />
                     Source Code
@@ -183,15 +190,17 @@ export default async function ProjectDetailsPage({
             </header>
 
             {/* Banner Image */}
-            <div className="relative aspect-[21/9] w-full overflow-hidden rounded-2xl bg-muted/30 border border-border/50 shadow-md mb-12">
-              <Image
-                src={getProjectBanner(project)}
-                alt={`${project.name} Banner`}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+            {project.silicon_img_banner && (
+              <div className="relative aspect-[21/9] w-full overflow-hidden rounded-2xl bg-muted/30 border border-border/50 shadow-md mb-12">
+                <Image
+                  src={getProjectBanner(project)}
+                  alt={`${project.name} Banner`}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            )}
 
             {/* Markdown Content */}
             <div className="pb-16 border-b border-border/50">
@@ -213,7 +222,6 @@ export default async function ProjectDetailsPage({
                     </>
                   )}
 
-                  {/* Fallback for projects not yet using full markdown */}
                   <div className="p-6 bg-muted/20 border border-border/50 rounded-xl mt-8">
                     <p className="text-sm text-muted-foreground mb-0">
                       <strong>Note:</strong> This project is currently using
@@ -233,18 +241,24 @@ export default async function ProjectDetailsPage({
               <TableOfContents content={project.readmeContent} />
             ) : (
               <nav className="space-y-4">
-                <h3 className="font-semibold text-sm text-foreground">
+                <h3 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">
                   On this page
                 </h3>
-                <ul className="space-y-2.5 text-sm text-muted-foreground">
+                <ul className="space-y-2 text-sm border-l border-border/40 pl-3">
                   <li>
-                    <a href="#overview" className="hover:text-foreground">
+                    <a
+                      href="#overview"
+                      className="block text-muted-foreground hover:text-foreground py-1"
+                    >
                       Overview
                     </a>
                   </li>
                   {project.key_features && project.key_features.length > 0 && (
                     <li>
-                      <a href="#features" className="hover:text-foreground">
+                      <a
+                        href="#features"
+                        className="block text-muted-foreground hover:text-foreground py-1"
+                      >
                         Key Features
                       </a>
                     </li>

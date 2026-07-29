@@ -13,6 +13,18 @@ interface TableOfContentsProps {
   content: string;
 }
 
+function cleanHeadingText(rawText: string): string {
+  return rawText
+    .replace(/!\[.*?\]\(.*?\)/g, "")
+    .replace(/<[^>]*>/g, "")
+    .replace(
+      /[\u{1F300}-\u{1F9FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E6}-\u{1F1FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1FA70}-\u{1FAFF}]/gu,
+      ""
+    )
+    .replace(/^[^a-zA-Z0-9\s\(\)]+/, "")
+    .trim();
+}
+
 export default function TableOfContents({ content }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>("");
   const [headings, setHeadings] = useState<TocItem[]>([]);
@@ -29,8 +41,9 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
       if (!match) return null;
       
       const level = match[1].length;
-      const text = match[2].trim();
-      const id = slugger.slug(text);
+      const rawText = match[2].trim();
+      const id = slugger.slug(rawText);
+      const text = cleanHeadingText(rawText) || rawText;
       
       return { id, text, level };
     }).filter(Boolean) as TocItem[];
@@ -73,35 +86,44 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
 
   return (
     <nav className="space-y-4">
-      <h3 className="font-semibold text-sm text-foreground">On this page</h3>
-      <ul className="space-y-3 text-sm">
-        {headings.map((heading) => (
-          <li
-            key={heading.id}
-            style={{ paddingLeft: `${(heading.level - 2) * 1}rem` }}
-          >
-            <a
-              href={`#${heading.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                const element = document.getElementById(heading.id);
-                if (element) {
-                  // Adjust scroll for sticky headers if any (e.g. 100px offset)
-                  const y = element.getBoundingClientRect().top + window.scrollY - 100;
-                  window.scrollTo({ top: y, behavior: 'smooth' });
-                  setActiveId(heading.id);
-                }
-              }}
-              className={`block transition-colors ${
-                activeId === heading.id
-                  ? "text-primary font-medium"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+      <h3 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">
+        On this page
+      </h3>
+      <ul className="space-y-2 text-sm border-l border-border/40 pl-3">
+        {headings.map((heading) => {
+          const isActive = activeId === heading.id;
+          return (
+            <li
+              key={heading.id}
+              className="relative"
+              style={{ paddingLeft: `${(heading.level - 2) * 0.75}rem` }}
             >
-              {heading.text}
-            </a>
-          </li>
-        ))}
+              {isActive && (
+                <span className="absolute -left-[13px] top-1/2 -translate-y-1/2 w-0.5 h-4 bg-primary rounded-full transition-all" />
+              )}
+              <a
+                href={`#${heading.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const element = document.getElementById(heading.id);
+                  if (element) {
+                    const y = element.getBoundingClientRect().top + window.scrollY - 100;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                    setActiveId(heading.id);
+                  }
+                }}
+                className={`block truncate transition-colors py-1 ${
+                  isActive
+                    ? "text-primary font-medium"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+                title={heading.text}
+              >
+                {heading.text}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
