@@ -84,9 +84,18 @@ function TechModal({
       desc: "Modern, responsive & interactive interfaces",
       icon: Layout,
       defaultItems: [
-        { name: "Next.js 15", desc: "App Router, Server Actions & Edge Runtime" },
-        { name: "React 19", desc: "Server Components, Hooks & Concurrent Mode" },
-        { name: "TypeScript 5.7", desc: "Strict Typing, Generics & Type Safety" },
+        {
+          name: "Next.js 15",
+          desc: "App Router, Server Actions & Edge Runtime",
+        },
+        {
+          name: "React 19",
+          desc: "Server Components, Hooks & Concurrent Mode",
+        },
+        {
+          name: "TypeScript 5.7",
+          desc: "Strict Typing, Generics & Type Safety",
+        },
         { name: "Tailwind CSS v4", desc: "Utility-First CSS & Design Systems" },
         { name: "Framer Motion", desc: "Production-Ready Micro Animations" },
         { name: "Vue.js 3 & Svelte 5", desc: "Reactive Component Frameworks" },
@@ -101,7 +110,10 @@ function TechModal({
         { name: "Node.js 22", desc: "Event-Driven Asynchronous Runtime" },
         { name: "Express.js 5", desc: "Web Middleware Framework" },
         { name: "Hono", desc: "Ultrafast Edge Web Framework" },
-        { name: "Python 3.12 & Go 1.23", desc: "AI Scripting & Concurrent Services" },
+        {
+          name: "Python 3.12 & Go 1.23",
+          desc: "AI Scripting & Concurrent Services",
+        },
         { name: "REST & GraphQL", desc: "Query Schemas & HTTP Protocols" },
       ],
     },
@@ -111,7 +123,10 @@ function TechModal({
       desc: "Relational DBs, NoSQL & Auth Frameworks",
       icon: Database,
       defaultItems: [
-        { name: "PostgreSQL 16 & MySQL", desc: "Relational DB, SQL & Indexing" },
+        {
+          name: "PostgreSQL 16 & MySQL",
+          desc: "Relational DB, SQL & Indexing",
+        },
         { name: "MongoDB 8 & Mongoose", desc: "NoSQL Document Aggregations" },
         { name: "Prisma 6 & Drizzle ORM", desc: "Type-Safe DB Access Layers" },
         { name: "Redis 7 & Supabase", desc: "In-Memory Caching & Realtime DB" },
@@ -142,7 +157,10 @@ function TechModal({
 
     const itemsToDisplay =
       matchedItems.length > 0
-        ? matchedItems.map((s) => ({ name: s.name, desc: s.description || "Production tool" }))
+        ? matchedItems.map((s) => ({
+            name: s.name,
+            desc: s.description || "Production tool",
+          }))
         : cat.defaultItems;
 
     return {
@@ -153,7 +171,10 @@ function TechModal({
     };
   });
 
-  const totalToolsCount = categoryBlocks.reduce((acc, cat) => acc + cat.items.length, 0);
+  const totalToolsCount = categoryBlocks.reduce(
+    (acc, cat) => acc + cat.items.length,
+    0,
+  );
 
   return (
     <AnimatePresence>
@@ -177,8 +198,12 @@ function TechModal({
             {/* Header */}
             <div className="flex items-center justify-between px-8 py-6 border-b border-[#1e293b]/60">
               <div className="flex items-baseline gap-3">
-                <h3 className="text-2xl font-bold text-[#00F0FF] tracking-tight">My Tech Stack</h3>
-                <span className="text-sm text-muted-foreground font-medium">Tools I use to build projects</span>
+                <h3 className="text-2xl font-bold text-[#00F0FF] tracking-tight">
+                  My Tech Stack
+                </h3>
+                <span className="text-sm text-muted-foreground font-medium">
+                  Tools I use to build projects
+                </span>
               </div>
               <button
                 onClick={onClose}
@@ -199,17 +224,28 @@ function TechModal({
                   >
                     <div className="flex items-center gap-3">
                       <CategoryIcon className="w-5 h-5 text-[#00F0FF]" />
-                      <h4 className="text-base font-bold text-white">{cat.title}</h4>
+                      <h4 className="text-base font-bold text-white">
+                        {cat.title}
+                      </h4>
                     </div>
-                    <p className="text-xs text-muted-foreground font-medium">{cat.desc}</p>
+                    <p className="text-xs text-muted-foreground font-medium">
+                      {cat.desc}
+                    </p>
 
                     <div className="space-y-2.5 pt-2">
                       {cat.items.map((item, itemIdx) => (
-                        <div key={itemIdx} className="flex items-center gap-2.5 text-xs">
+                        <div
+                          key={itemIdx}
+                          className="flex items-center gap-2.5 text-xs"
+                        >
                           <CheckCircle2 className="w-3.5 h-3.5 text-muted-foreground/40 shrink-0" />
-                          <span className="font-semibold text-white">{item.name}</span>
+                          <span className="font-semibold text-white">
+                            {item.name}
+                          </span>
                           <span className="text-muted-foreground/40">—</span>
-                          <span className="text-muted-foreground/70 truncate">{item.desc}</span>
+                          <span className="text-muted-foreground/70 truncate">
+                            {item.desc}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -221,7 +257,8 @@ function TechModal({
             {/* Footer */}
             <div className="px-6 py-4 bg-[#060911] border-t border-[#1e293b]/60 text-center">
               <span className="text-xs text-muted-foreground/80 font-medium">
-                {totalToolsCount} tools across {categoryBlocks.length} categories
+                {totalToolsCount} tools across {categoryBlocks.length}{" "}
+                categories
               </span>
             </div>
           </motion.div>
@@ -243,7 +280,11 @@ export function TechStack() {
       setIsLoading(true);
       try {
         const res = await getSkills();
-        if (res.data.success && Array.isArray(res.data.data) && res.data.data.length > 0) {
+        if (
+          res.data.success &&
+          Array.isArray(res.data.data) &&
+          res.data.data.length > 0
+        ) {
           setSkills(res.data.data);
         }
       } catch (err) {
@@ -255,28 +296,55 @@ export function TechStack() {
     loadSkills();
   }, []);
 
+  const defaultSkills = useMemo(
+    () => [
+      { name: "Next.js 15", icon: Layout },
+      { name: "React 19", icon: Code },
+      { name: "TypeScript 5.7", icon: Code },
+      { name: "Tailwind CSS v4", icon: Wind },
+      { name: "Node.js 22", icon: Server },
+      { name: "Express.js 5", icon: Server },
+      { name: "Hono Edge", icon: Zap },
+      { name: "Python 3.12", icon: Code },
+      { name: "Go 1.23", icon: Cpu },
+      { name: "PostgreSQL 16", icon: Database },
+      { name: "Supabase", icon: Database },
+      { name: "Redis 7", icon: Database },
+      { name: "Docker", icon: Box },
+      { name: "Nginx", icon: Server },
+      { name: "AWS Cloud", icon: Globe },
+      { name: "Vercel", icon: Globe },
+      { name: "Claude Code CLI", icon: Terminal },
+      { name: "Gemini API", icon: Sparkles },
+      { name: "Ollama & Local LLMs", icon: Sparkles },
+      { name: "n8n Workflows", icon: Layers },
+      { name: "OpenCLI", icon: Terminal },
+      { name: "Bun & Node", icon: Box },
+      { name: "Jest Testing", icon: ShieldCheck },
+    ],
+    [],
+  );
+
   const formattedSkills = useMemo(() => {
-    if (skills.length === 0) return [];
+    if (skills.length === 0) return defaultSkills;
     return skills.map((s) => ({
       name: s.name,
       icon: iconMap[s.icon || "Code"] || Code,
     }));
-  }, [skills]);
+  }, [skills, defaultSkills]);
 
   const marqueeRows = useMemo(() => {
-    if (formattedSkills.length === 0) {
-      return { row1: [], row2: [], row3: [] };
-    }
-    const third = Math.ceil(formattedSkills.length / 3);
+    const list = formattedSkills.length > 0 ? formattedSkills : defaultSkills;
+    const third = Math.ceil(list.length / 3);
     return {
-      row1: formattedSkills.slice(0, third),
-      row2: formattedSkills.slice(third, third * 2),
-      row3: formattedSkills.slice(third * 2),
+      row1: list.slice(0, third),
+      row2: list.slice(third, third * 2),
+      row3: list.slice(third * 2),
     };
-  }, [formattedSkills]);
+  }, [formattedSkills, defaultSkills]);
 
   const { row1, row2, row3 } = marqueeRows;
-  const totalCount = skills.length || 21;
+  const totalCount = skills.length || formattedSkills.length;
 
   return (
     <>
@@ -304,9 +372,9 @@ export function TechStack() {
               initial={{ opacity: 0, y: 10 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.3, delay: 0.2 }}
-              className="text-xl md:text-2xl font-medium text-foreground tracking-tight"
+              className="text-base md:text-lg lg:text-xl font-medium font-roboto text-foreground tracking-normal"
             >
-              My development toolkit
+              The stack behind everything I ship
             </motion.h3>
           </div>
 
@@ -332,77 +400,89 @@ export function TechStack() {
               </div>
             ) : (
               <>
-                {/* Row 1 */}
-                <motion.div
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={isInView ? { x: 0, opacity: 1 } : {}}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="flex w-max animate-marquee-left gap-3 hover:paused"
-                >
-                  {[...row1, ...row1, ...row1].map((tech, i) => {
-                    const Icon = tech.icon;
-                    return (
-                      <motion.div
-                        key={i}
-                        whileHover={{ scale: 1.05 }}
-                        className="flex items-center gap-2 rounded-full border border-border bg-muted/30 px-4 py-2 text-sm text-foreground shadow-sm backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:bg-accent glass"
-                      >
-                        <Icon className="h-4 w-4 text-primary" />
-                        <span className="text-xs font-semibold text-foreground">
-                          {tech.name}
-                        </span>
-                      </motion.div>
-                    );
-                  })}
-                </motion.div>
+                {/* Row 1 - Left Ultra Slow */}
+                <div className="overflow-hidden w-full flex">
+                  <motion.div
+                    animate={{ x: ["0%", "-50%"] }}
+                    transition={{
+                      duration: 240,
+                      ease: "linear",
+                      repeat: Infinity,
+                    }}
+                    className="flex w-max gap-3 shrink-0"
+                  >
+                    {[...row1, ...row1, ...row1, ...row1].map((tech, i) => {
+                      const Icon = tech.icon;
+                      return (
+                        <div
+                          key={i}
+                          className="flex items-center gap-2 rounded-full border border-border/80 bg-muted/20 px-3.5 py-1.5 text-xs text-foreground shadow-xs backdrop-blur-sm hover:border-primary/30 glass shrink-0"
+                        >
+                          <Icon className="h-3.5 w-3.5 text-primary" />
+                          <span className="text-xs font-medium text-foreground">
+                            {tech.name}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </motion.div>
+                </div>
 
-                {/* Row 2 */}
-                <motion.div
-                  initial={{ x: 20, opacity: 0 }}
-                  animate={isInView ? { x: 0, opacity: 1 } : {}}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="flex w-max animate-marquee-right gap-3 hover:paused"
-                >
-                  {[...row2, ...row2, ...row2].map((tech, i) => {
-                    const Icon = tech.icon;
-                    return (
-                      <motion.div
-                        key={i}
-                        whileHover={{ scale: 1.05 }}
-                        className="flex items-center gap-2 rounded-full border border-border bg-muted/30 px-4 py-2 text-sm text-foreground shadow-sm backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:bg-accent glass"
-                      >
-                        <Icon className="h-4 w-4 text-primary" />
-                        <span className="text-xs font-semibold text-foreground">
-                          {tech.name}
-                        </span>
-                      </motion.div>
-                    );
-                  })}
-                </motion.div>
+                {/* Row 2 - Right Ultra Slow */}
+                <div className="overflow-hidden w-full flex">
+                  <motion.div
+                    animate={{ x: ["-50%", "0%"] }}
+                    transition={{
+                      duration: 240,
+                      ease: "linear",
+                      repeat: Infinity,
+                    }}
+                    className="flex w-max gap-3 shrink-0"
+                  >
+                    {[...row2, ...row2, ...row2, ...row2].map((tech, i) => {
+                      const Icon = tech.icon;
+                      return (
+                        <div
+                          key={i}
+                          className="flex items-center gap-2 rounded-full border border-border/80 bg-muted/20 px-3.5 py-1.5 text-xs text-foreground shadow-xs backdrop-blur-sm hover:border-primary/30 glass shrink-0"
+                        >
+                          <Icon className="h-3.5 w-3.5 text-primary" />
+                          <span className="text-xs font-medium text-foreground">
+                            {tech.name}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </motion.div>
+                </div>
 
-                {/* Row 3 */}
-                <motion.div
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={isInView ? { x: 0, opacity: 1 } : {}}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className="flex w-max animate-marquee-left gap-3 hover:paused"
-                >
-                  {[...row3, ...row3, ...row3].map((tech, i) => {
-                    const Icon = tech.icon;
-                    return (
-                      <motion.div
-                        key={i}
-                        whileHover={{ scale: 1.05 }}
-                        className="flex items-center gap-2 rounded-full border border-border bg-muted/30 px-4 py-2 text-sm text-foreground shadow-sm backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:bg-accent glass"
-                      >
-                        <Icon className="h-4 w-4 text-primary" />
-                        <span className="text-xs font-semibold text-foreground">
-                          {tech.name}
-                        </span>
-                      </motion.div>
-                    );
-                  })}
-                </motion.div>
+                {/* Row 3 - Left Ultra Slow */}
+                <div className="overflow-hidden w-full flex">
+                  <motion.div
+                    animate={{ x: ["0%", "-50%"] }}
+                    transition={{
+                      duration: 240,
+                      ease: "linear",
+                      repeat: Infinity,
+                    }}
+                    className="flex w-max gap-3 shrink-0"
+                  >
+                    {[...row3, ...row3, ...row3, ...row3].map((tech, i) => {
+                      const Icon = tech.icon;
+                      return (
+                        <div
+                          key={i}
+                          className="flex items-center gap-2 rounded-full border border-border/80 bg-muted/20 px-3.5 py-1.5 text-xs text-foreground shadow-xs backdrop-blur-sm hover:border-primary/30 glass shrink-0"
+                        >
+                          <Icon className="h-3.5 w-3.5 text-primary" />
+                          <span className="text-xs font-medium text-foreground">
+                            {tech.name}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </motion.div>
+                </div>
               </>
             )}
           </div>

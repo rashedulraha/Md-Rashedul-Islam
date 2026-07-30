@@ -48,7 +48,7 @@ const Usesd = () => {
   return (
     <div
       ref={sectionRef}
-      className="col-span-1 md:col-span-12 lg:col-span-4 lg:row-span-6">
+      className="col-span-12 md:col-span-6 lg:col-span-4 h-full">
       <Link href="/uses" className="group relative flex w-full flex-col justify-between overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-xl cursor-pointer h-full min-h-72 card-premium">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -103,13 +103,10 @@ const Usesd = () => {
           <p className="text-[10px] text-muted-foreground uppercase tracking-[0.2em] transition-colors duration-500 group-hover:text-primary/80">
             {t('badge')}
           </p>
-          <p className="text-sm text-muted-foreground tracking-wide dark:text-muted-foreground group-hover:text-foreground dark:group-hover:text-foreground transition-colors duration-500">
+          <p className="text-sm font-roboto text-muted-foreground tracking-wide dark:text-muted-foreground group-hover:text-foreground dark:group-hover:text-foreground transition-colors duration-500">
             {t('title')}
           </p>
         </div>
-
-        {/* Hover gradient overlay */}
-        <div className="pointer-events-none absolute inset-0 z-10 rounded-xl bg-linear-to-br from-transparent via-transparent to-primary/20 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 dark:to-white/5" />
 
         {/* Arrow Button */}
         <motion.div

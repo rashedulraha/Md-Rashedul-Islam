@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
-import { Geist } from "next/font/google";
+import { Geist, Outfit, Satisfy, Playfair_Display, Roboto } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import TrafficTracker from "@/components/TrafficTracker";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const satisfy = Satisfy({ subsets: ["latin"], weight: ["400"], variable: "--font-fancy" });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
+const roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-roboto" });
 
 export const metadata: Metadata = {
   title: "Rashedul Islam | Full-Stack Software Engineer & Web Developer",
@@ -99,7 +103,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("font-sans", geist.variable)}
+      className={cn("font-sans", geist.variable, outfit.variable, satisfy.variable, playfair.variable, roboto.variable)}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

@@ -20,7 +20,7 @@ const SoundCard = () => {
   return (
     <div
       ref={sectionRef}
-      className="col-span-1 md:col-span-6 lg:col-span-7 lg:row-span-5 h-full">
+      className="col-span-12 lg:col-span-7 h-full">
       {/* Main Card */}
       <motion.div
         onClick={() =>
@@ -218,15 +218,15 @@ const SoundCard = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.3, delay: 0.4 }}
-            className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-primary/80 font-semibold">
-            GLOBAL COLLABORATION
+            className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground font-semibold">
+            LET'S BUILD TOGETHER
           </motion.p>
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.3, delay: 0.5 }}
-            className="text-sm md:text-base text-foreground tracking-wide transition-colors duration-500">
-            Available for worldwide remote contracts & full-time roles
+            className="text-sm sm:text-base md:text-lg font-roboto font-medium text-foreground tracking-normal leading-relaxed text-balance">
+            Clear communication, fast iterations, no surprises
           </motion.h3>
         </div>
 
