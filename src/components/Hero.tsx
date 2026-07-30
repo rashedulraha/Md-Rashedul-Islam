@@ -437,9 +437,16 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="w-full max-w-7xl text-balance text-center font-sans font-normal text-3xl sm:text-5xl md:text-6xl tracking-tight text-foreground"
+            className="w-full max-w-none whitespace-nowrap text-center font-display font-normal text-lg sm:text-2xl md:text-4xl lg:text-5xl tracking-tight text-foreground leading-[1.2] px-2"
           >
-            Building bridges between design and code
+            Building bridges between{" "}
+            <span className="font-fancy text-primary font-normal text-2xl sm:text-3xl md:text-5xl lg:text-6xl inline-block px-1">
+              design
+            </span>{" "}
+            and{" "}
+            <span className="bg-gradient-to-r from-primary via-cyan-400 to-indigo-400 bg-clip-text text-transparent">
+              code
+            </span>
           </motion.h1>
 
           {/* Subtitle - Personal Brand Statement */}

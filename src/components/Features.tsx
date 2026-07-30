@@ -9,20 +9,22 @@ import ServicesCarousel from "./ServicesCarousel";
 
 export default function Features() {
   return (
-    <>
-      <div className="mb-pagebuilder grid grid-cols-1 gap-3 border-y md:grid-cols-12 lg:my-pagebuilder">
-        {/* First part  */}
-        <SoundCard />
-        {/* second part */}
-        <div className="md:col-span-6 lg:col-span-5 lg:row-span-5">
-          <div className="group relative flex w-full flex-col justify-between overflow-hidden rounded-2xl h-full min-h-72 card-premium">
-            <TechStack />
+    <section className="w-full py-8 md:py-12">
+      <div className="w-full">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-12 auto-rows-fr">
+          {/* First part  */}
+          <SoundCard />
+          {/* second part */}
+          <div className="col-span-12 lg:col-span-5 flex h-full">
+            <div className="group relative flex w-full flex-col justify-between overflow-hidden rounded-2xl h-full min-h-72 card-premium">
+              <TechStack />
+            </div>
           </div>
+          <ServicesCarousel />
+          <Network />
+          <Usesd />
         </div>
-        <ServicesCarousel />
-        <Network />
-        <Usesd />
       </div>
-    </>
+    </section>
   );
 }

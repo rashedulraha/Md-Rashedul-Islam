@@ -3,7 +3,7 @@ import WorldMap from "@/components/ui/world-map";
 
 export function WorldMapNetwork() {
   return (
-    <div className="w-full min-h-72 h-full relative bg-transparent flex items-start justify-center">
+    <div className="w-full min-h-72 h-full relative bg-transparent flex items-end justify-center pt-20">
       <WorldMap
         connections={[
           // --- Main Global Loop ---

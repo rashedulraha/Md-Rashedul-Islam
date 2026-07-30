@@ -50,6 +50,8 @@ export default function SearchModal() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [loginError, setLoginError] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
   // Toggle the menu when ⌘K is pressed or close on Escape
   useEffect(() => {
@@ -73,6 +75,9 @@ export default function SearchModal() {
     const handleOpenModal = (e: Event) => {
       const customEvent = e as CustomEvent;
       setIsOpen(true);
+      setLoginEmail("");
+      setLoginPassword("");
+      setLoginError("");
       if (customEvent.detail?.view) {
         setCurrentView(customEvent.detail.view as ViewState);
       } else {
@@ -811,18 +816,16 @@ export default function SearchModal() {
                     </div>
 
                     <form
+                      autoComplete="off"
                       className="flex flex-col gap-5 flex-1 justify-center max-w-sm mx-auto w-full my-8 relative z-10"
                       onSubmit={async (e) => {
                         e.preventDefault();
                         setLoginError("");
                         setIsLoggingIn(true);
-                        const formData = new FormData(e.currentTarget);
-                        const email = formData.get("email") as string;
-                        const password = formData.get("password") as string;
                         try {
                           const res = await apiClient.post("/auth/login", {
-                            email,
-                            password,
+                            email: loginEmail,
+                            password: loginPassword,
                           });
                           const data = res.data;
                           if (data.success && data.data?.accessToken) {
@@ -834,6 +837,8 @@ export default function SearchModal() {
                               "user",
                               JSON.stringify(data.data.user),
                             );
+                            setLoginEmail("");
+                            setLoginPassword("");
                             setIsOpen(false);
                             router.push("/dashboard");
                           } else {
@@ -872,7 +877,10 @@ export default function SearchModal() {
                         </label>
                         <input
                           type="email"
-                          name="email"
+                          name="admin_email_field"
+                          value={loginEmail}
+                          onChange={(e) => setLoginEmail(e.target.value)}
+                          autoComplete="off"
                           required
                           placeholder="Enter your admin email"
                           className="bg-muted/50 border border-border rounded-xl px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all shadow-sm"
@@ -884,7 +892,10 @@ export default function SearchModal() {
                         </label>
                         <input
                           type="password"
-                          name="password"
+                          name="admin_password_field"
+                          value={loginPassword}
+                          onChange={(e) => setLoginPassword(e.target.value)}
+                          autoComplete="new-password"
                           required
                           placeholder="Enter your security passphrase"
                           className="bg-muted/50 border border-border rounded-xl px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all shadow-sm"

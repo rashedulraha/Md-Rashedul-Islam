@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -11,265 +11,245 @@ import {
   Cpu,
   type LucideIcon,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 interface Service {
   icon: LucideIcon;
   title: string;
   desc: string;
-  color: string;
 }
 
 const services: Service[] = [
   {
     icon: Search,
     title: "SEO & AEO",
-    desc: "SSR, SSG, semantic",
-    color: "#818cf8",
+    desc: "SSR, SSG, semantic markup",
   },
   {
     icon: Zap,
     title: "Performance",
     desc: "Lighthouse 95+, CWV",
-    color: "#facc15",
   },
   {
     icon: Shield,
     title: "Security",
-    desc: "HTTPS, CSP, XSS",
-    color: "#34d399",
+    desc: "HTTPS, CSP, XSS protection",
   },
   {
     icon: Rocket,
     title: "Deployment",
-    desc: "CI/CD, Vercel, AWS",
-    color: "#f87171",
+    desc: "CI/CD, Vercel, AWS, Docker",
   },
   {
     icon: Globe,
     title: "Global Reach",
-    desc: "CDN, edge, multi-region",
-    color: "#60a5fa",
+    desc: "CDN, Edge, Multi-region",
   },
   {
     icon: Cpu,
     title: "AI Ready",
-    desc: "OpenAI, Gemini, vector",
-    color: "#c084fc",
+    desc: "OpenAI, Vector DB, RAG",
   },
 ];
 
 export default function ServicesBox() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
-  const [idx, setIdx] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [boxItems, setBoxItems] = useState<number[]>([]);
+  const [storedItems, setStoredItems] = useState<number[]>([1, 2, 3]);
 
+  const currentService = services[activeIndex];
+
+  // Auto-rotate services
   useEffect(() => {
     if (paused) return;
 
-    const id = setInterval(() => {
-      setIdx((prev) => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => {
         const next = (prev + 1) % services.length;
-        setBoxItems((items) => {
+        setStoredItems((items) => {
           if (items.includes(next)) return items;
           const updated = [...items, next];
-          return updated.length >= 6 ? [] : updated;
+          return updated.length > 3 ? updated.slice(1) : updated;
         });
         return next;
       });
-    }, 2500);
+    }, 2800);
 
-    return () => clearInterval(id);
+    return () => clearInterval(interval);
   }, [paused]);
 
-  const cur = services[idx];
-
-  const goTo = useCallback((i: number) => {
-    setIdx(i);
-  }, []);
-
-  const getItemPosition = (index: number) => {
-    const col = index % 3;
-    const row = Math.floor(index / 3);
-    return {
-      left: `${col * 33.33 + 1}%`,
-      bottom: `${row * 45 + 5}%`,
-    };
+  const handleServiceClick = (index: number) => {
+    setActiveIndex(index);
+    setStoredItems((items) => {
+      if (items.includes(index)) return items;
+      const updated = [...items, index];
+      return updated.length > 3 ? updated.slice(1) : updated;
+    });
   };
 
   return (
-    <div className="md:col-span-6 lg:col-span-4 lg:row-span-6" ref={ref}>
+    <div className="col-span-12 md:col-span-6 lg:col-span-4 h-full" ref={ref}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5 }}
-        className="group relative flex h-full min-h-72 w-full flex-col justify-between overflow-hidden rounded-2xl transition-all duration-300 card-premium p-5"
+        transition={{ duration: 0.6 }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
+        className="relative flex h-72 min-h-72 w-full flex-col justify-between overflow-hidden rounded-2xl card-premium p-4"
       >
-        <div className="pointer-events-none z-10 flex flex-col gap-0.5 text-left">
-          <p className="text-muted-foreground text-xs uppercase tracking-widest transition-colors duration-500 group-hover:text-primary">
+        {/* Header */}
+        <div className="relative z-10">
+          <motion.p
+            initial={{ opacity: 0, y: -10 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.2 }}
+            className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground/70"
+          >
             CORE CAPABILITIES
-          </p>
-          <p className="text-lg font-semibold text-foreground tracking-wide">
+          </motion.p>
+
+          <motion.h3
+            initial={{ opacity: 0, y: -10 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.3 }}
+            className="mt-1 text-sm sm:text-base md:text-lg font-roboto font-medium text-foreground tracking-normal leading-snug"
+          >
             Services & Solutions
-          </p>
+          </motion.h3>
         </div>
 
-        <div className="relative flex flex-1 flex-col items-center justify-center pt-2 pb-1">
-          <div className="flex flex-col items-center justify-center">
-            {/* Floating Pill */}
-            <div className="relative z-20 mb-4 h-9">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: -8, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 6, scale: 0.95 }}
-                  transition={{
-                    duration: 0.35,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                  className="flex items-center gap-2 rounded-full border border-border bg-muted/80 backdrop-blur-md px-3 py-1.5 shadow-md glass"
-                >
-                  <span
-                    className="flex h-5 w-5 items-center justify-center rounded-full"
-                    style={{
-                      backgroundColor: `${cur.color}20`,
-                      boxShadow: `0 0 8px ${cur.color}30`,
-                    }}
-                  >
-                    <cur.icon className="h-3 w-3" style={{ color: cur.color }} />
-                  </span>
-                  <span className="text-[11px] font-medium text-foreground">
-                    {cur.title}
-                  </span>
-                  <span className="text-[10px] text-muted-foreground">
-                    {cur.desc}
-                  </span>
-                </motion.div>
+        {/* Floating Active Pill in the Middle Empty Space (Image 2) */}
+        <div className="relative z-20 my-auto flex justify-center py-2">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: -10, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 15, scale: 0.9 }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              onClick={() => handleServiceClick(activeIndex)}
+              className="inline-flex items-center gap-3 rounded-full bg-card/90 px-4 py-2 backdrop-blur-md border border-border/80 shadow-md cursor-pointer hover:border-primary/40 transition-all duration-300"
+            >
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 border border-primary/20 shrink-0">
+                <currentService.icon className="h-3.5 w-3.5 text-primary" />
+              </div>
+              <div className="flex items-baseline gap-1.5 text-left">
+                <span className="text-xs font-semibold text-foreground">
+                  {currentService.title}
+                </span>
+                <span className="text-[10px] text-muted-foreground leading-tight hidden sm:inline">
+                  {currentService.desc}
+                </span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* 3D SVG Box Storage Container at Bottom (Image 2) */}
+        <div className="absolute bottom-6 left-0 right-0 flex justify-center pointer-events-none">
+          <div className="relative w-full max-w-[280px] h-24 pointer-events-auto">
+            {/* Box SVG */}
+            <svg
+              width="100%"
+              height="90"
+              viewBox="0 0 280 90"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 opacity-90"
+            >
+              {/* Back flaps */}
+              <path
+                d="M20 20 L5 5 L60 20 L45 32 Z"
+                fill="hsl(var(--muted))"
+                stroke="hsl(var(--border))"
+                strokeWidth="1"
+              />
+              <path
+                d="M260 20 L275 5 L220 20 L235 32 Z"
+                fill="hsl(var(--muted))"
+                stroke="hsl(var(--border))"
+                strokeWidth="1"
+              />
+
+              {/* Box interior back wall */}
+              <path
+                d="M45 32 L235 32 L220 78 L60 78 Z"
+                fill="hsl(var(--background))"
+                opacity="0.8"
+              />
+
+              {/* Box body */}
+              <path
+                d="M20 32 L260 32 L240 82 L40 82 Z"
+                fill="hsl(var(--card))"
+                stroke="hsl(var(--border))"
+                strokeWidth="1.5"
+              />
+            </svg>
+
+            {/* Stored Items Inside Box Body */}
+            <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+              <AnimatePresence>
+                {storedItems.map((itemIdx, posIdx) => {
+                  const s = services[itemIdx];
+                  const positions = [
+                    { left: "6%", top: "45%" },
+                    { left: "38%", top: "45%" },
+                    { left: "70%", top: "45%" },
+                  ];
+                  const pos = positions[posIdx] || positions[0];
+
+                  return (
+                    <motion.div
+                      key={itemIdx}
+                      initial={{ opacity: 0, scale: 0, y: -15 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0, y: 10 }}
+                      transition={{
+                        duration: 0.35,
+                        type: "spring",
+                        stiffness: 200,
+                      }}
+                      className="absolute flex items-center gap-1.5 rounded-full border border-border/80 bg-card/95 px-2.5 py-1 backdrop-blur-md shadow-xs"
+                      style={{
+                        left: pos.left,
+                        top: pos.top,
+                      }}
+                    >
+                      <s.icon className="h-3 w-3 shrink-0 text-primary" />
+                      <span className="text-[9px] font-medium text-foreground truncate max-w-[50px]">
+                        {s.title}
+                      </span>
+                    </motion.div>
+                  );
+                })}
               </AnimatePresence>
             </div>
-
-            {/* 3D Box - SVG with theme-aware colors */}
-            <div className="relative w-full max-w-75" style={{ perspective: 600 }}>
-              <svg
-                viewBox="0 0 300 130"
-                className="w-full"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Back wall */}
-                <rect
-                  x="40"
-                  y="28"
-                  width="220"
-                  height="75"
-                  rx="2"
-                  fill="hsl(var(--muted))"
-                  stroke="hsl(var(--border))"
-                  strokeWidth="0.75"
-                />
-                {/* Left flap */}
-                <path
-                  d="M40 28 L12 14 L12 20 L40 34Z"
-                  fill="hsl(var(--muted) / 0.8)"
-                  stroke="hsl(var(--border))"
-                  strokeWidth="0.75"
-                />
-                {/* Right flap */}
-                <path
-                  d="M260 28 L288 14 L288 20 L260 34Z"
-                  fill="hsl(var(--muted) / 0.8)"
-                  stroke="hsl(var(--border))"
-                  strokeWidth="0.75"
-                />
-                {/* Front wall */}
-                <path
-                  d="M18 52 L282 52 L260 103 L40 103Z"
-                  fill="hsl(var(--card))"
-                  stroke="hsl(var(--border))"
-                  strokeWidth="0.75"
-                />
-                {/* Front top edge highlight */}
-                <line
-                  x1="18"
-                  y1="52"
-                  x2="282"
-                  y2="52"
-                  stroke="hsl(var(--foreground) / 0.15)"
-                  strokeWidth="1"
-                />
-                {/* Back edge highlight */}
-                <line
-                  x1="40"
-                  y1="28"
-                  x2="260"
-                  y2="28"
-                  stroke="hsl(var(--foreground) / 0.1)"
-                  strokeWidth="0.75"
-                />
-              </svg>
-
-              {/* Items Grid Inside Box */}
-              <div className="absolute inset-x-[12%] top-[22%] bottom-[18%]">
-                <AnimatePresence>
-                  {boxItems.map((si, i) => {
-                    const s = services[si];
-                    const pos = getItemPosition(i);
-
-                    return (
-                      <motion.div
-                        key={si}
-                        initial={{ opacity: 0, y: -40, scale: 0.8 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                        transition={{
-                          duration: 0.5,
-                          ease: [0.34, 1.56, 0.64, 1],
-                        }}
-                        className="absolute flex items-center gap-1.5 rounded-md border border-border bg-muted/60 backdrop-blur-sm px-2 py-1 shadow-sm glass"
-                        style={{
-                          left: pos.left,
-                          bottom: pos.bottom,
-                          width: "30%",
-                        }}
-                      >
-                        <s.icon
-                          className="h-3 w-3 shrink-0"
-                          style={{ color: s.color }}
-                        />
-                        <span className="text-[9px] font-medium text-foreground truncate">
-                          {services[si].title}
-                        </span>
-                      </motion.div>
-                    );
-                  })}
-                </AnimatePresence>
-              </div>
-
-              {/* Bottom glow */}
-              <div className="absolute -bottom-1 left-1/2 h-3 w-24 -translate-x-1/2 rounded-full bg-primary/10 blur-xl" />
-            </div>
-
-            {/* Dots */}
-            <div className="flex items-center gap-1 mt-3">
-              {services.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => goTo(i)}
-                  aria-label={services[i].title}
-                  className={`h-1 rounded-full transition-all duration-400 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${
-                    idx === i
-                      ? "w-4 bg-primary"
-                      : "w-1 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                  }`}
-                />
-              ))}
-            </div>
           </div>
+        </div>
+
+        {/* Navigation Dots at Bottom */}
+        <div className="relative z-20 mt-auto flex justify-center gap-1.5 pt-2">
+          {services.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleServiceClick(index)}
+              className="group relative h-1.5 rounded-full transition-all duration-300 focus:outline-none"
+              style={{
+                width: index === activeIndex ? "1.25rem" : "0.375rem",
+              }}
+              aria-label={`Service ${index + 1}`}
+            >
+              <span
+                className={`block h-full rounded-full transition-colors duration-300 ${
+                  index === activeIndex
+                    ? "bg-primary"
+                    : "bg-muted-foreground/30"
+                }`}
+              />
+            </button>
+          ))}
         </div>
       </motion.div>
     </div>

@@ -90,30 +90,30 @@ const TextTooltip = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <strong className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4 hover:decoration-primary transition-colors">
+      <span className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4 hover:decoration-primary transition-colors">
         {children}
-      </strong>
+      </span>
       <AnimatePresence>
         {isHovered && (
-          <motion.div
+          <motion.span
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 p-3 rounded-xl z-50 pointer-events-none flex flex-col gap-2 bg-background/95 backdrop-blur-xl border border-white/10 shadow-2xl"
+            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 p-3 rounded-xl z-50 pointer-events-none flex flex-col gap-2 bg-background/95 backdrop-blur-xl border border-border shadow-2xl"
           >
-            <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-md bg-primary/10 border border-primary/20 text-primary">
+            <span className="flex items-center gap-2">
+              <span className="p-1.5 rounded-md bg-primary/10 border border-primary/20 text-primary flex items-center justify-center">
                 <Icon className="w-4 h-4" />
-              </div>
+              </span>
               <span className="text-sm font-semibold text-foreground">
                 {title}
               </span>
-            </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">
+            </span>
+            <span className="text-xs text-muted-foreground leading-relaxed block">
               {description}
-            </p>
-          </motion.div>
+            </span>
+          </motion.span>
         )}
       </AnimatePresence>
     </span>
