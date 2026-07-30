@@ -144,6 +144,7 @@ export function Sidebar({ activeTab, setActiveTab, isCollapsed, setIsCollapsed }
         message="Are you sure you want to log out and exit the admin panel?"
         confirmText="Exit & Logout"
         cancelText="Stay Here"
+        icon={<LogOut className="w-4 h-4" />}
         onConfirm={handleLogout}
         onClose={() => setIsExitModalOpen(false)}
       />

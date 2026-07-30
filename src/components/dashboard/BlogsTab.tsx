@@ -164,6 +164,52 @@ export function BlogsTab() {
     }));
   };
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const text = (event.target?.result as string) || "";
+        let autoTitle = formData.title;
+        let autoDescription = formData.description;
+        let autoSlug = formData.slug;
+
+        const lines = text.split("\n");
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!autoTitle && trimmed.startsWith("# ")) {
+            autoTitle = trimmed.replace(/^#\s+/, "").trim();
+          } else if (
+            !autoDescription &&
+            trimmed &&
+            !trimmed.startsWith("#") &&
+            !trimmed.startsWith("![") &&
+            !trimmed.startsWith("<")
+          ) {
+            autoDescription = trimmed.slice(0, 180);
+          }
+        }
+
+        if (autoTitle && !autoSlug) {
+          autoSlug = autoTitle
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/-+/g, "-");
+        }
+
+        setFormData((prev) => ({
+          ...prev,
+          title: prev.title || autoTitle,
+          slug: prev.slug || autoSlug,
+          description: prev.description || autoDescription,
+          content: text,
+        }));
+      };
+      reader.readAsText(file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -315,26 +361,39 @@ export function BlogsTab() {
                   <Code className="w-4 h-4 text-primary" /> Markdown Content *
                 </label>
 
-                {/* Write / Preview Tab Switcher */}
-                <div className="flex items-center bg-background border border-border p-1 rounded-lg gap-1 shadow-inner">
-                  <button
-                    type="button"
-                    onClick={() => setEditorMode("write")}
-                    className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                      editorMode === "write" ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    <Code className="w-3.5 h-3.5" /> Write
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEditorMode("preview")}
-                    className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                      editorMode === "preview" ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    <Eye className="w-3.5 h-3.5" /> Preview
-                  </button>
+                <div className="flex items-center gap-3">
+                  <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-xs font-semibold text-primary hover:bg-primary/20 transition-all shadow-sm">
+                    <FileText className="w-3.5 h-3.5" />
+                    <span>Upload .md / README.md</span>
+                    <input
+                      type="file"
+                      accept=".md,.markdown,text/plain"
+                      className="hidden"
+                      onChange={handleFileUpload}
+                    />
+                  </label>
+
+                  {/* Write / Preview Tab Switcher */}
+                  <div className="flex items-center bg-background border border-border p-1 rounded-lg gap-1 shadow-inner">
+                    <button
+                      type="button"
+                      onClick={() => setEditorMode("write")}
+                      className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                        editorMode === "write" ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <Code className="w-3.5 h-3.5" /> Write
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditorMode("preview")}
+                      className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                        editorMode === "preview" ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <Eye className="w-3.5 h-3.5" /> Preview
+                    </button>
+                  </div>
                 </div>
               </div>
 
