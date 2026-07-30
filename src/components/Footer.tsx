@@ -31,8 +31,8 @@ export default function Footer() {
       { name: t('more.bookCall'), href: "/links" },
       { name: t('more.links'), href: "/links" },
       { name: t('more.rss'), href: "/sitemap.xml" },
-      { name: t('more.privacy'), href: "/attribution" },
-      { name: t('more.terms'), href: "/attribution" },
+      { name: t('more.privacy'), href: "/privacy" },
+      { name: t('more.terms'), href: "/terms" },
     ],
   };
 
@@ -202,7 +202,7 @@ export default function Footer() {
               <div className="flex items-center gap-3 text-xs">
                 <Link
                   className="text-muted-foreground transition-all duration-300 ease-out hover:text-primary hover:underline hover:underline-offset-4"
-                  href="/attribution">
+                  href="/privacy">
                   {t('privacy')}
                 </Link>
                 <span className="text-muted-foreground/30">
@@ -210,7 +210,7 @@ export default function Footer() {
                 </span>
                 <Link
                   className="text-muted-foreground transition-all duration-300 ease-out hover:text-primary hover:underline hover:underline-offset-4"
-                  href="/attribution">
+                  href="/terms">
                   {t('terms')}
                 </Link>
                 <span className="text-muted-foreground/30">
